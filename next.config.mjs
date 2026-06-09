@@ -11,6 +11,7 @@ const nextConfig = {
   poweredByHeader: false,
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
+  serverExternalPackages: ['sharp'],
   // PERFORMANCE: Enable production optimizations
   reactStrictMode: true,
   experimental: {
