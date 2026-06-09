@@ -1,0 +1,135 @@
+{
+  "name": "Estajer - استأجر",
+  "short_name": "Estajer",
+  "description": "Rent anything you need, without the hassle of buying. From electronics and tools to furniture and event supplies, find what you need on Estajer.",
+  "id": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-48x48.webp",
+      "sizes": "48x48",
+      "type": "image/webp"
+    },
+    {
+      "src": "/icons/icon-72x72.webp",
+      "sizes": "72x72",
+      "type": "image/webp"
+    },
+    {
+      "src": "/icons/icon-96x96.webp",
+      "sizes": "96x96",
+      "type": "image/webp"
+    },
+    {
+      "src": "/icons/icon-128x128.webp",
+      "sizes": "128x128",
+      "type": "image/webp"
+    },
+    {
+      "src": "/icons/icon-144x144.webp",
+      "sizes": "144x144",
+      "type": "image/webp"
+    },
+    {
+      "src": "/icons/icon-152x152.webp",
+      "sizes": "152x152",
+      "type": "image/webp"
+    },
+    {
+      "src": "/icons/icon-192x192.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "/icons/icon-256x256.webp",
+      "sizes": "256x256",
+      "type": "image/webp"
+    },
+    {
+      "src": "/icons/icon-384x384.webp",
+      "sizes": "384x384",
+      "type": "image/webp"
+    },
+    {
+      "src": "/icons/icon-512x512.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Estajer Desktop View"
+    },
+    {
+      "src": "/screenshots/2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Estajer Desktop View"
+    },
+    {
+      "src": "/screenshots/3.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Estajer Desktop View"
+    },
+    {
+      "src": "/screenshots/4.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Estajer Desktop View"
+    },
+    {
+      "src": "/screenshots/5.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Estajer Desktop View"
+    },
+    {
+      "src": "/screenshots/6.jpg",
+      "sizes": "1080x2180",
+      "type": "image/jpg",
+      "form_factor": "narrow",
+      "label": "Estajer Mobile View"
+    },
+    {
+      "src": "/screenshots/7.jpg",
+      "sizes": "1080x2180",
+      "type": "image/jpg",
+      "form_factor": "narrow",
+      "label": "Estajer Mobile View"
+    },
+    {
+      "src": "/screenshots/8.jpg",
+      "sizes": "1080x2180",
+      "type": "image/jpg",
+      "form_factor": "narrow",
+      "label": "Estajer Mobile View"
+    },
+    {
+      "src": "/screenshots/9.jpg",
+      "sizes": "1080x2180",
+      "type": "image/jpg",
+      "form_factor": "narrow",
+      "label": "Estajer Mobile View"
+    },
+    {
+      "src": "/screenshots/10.jpg",
+      "sizes": "1080x2180",
+      "type": "image/jpg",
+      "form_factor": "narrow",
+      "label": "Estajer Mobile View"
+    }
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

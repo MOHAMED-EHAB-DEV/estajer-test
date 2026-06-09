@@ -1,0 +1,420 @@
+{
+  "moreQuestions": {
+    "title": "Have questions?",
+    "faqs": "Frequently Asked Questions",
+    "browse": "Browse",
+    "contactUS": "Contact us at"
+  },
+
+  "chat": {
+    "contactInfo": "Contact Information",
+    "chatButton": "Chat Now",
+    "warning": "To protect your rights, please complete all payments and financial transfers exclusively through the Estajer platform. We are not responsible for any transactions conducted outside the platform.",
+    "phoneNumberWarning": "Sorry, sharing phone numbers is not allowed. Please communicate via platform messages only to ensure your privacy and safety.",
+    "waitWarning": "Please wait before sending another message",
+    "you": "You",
+    "hello": "Hello {name}, how can I help you today?",
+    "welcomeText": "Hello, how can I help you today?",
+    "online": "Online",
+    "lastSeen": "Last seen: ",
+    "today": "Today",
+    "showMore": "Show More",
+    "typeMessage": "Type your message...",
+    "send": "Send",
+    "typing": "Typing...",
+    "aboutUs": "About Us",
+    "showContactMethod": "Show contact method",
+    "showProducts": "Show products",
+    "moreProducts": "More products",
+    "noResults": "No results found",
+    "selectProduct": "Select Product",
+    "availableProducts": "Available Products",
+    "searchProducts": "Search for a product...",
+    "currentPageProduct": "Current Page Product",
+    "sendCurrentProduct": "Send this product",
+    "searching": "Searching...",
+    "noProductsFound": "No products found",
+    "sendProduct": "Send a product",
+    "checkThisProduct": "Check out this product",
+    "sharing": "Sharing Product",
+    "notifyBannerTitle": "Don't miss replies!",
+    "notifyBannerDesc": "Enable notifications to get instant reply alerts.",
+    "notifyBannerBtn": "Enable Notifications",
+    "notifyBannerDismiss": "Later",
+    "welcome": {
+      "assistantName": "Estajer Assistant",
+      "greeting": "Welcome! I'm here to help you find what you need.",
+      "description": "Use the chat to find what you're looking for quickly. Whether you want to rent a specific product, have a question about our services, or need help, I'm here to guide you.",
+      "searchProduct": "Search for a product",
+      "aboutEstajer": "About Estajer",
+      "contactSupport": "Contact & Support",
+      "aiPowered": "Powered by AI, available 24/7",
+      "askName": "Before we start, what is your name?",
+      "namePlaceholder": "Enter your name...",
+      "start": "Let's Start"
+    }
+  },
+  "productComponent": {
+    "product": "Product",
+    "productDetails": "Product Details",
+    "per": "per",
+    "perDay": "per day",
+    "noProducts": "No products",
+    "freeDelivery": "Free Delivery",
+    "loading": "Loading...",
+    "currency": "SAR",
+    "confirmDeleteTitle": "Confirm Deletion",
+    "confirmDeleteMessage": "Are you sure you want to delete this product?",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "pendingApproval": "Pending Approval",
+    "rejectionReason": "Rejection Reason",
+    "cannotAcceptRequest": "Cannot accept this request",
+    "distanceAway": "{distance}\u00a0Km Away",
+    "km": "km",
+    "deleteFailed": "Failed in deleting the product",
+    "hideFailed": "Failed to update product visibility",
+    "hidden": "Hidden",
+    "confirmHideTitle": "Confirm Hide",
+    "confirmHideMessage": "Are you sure you want to hide this product?",
+    "hide": "Hide",
+    "confirmShowTitle": "Confirm Show",
+    "confirmShowMessage": "Are you sure you want to show this product?",
+    "show": "Show",
+    "deleted": "Deleted",
+    "restore": "Restore",
+    "confirmRestoreTitle": "Confirm Restore",
+    "confirmRestoreMessage": "Are you sure you want to restore this product?",
+    "restoreFailed": "Failed to restore the product",
+    "editProduct": "Edit Product",
+    "duplicateProduct": "Duplicate Product",
+    "duplicate": "Duplicate",
+    "more": "More",
+    "hideProduct": "Hide Product",
+    "showProduct": "Show Product",
+    "deleteProduct": "Delete Product",
+    "confirmDuplicateTitle": "Confirm Duplication",
+    "confirmDuplicateMessage": "Are you sure you want to duplicate this product? A new copy will be created.",
+    "toasts": {
+      "productDeletedSuccess": "Product deleted successfully",
+      "productHiddenSuccess": "Product hidden successfully",
+      "productShownSuccess": "Product shown successfully",
+      "productRestoredSuccess": "Product restored successfully",
+      "productDuplicatedSuccess": "Product duplicated successfully",
+      "productDuplicatedError": "Failed to duplicate product"
+    },
+    "confirmModal": { "confirm": "Confirm", "cancel": "Cancel" },
+    "bookingPackages": {
+      "selectDuration": "Select Booking Duration",
+      "selectDurationDate": "Select Booking Date",
+      "currency": "SAR",
+      "units": {
+        "hours": { "one": "1 Hour", "other": "{count} Hours" },
+        "days": { "one": "1 Day", "other": "{count} Days" },
+        "weeks": { "one": "1 Week", "other": "{count} Weeks" },
+        "months": { "one": "1 Month", "other": "{count} Months" }
+      }
+    },
+    "addProduct": "Add Product"
+  },
+  "sidebar": {
+    "adminDashboard": "Admin Dashboard",
+    "adminDashboardTitle": "Admin Dashboard",
+    "myAccount": "My Account",
+    "home": "Estajer",
+    "dashboard": "Dashboard",
+    "dashboardTitle": "Personal Dashboard",
+    "rentalRequests": "Rental Requests",
+    "damageReports": "Damage Reports",
+    "favorites": "Favorites",
+    "favoritesTitle": "Favorite Products",
+    "messages": "Messages",
+    "messagesTitle": "Messages and Conversations",
+    "myOrders": "My Orders",
+    "visits": "Visits Statistics",
+    "myShop": "My Shop",
+    "addresses": "Addresses",
+    "paymentMethods": "Payment Methods",
+    "myProducts": "My Products",
+    "estajerPlus": "Estajer Plus",
+    "soon": "Soon",
+    "settings": "Settings",
+    "settingsTitle": "Account Settings",
+    "logout": "Logout",
+    "login": "Login",
+    "loginTitle": "Login to your account",
+    "register": "Register",
+    "registerTitle": "Create a new account",
+    "error": "An error occurred",
+    "logoutConfirm": "You have been logged out successfully",
+    "productRequests": "Product Requests",
+    "tickets": "Support Tickets"
+  },
+  "notifications": {
+    "drawerTitle": "Notification List",
+    "title": "Latest Notifications",
+    "markAllRead": "Mark all as read",
+    "showMore": "Show More",
+    "noNotifications": "No notifications found",
+    "noNotificationsDescription": "You don't have any notifications yet.\u2028 Please check back later",
+    "markAllAsRead": "Mark all as read",
+    "model": {
+      "notificationPreferences": "You can change your notification preferences from the",
+      "linkText": "Settings Page",
+      "enabledNotifications": "Notifications have been enabled",
+      "title": "Enable Notifications",
+      "disabledNotifications": "Notifications have been turned off",
+      "subtitle": "Stay updated with real-time alerts",
+      "dontMissOut": "Don't Miss Out!",
+      "getInstantNotifications": "Get instant notifications for new orders, messages, and important updates.",
+      "whatYouWillGet": "What you'll get:",
+      "maybeLater": "Maybe Later",
+      "enableNow": "Enable Now",
+      "subscribing": "Subscribing...",
+      "disableNotifications": "Disable Notifications",
+      "customer": {
+        "benefit1": "Get an instant notification when your order is accepted.",
+        "benefit2": "We will remind you of your pickup time.",
+        "benefit3": "Never miss a new message from users."
+      },
+      "supplier": {
+        "benefit1": "Get an instant notification when your product is approved.",
+        "benefit2": "Receive an immediate alert when you get a new order for your product.",
+        "benefit3": "We will remind you of the product's handover time.",
+        "benefit4": "Get reminders for required actions to avoid delays."
+      },
+      "guide": {
+        "enableNotifications": "Enable Notifications",
+        "blockedNotifications": "You've blocked notifications. To get updates, follow the steps for",
+        "on": "on",
+        "noGuide": "No specific guide available for your setup.",
+        "windows": {
+          "chrome": [
+            "Click the lock icon (or 'View site information') in the address bar to the left of the URL.",
+            "In the dropdown menu, click on 'Notifications' and select 'Allow' from the options.",
+            "Refresh the page (F5 or Ctrl+R) to apply the changes and receive notifications."
+          ],
+          "firefox": [
+            "Click the site information icon in the address bar.",
+            "Find 'Send Notifications' and click the 'X' to remove the block.",
+            "Refresh the page. click enable notifications button, click 'Allow' in the notification permission dialog."
+          ],
+          "edge": [
+            "Click the lock icon in the address bar to open the site information panel.",
+            "In the dropdown menu, click on 'Notifications' and select 'Allow' from the options.",
+            "Refresh the page (F5 or Ctrl+R) to apply the changes and receive notifications."
+          ]
+        },
+        "macos": {
+          "chrome": [
+            "Click the lock icon (or 'View site information') in the address bar to the left of the URL.",
+            "In the dropdown menu, click on 'Notifications' and select 'Allow' from the options.",
+            "Refresh the page (F5 or Ctrl+R) to apply the changes and receive notifications."
+          ],
+          "firefox": [
+            "Click the site information icon in the address bar.",
+            "Find 'Send Notifications' and click the 'X' to remove the block.",
+            "Refresh the page. click enable notifications button, click 'Allow' in the notification permission dialog."
+          ],
+          "safari": [
+            "Open Safari menu, go to Settings (or Preferences), then click the 'Websites' tab.",
+            "Select 'Notifications' from the left sidebar and find this website in the list.",
+            "Change the permission dropdown for this site from 'Deny' to 'Allow', then refresh the page."
+          ]
+        },
+        "android": {
+          "chrome": [
+            "Tap the lock icon (or 'View site information') in the address bar to the left of the URL.",
+            "Tap 'Notifications' to view notification permissions.",
+            "Ensure it's set to 'Allow'. If blocked, tap it and change to 'Allow'."
+          ],
+          "samsung": [
+            "Tap the lock icon (or 'View site information') in the address bar to the left of the URL.",
+            "Tap 'Notifications' to view notification permissions.",
+            "Ensure it's set to 'Allow'. If blocked, tap it and change to 'Allow'."
+          ],
+          "firefox": [
+            "Tap the three-dot menu, then select 'Settings'.",
+            "Scroll down and tap 'Site permissions', then tap 'Notifications'.",
+            "Find this website under 'Blocked' and tap it to change the permission to 'Allowed'."
+          ]
+        },
+        "ios": {
+          "chrome": [
+            "Web push notifications are not currently supported in Chrome for iOS due to Apple's restrictions.",
+            "Consider using Safari instead, which supports notifications for websites added to your Home Screen."
+          ],
+          "safari": [
+            "Open Safari, tap the Share button, then tap 'Add to Home Screen' to install this website as a web app.",
+            "Open the app from your Home Screen, and allow notifications when prompted.",
+            "If you don't see the prompt, go to iOS Settings > Notifications > [App Name] and enable 'Allow Notifications'."
+          ],
+          "firefox": [
+            "Web push notifications are not currently supported in Firefox for iOS due to Apple's restrictions.",
+            "Use Safari and add the website to your Home Screen to receive notifications."
+          ]
+        }
+      }
+    }
+  },
+  "categories": {
+    "categoriesSection": {
+      "title": "Categories",
+      "description": "Rent from our categories",
+      "productCount": "products available",
+      "ariaLabel": "Product categories for rent",
+      "showAll": "Show All Categories",
+      "showLess": "Show Less"
+    },
+    "browseRentalProducts": "Browse Rental Products",
+    "forRent": "for rent",
+    "ariaLabel": "Product Categories",
+    "electronics": {
+      "text": "Electronics",
+      "ariaLabel": "Rent Electronics"
+    },
+    "furniture": { "text": "Furniture", "ariaLabel": "Rent Furniture" },
+    "homeSupplies": {
+      "text": "Home Supplies",
+      "ariaLabel": "Rent Home Supplies"
+    },
+    "events": {
+      "text": "Event Supplies",
+      "ariaLabel": "Rent Event Supplies"
+    }
+  },
+  "ui": {
+    "button": {
+      "login": "Login",
+      "search": "Search",
+      "showAllProducts": "Show All Products",
+      "showAllOrders": "Browse the Orders section",
+      "showAllBlogs": "Show All Articles",
+      "rent": "Rent",
+      "seeDetails": "See Details For",
+      "rentItNow": "Rent It Now",
+      "ownIt": "I Own It",
+      "details": "Details",
+      "requestProduct": "Request Product",
+      "viewRequestedProducts": "View Requested Products",
+      "requestProductTitle": "Request a product for rent",
+      "loading": "Loading...",
+      "close": "Close",
+      "addAd": "Add Product",
+      "addAdTitle": "Add a new advertisement"
+    },
+    "header": {
+      "langTitle": "Language",
+      "homePageAriaLabel": "Home - Estajer",
+      "logoAlt": "Estajer logo",
+      "logoTitle": "Estajer logo",
+      "cartAriaLabel": "Shopping cart",
+      "cartTitle": "Shopping cart",
+      "requestProductAriaLabel": "Request product",
+      "requestProductTitle": "Request product",
+      "addAdAriaLabel": "Add advertisement",
+      "addAdTitle": "Add advertisement",
+      "siteHeaderAriaLabel": "Main site header",
+      "logoAriaLabel": "Estajer homepage",
+      "openSearchAriaLabel": "Open search",
+      "openMenuAriaLabel": "Open menu"
+    },
+    "dropdown": {
+      "signedInAs": "Signed in as",
+      "dashboard": "Dashboard",
+      "favorites": "Favorites",
+      "messages": "Messages",
+      "myProducts": "My Products",
+      "settings": "Settings",
+      "userMenuAriaLabel": "User menu",
+      "logout": "Logout",
+      "login": "Login",
+      "loginTitle": "Login to your account",
+      "adminDashboard": "Admin Dashboard",
+      "products": "Products",
+      "orders": "Orders",
+      "users": "Users",
+      "dashboardDescription": "Personal dashboard",
+      "favoritesDescription": "Favorite products",
+      "messagesDescription": "Messages and conversations",
+      "myProductsDescription": "My rental products",
+      "settingsDescription": "Account settings",
+      "adminDashboardDescription": "Admin dashboard",
+      "productsDescription": "Product management",
+      "ordersDescription": "Order management",
+      "usersDescription": "User management"
+    }
+  },
+  "bulkEditDelivery": {
+    "title": "Bulk Edit Delivery Options",
+    "subtitle": "Update delivery settings for {count} selected products",
+    "selectedCount": "{count} products selected",
+    "editDelivery": "Edit Delivery",
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All",
+    "clearSelection": "Clear Selection",
+    "applyToAll": "Apply to All",
+    "cancel": "Cancel",
+    "successMessage": "{count} products updated successfully",
+    "errorMessage": "Failed to update products",
+    "noProductsSelected": "No products selected",
+    "noDeliveryCost": "Please enter a delivery cost per km",
+    "noCityPricing": "Please add at least one city for shipping",
+    "noCityId": "Please select a city for all entries",
+    "noCityPrice": "Please enter a price for all cities"
+  },
+  "bulkEditAdmin": {
+    "title": "Bulk Edit Products",
+    "subtitle": "Editing {count} selected products",
+    "instruction": "Select the fields you want to edit. Unselected fields won't be affected.",
+    "generalInfo": "General Information",
+    "category": "Category",
+    "subcategory": "Sub Category",
+    "selectCategory": "Select Category",
+    "selectSubCategory": "Select Sub Category",
+    "noSubcategories": "No sub-categories",
+    "quantity": "Quantity",
+    "minQuantity": "Min Quantity",
+    "productCondition": "Product Condition",
+    "status": {
+      "excellent": "Excellent",
+      "veryGood": "Very Good",
+      "good": "Good"
+    },
+    "changeStatusTo": "Change status to...",
+    "delivery": "Delivery",
+    "deliveryType": "Delivery Type",
+    "deliveryOptions": {
+      "receive": "Pickup",
+      "delivery": "Delivery",
+      "free": "Free delivery"
+    },
+    "pricingModels": {
+      "fixedCity": "City Pricing",
+      "perKm": "Per Km"
+    },
+    "deliveryCostPerKm": "Delivery cost / km",
+    "sar": "SAR",
+    "sarPerKm": "SAR/km",
+    "previewChanges": "Preview Changes",
+    "confirmChanges": "Confirm Changes",
+    "reviewChanges": "Review changes before applying to {count} products",
+    "noChanges": "No changes",
+    "back": "Back",
+    "confirmApply": "Confirm & Apply",
+    "successMessage": "{count} products updated successfully",
+    "errorMessage": "An error occurred",
+    "fieldLabels": {
+      "category": "Category",
+      "subcategory": "Sub Category",
+      "quantity": "Quantity",
+      "minQuantity": "Min Quantity",
+      "condition": "Condition",
+      "deliveryType": "Delivery Type",
+      "pricingModel": "Pricing Model",
+      "deliveryCost": "Delivery Cost"
+    }
+  }
+}

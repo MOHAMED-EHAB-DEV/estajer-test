@@ -1,0 +1,3857 @@
+{
+  "favorites": {
+    "title": "Favorites",
+    "description": "Show All Off Your Favorites Product",
+    "noFavorites": "No favorite products yet",
+    "addFavoritesHint": "You can add products to favorites by clicking the heart icon",
+    "loginRequired": "Please login to view your favorites"
+  },
+  "product": {
+    "safety": {
+      "title": "Pickup and Return Instructions",
+      "safetyGuidelines": "Safety Guidelines",
+      "meetInPublic": "Meet others only in public and crowded places like metro stations and malls.",
+      "bringCompanion": "Don't go alone to meet a seller or buyer, always make sure to bring someone with you.",
+      "inspectProduct": "Make sure to inspect the product thoroughly before renting it.",
+      "noDelay": "Make sure to return the product on time; a delay of more than 4 hours is counted as an additional half-day.",
+      "returnPolicyCondition": "Return the product exactly as you received it—clean, intact, and without any damage or missing parts.",
+      "returnPhotoGuideline": "To protect your rights, take photos of the product upon receiving and returning it in case any issues arise later.",
+      "documentationGuidelines": {
+        "userRole": {
+          "owner": "the owner",
+          "renter": "the renter"
+        },
+        "point1_main": "Take photos or a video of the product within 24 hours of receiving it to secure your rights as {userRole}. It's preferable for them to be timestamped. You can use your smartphone, where the time and date are automatically recorded, or use dedicated apps like:",
+        "point1_apps": "Timestamp Camera for Android Timestamp Camera for iPhone",
+        "point2": "If the product has a primary function (like a blender or coffee machine), take a video clearly showing it in operation, so you have proof of its condition at the time of receipt.",
+        "point3": "Photograph the product's serial number (if available) to maintain clear documentation.",
+        "point4": "Ensure all accessories are included in the photos on the website.",
+        "point5": "Keep the purchase invoice and serial number as they are necessary when filing any claim.",
+        "point6": "Inspect the product thoroughly upon receipt. If you notice any damage or discrepancy from its original condition, document it with photos or video immediately within 24 hours.",
+        "point7": "If you do not receive the product on time or if it is damaged, file a complaint within 24 hours of the rental period ending.",
+        "point8": "Try to communicate with the lessor first to resolve the issue directly. If you cannot, our dedicated solutions team can mediate on your behalf.",
+        "point9": "Most of the time, resolving matters directly with the lessor is faster and easier, but if that's not possible, we are here to support you."
+      }
+    },
+    "requests": {
+      "title": "Unavailable Products Requests"
+    },
+    "details": {
+      "company": "Company",
+      "personal": "Personal Account",
+      "freelance": "Freelance",
+      "new": "New",
+      "used": "Used",
+      "productDescription": "Product Description",
+      "addressOnMap": "Address on Map",
+      "meetOwner": "Meet the Owner",
+      "meetLessee": "Meet the Lessee",
+      "joinedEstajer": "Joined Estajer",
+      "rating": "Rating",
+      "noReviews": "No reviews",
+      "showMore": "Show More",
+      "showLess": "Show Less"
+    },
+    "tabs": {
+      "description": "Product Description",
+      "specs": "Specifications",
+      "features": "Performance Features",
+      "useCasesTitle": "Ideal Use Cases",
+      "statusLabel": "Product Condition",
+      "quantityLabel": "Available Quantity",
+      "specsNote": "We guarantee full product readiness before every rental."
+    },
+    "page": {
+      "notFound": "Product Not Found | Estajer",
+      "notFoundDescription": "The requested product is currently not available",
+      "rentCategory": "Rent {categoryName}",
+      "rentTitle": "Rent {productName} | Estajer",
+      "seoRentDescription": "{description} in Saudi Arabia | Estajer",
+      "rentDescription": "Rent {description}... at the best prices in Saudi Arabia.",
+      "defaultProduct": "Product",
+      "defaultDescription": "High-quality product for rent",
+      "author": "Estajer Team",
+      "defaultCategory": "Products",
+      "siteName": "Estajer",
+      "image": "Image",
+      "productForRent": "Product for Rent",
+      "breadcrumb": {
+        "home": "Home",
+        "products": "Products"
+      }
+    },
+    "rentalCost": {
+      "ariaLabel": "Rental Cost",
+      "badge": "Pricing",
+      "heading": "How much does it cost to rent {name}?",
+      "body1": "The rental cost of {name} depends on several factors. Choose the right duration from the booking options above and you will automatically get the best available price.",
+      "body2": "Whether you are looking to rent {name} in {city} for an event, company, or temporary project Estajer gives you full flexibility with no long-term commitment.",
+      "factor1": {
+        "title": "Rental Duration",
+        "desc": "Daily, weekly, or monthly"
+      },
+      "factor2": {
+        "title": "Number of Items",
+        "desc": "One piece or more"
+      },
+      "factor3": {
+        "title": "Delivery Location",
+        "desc": "Within {city} or nearby areas"
+      },
+      "factor4": {
+        "title": "Additional Services",
+        "desc": "Number of additional services required"
+      }
+    },
+    "whyUs": {
+      "ariaLabel": "Why Us",
+      "badge": "Why Us?",
+      "heading": "Why Do Customers Trust Our {category} Rental Service?",
+      "subheading": "We provide the best {category} rental experience in {city} and across the Kingdom",
+      "item1": {
+        "title": "Competitive Prices",
+        "desc": "Save compared to the cost of buying the full product"
+      },
+      "item2": {
+        "title": "Flexible Rental",
+        "desc": "Daily / Weekly / Monthly based on your needs"
+      },
+      "item3": {
+        "title": "Inspection & Maintenance",
+        "desc": "Before every rental without exception"
+      },
+      "item4": {
+        "title": "Fast Delivery",
+        "desc": "Within {city} and surrounding areas"
+      },
+      "item5": {
+        "title": "Continuous Technical Support",
+        "desc": "Throughout the rental period without hassle"
+      }
+    },
+    "rentVsBuy": {
+      "ariaLabel": "Rent vs Buy Comparison",
+      "badge": "Comparison",
+      "heading": "Is Renting {name} Better Than Buying?",
+      "body": "If you need {name} for a specific period or occasion in {city}, renting saves you thousands of riyals with no long-term commitments.",
+      "callout": {
+        "title": "Renting {name} = Full Flexibility Without Burdens",
+        "desc": "Enjoy the latest technology today without worrying about storage or maintenance"
+      },
+      "col": {
+        "aspect": "Comparison",
+        "rent": "Rental",
+        "buy": "Purchase"
+      },
+      "row1": { "label": "Cost", "rent": "Low", "buy": "Very High" },
+      "row2": {
+        "label": "Maintenance",
+        "rent": "Fully Included",
+        "buy": "Your Expense"
+      },
+      "row3": {
+        "label": "Storage",
+        "rent": "Not Required",
+        "buy": "Requires Space"
+      },
+      "row4": { "label": "Flexibility", "rent": "Very High", "buy": "Limited" }
+    },
+    "faqs": {
+      "ariaLabel": "Frequently Asked Questions",
+      "badge": "FAQs",
+      "title": "Frequently asked questions about renting {name} in {city}",
+      "faqs": [
+        {
+          "question": "Can I book on the same day?",
+          "answer": "Yes, if {name} is available, it can be rented immediately on the same day. Send a booking request from the page and the lessor will contact you for confirmation quickly."
+        },
+        {
+          "question": "Can the rental period for {name} be extended?",
+          "answer": "Yes, the rental period for {name} can be extended based on availability and in coordination with the lessor directly. It is recommended to contact at least one day before the end of the period."
+        },
+        {
+          "question": "Does the price include delivery within {city}?",
+          "answer": "This depends on your location within {city} or nearby service areas. Some areas include free delivery and others may include a small fee. You can review the delivery area details on the page above."
+        },
+        {
+          "question": "Is {name} inspected before delivery?",
+          "answer": "Yes, {name} is fully inspected before each rental to ensure its readiness and full performance, to guarantee the best user experience for you."
+        }
+      ]
+    },
+    "ctaBanner": {
+      "ariaLabel": "Book Now",
+      "eyebrow": "Ready to Start?",
+      "heading": "Book {name} Now and Save Your Time",
+      "subheading": "Enjoy a fast, safe, and reliable renting experience for {name} with Estajer.",
+      "cta": "Send Booking Request Now"
+    }
+  },
+  "cart": {
+    "title": "Renting Cart",
+    "description": "Enter the delivery address, invoice, and payment method to complete the booking",
+    "in": "in",
+    "days": "day",
+    "empty": "Your cart is empty",
+    "dates": "Booking Dates",
+    "quantity": "Quantity",
+    "total": "Total",
+    "totalAmount": "Total Amount",
+    "checkout": "Checkout",
+    "price": "Price",
+    "subtotal": "Subtotal",
+    "pieces": "piece",
+    "piecesCount": "Pieces",
+    "tax": "VAT",
+    "insurance": "Insurance",
+    "completePayment": "Complete Payment",
+    "currency": "SAR",
+    "loginFirst": "Please login first",
+    "itemRemoved": "Item removed from cart",
+    "warnMsg": "In case of damage to the products, an amount of up to",
+    "extra": "Extra",
+    "discount": "Discount",
+    "additionalServices": "Additional Services",
+    "deliveryOptions": "Delivery Options",
+    "delivery": "Delivery",
+    "receive": "Pickup from owner",
+    "pickupFrom": "Pickup from",
+    "shareCart": "Share Cart",
+    "shareCartSuccess": "Cart link copied successfully",
+    "cartLoaded": "Shared cart loaded successfully",
+    "invalidSharedCart": "Invalid shared cart link",
+    "free": "Free Delivery"
+  },
+  "nafathModal": {
+    "title": "Nafath Authentication",
+    "subtitle": "Secure Identity Verification",
+    "validation": {
+      "nationalIdRequired": "Please enter National ID"
+    },
+    "errors": {
+      "requestFailed": "Request failed",
+      "networkError": "Network error occurred",
+      "statusCheckFailed": "Status check failed"
+    },
+    "status": {
+      "waiting": "Waiting for verification",
+      "completed": "Verification successful",
+      "rejected": "Verification rejected",
+      "expired": "Verification expired"
+    },
+    "form": {
+      "enterNationalIdTitle": "Enter your National ID",
+      "enterNationalIdDescription": "We will send a verification request to your Nafath app",
+      "nationalIdLabel": "National ID",
+      "nationalIdPlaceholder": "Enter your National ID"
+    },
+    "infoBox": {
+      "title": "What happens next?",
+      "point1": "• You will receive a verification request on your Nafath app",
+      "point2": "• Check that the random number matches",
+      "point3": "• Approve the request to complete authentication"
+    },
+    "verification": {
+      "randomNumberLabel": "Random Number",
+      "randomNumberDescription": "Check that this number matches the one in your Nafath app"
+    },
+    "instructions": {
+      "title": "Instructions",
+      "step1": "Open your Nafath app",
+      "step2": "Check that the random number matches",
+      "step3": "Approve the authentication request"
+    },
+    "waitingState": {
+      "message": "Waiting for your response...",
+      "openAppButton": "Open Nafath App"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "sendingRequest": "Sending Request...",
+      "authenticate": "Authenticate with Nafath"
+    }
+  },
+  "supplierModal": {
+    "title": "Add Lessor Details",
+    "desc": "Bank Account Information",
+    "accountInfo": "Account Details Entry",
+    "accountInfoDesc": "You must add your bank account number before creating an advertisement",
+    "unifiedNumber": "Unified Number",
+    "unifiedNumberCompanyRequired": "The Unified Number is required for companies",
+    "allFieldsRequired": "All fields are required",
+    "error": "Something went wrong",
+    "success": "IBAN updated successfully",
+    "iban": "Bank Account Number (IBAN)",
+    "importantInformationTitle": "Important Information",
+    "importantNotes": [
+      "Ensure the entered account number is correct",
+      "Electronic wallet accounts (STC Pay, urpay, Barq, etc.) are not accepted",
+      "The account number must start with SA followed by 22 digits",
+      "This information is required to receive payments"
+    ],
+    "companyNote": "Unified Number is required for companies (10 digits) and starts with 700",
+    "loading": "Adding...",
+    "cancel": "Cancel",
+    "addData": "Add Data"
+  },
+  "checkout": {
+    "completePayment": "Complete Payment",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Enter your full name",
+    "country": "Country",
+    "countryPlaceholder": "Select your country",
+    "success": "Payment completed successfully",
+    "address": "Address",
+    "addressPlaceholder": "Enter your address",
+    "city": "City",
+    "cityPlaceholder": "Enter your city",
+    "area": "Area",
+    "areaPlaceholder": "Enter your area",
+    "phone": "Phone Number",
+    "phonePlaceholder": "+966 000000000",
+    "email": "Email Address",
+    "emailPlaceholder": "Enter your email address",
+    "notes": "Order Notes (Optional)",
+    "notesPlaceholder": "Add notes",
+    "subtotal": "Subtotal",
+    "tax": "VAT (15%)",
+    "total": "Total Amount",
+    "delivery": "Delivery",
+    "deliveryNotAvailable": "Delivery not available for this location",
+    "discount": "Discount",
+    "locationRequired": "Please specify the location on the map",
+    "notesHint": "You can specify your preferred pickup time here; final coordination is with the lessor."
+  },
+  "bookings": {
+    "title": "My Bookings",
+    "currency": "SAR",
+    "addReview": "Add Review",
+    "yourReview": "Your Review",
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "requestComponent": {
+    "confirmDeleteTitle": "Confirm Deletion",
+    "confirmDeleteMessage": "Are you sure you want to delete this product?",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "deleteFailed": "Failed in deleting your request"
+  },
+  "search": {
+    "title": "Search for products",
+    "productName": "Product Name",
+    "productNamePlaceholder": "Search by product name",
+    "mapDescription": "Search for products near you",
+    "category": "Category",
+    "subCategory": "Sub Category",
+    "allCategories": "All Categories",
+    "noSubCategories": "No Sub Categories",
+    "location": "Location",
+    "locationPlaceholder": "Search by city or area",
+    "mapSearch": "Map Search",
+    "addProduct": "Add Product",
+    "productList": "Product List",
+    "availableProducts": "List of all available products for rent",
+    "availableCars": "Add your product to the list of products available for rent",
+    "showList": "Product list",
+    "showMap": "Show on map",
+    "locationHint": "Enter your location to find products near you",
+    "filterProducts": "Filter Products",
+    "allSubCategories": "All Sub Categories",
+    "selectCategoryFirst": "Select a category first to see subcategories",
+    "currentFilters": "Current Filters",
+    "noFiltersApplied": "No filters applied",
+    "clearAllFilters": "Clear all filters",
+    "searchTerm": "Search term",
+    "breadcrumb": "Breadcrumb",
+    "getCurrentLocation": "Get Current Location",
+    "selectCategory": "Select Category",
+    "selectSubCategory": "Select Sub Category",
+    "seo": {
+      "page": {
+        "title": "Search for Products to Rent - Estajer",
+        "description": "Search for products available for rent on Estajer. Discover thousands of rental items from furniture and electronics to camping gear and household tools.",
+        "h1": "Search for Products Available for Rent"
+      },
+      "schema": {
+        "breadcrumb": {
+          "home": "Home",
+          "search": "Search",
+          "categories": "Categories",
+          "products": "Products"
+        }
+      },
+      "meta": {
+        "keywords": "product rental, rent, Saudi Arabia, furniture rental, electronics rental, camping equipment, household tools, save money, rental platform, estajer"
+      },
+      "category": {
+        "title": "Search for products for Rent - Estajer",
+        "description": "Search for products available for rent on Estajer. Discover thousands of products for rent from furniture and electronics to camping gear and household tools."
+      }
+    }
+  },
+  "header": {
+    "home": "Home",
+    "blog": "Blog"
+  },
+  "languageSwitcher": {
+    "en": "English",
+    "ar": "Arabic"
+  },
+  "ticket": {
+    "title": "Contact Us",
+    "formTitle": "Contact Information",
+    "description": "We're here to help! Fill out the form below and we'll get back to you as soon as possible.",
+    "contactInfo": "Contact Data",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "email": "Email Address",
+    "subject": "Subject",
+    "message": "Message",
+    "image": "Illustrative image (optional)",
+    "submit": "Send Message",
+    "namePlaceholder": "Enter your full name",
+    "phonePlaceholder": "Enter your phone number",
+    "emailPlaceholder": "Enter your email address",
+    "messagePlaceholder": "Enter your message here",
+    "subjectOptions": {
+      "general": "General Inquiry",
+      "support": "Technical Support",
+      "feedback": "Feedback",
+      "subscription": "Subscription Request",
+      "upgrade": "Account Upgrade",
+      "other": "Other"
+    },
+    "success": "Your message has been sent successfully. We'll get back to you soon!",
+    "error": "There was an error sending your message. Please try again."
+  },
+  "support": {
+    "ticket": {
+      "title": "Ticket Details",
+      "error": "An error occurred while sending your message",
+      "ticket": {
+        "refId": "Ticket ID",
+        "subject": "Subject",
+        "statusLabel": "Status:"
+      },
+      "chat": {
+        "title": "Ticket Chat",
+        "teamName": "Estajer Support Team",
+        "placeholder": "Type your message and issue details here...",
+        "send": "Send",
+        "closed": "The conversation is closed."
+      },
+      "status": {
+        "new": "New",
+        "inprogress": "In Progress",
+        "solved": "Closed",
+        "cancelled": "Cancelled"
+      }
+    }
+  },
+  "dashboard": {
+    "header": {
+      "notifications": "Notifications",
+      "messages": "Messages"
+    },
+    "support": {
+      "title": "Ticket Details",
+      "myTickets": "Support Tickets",
+      "ticket": {
+        "refId": "Ticket ID",
+        "subject": "Subject",
+        "statusLabel": "Status:",
+        "date": "Date:"
+      },
+      "chat": {
+        "title": "Ticket Chat",
+        "teamName": "Estajer Support Team",
+        "placeholder": "Type your message and issue details here...",
+        "send": "Send",
+        "closed": "The conversation is closed."
+      },
+      "status": {
+        "new": "New",
+        "inprogress": "In Progress",
+        "solved": "Solved",
+        "cancelled": "Cancelled"
+      },
+      "allTickets": "All Tickets",
+      "noTickets": "No support tickets yet",
+      "viewTicket": "View Ticket",
+      "backToTickets": "Back to Tickets"
+    },
+    "SwitchRole": {
+      "label": "Preview as",
+      "renter": "Renter",
+      "landlord": "Product Owner",
+      "renterDescription": "You are currently browsing as a renter, to search and rent products.",
+      "landlordDescription": "You are currently browsing as a product owner, to manage your products and orders."
+    },
+    "requests": {
+      "title": "Rental Requests",
+      "customerName": "Customer Name",
+      "phone": "Phone Number",
+      "address": "Address",
+      "country": "Country",
+      "city": "City",
+      "area": "Area",
+      "notes": "Notes",
+      "pieces": "pieces",
+      "piecesCount": "Number of Pieces",
+      "price": "Price",
+      "subtotal": "Subtotal",
+      "tax": "VAT",
+      "insurance": "Insurance",
+      "totalAmount": "Total",
+      "orderStatus": "Order Status",
+      "rejectOrder": "Reject Order",
+      "acceptOrder": "Accept Order",
+      "rejectOrderToast": "Rejected successfully.",
+      "acceptOrderToast": "Accepted successfully.",
+      "emailSentToCustomer": "An email has been sent to the customer to confirm the order.",
+      "orderDeleted": "Delete Order",
+      "currency": "SAR",
+      "noRequests": "No requests yet",
+      "noRequestsDescription": "Start adding products and enjoy shopping!",
+      "addProduct": "Add Product",
+      "confirmReject": {
+        "title": "Confirm Order Rejection",
+        "message": "Are you sure you want to reject this order?",
+        "cancelText": "Cancel",
+        "confirmText": "Confirm Rejection"
+      },
+      "confirmModal": {
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "delete": "Delete"
+      },
+      "confirmAccept": {
+        "title": "Confirm Order Acceptance",
+        "message": "Are you sure you want to accept this order?",
+        "cancelText": "Cancel",
+        "confirmText": "Confirm Acceptance"
+      },
+      "receive": "Pickup from owner",
+      "pickupFrom": "Pickup from",
+      "delivery": "Delivery",
+      "free": "Free Delivery",
+      "deliveryCompany": "Delivery Company",
+      "deliveryMethod": "Delivery Method",
+      "deliveryCost": "Delivery Cost"
+    },
+    "ordersList": {
+      "products": "Products",
+      "orderCreationDate": "Order creation date:",
+      "additionalServices": "Additional services:",
+      "reviewProduct": "Review product",
+      "requesterData": "Requester data",
+      "ownerData": "Owner data",
+      "joinedEstajer": "Joined Estajer",
+      "companyName": "Company name",
+      "registerNumber": "Register number",
+      "taxCode": "Tax code",
+      "viewOnMap": "View on map",
+      "noNotes": "No notes",
+      "orderSummary": "Order summary:",
+      "waitForDeliveryDate": "Please wait until the delivery date",
+      "waitForReceiptDate": "Please wait until the receipt date",
+      "emailAlreadySent": "An email has already been sent to the customer",
+      "confirmEmailTitle": "Confirm sending the email",
+      "confirmEmailMessage": "An email will be sent to the customer to confirm receipt of the order",
+      "send": "Send",
+      "cancel": "Cancel",
+      "confirmDeleteTitle": "Confirm deletion",
+      "confirmDeleteMessage": "Are you sure you want to delete this order?",
+      "delete": "Delete",
+      "noOrders": "Your cart is empty",
+      "noOrdersDescription": "Your shopping cart is empty.\u2028 Start adding products and enjoy shopping!",
+      "searchProducts": "Shop Now!",
+      "viewReceipt": "View Receipt",
+      "viewInvoice": "View Commission Invoice"
+    },
+    "settings": {
+      "title": "Settings",
+      "changePassword": {
+        "title": "Change Password",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm New Password",
+        "updateButton": "Update Password",
+        "validation": "Password must contain at least 8 characters, including uppercase, lowercase, and numbers.",
+        "passwordMismatch": "New password and confirmation do not match",
+        "success": "Password updated successfully",
+        "error": "An error occurred"
+      },
+      "profileImage": {
+        "deleteButton": "Delete Image",
+        "deleteTitle": "Delete Image",
+        "deleteMessage": "Are you sure you want to delete your profile picture?",
+        "deleteConfirm": "Delete",
+        "deleteCancel": "Cancel",
+        "uploadError": "Please select an image file",
+        "updateSuccess": "Image updated successfully",
+        "deleteSuccess": "Image deleted successfully",
+        "error": "An error occurred",
+        "uploadImage": "Upload Image",
+        "profilePicture": "Profile Picture",
+        "rulesTitle": "Profile Image Guidelines",
+        "rule1": "Image must be clear and not blurry",
+        "rule2": "No contact info allowed (phone, email, social handles)",
+        "rule3": "No company logos or brand icons",
+        "rule4": "Preferably a real human face or business logo",
+        "rejectedTitle": "Image Rejected",
+        "rejected": "Image Rejected",
+        "requestReview": "Request Review",
+        "reviewPending": "Review Pending",
+        "reviewRequested": "Review requested successfully",
+        "premiumUpgrade": {
+          "title": "Upgrade to Premium Account",
+          "subtitle": "Get full freedom to customize your profile and exclusive benefits that set you apart",
+          "benefit1": "Choose any profile picture you want without restrictions",
+          "benefit2": "Your username displayed prominently on the website",
+          "benefit3": "Your profile page featured on the homepage",
+          "benefit4": "Priority listing for your products over others",
+          "benefit5": "Additional exclusive perks",
+          "cta": "Contact Admin to Upgrade",
+          "badge": "Premium"
+        }
+      },
+      "agreeAndUpload": "Agree and Upload",
+      "close": "Close",
+      "cancel": "Cancel",
+      "accountInfo": {
+        "notifications": "Notifications",
+        "notificationsEnabled": "Enabled",
+        "enableNotifications": "Enable",
+        "sendTestNotification": "Send Test",
+        "title": "Account Information",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "Enter your full name",
+        "username": "Username",
+        "usernamePlaceholder": "Enter your username",
+        "email": "Email Address",
+        "emailPlaceholder": "example@mail.com",
+        "invalidPhoneError": "Invalid mobile number. The mobile number must start with 05 and be 10 digits long, e.g., 0500000000.",
+        "phone": "Phone Number",
+        "phonePlaceholder": "05xxxxxxxx",
+        "address": "Address",
+        "addressPlaceholder": "Enter your detailed address",
+        "bio": "About Me",
+        "bioLinkText": "(Appears on profile page)",
+        "bioPlaceholder": "Write a brief about yourself",
+        "companyName": "Company Name",
+        "companyNamePlaceholder": "Enter company name",
+        "registerNumber": "Commercial Registration No.",
+        "registerNumberPlaceholder": "Enter registration number",
+        "taxCode": "Tax Number",
+        "taxCodePlaceholder": "Enter tax number",
+        "updateButton": "Update Information",
+        "updateSuccess": "Information updated successfully",
+        "error": "An error occurred",
+        "contactAdminNote": "To change your email or phone number, please contact the admin using the",
+        "contactForm": "contact form"
+      },
+      "branches": {
+        "title": "Branches Management",
+        "addBranch": "Add Branch",
+        "branchName": "Branch Name",
+        "branchLocation": "Branch Location",
+        "branchLink": "Branch Link",
+        "noBranches": "No branches added yet",
+        "delete": "Delete",
+        "edit": "Edit",
+        "save": "Save",
+        "cancel": "Cancel",
+        "copyLink": "Copy Link",
+        "linkCopied": "Link copied successfully",
+        "addSuccess": "Branch added successfully",
+        "updateSuccess": "Branch updated successfully",
+        "deleteSuccess": "Branch deleted successfully",
+        "error": "Something went wrong",
+        "confirmDelete": "Are you sure you want to delete this branch?",
+        "address": "Address",
+        "coordinates": "Coordinates"
+      },
+      "confirmModal": {
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "delete": "Delete"
+      },
+      "holidayManager": {
+        "title": "Holiday & Unavailability Periods",
+        "desc": "Set date ranges during which all your products will be unavailable for rent.",
+        "addPeriod": "Add New Period",
+        "editPeriod": "Edit Holiday Period",
+        "selectRange": "Select date range",
+        "add": "Add",
+        "update": "Update",
+        "cancel": "Cancel",
+        "noPeriods": "No holiday periods set",
+        "saveSuccess": "Holiday periods updated successfully",
+        "error": "Something went wrong",
+        "deleteConfirmTitle": "Delete Holiday Period",
+        "deleteConfirmMessage": "Are you sure you want to delete this holiday period? Your products will be available for rent during this time.",
+        "delete": "Delete"
+      }
+    },
+    "renterSettings": {
+      "title": "Settings",
+      "nafathVerification": "Nafath Verification",
+      "nafathVerified": "Your identity has been verified",
+      "nafathNotVerified": "Identity verification required",
+      "verifyNow": "Verify Now",
+      "nafathSuccess": "Nafath verification completed successfully",
+      "nafathError": "Nafath verification failed",
+      "bankAccount": "Bank Account (IBAN)",
+      "ibanAdded": "Bank account information added",
+      "ibanNotAdded": "Bank account information required",
+      "addIban": "Add IBAN",
+      "nafathRequiredForIban": "Nafath verification required before adding IBAN",
+      "location": "Location",
+      "locationAdded": "Location information added",
+      "locationNotAdded": "Location information required",
+      "addLocation": "Add Location",
+      "updateLocation": "Update Location",
+      "overallStatus": "Overall Status",
+      "completionRate": "Completion Rate",
+      "updateLocationTitle": "Update Location",
+      "cancel": "Cancel",
+      "saveLocation": "Save Location",
+      "locationRequired": "Please select a valid location",
+      "locationUpdateError": "Failed to update location",
+      "locationUpdateSuccess": "Location updated successfully"
+    },
+    "home": {
+      "title": "Dashboard",
+      "welcome": {
+        "greeting": "Welcome\u00a0{name} to Dashboard",
+        "notifications": "Today you have\u00a0{count} unread notifications",
+        "settings": "Edit Account"
+      },
+      "cards": {
+        "rentalRequests": "Rental Requests Sent",
+        "completedOrders": "Completed Orders",
+        "pendingOrders": "Pending Orders",
+        "canceledOrders": "Canceled Orders",
+        "productRequests": "Unavailable Product Requests",
+        "unreadMessages": "Unread Messages"
+      },
+      "latestOrders": {
+        "title": "Latest Orders",
+        "landlordTitle": "Latest Orders",
+        "viewAll": "View All",
+        "status": {
+          "completed": "Completed",
+          "pending": "Pending Agreement",
+          "canceled": "Canceled"
+        },
+        "cart": {
+          "total": "Total"
+        },
+        "perDay": "per day",
+        "landlord": "Product Owner",
+        "renter": "Tenant",
+        "numberOfProducts": "Number of Products",
+        "orderDetails": "Order Details",
+        "notSpecified": "Not Specified",
+        "noOrders": "No orders yet",
+        "noOrdersDescription": "Start adding products and enjoy shopping!"
+      }
+    },
+    "myOrders": {
+      "title": "My Rental Orders",
+      "noOrders": "No orders found",
+      "orderNumber": "Order Number",
+      "orderDate": "Order Date",
+      "orderStatus": "Order Status",
+      "totalAmount": "Total Amount",
+      "viewDetails": "View Details"
+    },
+    "orderStatus": {
+      "sendReceiptRequest": "Send Receipt Request",
+      "orderDelivered": "Order Delivered",
+      "orderCompleted": "Order Completed",
+      "rejected": "Rejected",
+      "deleteOrder": "Delete Order",
+      "payNow": "Pay Now",
+      "waitingForAcceptance": "Waiting for Order Acceptance",
+      "receiveOrder": "Receive Order",
+      "processingRejection": "Processing Rejection...",
+      "received": "Received",
+      "paymentProcessing": "Payment is being processed",
+      "reportDamage": "Report Damage!",
+      "damageReported": "Damage Reported"
+    },
+    "damageReport": {
+      "title": "Damage Report",
+      "description": "Submit a report about any damage to the product after the rental period",
+      "orderInformation": "Order Information",
+      "orderId": "Order ID",
+      "orderStatus": "Order Status",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "productInformation": "Product Information",
+      "quantity": "Quantity",
+      "beforeImages": {
+        "title": "Product Images Before Rental",
+        "description": "Upload images of the product as it was before rental (optional)"
+      },
+      "afterImages": {
+        "title": "Product Images After Rental",
+        "description": "Take photos of the product in its current condition after the rental period"
+      },
+      "damageDescription": {
+        "title": "Damage Description",
+        "placeholder": "Write a detailed description of the damage to the product..."
+      },
+      "notes": {
+        "title": "Additional Notes",
+        "placeholder": "Add any additional notes or details..."
+      },
+      "customerDocumentation": {
+        "title": "Customer Documentation Images",
+        "description": "Images that the customer documented when receiving the product"
+      },
+      "submitReport": "Submit Report",
+      "errors": {
+        "damageDescriptionRequired": "Damage description is required",
+        "afterImagesRequired": "Product images after rental are required",
+        "beforeImagesRequired": "Product images before rental are required",
+        "productNotFound": "Product not found",
+        "submitFailed": "Failed to submit report"
+      },
+      "success": {
+        "reportSubmitted": "Damage report submitted successfully"
+      }
+    },
+    "damageReports": {
+      "title": "Damage Reports",
+      "noReports": "No Damage Reports",
+      "noReportsDescription": "You haven't submitted any damage reports yet",
+      "reportId": "Report ID",
+      "productInfo": "Product Information",
+      "damageDescription": "Damage Description",
+      "afterImages": "After Damage Images",
+      "beforeImages": "Before Rental Images",
+      "notes": "Additional Notes",
+      "moreImages": "more images",
+      "viewOrderDetails": "View Order Details",
+      "status": {
+        "pending": "Pending Review",
+        "reviewed": "Under Review",
+        "resolved": "Resolved",
+        "rejected": "Rejected"
+      }
+    },
+    "renter": {
+      "title": "Dashboard",
+      "currency": "SAR",
+      "cards": {
+        "addProduct": "Add",
+        "products": "Products",
+        "receivedRentals": "Received Rental Requests",
+        "dailyViews": "Today's Views",
+        "dailyEarnings": "Today's Earnings",
+        "totalBalance": "Total Balance",
+        "unreadMessages": "Unread Messages",
+        "progress": {
+          "completed": "Completed Request",
+          "pending": "Pending Request",
+          "canceled": "Canceled Request"
+        }
+      }
+    },
+    "filters": {
+      "title": "Filters",
+      "productName": "Product Name",
+      "productNamePlaceholder": "Search by product name",
+      "status": "Status",
+      "all": "All",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "pending": "Pending",
+      "hidden": "Hidden",
+      "deleted": "Deleted",
+      "nana": "Nana",
+      "main": "Main Products",
+      "category": "Category",
+      "allCategories": "All Categories",
+      "allSubCategories": "All Sub Categories",
+      "subcategory": "Subcategory",
+      "apply": "Apply Filters",
+      "clear": "Clear Filters",
+      "sortBy": {
+        "title": "Sort By",
+        "dateAdded": "Date Added",
+        "newest": "Newest",
+        "oldest": "Oldest"
+      }
+    },
+    "messages": {
+      "title": "Messages",
+      "noMessages": "No messages yet",
+      "noMessagesDescription": "Start adding people and enjoy conversations!"
+    },
+    "shop": {
+      "title": "My Shop",
+      "description": "Manage your shop details",
+      "noShopTitle": "No Shop Found",
+      "noShopDesc": "Please contact support to create your shop",
+      "editShop": "Edit Shop Details",
+      "updateSuccess": "Shop updated successfully",
+      "updateError": "Error updating shop"
+    },
+    "visits": {
+      "title": "Visits",
+      "analytics": "Product visits analysis",
+      "overview": "View customer interaction with your products and profile over time",
+      "noVisits": "No visits recorded for products in this period.",
+      "totalVisits": "Total Visits",
+      "totalVisitsDesc": "Total number of visits",
+      "todayVisits": "Today's Visitors",
+      "todayVisitsDesc": "Current day activity",
+      "averageDaily": "Avg. Visitors",
+      "averageDailyDesc": "Daily during the period",
+      "peakDaily": "Peak Daily Visits",
+      "peakDailyDesc": "Maximum recorded number",
+      "trend": "Visit Activity (Last 30 Days)",
+      "mostVisited": "Most Visited Pages & Products",
+      "mostVisitedDesc": "Ranking of products attracting the most visitors",
+      "pageName": "Product / Page",
+      "visitsCount": "Visits",
+      "rank": "Rank",
+      "lastVisit": "Last Visit",
+      "visit": "visit",
+      "visits": "visits",
+      "product": "Product",
+      "profile": "Profile Page",
+      "interest": "Interest Index",
+      "unknownProduct": "Unknown Product",
+      "chartSummary": "Visits Summary",
+      "highestCount": "Highest number of visitors",
+      "lowestCount": "Lowest number of visitors",
+      "visitorUnit": "visitor",
+      "noData": "No data to display"
+    }
+  },
+  "profile": {
+    "company": "Company",
+    "premium": "Premium",
+    "noAddress": "No address available",
+    "noDescription": "No description available",
+    "lastSeen": "Last seen",
+    "joinedAt": "Joined Estajer",
+    "products": "Products",
+    "rentalOrders": "Rental Orders",
+    "requestedProducts": "Requested Products",
+    "productsList": "Products List",
+    "requestedProductsList": "Requested Products List",
+    "reviews": "Reviews",
+    "monthsSinceJoined": "Months since joined",
+    "trustedRenter": "Trusted Renter",
+    "accountStatus": "Account Status",
+    "share": "Share",
+    "noRequests": "No items found",
+    "userNotFound": "User Not Found",
+    "userNotFoundDescription": "The requested user profile could not be found.",
+    "viewProductsBy": "View products by",
+    "viewRequestedProductsBy": "View requested products by",
+    "discoverItemsLookingFor": "Discover items and services they're looking for.",
+    "viewReviewsFor": "View reviews for",
+    "customerReviews": "customer reviews",
+    "with": "with",
+    "averageRating": "average rating",
+    "profilePicture": "profile picture",
+    "quality": "quality",
+    "price": "price",
+    "experience": "experience",
+    "communication": "communication",
+    "location": "location",
+    "ratingStars": "rating stars",
+    "editProfile": "Edit profile",
+    "shareProfile": "Share profile",
+    "title": "Reviews",
+    "productReviews": "Product reviews",
+    "reviewsList": "Reviews list",
+    "noReviews": "No reviews",
+    "noReviewsDescription": "No reviews available yet.",
+    "loading": "Loading...",
+    "loadMore": "Load more",
+    "siteName": "RentItOut",
+    "ratingStar": "rating star",
+    "viewProductsFor": "View products for",
+    "browseProductsFrom": "Browse products from",
+    "viewRequestsFor": "View requests for",
+    "browseRequestsFrom": "Browse requests from",
+    "readReviewsFor": "Read reviews for"
+  },
+  "singleBlog": {
+    "articleContents": "Article Contents",
+    "latestBlogPosts": "Latest Blog Posts",
+    "moreBlogs": "More Blogs",
+    "noLatestBlogPosts": "No Blog Posts",
+    "shareButtons": {
+      "shareText": "Share the article on",
+      "share": "Share",
+      "shareThisPage": "Share This Page",
+      "shareOn": "Share on",
+      "copyLink": "Copy Link",
+      "copied": "Copied!",
+      "shareProduct": "Share Product",
+      "shareArticle": "Share Article"
+    },
+    "comments": {
+      "title": "Comments",
+      "respond": "Reply",
+      "addComment": "Add Comment",
+      "noComments": "No comments yet",
+      "confirmModal": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "delete": {
+        "title": "Delete Confirmation",
+        "message": "Are you sure you want to delete this comment?",
+        "cancel": "Cancel",
+        "confirm": "Confirm Deletion",
+        "deleting": "Deleting...",
+        "success": "Comment deleted successfully",
+        "error": "An error occurred while deleting the comment"
+      }
+    },
+    "addComment": {
+      "title": "Add Comment",
+      "enterComment": "Leave your comment",
+      "commentPlaceholder": "Describe your experience with the product and the product owner...",
+      "add": "Add your comment",
+      "adding": "Adding your comment...",
+      "cancel": "Cancel",
+      "toast": {
+        "commentMissing": "Please enter your comment",
+        "success": "Your comment has been added",
+        "error": "An error occurred while adding your comment"
+      },
+      "respond": {
+        "title": "Add Reply",
+        "text": "Leave your reply",
+        "placeholder": "Add your reply to the comment",
+        "add": "Add your reply",
+        "adding": "Adding your reply..."
+      }
+    },
+    "editComment": {
+      "title": "Edit Comment",
+      "edit": "Edit",
+      "editing": "Editing your comment...",
+      "cancel": "Cancel",
+      "enterComment": "Edit your comment",
+      "commentPlaceholder": "Edit your comment...",
+      "save": "Save",
+      "saving": "Saving...",
+      "toast": {
+        "error": "An error occurred while editing your comment",
+        "success": "Your comment was edited successfully"
+      }
+    }
+  },
+  "blog": {
+    "loading": "Loading...",
+    "empty": "No blogs available",
+    "delete": "",
+    "cancel": "",
+    "frequentlyAskedQuestions": "Frequently Asked Questions",
+    "categories": {
+      "all": "All",
+      "latestNews": "Latest News",
+      "partnerships": "Partnerships",
+      "eventParticipation": "Event Participation",
+      "topics": "Topics"
+    }
+  },
+  "singleProduct": {
+    "order": {
+      "clearCartModal": {
+        "title": "Alert",
+        "message": "Rent products from the same lessor or clear the previous cart to add this product",
+        "mixedDates": "The previous product's rental period must match the new product's rental period",
+        "cancel": "Cancel",
+        "clearCart": "Clear Cart"
+      },
+      "currency": "SAR",
+      "cost": {
+        "title": "Cost Calculation",
+        "cost": "Cost",
+        "insurance": "Insurance Value",
+        "tax": "Tax",
+        "total": "Total",
+        "services": "Additional services"
+      },
+      "toast": {
+        "selectRentalPeriod": "Please select a rental period",
+        "cantRentOwnProduct": "You cannot rent your own product",
+        "addedToCart": "Added to cart successfully",
+        "maxQuantity": "The maximum quantity is\u00a0{quantity}",
+        "error": "An error occurred"
+      },
+      "rangeDate": {
+        "datesUnavailable": "Some dates in this range are fully booked",
+        "minDays": "Booking duration must not be less than\u00a0{days} days",
+        "bookingDays": "Booking duration:\u00a0{days} days"
+      },
+      "reviews": {
+        "toast": {
+          "success": "Review submitted successfully",
+          "error": "An error occurred"
+        }
+      },
+      "report": {
+        "toast": {
+          "selectReason": "Please select a reason for reporting",
+          "success": "Report submitted successfully",
+          "error": "An error occurred",
+          "selectRentalPeriod": "Please select a rental period",
+          "cantRentOwnProduct": "You cannot rent your own product",
+          "addedToCart": "Added to cart successfully"
+        }
+      },
+      "quantity": "Quantity",
+      "additionalServices": "Additional Services",
+      "costCalculation": "Cost Calculation",
+      "insuranceValue": "Insurance Value",
+      "totalCost": "Total Cost",
+      "sendBookingRequest": "Send Booking Request",
+      "clearCartConfirm": "Do you want to remove the products in the cart?",
+      "yes": "Yes",
+      "no": "No",
+      "daysCount": "Booking Days",
+      "hoursCount": "Booking Hours",
+      "discount": "Discount",
+      "quantityDiscount": "Quantity Discount",
+      "bookingDaysCount": "{daysNum} days",
+      "bookingHoursCount": "{hoursNum} hours",
+      "damageWarning": "In case of product damage, an additional amount of\u00a0{amount}\u00a0{currency} will be charged",
+      "pickup": "Pickup",
+      "dropOff": "Drop Off",
+      "nextDiscountInfo": "Book for\u00a0{days} days and get a{discount}% discount",
+      "nextQtyDiscountInfo": "Rent\u00a0{quantity} pieces and get a\u00a0{discount}% discount",
+      "selectDate": "Select Date",
+      "minQuantity": "Min qty {min}",
+      "rentNow": "Rent Now",
+      "deliveryPickup": "Delivery / Pickup",
+      "back": "Back",
+      "next": "Next",
+      "selectPackage": "Select Package",
+      "selectRentalPeriod": "Select rental period",
+      "piece": "Piece",
+      "pieces": "Pieces",
+      "am": "AM",
+      "receive": "Pickup from owner",
+      "pickupFrom": "Pickup from",
+      "delivery": "Delivery",
+      "free": "Free Delivery",
+      "deliveryCompany": "Delivery Company",
+      "deliveryOptions": "Delivery Options",
+      "redirectingTo": "You will be redirected to",
+      "cart": "cart page",
+      "after": "after",
+      "seconds": "seconds",
+      "cancel": "Cancel"
+    },
+    "reviews": {
+      "addReviewBtn": "Add Review",
+      "userName": "Reviewer Name",
+      "userNamePlaceholder": "Enter name (e.g., John Doe)",
+      "userImage": "Reviewer Image",
+      "uploadUserImage": "Upload Image",
+      "title": "Reviews",
+      "addReview": "Add Review",
+      "reviewProduct": "Review Product",
+      "rateExperience": "Rate your experience with the lessor",
+      "quality": "Quality",
+      "price": "Price",
+      "communication": "Communication",
+      "experience": "Experience",
+      "leaveComment": "Leave your comment",
+      "commentPlaceholder": "Describe your experience with the product and lessor...",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "loading": "Loading...",
+      "loadMore": "Load More",
+      "noReviews": "No reviews",
+      "noReviewsDescription": "You don’t have any items in your list yet.\u2028 It’s not too late to add them",
+      "toast": {
+        "success": "Review submitted successfully",
+        "error": "An error occurred",
+        "ratingError": "Please rate all elements"
+      }
+    },
+    "report": {
+      "reportProduct": "Report this product",
+      "reportTitle": "Report Product",
+      "reportReason": "Report Reason",
+      "fakeProduct": "Fake Product",
+      "inappropriateContent": "Inappropriate Content",
+      "scam": "Scam",
+      "otherReason": "Other Reason",
+      "additionalDetails": "Additional Details",
+      "detailsPlaceholder": "Explain the reason for reporting in detail...",
+      "sending": "Sending...",
+      "send": "Send Report",
+      "cancel": "Cancel"
+    },
+    "nearbyProducts": {
+      "title": "Available Products in the Same Area",
+      "description": "List of products available for rent near your area",
+      "noProducts": "No products available in this area",
+      "showMore": "Show More"
+    },
+    "similarProducts": {
+      "title": "Similar Products",
+      "description": "List of products similar to this product",
+      "noProducts": "No similar products available",
+      "showMore": "Show More"
+    },
+    "deliveryInfo": {
+      "title": "Delivery Information",
+      "pickupLocation": "Pickup Location",
+      "freeDeliveryTitle": "Free Delivery",
+      "freeDeliveryDescription": "Enjoy free delivery service within {governorate}",
+      "freeDeliveryBadge": "Free within {governorate}",
+      "deliveryAvailableTitle": "Delivery Available",
+      "perKmDescription": "We deliver to all regions of Saudi Arabia",
+      "perKmNote": "Delivery cost is calculated based on distance",
+      "fixedCityTitle": "Available Delivery Areas",
+      "allGovernoratesAvailable": "Delivery available to all regions",
+      "deliveryCost": "Delivery Cost",
+      "sar": "SAR",
+      "showMore": "Show More",
+      "showLess": "Show Less",
+      "deliveryCompanyTitle": "Shipping Company Delivery",
+      "deliveryCompanyDescription": "Delivery through an authorized shipping company",
+      "allCities": "All Cities",
+      "free": "FREE"
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "subtitle": "Welcome to Estajer.com",
+    "questions": {
+      "title": "Have Questions?",
+      "explore": "Explore",
+      "faq": "Frequently Asked Questions",
+      "contact": "Contact us at",
+      "email": "service@estajer.com"
+    }
+  },
+  "cancellation": {
+    "title": "Cancellation Policy",
+    "subtitle": "This document outlines the cancellation policies governing transactions between lessors and lessees on the Estajer platform, ensuring clarity and fairness for all parties."
+  },
+  "editProductPage": {
+    "title": "Edit Product"
+  },
+  "addProductPage": {
+    "mcpBanner": {
+      "fabText": "List with AI",
+      "choiceTitle": "List Products Faster",
+      "choiceSubtitle": "Choose how you want to add your product:",
+      "aiOption": "Estajer AI",
+      "aiOptionDesc": "Upload images and let our built-in AI fill all the details for you",
+      "mcpOption": "MCP Server (Claude / Any AI)",
+      "mcpOptionDesc": "Connect your own AI assistant via the MCP protocol",
+      "title": "List Products Instantly using AI!",
+      "description": "Don't waste time filling out forms manually. Connect our Model Context Protocol (MCP) server to Claude or any compatible AI client to upload your products in seconds just by chatting.",
+      "howItWorks": "How it works?",
+      "serverUrl": "MCP Server URL",
+      "sseEndpoint": "SSE Endpoint",
+      "step1": "1. Add this MCP server config to your AI assistant (e.g., Claude Desktop settings).",
+      "step2": "2. Start a chat and say: \"I want to list a product on Estajer.\"",
+      "step3": "3. Share your product details or upload images, and the AI will handle the rest!",
+      "configHeading": "Claude Desktop Config Example",
+      "copied": "Copied!",
+      "copyConfig": "Copy Configuration",
+      "backToChoice": "Back"
+    },
+    "aiAssist": {
+      "title": "AI Product Listing",
+      "subtitle": "Upload your product images and let Estajer AI handle the rest.",
+      "uploadLabel": "Upload Product Images",
+      "hintsLabel": "Additional Details (Optional)",
+      "hintsPlaceholder": "e.g. Brand name, location, rental price you want, condition...",
+      "analyzeBtn": "Analyze with AI",
+      "analyzing": "AI is analyzing your images...",
+      "suggestionTitle": "AI Suggestion",
+      "suggestionSubtitle": "Review and edit the AI suggestion, then click \"Apply to Form\".",
+      "confidence": "Confidence",
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "applyBtn": "Apply to Form",
+      "retryBtn": "Retry with New Images",
+      "notes": "AI Notes",
+      "nameAr": "Arabic Name",
+      "nameEn": "English Name",
+      "descAr": "Arabic Description",
+      "descEn": "English Description",
+      "category": "Category",
+      "subCategory": "Subcategory",
+      "rentalValue": "Price / Day (SAR)",
+      "insurance": "Security Deposit (SAR)",
+      "locationText": "Product Location (City & Neighborhood)",
+      "minDays": "Min. Rental Days",
+      "errorNoImages": "Please upload at least one image first.",
+      "errorAnalysis": "AI analysis failed. Please try again.",
+      "applied": "Applied to form! Review and submit.",
+      "backToChoice": "Back",
+      "imageLimitNote": "AI will analyze the first 3 images only to extract details. You can drag images to reorder them.",
+      "initialUserMessage": "Uploaded product images for listing.",
+      "chatTab": "Chat with Assistant",
+      "suggestionTab": "Suggested Data"
+    },
+    "promo": {
+      "title": "List your product instantly with AI!",
+      "new": "NEW",
+      "description": "Save time! Upload product images and let our AI fill in all specifications, descriptions, prices, and discounts in seconds.",
+      "btn": "✦ Start Smart Listing"
+    },
+    "formSteps": {
+      "step1": {
+        "title": "General Information",
+        "description": "Enter the product details"
+      },
+      "generalInformation": {
+        "categoryLabel": "Category",
+        "subCategoryLabel": "Sub Category",
+        "nameArLabel": "Product Name (Arabic)",
+        "nameEnLabel": "Product Name (English)",
+        "descriptionArLabel": "Description (Arabic)",
+        "descriptionEnLabel": "Description (English)",
+        "statusLabel": "Product Status",
+        "namePlaceholder": "Enter product name",
+        "descriptionPlaceholder": "Enter description",
+        "nameArInputPlaceholder": "Add product name (AR)",
+        "nameEnInputPlaceholder": "Add Product Name (EN)",
+        "statusOptionExcellent": "Excellent",
+        "statusOptionVeryGood": "Very Good",
+        "statusOptionGood": "Good",
+        "quantityLabel": "Quantity Available",
+        "quantityPlaceholder": "0",
+        "minQuantityLabel": "Minimum Quantity for Rent",
+        "minQuantityPlaceholder": "1",
+        "noSubCategoriesText": "No subcategories available",
+        "descriptionArInputPlaceholder": "Add product description (AR)",
+        "descriptionEnInputPlaceholder": "Add Product Description (EN)"
+      },
+      "step2": {
+        "title": "Product Images",
+        "description": "Upload clear images of the product from multiple angles"
+      },
+      "step3": {
+        "title": "Address Information",
+        "description": "Enter your address details"
+      },
+      "step4": {
+        "title": "Rental Details",
+        "description": "Enter the price, insurance value, and additional services"
+      },
+      "additionalDetails": {
+        "title": "Additional Details",
+        "optional": "Optional",
+        "description": "Add information that increases your product's appeal to renters — you can skip it.",
+        "skipHint": "You can skip this section entirely — all fields are optional",
+        "useCases": {
+          "title": "Ideal Use Cases",
+          "subtitle": "Add scenarios for using the product",
+          "placeholderAr": "Example: الفعاليات والمعارض الدولية",
+          "placeholderEn": "Example: International events and exhibitions",
+          "addButton": "Add",
+          "hint": "Press Enter or \"Add\" after each point"
+        },
+        "specs": {
+          "title": "Specifications",
+          "subtitle": "Add technical specs (name + value)",
+          "keyPlaceholderAr": "Spec (Arabic)",
+          "keyPlaceholderEn": "Spec (English)",
+          "valuePlaceholderAr": "Value (Arabic)",
+          "valuePlaceholderEn": "Value (English)",
+          "hint": "Example: Size 200*200"
+        },
+        "features": {
+          "title": "Performance Features",
+          "subtitle": "Highlight product features with a title and brief description",
+          "titlePlaceholderAr": "Title (Arabic)",
+          "titlePlaceholderEn": "Title (English)",
+          "descPlaceholderAr": "Description (Arabic)",
+          "descPlaceholderEn": "Description (English)",
+          "hint": "Example: High Quality — Made from sustainable materials"
+        },
+        "seo": {
+          "title": "Search Engine Optimization (SEO)",
+          "subtitle": "Customize how your product appears in Google search results and social media",
+          "titleLabelAr": "Google Title (Arabic)",
+          "descLabelAr": "Google Description (Arabic)",
+          "titleLabelEn": "Google Title (English)",
+          "descLabelEn": "Google Description (English)",
+          "hint": "Leave empty to use the default title and description"
+        }
+      }
+    },
+    "buttons": {
+      "addProduct": "Add Product",
+      "updateProduct": "Update Product"
+    },
+    "toasts": {
+      "locationRequired": "Please specify the location on the map",
+      "imagesRequired": "Please upload at least one image",
+      "productAddedSuccess": "Product added successfully and will be reviewed",
+      "productUpdatedSuccess": "Product updated successfully",
+      "discountDateRequired": "Please specify the discount date",
+      "packagesRequired": "Please add packages",
+      "cityRequired": "Please add cities available for delivery"
+    },
+    "reviewNote": "Note: The product will be reviewed to ensure compliance before being visible to customers.",
+    "imageUploader": {
+      "dragAndDrop": "Click or drag and drop images or paste them here",
+      "dragging": "Drop images here",
+      "maxFiles": "You can only upload a maximum of\u00a0{count} images",
+      "imagesOnly": "Please select image files only (jpg, png, etc)",
+      "maxFileSize": "Maximum file size is 100MB",
+      "processError": "There was an error processing some images. Please try again",
+      "mainImage": "Main",
+      "minWidth": "Minimum width:\u00a0{width}px",
+      "tips": {
+        "mainImageTip": "The first image will be the featured image for this product",
+        "dragTip": "Drag images to reorder them",
+        "maxFilesTip": "You cannot upload more than\u00a0{count} images",
+        "resizeTip": "Images are automatically resized"
+      }
+    },
+    "location": {
+      "addressLabel": "Product Address",
+      "addressPlaceholder": "Search for an address...",
+      "country": "Country",
+      "governorate": "Governorate",
+      "city": "City",
+      "cityPlaceholder": "City name",
+      "neighborhood": "Neighborhood",
+      "neighborhoodPlaceholder": "Neighborhood name",
+      "search": "Search",
+      "searching": "Searching...",
+      "myLocation": "My Location",
+      "loading": "Loading...",
+      "locationError": "Error getting your location. Please try again.",
+      "browserError": "Geolocation is not supported by your browser.",
+      "searchError": "Location not found. Please try a different search.",
+      "coordinates": {
+        "latitude": "Latitude",
+        "longitude": "Longitude"
+      }
+    },
+    "common": {
+      "clearDates": "Clear Selected Date",
+      "errorSomethingWentWrong": "Something went wrong, please try again."
+    },
+    "form": {
+      "supplierModal": {
+        "title": "Confirmation",
+        "message": "You need to register as a supplier first",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "rentDetails": {
+        "discountTiers": {
+          "title": "Duration Discounts",
+          "subtitle": "Set up bulk discounts for longer rental periods",
+          "addButton": "Add Discount Tier",
+          "minDays": "Minimum Days",
+          "minDaysPlaceholder": "e.g., 3",
+          "daysUnit": "days",
+          "discount": "Discount",
+          "discountPlaceholder": "e.g., 15",
+          "discountUnit": "discount",
+          "discountType": "Discount Type",
+          "percentage": "Percentage",
+          "price": "Price",
+          "totalPrice": "Total Price",
+          "totalPricePlaceholder": "Enter total price",
+          "tierPreview": "Rent for\u00a0{days}+ days and get\u00a0{discount}% off",
+          "originalPrice": "Original",
+          "finalPrice": "Final",
+          "savings": "You save",
+          "emptyTitle": "No Discount Tiers Yet",
+          "emptyDescription": "Add discount tiers to encourage longer rentals and increase your bookings",
+          "summary": "Discount Summary",
+          "rentPriceRequired": "Please enter the rental price",
+          "arrow": "→",
+          "from": "From",
+          "availabilityTitle": "Availability",
+          "availabilityDesc": "Limit this discount to specific dates. Leave empty to make it always available.",
+          "alwaysAvailable": "This discount is always available.",
+          "addDateRange": "Add another date range",
+          "selectDateRange": "Select date range",
+          "yearRound": "Year-round"
+        },
+        "quantityDiscountTiers": {
+          "title": "Quantity Discounts",
+          "subtitle": "Offer discounts based on the number of pieces rented",
+          "addButton": "Add Tier",
+          "minQuantity": "Minimum Quantity",
+          "minQuantityError": "Minimum quantity must be less than the available quantity",
+          "minQuantityPlaceholder": "e.g. 3",
+          "piecesUnit": "pcs",
+          "discount": "Discount",
+          "discountPlaceholder": "e.g. 15",
+          "tierPreview": "Rent {qty}+ pieces → {discount}% off",
+          "saving": "saves",
+          "perDay": "per day",
+          "emptyTitle": "No quantity discounts yet",
+          "emptyDescription": "Add discounts for bulk rentals to encourage larger orders",
+          "summary": "Quantity Discount Summary"
+        },
+        "packages": {
+          "title": "Rental Packages",
+          "subtitle": "Set fixed-price packages for specific durations.",
+          "addButton": "Add Package",
+          "durationAndUnit": "Duration / Unit",
+          "durationPlaceholder": "Enter duration (e.g., 3)",
+          "pricePlaceholder": "e.g:450",
+          "duration": "Duration",
+          "unit": "Unit",
+          "hours": "Hours",
+          "days": "Days",
+          "weeks": "Weeks",
+          "months": "Months",
+          "totalPrice": "Total Price",
+          "yourEarnings": "Your Earnings (after\u00a0{commission}% commission)",
+          "empty": {
+            "title": "No packages added yet",
+            "subtitle": "Click \"Add Package\"to create your first rental package"
+          }
+        },
+        "pricingModel": {
+          "label": "Pricing Model",
+          "perDay": "Per Day Pricing",
+          "packages": "Package Pricing",
+          "perDayDescription": "Set daily rental rates with flexible pricing options",
+          "packagesDescription": "Create bundled packages for longer rental periods"
+        },
+        "rentalValue": "Rental Value per Day (excluding tax)",
+        "yourEarnings": "Your Earnings per Day (after\u00a0{commission}% commission)",
+        "insuranceValue": "Insurance Value",
+        "minDays": "Minimum Rental Days",
+        "deliveryOptions": "Delivery Options",
+        "delivery": {
+          "pickup": "Pickup from the owner's location",
+          "delivery": "Delivery to the renter's location with fees",
+          "shippingCompany": "Shipping company",
+          "free": "Free delivery"
+        },
+        "freeDeliveryNote": {
+          "title": "Free Delivery Note",
+          "description": "The free delivery service will appear to renters as a special feature within {governorate} only.",
+          "fallbackGovernorate": "your governorate",
+          "tip": "To offer free delivery to other cities, choose \"Delivery\" and add areas with (Free Delivery)."
+        },
+        "deliveryPricingModel": {
+          "label": "Delivery Pricing Model",
+          "perKm": "Per Kilometer Pricing",
+          "fixedCity": "Fixed City Pricing",
+          "perKmDescription": "Charge based on distance from your location",
+          "fixedCityDescription": "Set fixed prices for specific cities"
+        },
+        "cityPricing": {
+          "deliveryPricingModel": "Delivery Pricing Model",
+          "deliveryCost": "Delivery Cost",
+          "fixedCityPricing": "Fixed City Pricing",
+          "setDeliveryPrices": "Set delivery prices for specific cities",
+          "cityOrGovernorate": "City or Governorate",
+          "searchCityOrGovernorate": "Search for a city or governorate...",
+          "title": "Fixed City Pricing",
+          "subtitle": "Set delivery prices for specific cities or governorate",
+          "addCity": "Add City/Governorate",
+          "noCitiesAdded": "No city or governorate added yet",
+          "addFirstCity": "Click \"Add City/Governorate\"to add your first location",
+          "loading": "Loading suggestions..."
+        },
+        "deliveryCost": "Delivery Cost For Every 1km",
+        "fixedCityPricing": "Fixed City Pricing",
+        "perKmPricing": "Per Kilometer Pricing",
+        "deliveryCostPerKm": "Delivery Cost Per Kilometer",
+        "deliveryCostExample": "Show Example For Delivery Cost",
+        "sar": "SAR",
+        "weeklyDiscount": "Activate Weekly Discount (7 days or more)",
+        "weeklyDiscountPlaceholder": "Enter discount % (e.g., 10 for 10%)",
+        "monthlyDiscount": "Activate Monthly Discount (30 days or more)",
+        "monthlyDiscountPlaceholder": "Enter discount % (e.g., 20 for 20%)",
+        "percentageSign": "%",
+        "additionalServices": {
+          "title": "Additional Services",
+          "subtitle": "Add extra services to enhance your rental",
+          "addButton": "Add Service",
+          "emptyTitle": "No additional services yet",
+          "emptyDescription": "Add services to increase your rental value",
+          "summary": "Services Summary",
+          "totalServices": "Total Services",
+          "totalValue": "Total Value",
+          "totalItems": "Total Items"
+        },
+        "counter": {
+          "increment": "Increment",
+          "decrement": "Decrement"
+        },
+        "serviceItem": {
+          "priceLabel": "Renting Price:",
+          "currency": "SAR",
+          "quantityLabel": "Available Quantity:"
+        },
+        "validation": {
+          "enterValidName": "Please enter a valid value",
+          "requiredField": "This field is required"
+        },
+        "placeholder": {
+          "zero": "0",
+          "one": "1"
+        },
+        "noLocation": "Please specify the location on the map first"
+      }
+    },
+    "addService": {
+      "title": "Add Services/Accessories",
+      "editTitle": "Edit Service",
+      "nameAr": "Arabic Name",
+      "nameArPlaceholder": "Enter service name in Arabic",
+      "nameEn": "English Name",
+      "nameEnPlaceholder": "Enter service name in English",
+      "quantity": "Available Quantity",
+      "pricingType": "Pricing Type",
+      "perDay": "Per Day",
+      "fixed": "Fixed",
+      "perDayHint": "This service price will be multiplied by the number of rental days",
+      "fixedHint": "Fixed price for the service regardless of the rental duration",
+      "price": "Price",
+      "currency": "SAR",
+      "addButton": "Add Service",
+      "editButton": "Save Changes",
+      "cancelButton": "Cancel"
+    }
+  },
+  "adminProductsPage": {
+    "loading": "Loading...",
+    "title": "Pending Products",
+    "approveAllButton": "Approve All Products",
+    "approveButton": "Approve",
+    "rejectButton": "Reject",
+    "detailsButton": "Details",
+    "productApprovedSuccess": "Product approved successfully",
+    "productRejectedSuccess": "Product rejected successfully",
+    "allProductsApprovedSuccess": "All products approved successfully",
+    "errorGeneral": "Something went wrong",
+    "rejectModal": {
+      "title": "Reject Product",
+      "reasonLabel": "Rejection Reason",
+      "reasonPlaceholder": "Enter reason for rejecting the product...",
+      "cancelButton": "Cancel",
+      "confirmRejectButton": "Confirm Rejection"
+    },
+    "noProducts": "No pending products."
+  },
+  "productDocumentation": {
+    "loginButton": "Login",
+    "loginTitle": "Login Required",
+    "loginDescription": "You need to login to access this page",
+    "maxFilesExceeded": "You cannot take more than\u00a0{count} photos",
+    "cameraNotReady": "Camera is not ready or not set up to take a photo",
+    "imageProcessError": "An error occurred while processing the captured image. Please try again",
+    "error": {
+      "mustAgreeToReceipt": "You must agree to the receipt acknowledgement",
+      "mustEnterCode": "Please enter the 4-digit delivery code",
+      "invalidCode": "Invalid delivery code. Please check with the renter and try again."
+    },
+    "toast": {
+      "productReceivedSuccess": "Product received successfully",
+      "ownerVerifiedSuccess": "Handover verified successfully! Order marked as received."
+    },
+    "checkboxLabelPart1": "I acknowledge receipt of the product and agree to the terms in the",
+    "rentalContractLink": "Rental Agreement",
+    "imageDocumentationNote": "The product must be documented with photos upon receipt to protect your rights, or it will be received at your own personal responsibility",
+    "submitButtonText": "Submit Documentation of Received Product",
+    "ownerSubmitButtonText": "Verify Handover & Confirm Receipt",
+    "deliveryCodeTitle": "Your Delivery Code",
+    "deliveryCodeDescription": "Share this code with the product owner to complete the handover verification. Do not share it until you have received the product.",
+    "ownerVerificationTitle": "Enter Delivery Code",
+    "ownerVerificationDescription": "Ask the renter for their 4-digit delivery code to verify the handover.",
+    "startTitle": "Start Documenting the Product Before Delivery",
+    "successMessage": "Your order has been added successfully. To protect your product and ensure your rights, please document the product's condition within 24 hours before delivery",
+    "startNowButton": "Start Documentation Now",
+    "documentTitle": "Take photos of the products after receiving them",
+    "documentDescription": "Take clear photos of the received product from multiple angles using the camera.",
+    "openCameraButton": "Click here to open camera and take a photo",
+    "imagesAdded": "images added",
+    "captureButton": "Take Photo",
+    "closeCamera": "Close Camera",
+    "capturedImages": "Captured Images",
+    "dragToReorder": "Drag images to reorder them.",
+    "maxImagesAllowed": "You can capture up to\u00a0{count} images.",
+    "timestampAddedToImages": "Date and time are added to the image.",
+    "onlyCameraAllowed": "You can only capture images using the built-in camera.",
+    "pageTitle": "Product Documentation",
+    "pageDescription": "Receive the product",
+    "copiedToClipboard": "Copied to clipboard",
+    "supportText": "If you have not received the product yet or encountered any issue with the receipt, please contact us via the contact form with the details, and we will assist you.",
+    "supportOrderId": "Order ID",
+    "copyOrderId": "Copy",
+    "errors": {
+      "cameraNotFound": "No camera found. Please connect a camera or open the page from a mobile device",
+      "cameraPermissionDenied": "Permission denied. Please allow camera access in your browser settings.",
+      "cameraConstraints": "The camera cannot meet the specified requirements (like resolution).",
+      "cameraInUse": "Cannot access camera. It may be in use by another application.",
+      "technicalError": "A technical error occurred while trying to capture the image."
+    }
+  },
+  "confirmAccountPage": {
+    "title": "Confirm Account",
+    "instructions": "We have sent a verification code to your WhatsApp. Please enter the code to confirm your account.",
+    "codeInputLabel": "Verification Code",
+    "codeInputPlaceholder": "Enter verification code",
+    "submitButton": "Confirm",
+    "didNotReceiveCode": "Didn't receive the code?",
+    "resendButton": "Resend Code",
+    "resendButtonCountdown": "Resend ({countdown})",
+    "resendSuccessMessage": "New code sent successfully!",
+    "errorInvalidCode": "Invalid verification code.",
+    "errorGeneral": "Something went wrong.",
+    "logout": "Logout",
+    "logoutSuccess": "Logout successful"
+  },
+  "myProducts": {
+    "title": "My Products",
+    "deleteConfirm": "Are you sure you want to delete this product?",
+    "deleteFailed": "Failed to delete product:",
+    "noProducts": "You haven't added any products yet",
+    "addFirst": "Add Your First Product",
+    "perDay": "SAR"
+  },
+  "proposal": {
+    "title": "Add Your Request",
+    "formTitle": "Request Details",
+    "description": "Add your request! Fill out the form below and we will get back to you as soon as possible.",
+    "contactInfo": "Proposal Information",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "titleInput": "Project Title",
+    "titlePlaceholder": "Project or Request Title",
+    "budget": "Estimated Budget",
+    "budgetPlaceholder": "Example:(52 SAR)",
+    "pdfLink": "Reference File Link",
+    "pdfPlaceholder": "Reference File Link (PDF/Word)",
+    "email": "Email Address",
+    "imgLabel": "Project Reference Images",
+    "descriptionOfProposal": "Proposal Description",
+    "submit": "Submit Proposal",
+    "namePlaceholder": "Enter your full name",
+    "phonePlaceholder": "Enter your phone number",
+    "emailPlaceholder": "Enter your email address",
+    "descriptionOfProposalPlaceholder": "More details, e.g.:(I need several rental items for 10 days for an event in Riyadh)",
+    "success": "Your request has been submitted successfully. We will get back to you during working hours!",
+    "error": "An error occurred while submitting your request. Please try again."
+  },
+  "admin": {
+    "visits": {
+      "title": "Visits and Audience Analysis",
+      "subtitle": "Comprehensive statistics for visitors and their interaction with pages and products",
+      "totalVisitors": "Total Number of Visitors",
+      "inPeriod": "In the specified period",
+      "todayVisits": "Today's Visitors",
+      "todayActivity": "Today's Activity",
+      "averageVisitors": "Avg. Visitors",
+      "peakDaily": "Peak Daily Visits",
+      "peakMax": "Maximum count",
+      "detailsTitle": "Visits Detail",
+      "tabs": {
+        "pages": "Most Visited Pages",
+        "products": "Most Visited Products",
+        "owners": "Top Owners"
+      },
+      "filters": {
+        "pageSearch": "Search by page path",
+        "productSearch": "Search by product path",
+        "ownerSearch": "Filter by user/owner",
+        "userPlaceholder": "Username, email, phone",
+        "pagePlaceholder": "e.g., /product/",
+        "productPlaceholder": "Search by name in path..."
+      },
+      "table": {
+        "rank": "Rank",
+        "pageAndPath": "Page and Path",
+        "productAndOwner": "Product and Owner",
+        "ownerInfo": "Owner Information",
+        "searchDensity": "Search Density",
+        "visitsCount": "Visits Count",
+        "generalPage": "General Page",
+        "unknownProduct": "Unknown Product",
+        "unknownUser": "Unknown User",
+        "ownsProducts": "Owns {count} products",
+        "noData": "No data to display in this period or matching your search."
+      },
+      "chartSummary": "Visits Summary",
+      "highestCount": "Highest number of visitors",
+      "lowestCount": "Lowest number of visitors",
+      "visitorUnit": "visitor",
+      "noData": "No data to display"
+    },
+    "searchAnalytics": {
+      "title": "Search Analytics",
+      "subtitle": "Smart tracking of what users search for",
+      "totalSearches": "Total Searches",
+      "uniqueTerms": "Unique Terms",
+      "noResults": "Searches w/ No Results",
+      "trendChart": "Search Activity (30 Days)",
+      "topSearches": "Top Searches",
+      "topSearch": "Top Search",
+      "allSearches": "All Search Terms",
+      "searchPlaceholder": "Filter terms...",
+      "searchesWithThisSpelling": "searches with this spelling",
+      "period": {
+        "all": "All Time",
+        "today": "Today",
+        "week": "Last 7 Days",
+        "month": "Last 30 Days"
+      },
+      "sort": {
+        "count": "Most Searched",
+        "recent": "Most Recent",
+        "term": "Search Term"
+      },
+      "filter": {
+        "source": "Source",
+        "language": "Language",
+        "results": "Results",
+        "all": "All",
+        "withResults": "Has Results",
+        "noResults": "No Results"
+      },
+      "languages": {
+        "ar": "Arabic",
+        "en": "English"
+      },
+      "sources": {
+        "header": "Header",
+        "hero": "Hero",
+        "filters": "Filters",
+        "unknown": "Unknown",
+        "label": "Sources"
+      },
+      "table": {
+        "term": "Search Term",
+        "count": "Search Count",
+        "lastSearched": "Last Searched",
+        "actions": "Actions",
+        "total": "total"
+      },
+      "actions": {
+        "delete": "Delete",
+        "confirmDelete": "Confirm delete?",
+        "cancel": "Cancel",
+        "yes": "Yes, delete",
+        "searchButton": "Filter"
+      },
+      "noData": {
+        "title": "No search data yet",
+        "subtitle": "Data will appear once users start searching"
+      },
+      "breakdown": {
+        "source": "Search Sources",
+        "language": "Languages"
+      },
+      "pagination": {
+        "page": "Page {page} of {pages}",
+        "prev": "Prev",
+        "next": "Next"
+      },
+      "units": {
+        "searches": "searches",
+        "terms": "terms",
+        "ofTerms": "of terms"
+      },
+      "status": {
+        "noResults": "No results",
+        "noResultsDetail": "This term had no results"
+      },
+      "notEnoughData": "Not enough data yet",
+      "noBreakdown": "None yet"
+    },
+    "partners": {
+      "title": "Partner Management",
+      "partnerConfiguration": "Partner Configuration",
+      "description": "Manage landing pages and custom content for partners",
+      "addPartner": "Add New Partner",
+      "editPartner": "Edit Partner Details",
+      "deletePartner": "Delete Partner",
+      "basicInfo": "Basic Information",
+      "basicInfoDesc": "Basic information and contact details for the partner",
+      "seoData": "SEO Data",
+      "seoDataDesc": "Search engine optimization settings for the partner page",
+      "heroBanners": "Hero Banners",
+      "heroBannersDesc": "Main banners that appear at the top of the page",
+      "productSliders": "Product Sliders",
+      "productSlidersDesc": "Product collections displayed on the partner page",
+      "offerBanners": "Offer Banners",
+      "offerBannersDesc": "Promotional and discount banners",
+      "nameAr": "Name (Arabic)",
+      "nameEn": "Name (English)",
+      "name": "Name",
+      "slug": "Link (Slug)",
+      "logo": "Logo",
+      "logoDesc": "Upload Logo",
+      "logoHint": "Recommended size: 400x400px. PNG or SVG.",
+      "descriptionAr": "Description (Arabic)",
+      "descriptionEn": "Description (English)",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete",
+      "noPartners": "No partners added yet",
+      "confirmDelete": "Are you sure you want to delete this partner?",
+      "createSuccess": "Partner added successfully",
+      "updateSuccess": "Partner updated successfully",
+      "deleteSuccess": "Partner deleted successfully",
+      "slugHint": "Used in the link: estajer.com/partners/slug",
+      "seoTitleAr": "SEO Title (Arabic)",
+      "seoTitleEn": "SEO Title (English)",
+      "seoDescriptionAr": "SEO Description (Arabic)",
+      "seoDescriptionEn": "SEO Description (English)",
+      "seoKeywordsAr": "SEO Keywords (Arabic)",
+      "seoKeywordsEn": "SEO Keywords (English)",
+      "addHeroBanner": "Add Hero Banner",
+      "addOfferBanner": "Add Offer Banner",
+      "addSlider": "Add Product Slider",
+      "sliderTitleAr": "Slider Title (Arabic)",
+      "sliderTitleEn": "Slider Title (English)",
+      "sectionTitleArPlaceholder": "Enter section title in Arabic",
+      "sectionTitleEnPlaceholder": "Enter section title in English",
+      "selectProducts": "Select Products",
+      "searchProducts": "Search products to add...",
+      "noProductsSelected": "No products selected yet",
+      "imageAr": "Image (Arabic)",
+      "imageEn": "Image (English)",
+      "link": "Link",
+      "altAr": "Alt Text (Arabic)",
+      "altEn": "Alt Text (English)",
+      "ctaTextAr": "CTA Text (Arabic)",
+      "ctaTextEn": "CTA Text (English)",
+      "banners": "Banners",
+      "addOfferBannerSection": "Add Banner Section",
+      "noOfferBanners": "No Offer Banners",
+      "noSliders": "No sliders found",
+      "noBanners": "No banners found",
+      "removeSlider": "Remove Slider",
+      "removeSection": "Remove Section",
+      "products": "Products",
+      "displayMode": "Display Mode",
+      "slider": "Slider",
+      "grid": "Grid",
+      "maxProductsReached": "Maximum 20 products allowed",
+      "order": "Order",
+      "productSelection": "Product Selection",
+      "showFilters": "Show Filters",
+      "hideFilters": "Hide Filters",
+      "loadMore": "Load More",
+      "selectedInSlider": "Selected Products in Slider",
+      "selectAll": "Select All",
+      "save": "Save",
+      "cancel": "Cancel",
+      "actions": "Actions",
+      "heroTextCustomization": "Hero Text Customization",
+      "reorder": "Reorder Sections",
+      "sectionOrder": "Section Order",
+      "shopSettings": "Shop Settings",
+      "sectionOrderDesc": "Reorder the landing page sections to control their layout",
+      "saveOrder": "Save Order",
+      "sectionLabel": "Section",
+      "moveUp": "Move Up",
+      "moveDown": "Move Down",
+      "aboutUs": "About Us",
+      "heroTitleAr": "Hero Title (Arabic)",
+      "heroDescriptionAr": "Hero Description (Arabic)",
+      "heroTitleEn": "Hero Title (English)",
+      "heroDescriptionEn": "Hero Description (English)",
+      "heroTitleArPlaceholder": "Enter Arabic title",
+      "heroDescriptionArPlaceholder": "Enter Arabic description",
+      "heroTitleEnPlaceholder": "Enter English title",
+      "heroDescriptionEnPlaceholder": "Enter English description",
+      "altArPlaceholder": "أدخل النص البديل بالعربية هنا...",
+      "altEnPlaceholder": "Enter English alt text here...",
+      "aboutUsActionBtn": "About Us Action Button",
+      "aboutUsLink": "Button Link (e.g., #products or /url)",
+      "aboutUsButtonTextAr": "Button Text (AR)",
+      "aboutUsButtonTextEn": "Button Text (EN)",
+      "assignedSearchProducts": "Search Products",
+      "assignedSearchProductsDesc": "Select products that will be included in the results when searching with this partner as a provider",
+      "searchProductsTab": "Global Search Products",
+      "searchProductsTabDesc": "Choose which products should appear in global search results when filtering by this partner",
+      "searchAppearance": "Search Appearance",
+      "howItWorks": {
+        "title": "How It Works",
+        "description": "Section explaining how Estajer works with the partner and mutual benefits",
+        "sectionTitleAr": "Section Title (Arabic)",
+        "sectionTitleEn": "Section Title (English)",
+        "sectionTitlePlaceholder": "e.g: How does Estajer work with Nuzul?",
+        "sectionTitlePlaceholderEn": "e.g: How does Estajer work with Nuzul?",
+        "estajerSide": "From Estajer's Side",
+        "partnerSide": "From Partner's Side",
+        "sharedBenefits": "Shared Benefits",
+        "stepTitleAr": "Title (Arabic)",
+        "stepTitleEn": "Title (English)",
+        "stepTitlePlaceholder": "e.g: From Estajer's side",
+        "stepTitlePlaceholderEn": "e.g: From Estajer's side",
+        "itemsAr": "Points (Arabic)",
+        "itemsEn": "Points (English)",
+        "addItem": "Add Point",
+        "itemPlaceholder": "Write the point in Arabic...",
+        "itemPlaceholderEn": "Write the point in English..."
+      }
+    },
+    "shops": {
+      "name": "Shop Name",
+      "title": "Shop Management",
+      "description": "Manage shop content and associated products",
+      "addShop": "Add New Shop",
+      "editShop": "Edit Shop Details",
+      "deleteShop": "Delete Shop",
+      "basicInfo": "Basic Information",
+      "basicInfoDesc": "Basic information and contact details for the shop",
+      "owner": "Shop Owner",
+      "selectOwner": "Select Shop Owner",
+      "searchOwner": "Search by name, email or phone...",
+      "ownerDesc": "Select the user who owns this shop",
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete",
+      "noShops": "No shops added yet",
+      "confirmDelete": "Are you sure you want to delete this shop?",
+      "createSuccess": "Shop added successfully",
+      "updateSuccess": "Shop updated successfully",
+      "deleteSuccess": "Shop deleted successfully",
+      "assignedSearchProducts": "Shop Products",
+      "assignedSearchProductsDesc": "Products that will appear in this shop",
+      "heroBanners": "Hero Banners",
+      "heroBannersDesc": "Main banners that appear at the top of the page",
+      "productSliders": "Product Sliders",
+      "productSlidersDesc": "Product collections displayed on the shop page",
+      "offerBanners": "Offer Banners",
+      "offerBannersDesc": "Promotional and discount banners",
+      "shopCategories": "Shop Categories",
+      "shopCategoriesDesc": "Create custom categories for your shop and assign products to them",
+      "showReviews": "Show Reviews",
+      "reviews": "Reviews",
+      "showReviewsDesc": "Show customer reviews on the shop page",
+      "addCategory": "Add Category",
+      "categoryProducts": "Select Products for this Category",
+      "image": "Category Image",
+      "nameAr": "Name (Arabic)",
+      "nameEn": "Name (English)",
+      "slug": "Link (Slug)",
+      "logo": "Logo",
+      "logoDesc": "Upload Logo",
+      "logoHint": "Recommended size: 400x400px. PNG or SVG.",
+      "descriptionAr": "Description (Arabic)",
+      "descriptionEn": "Description (English)",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "seoData": "SEO Data",
+      "seoDataDesc": "Search engine optimization settings for the shop page",
+      "addHeroBanner": "Add Hero Banner",
+      "addOfferBanner": "Add Offer Banner",
+      "addSlider": "Add Product Slider",
+      "sliderTitleAr": "Slider Title (Arabic)",
+      "sliderTitleEn": "Slider Title (English)",
+      "sectionTitleArPlaceholder": "Enter section title in Arabic",
+      "sectionTitleEnPlaceholder": "Enter section title in English",
+      "selectProducts": "Select Products",
+      "searchProducts": "Search for products...",
+      "noProductsSelected": "No products selected yet",
+      "imageAr": "Image (Arabic)",
+      "imageEn": "Image (English)",
+      "link": "Link",
+      "altAr": "Alt Text (Arabic)",
+      "altEn": "Alt Text (English)",
+      "ctaTextAr": "CTA Text (Arabic)",
+      "ctaTextEn": "CTA Text (English)",
+      "banners": "Banners",
+      "addOfferBannerSection": "Add Banner Section",
+      "noOfferBanners": "No banners found",
+      "noSliders": "No sliders found",
+      "noBanners": "No banners found",
+      "removeSlider": "Remove Slider",
+      "removeSection": "Remove Section",
+      "products": "Products",
+      "displayMode": "Display Mode",
+      "sectionSource": "Product Source",
+      "manual": "Manual Selection",
+      "newest": "Newest Products",
+      "random": "Random Products",
+      "slider": "Slider",
+      "grid": "Grid",
+      "maxProductsReached": "Maximum 20 products allowed",
+      "order": "Order",
+      "productSelection": "Product Selection",
+      "showFilters": "Show Filters",
+      "hideFilters": "Hide Filters",
+      "loadMore": "Load More",
+      "selectedInSlider": "Selected Products",
+      "selectAll": "Select All",
+      "save": "Save",
+      "cancel": "Cancel",
+      "actions": "Actions",
+      "heroTextCustomization": "Hero Text Customization",
+      "reorder": "Reorder Sections",
+      "sectionOrder": "Section Order",
+      "shopSettings": "Shop Settings",
+      "saveOrder": "Save Order",
+      "aboutUs": "About Us",
+      "heroTitleAr": "Hero Title (Arabic)",
+      "heroDescriptionAr": "Hero Description (Arabic)",
+      "heroTitleEn": "Hero Title (English)",
+      "heroDescriptionEn": "Hero Description (English)",
+      "aboutUsActionBtn": "About Us Action Button",
+      "aboutUsLink": "Button Link",
+      "aboutUsButtonTextAr": "Button Text (Arabic)",
+      "aboutUsButtonTextEn": "Button Text (English)",
+      "sectionOrderDesc": "Reorder sections appearance on the shop page",
+      "heroTitleArPlaceholder": "Enter Arabic hero title",
+      "heroTitleEnPlaceholder": "Enter English hero title",
+      "heroDescriptionArPlaceholder": "Enter Arabic hero description",
+      "heroDescriptionEnPlaceholder": "Enter English hero description",
+      "altArPlaceholder": "Arabic Alt Text",
+      "altEnPlaceholder": "English Alt Text",
+      "howItWorks": {
+        "title": "How it Works",
+        "description": "Section explaining how Estajer works with the shop and mutual benefits",
+        "sectionTitleAr": "Section Title (Arabic)",
+        "sectionTitleEn": "Section Title (English)",
+        "sectionTitlePlaceholder": "e.g: How does Estajer work with the Shop?",
+        "sectionTitlePlaceholderEn": "e.g: How does Estajer work with the Shop?",
+        "estajerSide": "From Estajer's Side",
+        "partnerSide": "From Shop's Side",
+        "sharedBenefits": "Shared Benefits",
+        "stepTitleAr": "Title (Arabic)",
+        "stepTitleEn": "Title (English)",
+        "stepTitlePlaceholder": "e.g: From Estajer's side",
+        "stepTitlePlaceholderEn": "e.g: From Estajer's side",
+        "itemsAr": "Points (Arabic)",
+        "itemsEn": "Points (English)",
+        "addItem": "Add Point",
+        "itemPlaceholder": "Write the point in Arabic...",
+        "itemPlaceholderEn": "Write the point in English..."
+      }
+    },
+    "users": {
+      "title": "User Management",
+      "description": "Manage and monitor all users in the system",
+      "searchPlaceholder": "Search for users...",
+      "allAccountTypes": "All account types",
+      "allStatuses": "All statuses",
+      "personal": "Personal",
+      "freelance": "Freelance",
+      "company": "Company",
+      "admin": "Admin",
+      "verified": "Verified",
+      "pending": "Pending",
+      "banned": "Banned",
+      "search": "Search",
+      "clearFilters": "Clear filters",
+      "filterUsers": "Filter users",
+      "searchAndFilterDescription": "Search and filter users by various criteria",
+      "searchUsersLabel": "Search users",
+      "accountTypeLabel": "Account type",
+      "renterTypeLabel": "Role",
+      "approvedProductsLabel": "Products",
+      "statusLabel": "Status",
+      "allRenterTypes": "All Roles",
+      "withApprovedProducts": "Has Approved Products",
+      "allProductsStatus": "All",
+      "renter": "Renter",
+      "lessor": "Lessor",
+      "activeFiltersApplied": "Active filters applied",
+      "tryAdjustingCriteria": "Try adjusting search criteria",
+      "noUsersFound": "No users found",
+      "totalUsers": "Users",
+      "name": "Name",
+      "email": "Email",
+      "accountType": "Account type",
+      "status": "Status",
+      "isRenter": "User Role",
+      "productsCount": "Products",
+      "joined": "Joined date",
+      "actions": "Actions",
+      "noName": "No name",
+      "noPhone": "No phone",
+      "unknown": "Unknown",
+      "viewProfile": "View profile",
+      "editUser": "Edit user",
+      "banUser": "Ban user",
+      "unbanUser": "Unban user",
+      "deleteUser": "Delete user",
+      "previous": "Previous",
+      "next": "Next",
+      "showing": "Showing",
+      "to": "to",
+      "of": "of",
+      "results": "results",
+      "editModal": {
+        "title": "Edit user",
+        "basicInfo": "Basic information",
+        "fullName": "Full name",
+        "email": "Email",
+        "phone": "Phone",
+        "username": "Username",
+        "address": "Address",
+        "bio": "Bio",
+        "bioAr": "Bio (Arabic)",
+        "bioEn": "Bio (English)",
+        "personalInformation": "Personal information",
+        "personalInfoDescription": "User’s basic info and contact details",
+        "accountSettings": "Account settings",
+        "accountSettingsDescription": "Account type and financial info",
+        "statusSettings": "Status settings",
+        "statusSettingsDescription": "Account status and permissions",
+        "accountType": "Account type",
+        "iban": "IBAN",
+        "nationalId": "National ID",
+        "documentCode": "Authorized document code",
+        "enterFullName": "Enter full name",
+        "enterEmail": "Enter email address",
+        "enterPhone": "Enter phone number",
+        "enterUsername": "Enter username",
+        "enterAddress": "Enter address",
+        "enterBio": "Enter bio",
+        "enterBioAr": "Enter Arabic bio",
+        "enterBioEn": "Enter English bio",
+        "enterIban": "Enter IBAN",
+        "enterNationalId": "Enter national ID",
+        "enterDocumentCode": "Enter authorized document code",
+        "status": "Status",
+        "verifiedAccount": "Verified account",
+        "verifiedAccountDescription": "User has completed identity verification",
+        "renterStatus": "Renter status",
+        "renterStatusDescription": "User can rent products from others",
+        "bannedAccount": "Banned account",
+        "bannedAccountDescription": "User is restricted from platform activities",
+        "companyDetails": "Company details",
+        "companyName": "Company name",
+        "registerNumber": "Commercial registration number",
+        "taxCode": "Tax number",
+        "cancel": "Cancel",
+        "updating": "Updating...",
+        "updateUser": "Update user",
+        "updateSuccess": "User updated successfully",
+        "updateFailed": "Failed to update user",
+        "bannedDescription": "User is restricted from platform activities",
+        "verifiedDescription": "User has completed identity verification",
+        "premiumAccount": "Premium account",
+        "premiumDescription": "User with premium features",
+        "premium": "Premium",
+        "hasBranches": "Enable Branches",
+        "hasBranchesDescription": "Allow user to manage branches",
+        "skipIbanVerification": "Skip IBAN Verification",
+        "skipIbanVerificationDescription": "Allow user to add products without IBAN",
+        "invalidPhoneError": "Invalid phone number"
+      },
+      "confirmModal": {
+        "banTitle": "Confirm user ban",
+        "unbanTitle": "Confirm unban user",
+        "deleteTitle": "Confirm delete user",
+        "banMessage": "Are you sure you want to ban this user?",
+        "unbanMessage": "Are you sure you want to unban this user?",
+        "deleteMessage": "Are you sure you want to delete this user? This action cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "banSuccess": "User banned successfully",
+        "unbanSuccess": "User unbanned successfully",
+        "deleteSuccess": "User deleted successfully",
+        "banFailed": "Failed to ban user",
+        "unbanFailed": "Failed to unban user",
+        "deleteFailed": "Failed to delete user",
+        "fetchFailed": "Failed to fetch users"
+      }
+    },
+    "header": {
+      "notifications": "Notifications",
+      "messages": "Messages",
+      "users": "Users",
+      "newProduct": "New product",
+      "newUser": "New user",
+      "refresh": "Refresh dashboard",
+      "refreshProducts": "Refresh products"
+    },
+    "home": {
+      "title": "Dashboard",
+      "welcome": {
+        "greeting": "Welcome {name} to the site management panel",
+        "desc": "Today we have {productsCount} new rental requests, {chatsCount} new messages, and {viewsCount} views",
+        "print": "Print",
+        "filter": "Filter",
+        "day": "Today",
+        "week": "This week",
+        "month": "This month"
+      },
+      "cards": {
+        "newPendingProducts": "New products pending approval",
+        "newPendingRequests": "New requests pending approval",
+        "acceptedRequests": "Accepted requests",
+        "allRequests": "All requests",
+        "activeProducts": "Active products",
+        "outcome": "Income",
+        "websiteViews": "Website views",
+        "websiteMessages": "Website messages",
+        "AllUsers": "All users",
+        "pendingPaidRequests": "Paid requests pending approval",
+        "completedRequests": "Completed requests",
+        "confirmedRequests": "Confirmed requests",
+        "cancelledRequests": "Cancelled requests",
+        "averageRental": "Average rental value"
+      },
+      "orders": {
+        "title": "Latest Site Orders",
+        "showAll": "Show all",
+        "product": "Product",
+        "landlord": "Product Owner",
+        "renter": "Renter",
+        "renterPeriod": "Rental period",
+        "renterCost": "Rental value",
+        "date": "Date",
+        "status": "Status",
+        "actions": "Actions",
+        "allOrders": "All orders",
+        "declineOrder": "Decline order",
+        "acceptOrder": "Accept order",
+        "days": "Days"
+      },
+      "latestActivities": {
+        "title": "Latest site activities",
+        "dashboardTitle": "Latest dashboard activities",
+        "markAll": "Mark all as read",
+        "viewAll": "View all",
+        "noActivities": "No Activites Available"
+      },
+      "latestMessages": {
+        "title": "Latest messages",
+        "viewAll": "View all",
+        "noMessages": "No messages yet",
+        "noMessagesDescription": "Start adding people and enjoy chatting!"
+      },
+      "latestSupportTickets": {
+        "title": "Latest support tickets",
+        "viewAll": "View all",
+        "solved": "Resolved",
+        "inprogress": "Pending",
+        "cancelled": "Rejected",
+        "new": "New"
+      }
+    },
+    "sidebar": {
+      "myAccount": "My account",
+      "home": "Rent",
+      "dashboard": "Dashboard",
+      "rentalRequests": "Rental requests",
+      "overview": "Overview",
+      "rentalRequestsOrders": "All orders",
+      "aiChat": "AI Chat",
+      "allProducts": "All Products",
+      "allMessages": "User messages",
+      "tickets": "Support tickets",
+      "allTickets": "All tickets",
+      "support": "Support Center",
+      "allProductsList": "All Products (table)",
+      "productRequests": "Product requests",
+      "products": "Products",
+      "earnings": "Earnings",
+      "visits": "Visits",
+      "damageReports": "Damage reports",
+      "messages": "Messages",
+      "users": "Users",
+      "proposals": "Proposals",
+      "sponsors": "Sponsors",
+      "blogs": "Blog",
+      "contacts": "Contact messages",
+      "myOrders": "My orders",
+      "notifications": "Notifications",
+      "addresses": "Addresses",
+      "advertisement": "Advertisements",
+      "staticPages": "Static pages",
+      "reports": "Reports",
+      "partners": "Partners",
+      "shops": "Shops",
+      "settings": "Settings",
+      "logout": "Logout",
+      "login": "Login",
+      "register": "Register",
+      "error": "Something went wrong",
+      "logoutConfirm": "Logged out successfully",
+      "categories": "Categories",
+      "tasks": "Tasks"
+    },
+    "requests": {
+      "title": "Rental requests"
+    },
+    "filterOptions": {
+      "ranking": "Ranking",
+      "all": "All",
+      "new": "New",
+      "inprogress": "In Progress",
+      "solved": "Solved",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "nana": "Nana",
+      "estajer": "Estajer",
+      "provider": "Provider",
+      "not-paid": "Not Paid",
+      "confirmed": "Confirmed",
+      "received": "Received",
+      "completed": "Completed",
+      "not-returned": "Not Returned",
+      "rejecting": "Rejecting",
+      "rejectionConfirmed": "Rejection Confirmed",
+      "cancelled": "Cancelled",
+      "status": "Status",
+      "today": "Today",
+      "week": "Week",
+      "month": "Month",
+      "date": "Date",
+      "searchPlaceholder": "Search for",
+      "print": "Export Excel",
+      "addNewProduct": "New product",
+      "addNewNotification": "Add new notification",
+      "dateAdded": "Date added",
+      "ownerSearch": "Owner search",
+      "customerSearch": "Customer search",
+      "exporting": "Exporting..."
+    },
+    "products": {
+      "title": "Products",
+      "tableProducts": {
+        "title": "All orders",
+        "declineProduct": "Delete products",
+        "acceptProduct": "Accept products",
+        "minDays": "Minimum rental period",
+        "renterPricePerDay": "Rental price per day",
+        "dateAdded": "Date added",
+        "dateEdited": "Date edited",
+        "numOfRentRequests": "Number of rental requests",
+        "status": "Status",
+        "actions": "Actions",
+        "product": "Product",
+        "landlord": "Product Owner",
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "approved": "Active",
+        "rejected": "Rejected",
+        "pendingApproval": "Pending approval",
+        "deleted": "Deleted",
+        "hidden": "Hidden",
+        "showAll": "Show all"
+      },
+      "cards": {
+        "allCategories": "All categories",
+        "mostVisitedCategory": "Most visited categories",
+        "emptyCategories": "Categories with no products"
+      },
+      "categories": {
+        "addNewCategory": "New Category",
+        "fetchError": "Failed to fetch categories",
+        "deleteSuccess": "Categories deleted successfully",
+        "deleteError": "Failed to delete categories",
+        "modal": {
+          "title": "Add New Category",
+          "editTitle": "Edit Category",
+          "titleAr": "Name in Arabic",
+          "titleEn": "Name in English",
+          "status": "Category Status",
+          "active": "Active",
+          "inactive": "Inactive",
+          "image": "Category Image",
+          "imageOptional": "Image is optional for subcategories",
+          "add": "Add Category",
+          "addToNana": "Add to Nana",
+          "update": "Update Category",
+          "cancel": "Cancel",
+          "key": "Key",
+          "keyDescription": "Example: Electronics, Furniture",
+          "order": "Order",
+          "orderDescription": "Display priority (lower numbers appear first)",
+          "categoryType": "Category Type",
+          "mainCategory": "Main Category",
+          "nameRequired": "Name is required in both Arabic and English",
+          "keyRequired": "Category key is required",
+          "imageRequired": "Image is required for main categories",
+          "createSuccess": "Category created successfully",
+          "createError": "Failed to create category",
+          "updateSuccess": "Category updated successfully",
+          "updateError": "Failed to update category",
+          "hideFromHome": "Hide from Home Page",
+          "seoData": "SEO Data",
+          "seoTitleAr": "SEO Title (Arabic)",
+          "seoTitleEn": "SEO Title (English)",
+          "seoDescriptionAr": "SEO Description (Arabic)",
+          "seoDescriptionEn": "SEO Description (English)",
+          "seoKeywordsAr": "SEO Keywords (Arabic)",
+          "seoKeywordsEn": "SEO Keywords (English)",
+          "richContent": "Rich Content",
+          "richContentAr": "Rich Content (Arabic)",
+          "richContentEn": "Rich Content (English)",
+          "richContentArPlaceholder": "Add rich content in Arabic here...",
+          "richContentEnPlaceholder": "Add rich content in English here..."
+        },
+        "tableCategories": {
+          "title": "All Categories",
+          "status": "Status",
+          "actions": "Actions",
+          "deleteCategories": "Delete Categories",
+          "image": "Image",
+          "nameAr": "Name in Arabic",
+          "nameEn": "Name in English",
+          "key": "Key",
+          "order": "Order",
+          "subCategories": "Sub Categories",
+          "noSubCategories": "No Sub Categories",
+          "adminCreatedCategory": "Admin Who Created It",
+          "productsCount": "Products Count",
+          "visitorsCount": "Visitors Count",
+          "dateAdded": "Date Added",
+          "dateEdited": "Date Edited",
+          "rentalRequestsCount": "Rental Requests Count",
+          "inactive": "Inactive",
+          "active": "Active",
+          "noCategories": "No categories found",
+          "addCategoryHint": "Add a new category to get started",
+          "edit": "Edit",
+          "confirmDeleteSub": "Are you sure you want to delete this subcategory?",
+          "hideFromHome": "Home",
+          "hidden": "Hidden",
+          "visible": "Visible"
+        }
+      }
+    },
+    "earnings": {
+      "cards": {
+        "earnings": "Earnings",
+        "withdrawals": "Withdrawals",
+        "pendingMoney": "Pending funds",
+        "conflicts": "Disputes",
+        "totalEarnings": "Net profit"
+      },
+      "purchasesTable": {
+        "title": "Latest payments on the site",
+        "showAll": "Show all",
+        "renter": "Renter",
+        "numOfItems": "Number of items",
+        "period": "Period",
+        "amountOfPayment": "Payment amount",
+        "methodOfPayment": "Payment method",
+        "dateAdded": "Date added",
+        "dateOfCompletePurchase": "Payment completion date",
+        "status": "Status",
+        "actions": "Actions",
+        "failed": "Failed",
+        "pending": "Pending",
+        "completed": "Completed"
+      }
+    },
+    "notifications": {
+      "addNewNotification": "Add New Notification",
+      "modal": {
+        "title": "Add New Notification",
+        "titleAr": "Title in Arabic",
+        "titleEn": "Title in English",
+        "usersType": "Target User Type",
+        "notificationLink": "Notification Link (if any)",
+        "cancel": "Cancel",
+        "add": "Add Notification",
+        "all": "All"
+      }
+    },
+    "messages": {
+      "title": "Admin messages",
+      "conversation": "Conversation between {customer} and {provider}",
+      "typePlaceholder": "Type your message here...",
+      "noMessages": "No messages",
+      "deleteTitle": "Delete Message",
+      "deleteConfirm": "Are you sure you want to delete this message",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "deleteSuccess": "Message deleted successfully",
+      "deleteError": "Failed to delete message",
+      "noMessagesDescription": "No conversations found",
+      "cards": {
+        "unreadMessages": "Unread messages",
+        "deletedMessages": "Deleted messages",
+        "reportedMessages": "Reported messages",
+        "allMessages": "All messages",
+        "openedSupportTickets": "Open support tickets",
+        "closedSupportTickets": "Closed support tickets (resolved)",
+        "cancelledSupportTickets": "Cancelled support tickets",
+        "allSupportTickets": "All support tickets"
+      }
+    },
+    "sponsors": {
+      "title": "Sponsor management",
+      "description": "Manage and monitor sponsor accounts",
+      "addSponsor": "Add new sponsor",
+      "addNew": "Add new",
+      "selectUser": "Select user",
+      "searchUser": "Search user...",
+      "selectCategory": "Select category",
+      "priority": "Priority",
+      "endDate": "End date (optional)",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "user": "User",
+      "actions": "Actions",
+      "active": "Active",
+      "inactive": "Inactive",
+      "editSponsor": "Edit sponsor",
+      "deleteSponsor": "Delete sponsor",
+      "confirmDelete": "Are you sure you want to delete this sponsor?",
+      "noSponsorsFound": "No sponsors found",
+      "currentSponsors": "Current sponsors",
+      "totalCount": "Total count",
+      "clearFilters": "Clear filters",
+      "activeFilters": "Active filters",
+      "sponsorAdded": "Sponsor added successfully",
+      "sponsorUpdated": "Sponsor updated successfully",
+      "sponsorDeleted": "Sponsor deleted successfully",
+      "errorAddingSponsor": "Error adding sponsor",
+      "errorUpdatingSponsor": "Error updating sponsor",
+      "errorDeletingSponsor": "Error deleting sponsor",
+      "search": {
+        "label": "Search",
+        "placeholder": "Search sponsors by name, email, or store name..."
+      },
+      "category": {
+        "label": "Category",
+        "placeholder": "All categories"
+      },
+      "status": {
+        "label": "Status",
+        "placeholder": "All statuses",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "sort": {
+        "label": "Sort by",
+        "createdAt": "Creation date",
+        "priority": "Priority",
+        "category": "Category",
+        "userName": "Username",
+        "asc": "Ascending",
+        "desc": "Descending"
+      },
+      "table": {
+        "startDate": "Start date",
+        "endDate": "End date"
+      },
+      "stats": {
+        "products": "Products",
+        "requests": "Requests",
+        "orders": "Orders"
+      },
+      "errors": {
+        "selectUserCategory": "Please select a user and category",
+        "createFailed": "Failed to create sponsor",
+        "updateFailed": "Failed to update sponsor",
+        "deleteFailed": "Failed to delete sponsor"
+      },
+      "success": {
+        "created": "Sponsor created successfully",
+        "updated": "Sponsor updated successfully",
+        "deleted": "Sponsor deleted successfully"
+      },
+      "priorityDesc": "Higher numbers appear first",
+      "endDateDesc": "Leave empty for indefinite sponsorship",
+      "indefinite": "Indefinite",
+      "remove": "Remove",
+      "updateSponsor": "Update sponsor"
+    },
+    "support": {
+      "cards": {
+        "openedTickets": "Open tickets",
+        "closedTickets": "Closed tickets (resolved)",
+        "cancelledTickets": "Cancelled tickets",
+        "allTickets": "All support tickets"
+      }
+    },
+    "tasks": {
+      "title": "Tasks Management",
+      "description": "Create and manage tasks for your team",
+      "addTask": "Add Task",
+      "createTask": "Create New Task",
+      "editTask": "Edit Task",
+      "noTasks": "No Tasks Found",
+      "noTasksDesc": "Create your first task to get started",
+      "totalCount": "Total Tasks",
+      "filters": "Filters",
+      "searchPlaceholder": "Search tasks by title or description...",
+      "resetFilters": "Reset",
+      "showCompleted": "Show Completed",
+      "assignedTo": "Assigned To",
+      "unassigned": "Unassigned",
+      "selectUser": "Select User",
+      "addLink": "Add Link",
+      "assignUsers": "Assign Users",
+      "useModalForSearch": "Use edit modal for full search",
+      "selectAdminUsers": "Select admin users",
+      "noUsersFound": "No users found",
+      "searching": "Searching...",
+      "save": "Save",
+      "dateFrom": "From Date",
+      "dateTo": "To Date",
+      "sortBy": "Sort By",
+      "priority": "Priority",
+      "priorityUp": "Increase Priority",
+      "priorityDown": "Decrease Priority",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Enter task title",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Describe the task in detail...",
+      "type": "Type",
+      "status": "Status",
+      "createdBy": "Created By",
+      "completedBy": "Completed By",
+      "date": "Date",
+      "attachments": "Attachments",
+      "actions": "Actions",
+      "images": "Images",
+      "imageUrl": "Image URL",
+      "imageAlt": "Alt Text",
+      "links": "Links",
+      "linkUrl": "Link URL",
+      "linkTitle": "Link Title",
+      "openLink": "Open",
+      "notes": "Notes",
+      "notesPlaceholder": "Add any additional notes...",
+      "create": "Create Task",
+      "update": "Update Task",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "close": "Close",
+      "confirmDelete": "Are you sure you want to delete this task?",
+      "types": {
+        "programming": "Programming",
+        "bug": "Bug",
+        "feature": "Feature",
+        "seo": "SEO",
+        "marketing": "Marketing",
+        "ui": "UI",
+        "ux": "UX",
+        "design": "Design",
+        "content": "Content",
+        "testing": "Testing",
+        "documentation": "Documentation",
+        "other": "Other"
+      },
+      "statuses": {
+        "pending": "Pending",
+        "in_progress": "In Progress",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "success": {
+        "created": "Task created successfully",
+        "updated": "Task updated successfully",
+        "deleted": "Task deleted successfully",
+        "statusUpdated": "Status updated successfully"
+      },
+      "errors": {
+        "createFailed": "Failed to create task",
+        "updateFailed": "Failed to update task",
+        "deleteFailed": "Failed to delete task",
+        "priorityFailed": "Failed to update priority"
+      }
+    },
+    "banners": {
+      "place": "Place",
+      "home": "Home",
+      "category": "Category",
+      "placePlaceholder": "Select banner place",
+      "categoryId": "Category",
+      "categoryPlaceholder": "Select target category",
+      "mainCategoryId": "Main Category",
+      "mainCategoryPlaceholder": "Select main category",
+      "subCategoryId": "Sub Category",
+      "subCategoryPlaceholder": "Select sub category (optional)",
+      "profile": "Profile",
+      "userSelection": "Select User",
+      "userPlaceholder": "Search for user by name, email or phone"
+    }
+  },
+  "login": {
+    "loginFirst": "Please log in first",
+    "errorMsg": "Something went wrong",
+    "successMsg": "Logged in successfully",
+    "title": "Login",
+    "welcomeBack": "Welcome back! Fill in the following fields to log in",
+    "emailAddress": "Email Address",
+    "placeholder": "e.g., xxxxxxxx@xxxx.com",
+    "password": "Password",
+    "remember": "Remember me",
+    "forgetPassword": "Forgot password",
+    "login": "Login",
+    "newAccount": "Create a new account",
+    "doNotHaveAccount": "Don't have an account ?",
+    "followUs": "Join us on"
+  },
+  "register": {
+    "title": "Create a New Account",
+    "welcomeMessage": "Welcome! Fill in the following fields to create an account and use the Estajer platform.",
+    "agreeToTermsError": "You must agree to the terms and conditions.",
+    "accountCreatedSuccess": "Account created successfully.",
+    "accountTypePersonal": "Individual",
+    "accountTypeCompany": "Company",
+    "accountTypeFreelanceDocument": "Freelance Practice Document",
+    "companyNameLabel": "Company Name",
+    "companyNamePlaceholder": "e.g., XYZ Real Estate Co.",
+    "registerNumberLabel": "Commercial Registration No.",
+    "taxCodeLabel": "Tax Number",
+    "documentCodeLabel": "Freelance Certificate Number",
+    "documentCodePlaceholder": "FL-XXXXXXXXX",
+    "nationalIdLabel": "National ID",
+    "nationalIdPlaceholder": "Enter your 10-digit National ID",
+    "invalidNationalIdError": "National ID must be exactly 10 digits and start with 1.",
+    "invalidDocumentCodeError": "Certificate number must be in format FL-XXXXXXXXX (FL- followed by 9 digits).",
+    "certificateNotActive": "Your freelance certificate is not active. Only active certificates are accepted for registration.",
+    "certificateVerificationFailed": "Failed to verify freelance certificate. Please check your details and try again.",
+    "certificateStatus": "Certificate Status",
+    "certificateExpiry": "Expiry Date",
+    "fullNameLabel": "Full Name",
+    "fullNamePlaceholder": "e.g., John Doe",
+    "emailLabel": "Email",
+    "emailPlaceholder": "e.g. xxxxxxxx@xxxx.com",
+    "invalidEmailError": "Invalid email address.",
+    "phoneLabel": "Mobile Number",
+    "invalidPhoneError": "Invalid mobile number. The mobile number must start with 05 and be 10 digits long, e.g., 0500000000.",
+    "passwordLabel": "Password",
+    "passwordValidationError": "Password must contain an uppercase letter, a lowercase letter, a number, and be at least 8 characters long.",
+    "confirmPasswordLabel": "Confirm Password",
+    "passwordsDoNotMatchError": "Passwords do not match.",
+    "agreeToTermsCheckbox": "I agree to all terms in the",
+    "termsOfUseLink": "Terms of Use",
+    "and": "and",
+    "privacyPolicyLink": "Privacy Policy",
+    "createAccountButton": "Create Account",
+    "alreadyHaveAccount": "Already have an account?",
+    "loginLink": "Login",
+    "followUs": "Join us on",
+    "whatsappVerificationNotice": "Verification code will be sent via WhatsApp after registration.",
+    "roleLabel": "Register as",
+    "landlord": "Product Owner",
+    "renter": "Renter"
+  },
+  "changePasswordPage": {
+    "title": "Change Password",
+    "subtitle": "Enter your new password",
+    "newPasswordLabel": "New Password",
+    "confirmPasswordLabel": "Confirm New Password",
+    "passwordValidation": "Password must contain an uppercase letter, a lowercase letter, a number, and be at least 8 characters long.",
+    "passwordMismatch": "Passwords do not match.",
+    "submitButton": "Change Password",
+    "successMessage": "Password changed successfully.",
+    "errorMessage": "An error occurred. Please try again.",
+    "tokenInvalidError": "Invalid or expired token. Please request a new password reset.",
+    "genericError": "Something went wrong"
+  },
+  "forgotPasswordPage": {
+    "title": "Forgot Password",
+    "subtitle": "Enter your email and we'll send you a link to reset your password",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "Enter your email address",
+    "submitButton": "Send Reset Link",
+    "successMessage": "Password reset link sent to your email. Redirecting to login...",
+    "errorMessage": "An error occurred. Please try again.",
+    "userNotFound": "User with this email not found.",
+    "genericError": "Something went wrong"
+  },
+  "authPromotion": {
+    "backButton": "Back",
+    "logoAlt": "Estajer Logo",
+    "registerTitle": "Join Estajer platform and benefit from thousands of products you can rent",
+    "loginTitle": "Log in and benefit from thousands of products you can rent",
+    "listItem1": "A huge collection of diverse products",
+    "listItem2": "A safe and reliable rental process",
+    "listItem3": "Discover products available for rent near your location",
+    "listItem4": "Earn by listing products you don't need for rent"
+  },
+  "request": {
+    "title": "request product",
+    "description": "Please fill in the following fields to request a product",
+    "editButton": "Edit Request",
+    "button": "Request Product",
+    "editTitle": "Edit Request Product",
+    "editDescription": "Please edit in the following fields."
+  },
+  "titles": {
+    "admin": "Dashboard",
+    "requests": "Rental Requests",
+    "all": "All Orders",
+    "details": "Order Details",
+    "blogs": "Estajer Blog",
+    "home": "Home",
+    "adminBlog": "Blog Management",
+    "products": "Products",
+    "orders": "Rental Orders",
+    "earnings": "Earnings",
+    "notifications": "Notifications",
+    "messages": "Messages",
+    "support": "Technical Support Center",
+    "tickets": "All Tickets",
+    "categories": "Categories",
+    "about": "About Us"
+  },
+  "payment": {
+    "paymentCompleted": {
+      "title": "Congratulations! Your order has been created successfully.",
+      "description": "Your order has been created successfully and is awaiting approval from the lessor. You can now go to your dashboard to view your orders and track the status of your request.",
+      "button": "Go to Dashboard"
+    },
+    "paymentError": {
+      "title": "The order was not paid",
+      "description": "The order has not been paid, or an error occurred during payment. Please try again, or contact support if the issue persists.",
+      "openPaymentBtn": "Open Payment Page",
+      "callSupportBtn": "Contact Support"
+    },
+    "paymentProcessing": {
+      "badge": "Processing Payment",
+      "title": "Your Payment is Being Processed",
+      "description": "Thank you for choosing bank transfer as your payment method. Your order has been created and is awaiting payment confirmation from the bank.",
+      "processingTimeTitle": "Estimated Processing Time: 3-4 Business Days",
+      "processingTimeDesc": "Bank transfers typically take 3-4 business days to be verified and processed. Once your payment is confirmed, your order will be completed automatically.",
+      "button": "Go to Dashboard",
+      "contactSupport": "Need Help?"
+    }
+  },
+  "productTour": {
+    "navigation": {
+      "next": "Next",
+      "previous": "Previous",
+      "done": "Done",
+      "progress": "{{current}} of {{total}}"
+    },
+    "steps": {
+      "introduction": {
+        "title": "Welcome to the Product Tour! 👋",
+        "description": "Let us guide you through the rental process step by step. This quick tour will show you how to easily book and rent products on our platform."
+      },
+      "productTitle": {
+        "title": "Product Name",
+        "description": "This is the name of the product available for rent. You can add it to your favorites by clicking the heart icon."
+      },
+      "productImages": {
+        "title": "Product Images",
+        "description": "View product images from different angles. Click on any image to view it in full size."
+      },
+      "productDescription": {
+        "title": "Product Description",
+        "description": "Read the complete product details and specifications to learn more about it."
+      },
+      "orderContainer": {
+        "title": "Order Form",
+        "description": "Here you can complete the product booking process. Choose the quantity, and a suitable date."
+      },
+      "quantity": {
+        "title": "Select Quantity",
+        "description": "Specify how many units of this product you want to rent."
+      },
+      "additionalServices": {
+        "title": "Additional Services",
+        "description": "Add extra services and accessories to enhance your rental experience (if available)."
+      },
+      "bookingPackages": {
+        "title": "Select Package",
+        "description": "Choose a rental package that suits your needs."
+      },
+      "packagesRangeDate": {
+        "title": "Select Date",
+        "description": "Select the start date for your package."
+      },
+      "dateSelector": {
+        "title": "Date Selection",
+        "description": "Choose the start and end dates for your rental period from the calendar. Booked dates will be unavailable."
+      },
+      "costCalculation": {
+        "title": "Cost Calculation",
+        "description": "View the complete cost breakdown including rental price, additional services, discounts, and tax."
+      },
+      "bookingButton": {
+        "title": "Send Booking Request",
+        "description": "When you're ready, click here to add the product to your cart and complete the booking process."
+      },
+      "deliveryOptions": {
+        "deliveryTitle": "Delivery Service",
+        "deliveryDescription": "This product will be delivered to your location. The delivery cost will be calculated based on your address during checkout.",
+        "pickupTitle": "Pickup from Owner",
+        "pickupDescription": "This product is pickup only. You must go to the owner's location to pick up the product."
+      },
+      "productLocation": {
+        "title": "Product Location",
+        "description": "View the product location on the map to see how close it is to you."
+      },
+      "ownerInfo": {
+        "title": "Owner Information",
+        "description": "Get to know the owner and see their ratings from previous customers. You can visit their page to view their other products."
+      },
+      "chatButton": {
+        "title": "Contact the Owner",
+        "description": "Communicate directly with the owner to ask any questions about the product."
+      }
+    }
+  },
+  "tasks": {
+    "page": {
+      "title": "Tasks Board",
+      "description": "View and track all active tasks",
+      "subtitle": "Browse all ongoing tasks and their progress"
+    },
+    "searchPlaceholder": "Search tasks...",
+    "type": "Type",
+    "status": "Status",
+    "showCompleted": "Show Completed",
+    "filter": "Filter",
+    "totalCount": "Total",
+    "tasks": "tasks",
+    "noTasks": "No Tasks Found",
+    "noTasksDesc": "All tasks have been completed!",
+    "description": "Description",
+    "createdBy": "Created By",
+    "completedBy": "Completed By",
+    "images": "Images",
+    "links": "Links",
+    "close": "Close",
+    "types": {
+      "programming": "Programming",
+      "bug": "Bug",
+      "feature": "Feature",
+      "seo": "SEO",
+      "marketing": "Marketing",
+      "ui": "UI",
+      "ux": "UX",
+      "design": "Design",
+      "content": "Content",
+      "testing": "Testing",
+      "documentation": "Documentation",
+      "other": "Other"
+    },
+    "statuses": {
+      "pending": "Pending",
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "categoryRichContent": {
+    "aboutCategory": "About this category",
+    "aboutCategoryTitle": "Estajer = {category}",
+    "showMore": "Show more",
+    "showLess": "Show less"
+  },
+  "about": {
+    "metadata": {
+      "title": "About Us - Estajer | Product Rental Platform in Saudi Arabia",
+      "description": "Learn more about Estajer, Saudi Arabia's leading product rental platform for a safe, flexible, and affordable experience.",
+      "keywords": [
+        "Estajer",
+        "product rental",
+        "sharing economy",
+        "Saudi Arabia",
+        "about us",
+        "all about Estajer"
+      ]
+    },
+    "about": {
+      "title": "About Us?",
+      "description1": "Enjoy the experience… without the cost of ownership",
+      "description2": "The real value is in usage. Estajer gives you the flexibility of the \"sharing economy\" to try what's new and save money. Join the best rental platform in Saudi Arabia.",
+      "exploreProducts": "Browse Available Products",
+      "howEstajerWorks": "How does Estajer work?"
+    },
+    "ourValues": {
+      "title": "Values & Impact",
+      "description1": "A sustainable environment… and a connected community",
+      "description2": "Our goal is not only saving money, but creating real impact through the \"circular economy\".",
+      "values": [
+        {
+          "title": "Environmental Protection",
+          "description": "Reducing waste by promoting the reuse of items."
+        },
+        {
+          "title": "Reducing Burdens",
+          "description": "Providing families with event essentials at the highest quality and lowest cost."
+        },
+        {
+          "title": "Efficient Consumption",
+          "description": "Encouraging sharing instead of buying and storing."
+        }
+      ],
+      "action": "Join Our Impact"
+    },
+    "incomeValue": {
+      "title": "Financial Return",
+      "description1": "Your idle assets.. an additional income source",
+      "description2": "Don't let your belongings lose their value in storage. Estajer opens a door for you to support the \"gig economy\" and increase your income easily.",
+      "whyRentTitle": "Why rent out your items?",
+      "reasons": [
+        "Turn fixed assets into smart investments.",
+        "Contribute to empowering the national workforce.",
+        "Drive the wheel of innovation in the Saudi market."
+      ],
+      "ctaText": "Join hundreds of landlords who made profits this week",
+      "action": "Start renting your products now"
+    },
+    "vision2030": {
+      "tagline": "We strive to establish ourselves as the leading rental platform in Saudi Arabia, driving a bright economic future.",
+      "title": "Covering the Kingdom.. With the Spirit of Vision 2030",
+      "description": "We are expanding to be closest to you in (Riyadh, Jeddah, Dammam) and all regions. We are proud to be a national model that embodies Saudi Vision 2030 in digital transformation.",
+      "action": "Join Our Impact"
+    }
+  },
+  "partner": {
+    "about": {
+      "verifiedPartner": "Verified Partner",
+      "products": "Products",
+      "exclusiveOffers": "Exclusive Offers",
+      "browseProducts": "Browse Products"
+    },
+    "offerBanners": {
+      "shopNow": "Shop Now"
+    }
+  },
+  "shopReviews": {
+    "badge": "Testimonials",
+    "titlePart1": "Customers",
+    "titleHighlight": "Reviews",
+    "fromReviews": "From over {count} reviews",
+    "noComment": "No comment",
+    "defaultCity": "Riyadh"
+  },
+  "moreQuestions": {
+    "title": "Do you have more questions?",
+    "browse": "Browse",
+    "faqs": "FAQs",
+    "contactUS": "Contact Us"
+  },
+  "awareness": {
+    "metadata": {
+      "title": "Launch Your Online Rental Store with Ease | Estajer",
+      "description": "Turn your business into a professional online rental store without technical experience. Join Saudi Arabia's first platform for rental projects, with secure payments and verified contracts.",
+      "keywords": [
+        "start rental store",
+        "product rental platform",
+        "rent electronics",
+        "party equipment rental",
+        "Saudi rental marketplace",
+        "sharing economy",
+        "Estajer"
+      ]
+    },
+    "hero": {
+      "badge": "The first 100% Saudi platform for rental projects",
+      "titlePart1": "Launch an online ",
+      "titleHighlight": "Rental",
+      "titlePart2": " store with ease",
+      "titleSuffix": "without complexity or high costs",
+      "subtitle": "Turn your shop into a professional online rental store in minutes",
+      "action": "Start your rental store with lower commission",
+      "features": {
+        "nationalAccess": "National Access",
+        "documentedContracts": "Documented Contracts",
+        "securePayment": "Secure Payment",
+        "partners": "30+ Official Partners"
+      }
+    },
+    "createStore": {
+      "title": "Create your store without technical experience",
+      "subtitle": "Professional store that gives your customers trust from the first visit",
+      "features": [
+        "Fully customize your store without code or complex design.",
+        "Interface specifically designed for rental projects.",
+        "Ready to launch quickly."
+      ],
+      "action": "Start creating your store now",
+      "mockup": {
+        "showReviews": "Show Reviews",
+        "showReviewsDesc": "Show customer reviews on the store page",
+        "storeSections": "Store Sections",
+        "section1": "Sculptures",
+        "section2": "Woodworks",
+        "imagePlaceholder": "Place platform interface image here"
+      }
+    },
+    "commissions": {
+      "title": "Don't worry about commissions",
+      "subtitle": "Rental store gives you full protection, permanent visibility, and dedicated support",
+      "features": [
+        "Guaranteed advance payment.",
+        "Keep your profits with lower commission.",
+        "Discounts based on increased quantity or duration."
+      ],
+      "action": "Save from the first rental order, start now"
+    },
+    "support": {
+      "title": "With you every step... and in front of every customer",
+      "subtitle": "Your success is our success, a full team helps you grow your project",
+      "features": [
+        "Priority visibility on Estajer's home page.",
+        "A dedicated account manager with you for setup, optimization, and growth.",
+        "24/7 support."
+      ],
+      "action": "Start with full support from Estajer platform now",
+      "imagePlaceholder": "Place composite interface image here",
+      "imageSubPlaceholder": "(The ready image as requested)"
+    },
+    "statistics": {
+      "badge": "Sharing Economy Pioneers",
+      "title": "Estajer Platform, the best rental and leasing platform in Saudi Arabia",
+      "description": "Join the sharing economy pioneers community, ",
+      "descriptionHighlight": "our partners earn from their belongings every day",
+      "stats": [
+        {
+          "value": "100%",
+          "label": "Protection with electronically documented contracts"
+        },
+        {
+          "value": "+100,000",
+          "label": "Monthly customers searching for products"
+        },
+        {
+          "value": "+800",
+          "label": "Active partners managing their projects with confidence"
+        }
+      ]
+    },
+    "segments": {
+      "badge": "Segments",
+      "title": "Excel in Renting Regardless of Specialty",
+      "subtitle": "Fits all rental sectors",
+      "action": "Create your store now",
+      "categories": {
+        "electronics": {
+          "label": "Electronics",
+          "title": "Rent electronics... without worrying about your devices",
+          "support": "A store with your own identity = your customers come back to you, not the competitors",
+          "bullets": [
+            {
+              "title": "Verified contract for every device (Laptop, Camera, Drone)",
+              "desc": "Documenting condition with photos before & after + receipt/delivery guarantee"
+            },
+            {
+              "title": "Guaranteed Advance Payment",
+              "desc": "Your money is secured before the customer receives the device"
+            },
+            {
+              "title": "Flexible pricing based on rental duration",
+              "desc": "One day? A week? A month? Automatic discounts"
+            }
+          ]
+        },
+        "parties": {
+          "label": "Parties",
+          "title": "Manage event requests... with ease",
+          "support": "Organizers deal with you as a trusted partner",
+          "bullets": [
+            {
+              "title": "Clear calendar showing availability",
+              "desc": "LED screens, chairs, tables... everything organized and clear"
+            },
+            {
+              "title": "Automatic discounts for long bookings",
+              "desc": "One-day party? 3-day festival? System calculates it automatically"
+            },
+            {
+              "title": "Documented contracts + receipt/delivery documentation",
+              "desc": "Photos + digital signature + full protection for your items"
+            }
+          ]
+        },
+        "furniture": {
+          "label": "Furniture",
+          "title": "A digital catalog showing every piece of furniture you want to rent",
+          "support": "Premium catalog with your identity shown to renters",
+          "bullets": [
+            {
+              "title": "Full packages or individual pieces",
+              "desc": "Sofas, tables, seating... the customer chooses what fits"
+            },
+            {
+              "title": "Detailed condition documentation",
+              "desc": "Photos before and after + digital signature = furniture protection"
+            },
+            {
+              "title": "Flexible delivery options",
+              "desc": "Based on your branches or pickup points... or delivery to customer"
+            }
+          ]
+        },
+        "camping": {
+          "label": "Camping",
+          "title": "Deliver your gear to tour organizers and companies",
+          "support": "Organizers come back season after season, not trying a new renter every time",
+          "bullets": [
+            {
+              "title": "Full packages or individual pieces",
+              "desc": "Tents + Caravans + Grilling gear... or anything separately"
+            },
+            {
+              "title": "Flexible bookings by season",
+              "desc": "Winter? Spring? System manages availability automatically"
+            },
+            {
+              "title": "Full documentation before and after trip",
+              "desc": "Receipt/delivery photos + documented contract = peace of mind"
+            }
+          ]
+        },
+        "kids": {
+          "label": "Kids",
+          "title": "Attract those interested in renting kids' essentials",
+          "support": "Your store gives parents trust from the first visit",
+          "bullets": [
+            {
+              "title": "From car seats to strollers",
+              "desc": "Kids' products are expensive... renting is a practical solution"
+            },
+            {
+              "title": "Cleanliness & full documentation",
+              "desc": "Condition photos + cleanliness guarantee = parents' trust"
+            }
+          ]
+        },
+        "games": {
+          "label": "Games",
+          "title": "Double your profits from renting games without extra costs",
+          "support": "Your specialized store marks you as an \"Entertainment Expert\", making customers always trust your choices",
+          "bullets": [
+            {
+              "title": "From PlayStation to giant bouncers",
+              "desc": "Video games, bouncy castles, soap pitches... everything"
+            },
+            {
+              "title": "Daily, weekly, and monthly packages",
+              "desc": "Weekend party? Monthly package? Discounts are automatic"
+            },
+            {
+              "title": "Documented contracts + receipt guarantee",
+              "desc": "Receipt/delivery photos + documented contract"
+            }
+          ]
+        }
+      }
+    },
+    "whyOpenStore": {
+      "title": "Why open an electronic rental store?",
+      "subtitle": "Pioneers of the Sharing Economy",
+      "description": "Join the sharing economy pioneers community, and start earning extra income today with hundreds of landlords on Estajer.",
+      "cards": [
+        {
+          "title": "Complete Store Identity",
+          "description": "Your logo, banners, and personalized settings. Build your brand and enhance customer trust with a store that reflects your professionalism.",
+          "image": "https://res.cloudinary.com/dhfzkadm2/image/upload/v1777212177/design--1_lm3zrz.webp"
+        },
+        {
+          "title": "Save Development Costs",
+          "description": "No need for costly developers or subscriptions. Your store is ready in minutes for a fraction of the cost, with direct reach to thousands.",
+          "image": "https://res.cloudinary.com/dhfzkadm2/image/upload/v1777212177/design--2_iuprbc.webp"
+        },
+        {
+          "title": "24/7 Smart Management",
+          "description": "Automated booking system works around the clock. Secure payments, digital contracts, and performance tracking at your fingertips.",
+          "image": "https://res.cloudinary.com/dhfzkadm2/image/upload/v1777212176/design--3_zqkcbh.webp"
+        }
+      ]
+    },
+    "howToStart": {
+      "label": "How to start?",
+      "title": "From zero to the first order... in 4 steps",
+      "description": "After that? Everything is automated.",
+      "steps": [
+        {
+          "title": "Register and activate your account",
+          "description": "In record time and without complexity"
+        },
+        {
+          "title": "Customize your store",
+          "description": "Your logo and identity with simple clicks"
+        },
+        {
+          "title": "Add your products",
+          "description": "Product photos, prices... and our team helps if you want"
+        },
+        {
+          "title": "Receive your first order",
+          "description": "Documented contract, upfront payment, and you're at ease"
+        }
+      ],
+      "action": "Register now and create your store now"
+    },
+    "awarenessFaqs": {
+      "badge": "FAQs",
+      "title": "Have a question?",
+      "titleHighlight": "We have an answer",
+      "faqs": [
+        {
+          "question": "When do features start after subscribing to the premium package?",
+          "answer": "As soon as payment is completed successfully, all features of the premium package are activated immediately on your account."
+        },
+        {
+          "question": "What is the real difference between the growth package and a regular landlord?",
+          "answer": "The growth package provides professional tools like a dedicated account manager, advanced performance reports, and priority in displaying products."
+        },
+        {
+          "question": "Do I need technical or design experience to create my store?",
+          "answer": "Not at all. The Estajer interface is designed to be simple and easy to use, allowing you to upload products and set your identity with single clicks."
+        },
+        {
+          "question": "How does the dedicated account manager work? What exactly do they do?",
+          "answer": "The dedicated account manager is an expert from our team who helps you optimize your store's performance and solve administrative challenges."
+        },
+        {
+          "question": "Can I cancel the subscription at any time? What happens after cancellation?",
+          "answer": "Yes, you can cancel your subscription at any time from the dashboard. Your store will remain available with basic free features."
+        },
+        {
+          "question": "How do you protect my customers' information and personal data?",
+          "answer": "We adhere to the highest standards of digital security and data encryption to ensure the privacy of your information and your customers' data."
+        },
+        {
+          "question": "Is there technical support? How do I contact help if I need it?",
+          "answer": "Certainly, our technical support team is available via live chat or email around the clock to answer all your inquiries."
+        }
+      ],
+      "action": "Start your store now"
+    },
+    "finalCTA": {
+      "title": "Time to realize profits from ",
+      "titleHighlight": "renting",
+      "titleSuffix": " your items",
+      "subtitlePart1": "Join more than ",
+      "subtitleHighlight": "300 partners ",
+      "subtitlePart2": "who started their journey with us. The platform is ready, when do you start?",
+      "createStore": "Create your store now",
+      "contactUs": "Contact Estajer team now",
+      "features": [
+        { "label": "Verified by National Access" },
+        { "label": "Your data is protected" },
+        { "label": "Secure online payment" },
+        { "label": "+300 official partners" }
+      ],
+      "madeInSA": "Proudly made in Saudi Arabia 🇸🇦"
+    }
+  },
+  "shopCategories": {
+    "title": "Browse by Categories"
+  },
+  "marketing": {
+    "hero": {
+      "badge": "Saudi Arabia's first 100% rental-focused platform",
+      "title": "Launch Your Rental Store",
+      "titleLine2Part1": "Effortlessly with ",
+      "titleHighlight": "Estajer",
+      "subtitle": "Lower Commission, Higher Profits",
+      "description": "Estajer is Saudi Arabia's first platform designed 100% for rental businesses.",
+      "descriptionLine2": "We understand what rental requires and we guarantee:",
+      "features": [
+        "Verified Digital Contract",
+        "Nafath Verification",
+        "Delivery Documentation",
+        "Smart Pricing",
+        "Flexible Delivery"
+      ],
+      "trustBadge1": "Protected by National Access",
+      "trustBadge2": "Verified by the Ministry of Commerce",
+      "ctaPrimary": "Create Your Store Now",
+      "ctaSecondary": "Discover How to Save More",
+      "floatingPartner": "Premium Partner",
+      "floatingPartnerSub": "Exclusive Access - Premium",
+      "floatingStore": "Store with Your Identity",
+      "floatingStoreSub": "Logo + Colors + Banners",
+      "floatingPriority": "Visibility Priority",
+      "floatingPrioritySub": "Always at the Top",
+      "floatingCommission": "10% Commission Only",
+      "floatingCommissionSub": "Save 500 SAR / 10K Sales",
+      "floatingSaved": "You Saved 100 SAR",
+      "floatingSavedSub": "This month from commission difference"
+    },
+    "premiumAdvantages": {
+      "badge": "Why Premium?",
+      "title": "Four Advantages That Transform Your Business",
+      "subtitle": "Every feature is designed to increase your profits and reduce your effort",
+      "card1Title": "Lower Commission = More Profit",
+      "card1Desc": "Instead of paying a high commission, pay less. Same sales — more money in your pocket. The small difference accumulates into thousands.",
+      "card1Tag": "Grow Your Profits with Lower Commission",
+      "card2Title": "A Complete Store with Your Brand Identity",
+      "card2Desc": "Your logo, banners, colors. A professional page that reflects your business and builds customer trust from first glance.",
+      "card2Tag": "Complete Visual Identity",
+      "card3Title": "Constant Visibility Priority",
+      "card3Desc": "Your store appears first on Estajer's homepage. Customers see you before anyone else and your orders multiply.",
+      "card3Tag": "Continuous Growth in Orders",
+      "card4Title": "Premium Marketing & SEO Tools",
+      "card4Desc": "Conversion-optimized product pages, real-time analytics, and a dedicated account manager supporting you.",
+      "card4Tag": "Fully SEO Optimized"
+    },
+    "commissionBenefits": {
+      "title": "{titleHighlight} Commission More Profit",
+      "titleHighlight": "Lower",
+      "bullets": ["Real Savings .. Growing Profits"],
+      "ctaBtn": "Grow Your Profits with Lower Commission",
+      "commissionRate": "10%",
+      "commissionSub": "Only — instead of 15%",
+      "growthPartner": "Growth Partner",
+      "regularPartner": "Regular Partner",
+      "savingsBar": "Save up to 6,000 SAR/year",
+      "salesBase": "Based on 10,000 SAR/month in sales",
+      "regularCost": "1,500 SAR/month",
+      "regularLabel": "Regular Partner — 15%",
+      "growthCost": "1,000 SAR/month",
+      "growthLabel": "Growth Partner — 10%",
+      "savings": "500 SAR/month",
+      "savingsLabel": "Stays in your pocket",
+      "calcTitle": "Calculate It Right",
+      "calcSubtitle": "The important question: how do I calculate profit?",
+      "cards": [
+        {
+          "label": "Just starting out?",
+          "title": "Free plan is enough to get started",
+          "desc": "Start risk-free and try the platform in full",
+          "features": ["Learn", "Grow", "Upgrade later"]
+        },
+        {
+          "label": "Growing?",
+          "title": "Perfect for the growth phase",
+          "desc": "Lower commission and stronger tools — the smart choice for more profit.",
+          "features": ["Save more", "Grow faster", "Scale without limits"],
+          "badge": "Most Popular"
+        },
+        {
+          "label": "Professional?",
+          "title": "Professionalism is a must",
+          "desc": "Advanced dashboard and a dedicated support team for your business.",
+          "features": [
+            "Big savings",
+            "Dedicated support 24/7",
+            "Scale without limits"
+          ]
+        }
+      ]
+    },
+    "pricingPlans": {
+      "badge": "Plans",
+      "title": "Choose the Right Plan for You",
+      "subtitle": "",
+      "starterPlan": {
+        "currentLabel": "Starter Plan",
+        "name": "Starter",
+        "desc": "Everything you need to get started on Estajer",
+        "price": "999 ",
+        "currency": " SAR annually",
+        "priceSub": " Tax not included",
+        "commissionNote": "Commission",
+        "commissionRate": "15%",
+        "commissionSuffix": "per order",
+        "currentBtn": "Subscribe Now",
+        "featuresLabel": "What you get",
+        "features": [
+          "National Access",
+          "Digital Contract",
+          "Secure Payment Methods",
+          "Receipt & Delivery Documentation"
+        ]
+      },
+      "premiumPlan": {
+        "badge": "Most Valuable",
+        "tierLabel": "Premium Plan",
+        "name": "Growth",
+        "desc": "Full identity, guaranteed visibility, and higher profits",
+        "price": "2400",
+        "priceSuffix": "SAR annually",
+        "commissionNote": "Commission",
+        "commissionRate": "10%",
+        "commissionSuffix": "only - instead of",
+        "commissionOld": "15%",
+        "subscribeBtn": "Subscribe Now",
+        "everythingPlus": "Everything in Free + Exclusive Additions",
+        "features": [
+          { "text": "Reduced Commission" },
+          { "text": "Full Store with Your Identity" },
+          { "text": "Appear Under Your Name" },
+          { "text": "Permanent Priority on Homepage" },
+          { "text": "Fully SEO Optimized" },
+          { "text": "Estajer Team Adds Your Products" },
+          { "text": "Multiple Branch Support" },
+          { "text": "QR Code for Your Store" },
+          { "text": "Real-Time Reports & Analytics" },
+          { "text": "Dedicated Account Manager" }
+        ]
+      },
+      "enterprisePlan": {
+        "badge": "For Large Enterprises",
+        "tierLabel": "Custom Plan",
+        "name": "Professional",
+        "desc": "Solutions tailored specifically to your business size and needs",
+        "pricingLabel": "Flexible Pricing",
+        "pricingSub": "Starting from a custom price based on your business scale",
+        "contactBtn": "Contact Us",
+        "everythingPlus": "Everything in Growth + Exclusive Benefits",
+        "features": [
+          "Full setup & onboarding by our team",
+          "Unlimited branches & accounts",
+          "Advanced dashboard & reports",
+          "Top-priority technical support",
+          "Dedicated account manager 24/7"
+        ],
+        "footerNote": "Suitable for large companies and enterprises with special requirements"
+      }
+    },
+    "partnerShops": {
+      "title": "Our Partner Shops",
+      "subtitle": "Join over 800 official partners who trust Estajer"
+    },
+    "comparisonTable": {
+      "badge": "Plan Comparison",
+      "ctaBtn": "Choose the Premium Plan Now",
+      "title": "Regular Partner vs Premium Partner",
+      "subtitle": "See the difference yourself — the table explains everything",
+      "colFeature": "Feature",
+      "colRegular": "Regular Partner",
+      "colPremium": "Premium Partner",
+      "footerNote": "The premium plan saves you from 500 to thousands of riyals monthly depending on your sales volume",
+      "rows": [
+        {
+          "feature": "Commission",
+          "regular": "15% per order",
+          "premium": "10% only"
+        },
+        {
+          "feature": "Visibility",
+          "regular": "Normal among others",
+          "premium": "Permanent priority"
+        },
+        {
+          "feature": "Page Type",
+          "regular": "Simple page",
+          "premium": "Full store with your identity"
+        },
+        {
+          "feature": "Customization (Logo, Colors)",
+          "regular": "Limited",
+          "premium": "Logo + Banners + Colors"
+        },
+        {
+          "feature": "Appear Under Your Full Name",
+          "regular": "Without branding",
+          "premium": null
+        },
+        {
+          "feature": "SEO Tools",
+          "regular": "Basic",
+          "premium": "Fully optimized"
+        },
+        {
+          "feature": "Technical Support",
+          "regular": "Basic",
+          "premium": "Priority with account manager"
+        },
+        {
+          "feature": "Adding Products",
+          "regular": "You add them yourself",
+          "premium": "Estajer team adds for you"
+        },
+        {
+          "feature": "QR Code for Your Page",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "Branch Linking",
+          "regular": "One branch",
+          "premium": "Multiple branches"
+        },
+        {
+          "feature": "National Access / Digital Contract",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "Secure Payments / Receipt Documentation",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "Advanced Analytics",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "Product Verification",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "Discount Control by Duration and Quantity",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "Rental by Duration (Hour | Day | Week | Month)",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "Package Pricing",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "Product Visibility in the Marketplace",
+          "regular": null,
+          "premium": null
+        }
+      ]
+    },
+    "storeControlPanel": {
+      "badge": "Control Panel",
+      "title": "Everything Designed for You",
+      "titleHighlight": "Clear, Easy, and Professional",
+      "subtitle": "From day one you work on a fully ready platform — your store, customers, and sales all in one place.",
+      "features": [
+        "Full store with your identity",
+        "Your customers see you on the homepage",
+        "Estajer team adds your products",
+        "Analytics & performance tracking",
+        "Dedicated support with your account manager"
+      ],
+      "ctaTitle": "Ready to Start?",
+      "ctaSubtitle": "Register now and reserve your spot — the platform is fully ready for you",
+      "ctaBtn": "Register Now & Reserve Your Spot",
+      "floatingIdentity": "Your Identity + Customer Trust",
+      "floatingVisits": "+245 Visits",
+      "floatingVisitsSub": "Today only",
+      "floatingManager": "Your Account Manager",
+      "floatingManagerStatus": "Available Now",
+      "floatingPriority": "Visibility Priority",
+      "floatingPrioritySub": "Always at the top"
+    },
+    "faqs": {
+      "badge": "FAQs",
+      "title": "Have a question?",
+      "titleHighlight": "We have an answer",
+      "footerTitle": "Have more questions?",
+      "footerBtn": "Contact us now",
+      "items": [
+        {
+          "question": "When do features start after subscribing to the premium package?",
+          "answer": "Activation is immediate upon completing the subscription. The reduced commission starts from the first new order, and your store moves to the homepage within one business day. You can start customization from the same moment. Your dedicated account manager will contact you as soon as possible to help you get started."
+        },
+        {
+          "question": "What is the real difference between the growth package and a regular landlord?",
+          "answer": "The growth package provides a clearly lower commission, a complete store with your own identity, assistance from the Estajer team in adding products, a dedicated account manager, and a store fully optimized for search engines. In short: the growth package is for ambitious partners who want a strong brand and higher profits."
+        },
+        {
+          "question": "Do I need technical or design experience to create my store?",
+          "answer": "Never, everything is simple and clear. The control panel is easy to use, and there are ready-made templates you can use directly. Most partners created their stores on the same day without any help, and the rest consulted the account manager for only a few minutes."
+        },
+        {
+          "question": "How does the dedicated account manager work? What exactly do they do?",
+          "answer": "Your account manager helps you from the beginning in setting up your store and adding products, regularly monitors your performance, and suggests improvements to increase bookings. Your inquiries and issues have top priority, and they teach you how to use all the platform's tools in the best way."
+        },
+        {
+          "question": "Can I cancel the subscription at any time? What happens after the period ends?",
+          "answer": "The subscription is non-cancelable and non-refundable. After the period ends, the commission will return to its previous rate, and your items will remain on the Estajer platform as a regular landlord, losing the premium features. However, your customers remain as they are, and ongoing orders complete normally."
+        },
+        {
+          "question": "How do you protect my customers' information and personal data?",
+          "answer": "All data is encrypted with the latest technologies, and verification via National Access ensures the real identity of customers. We are committed to all data protection regulations in Saudi Arabia and are documented by the Ministry of Commerce. we never share any data with external parties."
+        },
+        {
+          "question": "Is there technical support? How do I contact help if I need it?",
+          "answer": "Support is available via WhatsApp, email, and the help center which contains comprehensive videos and articles. Premium partners have direct contact with a personal account manager with priority in response and resolution."
+        }
+      ]
+    }
+  },
+  "pricing": {
+    "hero": {
+      "badge": "2024 Updates: Discover our new plans now",
+      "title": "Pricing for All Your Needs",
+      "description": "Choose the perfect plan for your business. We offer full transparency."
+    }
+  },
+  "shops": {
+    "hero": {
+      "verifiedBadge": "Verified & trusted shops on Estajer",
+      "titlePart1": "Browse ",
+      "titleHighlight": "Shops",
+      "subtitle": "Discover the best verified shops on Estajer and browse thousands of products for rent",
+      "browseLink": "Browse shops",
+      "createShopLink": "Create your own shop",
+      "features": {
+        "nationalAccess": "National Access",
+        "documentedContracts": "Documented Contracts",
+        "securePayment": "Secure Payment",
+        "verifiedShops": "Verified Shops"
+      }
+    },
+    "grid": {
+      "searchPlaceholder": "Search shops…",
+      "results": "results",
+      "empty": "No shops found",
+      "verifiedShop": "Verified",
+      "products": "products",
+      "categories": "categories",
+      "browseShop": "Browse shop"
+    }
+  },
+  "mcpAuth": {
+    "missingCode": "Authorization code is missing or invalid.",
+    "expired": "The authorization code has expired. Please ask the AI for a new link.",
+    "alreadyAuthorized": "The AI was already authorized. You can close this page.",
+    "somethingWrong": "Something went wrong.",
+    "success": "Authorization successful! The AI can now add products on your behalf.",
+    "serverError": "Failed to connect to server.",
+    "title": "Estajer — AI Authorization",
+    "subtitle": "Allow the AI assistant to act on your behalf",
+    "verifying": "Verifying...",
+    "welcome": "Welcome, {name}",
+    "footerNote": "You can close this window and return to your AI conversation.",
+    "platformName": "Estajer — Trusted Rental Marketplace"
+  },
+  "mcpUploadImages": {
+    "title": "Upload Product Images",
+    "subtitle": "Upload images and copy the array for the AI assistant",
+    "drop": "Drag images here or click to select",
+    "dropActive": "Drop images here...",
+    "uploadBtn": "Upload {count} image",
+    "uploadBtnPlural": "Upload {count} images",
+    "uploading": "Uploading...",
+    "copyBtn": "Copy Array ({count} image)",
+    "copyBtnPlural": "Copy Array ({count} images)",
+    "copied": "Copied!",
+    "noAuth": "Invalid link — please use the link provided by your AI assistant.",
+    "info": "After uploading, copy the array and paste it into the chat. The AI will use it directly.",
+    "pending": "Pending",
+    "done": "Done",
+    "error": "Error",
+    "remove": "×",
+    "footer": "Estajer • Smart Rental Platform",
+    "maxNote": "Max {count} images",
+    "pasteNote": "You can also paste an image from clipboard (Ctrl+V)"
+  }
+}

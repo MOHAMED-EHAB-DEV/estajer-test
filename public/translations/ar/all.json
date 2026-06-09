@@ -1,0 +1,3853 @@
+{
+  "favorites": {
+    "title": "المفضلة",
+    "description": "عرض جميع المنتجات المفضلة لديك",
+    "noFavorites": "لا توجد منتجات في المفضلة",
+    "addFavoritesHint": "يمكنك إضافة المنتجات إلى المفضلة بالضغط على أيقونة القلب",
+    "loginRequired": "يرجى تسجيل الدخول لعرض المفضلة"
+  },
+  "product": {
+    "safety": {
+      "title": "تعليمات الاستلام والإرجاع",
+      "safetyGuidelines": "إرشادات السلامة",
+      "meetInPublic": "قابل الآخرين فقط في أماكن عامة ومزدحمة مثل محطات المترو والمولات.",
+      "bringCompanion": "لا تذهب بمفردك لمقابلة بائع أو مشتري، احرص دائمًا على اصطحاب شخص معك.",
+      "inspectProduct": "افحص المنتج بعناية قبل استلامه، وتأكد من أنه مطابق للوصف وخالٍ من أي عيوب.",
+      "noDelay": "احرص على إعادة المنتج في الموعد المحدد، فالتأخير لأكثر من ٤ ساعات يُحسب كنصف يوم إضافي.",
+      "returnPolicyCondition": "أعد المنتج كما استلمته تمامًا، نظيفًا وسليمًا دون أي تلف أو نقص.",
+      "returnPhotoGuideline": "لضمان حقوقك، قم بتصوير المنتج عند الاستلام والإرجاع، في حال حدوث أي ملاحظات لاحقًا",
+      "documentationGuidelines": {
+        "userRole": {
+          "owner": "مؤجر",
+          "renter": "مستأجر"
+        },
+        "point1_main": "التقط صورًا أو فيديو للمنتج خلال 24 ساعة بعد استلامك له لضمان حقك ك{userRole}، ويُفضل أن تكون مختومة بالوقت والتاريخ. يمكنك استخدام هاتفك الذكي حيث يتم تسجيل الوقت والتاريخ تلقائيًا، أو استخدام تطبيقات مخصصة مثل:",
+        "point1_apps": "Timestamp Camera للأندرويد Timestamp Camera للآيفون",
+        "point2": "إذا كان المنتج يعمل بوظيفة أساسية (مثل خلاط أو ماكينة قهوة)، قم بتصوير فيديو يُظهر تشغيله بوضوح، حتى يكون لديك دليل على حالته ساعة الاستلام.",
+        "point3": "صوّر الرقم التسلسلي للمنتج (إن وُجد) للحفاظ على توثيق واضح.",
+        "point4": "تأكد من إدراج كل الملحقات والإكسسوارات ضمن الصور على الموقع،",
+        "point5": "احتفظ بفاتورة الشراء والرقم التسلسلي لأنهما ضروريان عند تقديم أي مطالبة.",
+        "point6": "افحص المنتج جيدًا عند استلامه. إذا لاحظت أي ضرر أو اختلاف عن حالته الأصلية، قم بتوثيقه بالصور أو الفيديو فورًا خلال 24 ساعة.",
+        "point7": "إذا لم تستلم المنتج في الوقت المحدد أو كان تالفًا، قم بفتح شكوى خلال 24 ساعة من انتهاء مدة التأجير.",
+        "point8": "حاول التواصل مع المؤجر أولًا لحل المشكلة مباشرة، وإذا لم تتمكن من ذلك، يمكن لفريق الحلول المخصص لدينا التوسط نيابةً عنك.",
+        "point9": "في معظم الأحيان، يكون حل الأمور مباشرة مع المؤجر أسرع وأسهل، ولكن في حال تعذر ذلك، نحن هنا لدعمك."
+      }
+    },
+    "requests": {
+      "title": "طلبات الاستئجار"
+    },
+    "details": {
+      "company": "شركة",
+      "personal": "حساب شخصي",
+      "freelance": "وثيقة عمل حر",
+      "new": "جديد",
+      "used": "مستعمل",
+      "productDescription": "وصف المنتج",
+      "addressOnMap": "العنوان على الخريطة",
+      "meetOwner": "تعرف على المؤجر",
+      "meetLessee": "تعرف على المستاجر",
+      "joinedEstajer": "انضم إلى استأجر",
+      "rating": "التقييم",
+      "noReviews": "لا يوجد تقيمات",
+      "showMore": "عرض المزيد",
+      "showLess": "عرض أقل"
+    },
+    "tabs": {
+      "description": "وصف المنتج",
+      "specs": "المواصفات",
+      "features": "مميزات الأداء",
+      "useCasesTitle": "حالات الاستخدام المثالية",
+      "statusLabel": "حالة المنتج",
+      "quantityLabel": "الكمية المتاحة",
+      "specsNote": "نضمن جاهزية المنتج الكاملة قبل كل عملية تأجير."
+    },
+    "page": {
+      "notFound": "منتج غير موجود | استأجر",
+      "notFoundDescription": "المنتج المطلوب غير متاح حالياً",
+      "rentCategory": "تأجير {categoryName}",
+      "rentTitle": "تأجير {productName} | استأجر",
+      "seoRentDescription": "{description} في السعودية | استأجر",
+      "rentDescription": "استأجر {description}... بأفضل الأسعار في السعودية.",
+      "defaultProduct": "منتج",
+      "defaultDescription": "منتج عالي الجودة للتأجير",
+      "author": "فريق استأجر",
+      "defaultCategory": "منتجات",
+      "siteName": "استأجر",
+      "image": "صورة",
+      "productForRent": "منتج للتأجير",
+      "breadcrumb": {
+        "home": "الرئيسية",
+        "products": "المنتجات"
+      }
+    },
+    "rentalCost": {
+      "ariaLabel": "تكلفة التأجير",
+      "badge": "التسعير",
+      "heading": "كم تكلفة استئجار {name}؟",
+      "body1": "تعتمد تكلفة تأجير {name} على عدة عوامل. حدد المدة المناسبة لك من خيارات الحجز أعلاه وستحصل تلقائياً على أفضل سعر متاح.",
+      "body2": "سواء كنت تبحث عن تأجير {name} في {city} لمناسبة، شركة، أو مشروع مؤقت — خدمة استأجر تمنحك المرونة الكاملة بدون أي التزام طويل الأمد.",
+      "factor1": {
+        "title": "مدة الإيجار",
+        "desc": "يومي، أسبوعي، أو شهري"
+      },
+      "factor2": {
+        "title": "عدد القطع",
+        "desc": "قطعة واحدة أو أكثر"
+      },
+      "factor3": {
+        "title": "موقع التسليم",
+        "desc": "داخل {city} أو المناطق المجاورة"
+      },
+      "factor4": {
+        "title": "خدمات إضافية",
+        "desc": "عدد الخدمات الإضافية المطلوبة"
+      }
+    },
+    "whyUs": {
+      "ariaLabel": "لماذا نحن",
+      "badge": "لماذا نحن؟",
+      "heading": "لماذا يثق العملاء في خدمة تأجير {category} لدينا؟",
+      "subheading": "نوفر أفضل تجربة تأجير {category} في {city} وجميع أنحاء المملكة",
+      "item1": {
+        "title": "أسعار تنافسية",
+        "desc": "وفّر مقارنةً بتكلفة شراء المنتج كاملاً"
+      },
+      "item2": {
+        "title": "مرونة الإيجار",
+        "desc": "يومي / أسبوعي / شهري حسب حاجتك"
+      },
+      "item3": {
+        "title": "فحص وصيانة",
+        "desc": "قبل كل عملية تأجير دون استثناء"
+      },
+      "item4": {
+        "title": "توصيل سريع",
+        "desc": "داخل {city} والمناطق المجاورة"
+      },
+      "item5": {
+        "title": "دعم فني مستمر",
+        "desc": "طوال فترة الإيجار بدون تعقيد"
+      }
+    },
+    "rentVsBuy": {
+      "ariaLabel": "مقارنة التأجير والشراء",
+      "badge": "مقارنة",
+      "heading": "هل تأجير {name} أفضل من الشراء؟",
+      "body": "إذا كنت تحتاج {name} لفترة محددة أو مناسبة معينة في {city}، فالاستئجار يوفر عليك الآلاف من الريالات دون أي التزامات طويلة المدى.",
+      "callout": {
+        "title": "استئجار {name} = مرونة كاملة بدون أعباء",
+        "desc": "استمتع بأحدث التقنيات اليوم بدون قلق التخزين أو الصيانة"
+      },
+      "col": {
+        "aspect": "وجه المقارنة",
+        "rent": "التأجير",
+        "buy": "الشراء"
+      },
+      "row1": { "label": "التكلفة", "rent": "منخفضة", "buy": "مرتفعة جداً" },
+      "row2": {
+        "label": "الصيانة",
+        "rent": "مشمولة تماماً",
+        "buy": "على حسابك"
+      },
+      "row3": { "label": "التخزين", "rent": "غير مطلوب", "buy": "يتطلب مساحة" },
+      "row4": { "label": "المرونة", "rent": "عالية جداً", "buy": "محدودة" }
+    },
+    "faqs": {
+      "ariaLabel": "الأسئلة الشائعة",
+      "badge": "أسئلة شائعة",
+      "title": "أسئلة شائعة حول تأجير {name} في {city}",
+      "faqs": [
+        {
+          "question": "هل يمكن الحجز في نفس اليوم؟",
+          "answer": "نعم، في حال توفر {name} يمكن استئجارها فورًا في نفس اليوم. ابعث طلب حجز من الصفحة وسيتواصل معك المؤجر للتأكيد بسرعة."
+        },
+        {
+          "question": "هل يمكن تمديد مدة إيجار {name}؟",
+          "answer": "نعم، يمكن تمديد فترة استئجار {name} حسب التوفر وبالتنسيق مع المؤجر مباشرةً. يُنصح بالتواصل قبل انتهاء المدة بيوم على الأقل."
+        },
+        {
+          "question": "هل يشمل السعر التوصيل داخل {city}؟",
+          "answer": "يعتمد ذلك على موقعك داخل {city} أو في مناطق الخدمة القريبة. بعض المناطق تتضمن التوصيل مجانًا وأخرى قد تشمل رسومًا بسيطة. يمكنك مراجعة تفاصيل مناطق التوصيل في الصفحة أعلاه."
+        },
+        {
+          "question": "هل يتم فحص {name} قبل التسليم؟",
+          "answer": "نعم، يتم فحص {name} بشكل كامل قبل كل عملية تأجير للتأكد من جاهزيتها وأدائها الكامل، لضمان أفضل تجربة استخدام لك."
+        }
+      ]
+    },
+    "ctaBanner": {
+      "ariaLabel": "احجز الآن",
+      "eyebrow": "جاهز للبدء؟",
+      "heading": "احجز {name} الآن ولا تضيع الوقت في البحث",
+      "subheading": "استمتع بتجربة استئجار {name} سريعة، آمنة وموثوقة من خلال منصة استأجر.",
+      "cta": "ارسل طلب حجز الآن"
+    }
+  },
+  "cart": {
+    "title": "سلة الاستئجار",
+    "description": "قم بادخال عنوان الاستلام والفاتورة ووسيلة الدفع لاتمام الحجز",
+    "in": "في",
+    "days": "يوم",
+    "empty": "سلة الاستئجار فارغة",
+    "dates": "تاريخ الحجز",
+    "quantity": "عدد",
+    "total": "المجموع",
+    "totalAmount": "المجموع الكلي",
+    "checkout": "إتمام الطلب",
+    "price": "السعر",
+    "pieces": "قطعه",
+    "piecesCount": "عدد القطع",
+    "subtotal": "الاجمالي",
+    "tax": "ضريبة ق م ( 15% )",
+    "insurance": "التأمين",
+    "completePayment": "اتمام الدفع",
+    "currency": "ر.س",
+    "loginFirst": "قم بتسجيل الدخول أولا",
+    "itemRemoved": "تم حذف المنتج من السلة",
+    "warnMsg": "في حالة اتلاف المنتجات، سيتم دفع مبلغ يصل إلى",
+    "extra": "إضافي",
+    "discount": "الخصم",
+    "additionalServices": "خدمات اضافية",
+    "deliveryOptions": "طريقة التوصيل",
+    "delivery": "توصيل لموقعك",
+    "receive": "استلام من المؤجر",
+    "pickupFrom": "استلام من",
+    "shareCart": "مشاركة السلة",
+    "shareCartSuccess": "تم نسخ رابط السلة بنجاح",
+    "cartLoaded": "تم تحميل السلة المشتركة بنجاح",
+    "invalidSharedCart": "رابط السلة غير صالح",
+    "free": "توصيل مجاني"
+  },
+  "nafathModal": {
+    "title": "توثيق نفاذ",
+    "subtitle": "التحقق الآمن من الهوية",
+    "validation": {
+      "nationalIdRequired": "الرجاء إدخال الهوية الوطنية"
+    },
+    "errors": {
+      "requestFailed": "فشل الطلب",
+      "networkError": "حدث خطأ في الشبكة",
+      "statusCheckFailed": "فشل التحقق من الحالة"
+    },
+    "status": {
+      "waiting": "في انتظار التحقق",
+      "completed": "تم التحقق بنجاح",
+      "rejected": "تم رفض التحقق",
+      "expired": "انتهت صلاحية التحقق"
+    },
+    "form": {
+      "enterNationalIdTitle": "أدخل رقم الهوية الوطنية الخاص بك",
+      "enterNationalIdDescription": "سنرسل طلب تحقق إلى تطبيق نفاذ الخاص بك",
+      "nationalIdLabel": "الهوية الوطنية",
+      "nationalIdPlaceholder": "أدخل رقم الهوية الوطنية الخاص بك"
+    },
+    "infoBox": {
+      "title": "ماذا سيحدث بعد ذلك؟",
+      "point1": "• ستتلقى طلب تحقق في تطبيق نفاذ الخاص بك",
+      "point2": "• تحقق من تطابق الرقم العشوائي",
+      "point3": "• وافق على الطلب لإكمال المصادقة"
+    },
+    "verification": {
+      "randomNumberLabel": "الرقم العشوائي",
+      "randomNumberDescription": "تحقق من تطابق هذا الرقم مع الرقم الموجود في تطبيق نفاذ الخاص بك"
+    },
+    "instructions": {
+      "title": "التعليمات",
+      "step1": "افتح تطبيق نفاذ الخاص بك",
+      "step2": "تحقق من تطابق الرقم العشوائي",
+      "step3": "وافق على طلب المصادقة"
+    },
+    "waitingState": {
+      "message": "في انتظار ردك...",
+      "openAppButton": "افتح تطبيق نفاذ"
+    },
+    "buttons": {
+      "cancel": "إلغاء",
+      "sendingRequest": "جاري إرسال الطلب...",
+      "authenticate": "المصادقة مع نفاذ"
+    }
+  },
+  "supplierModal": {
+    "title": "إضافة بيانات المؤجر",
+    "desc": "معلومات الحساب البنكي",
+    "accountInfo": "إدخال بيانات الحساب",
+    "accountInfoDesc": "يجب إضافة رقم الحساب البنكي الخاص بك قبل إنشاء إعلان",
+    "unifiedNumber": "الرقم الموحد",
+    "unifiedNumberCompanyRequired": "رقم الحساب البنكي مطلوب للشركات",
+    "allFieldsRequired": "جميع الحقول مطلوبة",
+    "error": "حدث خطأ ما",
+    "success": "تم تحديث رقم IBAN بنجاح",
+    "iban": "رقم الحساب البنكي (IBAN)",
+    "importantInformationTitle": "معلومات مهمة",
+    "importantNotes": [
+      "تأكد من صحة رقم الحساب المدخل",
+      "لايقبل اضافة حسابات المحافظ الالكترونية مثل STC ، ur pay ، برق وغيرها",
+      "رقم الحساب يجب أن يبدأ بـ SA متبوعاً بـ 22 رقم",
+      "هذه البيانات مطلوبة لاستلام المدفوعات"
+    ],
+    "companyNote": "الرقم الموحد مطلوب للشركات (10 أرقام) ويبدأ بـ 700",
+    "loading": "جاري الإضافة...",
+    "cancel": "إلغاء",
+    "addData": "إضافة البيانات"
+  },
+  "checkout": {
+    "completePayment": "استكمال الدفع",
+    "fullName": "الاسم بالكامل",
+    "fullNamePlaceholder": "أضف الاسم بالكامل",
+    "country": "الدولة",
+    "countryPlaceholder": "اختر الدولة",
+    "success": "تم إنشاء الحجز بنجاح",
+    "address": "العنوان",
+    "addressPlaceholder": "اضف العنوان",
+    "city": "المدينة",
+    "cityPlaceholder": "اضف المدينة",
+    "area": "المنطقة",
+    "areaPlaceholder": "اضف المنطقة",
+    "phone": "رقم الجوال",
+    "phonePlaceholder": "+966 000000000",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "اضف البريد الإلكتروني",
+    "notes": "ملاحظات الطلب (اختياري)",
+    "notesPlaceholder": "اضف ملاحظات",
+    "subtotal": "الإجمالي",
+    "tax": "ضريبة القيمة المضافة (15%)",
+    "total": "المجموع الكلي",
+    "delivery": "توصيل لموقعك",
+    "deliveryNotAvailable": "التوصيل غير متاح لهذا الموقع",
+    "discount": "الخصم",
+    "locationRequired": "الموقع مطلوب",
+    "notesHint": "يمكنك تحديد وقت الاستلام الطلب هنا، او التنسيق مع المؤجر عن طريق الرسائل."
+  },
+  "bookings": {
+    "title": "حجوزاتي",
+    "currency": "ر.س",
+    "addReview": "أضف تقييمك",
+    "yourReview": "تقييمك",
+    "status": {
+      "pending": "قيد الانتظار",
+      "confirmed": "مؤكد",
+      "completed": "مكتمل",
+      "cancelled": "ملغي"
+    }
+  },
+  "requestComponent": {
+    "confirmDeleteTitle": "تأكيد الحذف",
+    "confirmDeleteMessage": "هل أنت متأكد من حذف هذا الطلب؟",
+    "delete": "حذف",
+    "cancel": "إلغاء",
+    "deleteFailed": "فشل في حذف الطلب"
+  },
+  "search": {
+    "title": "بحث عن المنتجات",
+    "productName": "اسم المنتج",
+    "productNamePlaceholder": "ابحث عن ما تريد...",
+    "category": "التصنيف",
+    "subCategory": "التصنيف الفرعي",
+    "allCategories": "كل التصنيفات",
+    "noSubCategories": "لا يوجد تصنيفات فرعية",
+    "location": "الموقع",
+    "mapDescription": "ابحث عن المنتجات بالقرب منك",
+    "locationPlaceholder": "ابحث عن المدينة أو المنطقة",
+    "mapSearch": "بحث بالخريطة",
+    "addProduct": "اضف منتج",
+    "productList": "قائمة المنتجات",
+    "availableProducts": "قائمة بكافة المنتجات المتاحة للايجار",
+    "availableCars": "أضف منتجك لقائمة المنتجات المتاحة للإيجار",
+    "showList": "قائمة المنتجات",
+    "showMap": "بحث بالخريطة",
+    "locationHint": "أدخل موقعك للعثور على منتجات قريبة منك",
+    "filterProducts": "تصفية المنتجات",
+    "allSubCategories": "كل التصنيفات الفرعية",
+    "selectCategoryFirst": "اختر تصنيفاً أولاً لعرض التصنيفات الفرعية",
+    "currentFilters": "المرشحات الحالية",
+    "noFiltersApplied": "لا توجد مرشحات مطبقة",
+    "clearAllFilters": "مسح جميع المرشحات",
+    "searchTerm": "مصطلح البحث",
+    "breadcrumb": "مسار التنقل",
+    "getCurrentLocation": "الحصول على الموقع الحالي",
+    "selectCategory": "اختر تصنيف",
+    "selectSubCategory": "اختر تصنيف فرعي",
+    "seo": {
+      "page": {
+        "title": "البحث عن منتجات للإيجار - استأجر",
+        "description": "ابحث عن المنتجات المتاحة للإيجار في استأجر. اكتشف آلاف المنتجات للإيجار من الأثاث والإلكترونيات إلى معدات الرحلات والأدوات المنزلية.",
+        "h1": "ابحث عن المنتجات المتاحة للإيجار"
+      },
+      "schema": {
+        "breadcrumb": {
+          "home": "الرئيسية",
+          "search": "البحث",
+          "categories": "الفئات",
+          "products": "المنتجات"
+        }
+      },
+      "meta": {
+        "keywords": "تأجير منتجات، استئجار، السعودية، أثاث للإيجار، إلكترونيات للإيجار، معدات رحلات، أدوات منزلية، توفير المال، منصة تأجير، استأجر"
+      },
+      "category": {
+        "title": "البحث عن منتجات للإيجار - استأجر",
+        "description": "ابحث عن المنتجات المتاحة للإيجار في استأجر. اكتشف آلاف المنتجات للإيجار من الأثاث والإلكترونيات إلى معدات الرحلات والأدوات المنزلية."
+      }
+    }
+  },
+  "header": {
+    "home": "الرئيسية",
+    "blog": "المدونة"
+  },
+  "languageSwitcher": {
+    "en": "English",
+    "ar": "العربية"
+  },
+  "ticket": {
+    "title": "اتصل بنا",
+    "formTitle": "بيانات التواصل",
+    "description": "نحن هنا للمساعدة! املأ النموذج أدناه وسنرد عليك في أقرب وقت ممكن.",
+    "contactInfo": "بيانات التواصل",
+    "name": "الاسم الكامل",
+    "phone": "رقم الهاتف",
+    "email": "البريد الإلكتروني",
+    "subject": "الموضوع",
+    "message": "الرسالة",
+    "image": "صوره توضيحية (اختياري)",
+    "submit": "إرسال الرسالة",
+    "namePlaceholder": "أدخل اسمك الكامل",
+    "phonePlaceholder": "أدخل رقم هاتفك",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "messagePlaceholder": "أدخل رسالتك هنا",
+    "subjectOptions": {
+      "general": "استفسار عام",
+      "support": "الدعم الفني",
+      "feedback": "اقتراحات",
+      "subscription": "طلب اشتراك",
+      "upgrade": "ترقية الحساب",
+      "other": "أخرى"
+    },
+    "success": "تم إرسال رسالتك بنجاح. سنرد عليك قريبًا!",
+    "error": "حدث خطأ أثناء إرسال رسالتك. يرجى المحاولة مرة أخرى."
+  },
+  "proposal": {
+    "title": "اضف طلبك",
+    "formTitle": "بيانات الطلب",
+    "description": "اضف الطلب الخاص بك! املأ النموذج أدناه وسنرد عليك في أقرب وقت ممكن.",
+    "contactInfo": "بيانات العرض",
+    "name": "الاسم الكامل",
+    "phone": "رقم الهاتف",
+    "titleInput": "عنوان المشروع",
+    "titlePlaceholder": "عنوان المشروع او الطلب الخاص",
+    "budget": "الميزانية المتوقعة",
+    "budgetPlaceholder": "مثال:(52 ر.س.)",
+    "pdfLink": "لينك ملف توضيحي",
+    "pdfPlaceholder": "لينك ملف توضيحي (PDF/Word)",
+    "email": "البريد الإلكتروني",
+    "imgLabel": "صور توضيحيه للمشروع",
+    "descriptionOfProposal": "وصف العرض",
+    "submit": "إرسال العرض",
+    "namePlaceholder": "أدخل اسمك الكامل",
+    "phonePlaceholder": "أدخل رقم هاتفك",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "descriptionOfProposalPlaceholder": "معلومات اكثر مثال:(احتاج عدة مستلزمات للتأجير لمدة 10 ايام لمناسبة في مدينة الرياض)",
+    "success": "تم إرسال طلبك بنجاح. سيتم الرد عليك خلال اوقات العمل!",
+    "error": "حدث خطأ أثناء إرسال طلبك. يرجى المحاولة مرة أخرى."
+  },
+  "support": {
+    "ticket": {
+      "title": "تفاصيل التذكرة",
+      "error": "حدث خطأ ما",
+      "ticket": {
+        "refId": "رقم التذكرة",
+        "subject": "الموضوع",
+        "statusLabel": "الحالة:"
+      },
+      "chat": {
+        "title": "محادثة التذكرة",
+        "teamName": "فريق دعم إستأجر",
+        "placeholder": "اكتب رسالتك وتفاصيل مشكلتك هنا...",
+        "send": "إرسال",
+        "closed": "المحادثة مغلقة."
+      },
+      "status": {
+        "new": "جديد",
+        "inprogress": "قيد المعالجة",
+        "solved": "مُغلقة",
+        "cancelled": "مُلغاة"
+      }
+    }
+  },
+  "dashboard": {
+    "header": {
+      "notifications": "الإشعارات",
+      "messages": "الرسائل"
+    },
+    "support": {
+      "title": "تفاصيل التذكرة",
+      "myTickets": "تذاكر الدعم",
+      "ticket": {
+        "refId": "رقم التذكرة",
+        "subject": "الموضوع",
+        "statusLabel": "الحالة:",
+        "date": "التاريخ:"
+      },
+      "chat": {
+        "title": "محادثة التذكرة",
+        "teamName": "فريق دعم إستأجر",
+        "placeholder": "اكتب رسالتك وتفاصيل مشكلتك هنا...",
+        "send": "إرسال",
+        "closed": "المحادثة مغلقة."
+      },
+      "status": {
+        "new": "جديد",
+        "inprogress": "قيد المعالجة",
+        "solved": "مُغلقة",
+        "cancelled": "مُلغاة"
+      },
+      "allTickets": "جميع التذاكر",
+      "noTickets": "لا توجد أي تذاكر دعم حتى الآن",
+      "viewTicket": "عرض التذكرة",
+      "backToTickets": "العودة للتذاكر"
+    },
+    "requestedProducts": {
+      "title": "طلبات المنتجات",
+      "noRequests": "ليس لديك طلبات منتجات"
+    },
+    "SwitchRole": {
+      "label": "المعاينة ك",
+      "renter": "مستأجر",
+      "landlord": "مؤجر",
+      "renterDescription": "أنت الآن تتصفح كـمستأجر، للبحث واستئجار المنتجات.",
+      "landlordDescription": "أنت الآن تتصفح كـمؤجر، لإدارة منتجاتك وطلباتك."
+    },
+    "requests": {
+      "title": "طلبات الاستئجار",
+      "customerName": "اسم العميل",
+      "phone": "رقم الجوال",
+      "address": "العنوان",
+      "country": "الدولة",
+      "city": "المدينة",
+      "area": "المنطقة",
+      "notes": "ملاحظات",
+      "pieces": "قطعة",
+      "piecesCount": "القطع",
+      "price": "السعر",
+      "tax": "الضريبة",
+      "insurance": "التأمين",
+      "totalAmount": "الإجمالي",
+      "orderStatus": "حالة الطلب",
+      "rejectOrder": "رفض الطلب",
+      "acceptOrder": "قبول الطلب",
+      "rejectOrderToast": "تم رفض الطلب بنجاح.",
+      "acceptOrderToast": "تم قبول الطلب بنجاح.",
+      "emailSentToCustomer": "تم إرسال بريد إلكتروني للعميل لتأكيد الطلب.",
+      "orderDeleted": "تم حذف الطلب",
+      "currency": "ر.س",
+      "noRequests": "لا توجد طلبات بعد",
+      "noRequestsDescription": "ابدأ بإضافة المنتجات الآن!",
+      "addProduct": "إضافة منتج",
+      "confirmReject": {
+        "title": "تأكيد رفض الطلب",
+        "message": "هل أنت متأكد من أنك تريد رفض هذا الطلب؟",
+        "cancelText": "إلغاء",
+        "confirmText": "تأكيد الرفض"
+      },
+      "confirmModal": {
+        "cancel": "إلغاء",
+        "confirm": "تأكيد",
+        "delete": "حذف"
+      },
+      "confirmAccept": {
+        "title": "تأكيد قبول الطلب",
+        "message": "هل أنت متأكد من أنك تريد قبول هذا الطلب؟",
+        "cancelText": "إلغاء",
+        "confirmText": "تأكيد القبول"
+      },
+      "receive": "استلام من المؤجر",
+      "pickupFrom": "استلام من",
+      "delivery": "توصيل لموقعك",
+      "free": "توصيل مجاني",
+      "deliveryCompany": "شركة توصيل",
+      "deliveryMethod": "طريقة التوصيل",
+      "deliveryCost": "تكلفة التوصيل"
+    },
+    "ordersList": {
+      "products": "المنتجات",
+      "orderCreationDate": "تاريخ إنشاء الطلب:",
+      "additionalServices": "خدمات اضافية:",
+      "reviewProduct": "تقييم المنتج",
+      "requesterData": "بيانات صاحب الطلب",
+      "ownerData": "بيانات المؤجر",
+      "joinedEstajer": "انضم الى استأجر",
+      "companyName": "اسم الشركة",
+      "registerNumber": "رقم السجل",
+      "taxCode": "الرقم الضريبي",
+      "viewOnMap": "عرض في الخريطة",
+      "noNotes": "لا يوجد ملاحظات",
+      "orderSummary": "ملخص الطلب:",
+      "waitForDeliveryDate": "يرجى الانتظار حتى تاريخ التسليم",
+      "waitForReceiptDate": "يرجى الانتظار حتى تاريخ الاستلام",
+      "emailAlreadySent": "تم إرسال بريد إلكتروني للعميل بالفعل",
+      "confirmEmailTitle": "تأكيد إرسال البريد الإلكتروني",
+      "confirmEmailMessage": "سيتم إرسال بريد إلكتروني للعميل لتأكيد استلام الطلب",
+      "send": "إرسال",
+      "cancel": "إلغاء",
+      "confirmDeleteTitle": "تأكيد الحذف",
+      "confirmDeleteMessage": "هل أنت متأكد أنك تريد حذف هذا الطلب؟",
+      "delete": "حذف",
+      "noOrders": "السلة فارغة",
+      "noOrdersDescription": "سلة التسوق فارغة.\u2028 ابدأ بإضافة المنتجات واستمتع بالتسوق!",
+      "searchProducts": "تسوق الآن!",
+      "viewReceipt": "عرض الفاتورة",
+      "viewInvoice": "عرض فاتورة العمولة"
+    },
+    "settings": {
+      "title": "الإعدادات",
+      "changePassword": {
+        "title": "تغيير كلمة المرور",
+        "currentPassword": "كلمة المرور الحالية",
+        "newPassword": "كلمة المرور الجديدة",
+        "confirmPassword": "تأكيد كلمة المرور الجديدة",
+        "updateButton": "تحديث كلمة المرور",
+        "validation": "كلمة المرور يجب أن تحتوي على حرف كبير وحرف صغير ورقم ويجب أن تكون على الأقل 8 حروف",
+        "passwordMismatch": "كلمة المرور الجديدة وتأكيدها غير متطابقين",
+        "success": "تم تغيير كلمة المرور بنجاح",
+        "error": "حدث خطأ ما"
+      },
+      "profileImage": {
+        "deleteButton": "حذف الصورة",
+        "deleteTitle": "حذف الصورة",
+        "deleteMessage": "هل أنت متأكد من حذف صورة الملف الشخصي؟",
+        "deleteConfirm": "حذف",
+        "deleteCancel": "إلغاء",
+        "uploadError": "الرجاء اختيار ملف صورة",
+        "updateSuccess": "تم تحديث الصورة بنجاح",
+        "deleteSuccess": "تم حذف الصورة بنجاح",
+        "error": "حدث خطأ ما",
+        "uploadImage": "رفع صورة",
+        "profilePicture": "الصورة الشخصية",
+        "rulesTitle": "إرشادات الصورة الشخصية",
+        "rule1": "يجب أن تكون الصورة واضحة وليست ضبابية",
+        "rule2": "يمنع وضع أي معلومات تواصل (رقم هاتف، بريد إلكتروني، معرفات تواصل اجتماعي)",
+        "rule3": "يمنع استخدام شعارات الشركات أو العلامات التجارية",
+        "rule4": "يفضل أن تكون صورة وجه حقيقية",
+        "rejectedTitle": "تم رفض الصورة",
+        "rejected": "مرفوضة",
+        "requestReview": "طلب مراجعة",
+        "reviewPending": "المراجعة قيد الانتظار",
+        "reviewRequested": "تم طلب المراجعة بنجاح",
+        "premiumUpgrade": {
+          "title": "ارتقِ بحسابك إلى المستوى المميز",
+          "subtitle": "احصل على حرية كاملة في تخصيص ملفك الشخصي ومزايا حصرية تميّزك عن الآخرين",
+          "benefit1": "اختيار أي صورة شخصية تريدها بدون قيود",
+          "benefit2": "ظهور اسمك كمستخدم مميز في الموقع",
+          "benefit3": "عرض صفحتك الشخصية في الصفحة الرئيسية للموقع",
+          "benefit4": "أولوية ظهور منتجاتك على باقي المنتجات",
+          "benefit5": "مزايا إضافية حصرية",
+          "cta": "تواصل مع الإدارة للترقية",
+          "badge": "حساب مميز"
+        }
+      },
+      "agreeAndUpload": "الموافقة والرفع",
+      "close": "إغلاق",
+      "cancel": "إلغاء",
+      "accountInfo": {
+        "notifications": "الإشعارات",
+        "notificationsEnabled": "مفعل",
+        "enableNotifications": "تفعيل",
+        "sendTestNotification": "إرسال إشعار تجريبي",
+        "title": "معلومات الحساب",
+        "fullName": "الاسم بالكامل",
+        "fullNamePlaceholder": "أدخل الاسم بالكامل",
+        "username": "اسم المستخدم",
+        "usernamePlaceholder": "أدخل اسم المستخدم",
+        "email": "البريد الإلكتروني",
+        "emailPlaceholder": "example@mail.com",
+        "phone": "رقم الجوال",
+        "phonePlaceholder": "05xxxxxxxx",
+        "invalidPhoneError": "رقم الجوال غير صالح، يجب ان يتكون الرقم من 10 ارقام ويبدا 05، مثل:0500000000",
+        "address": "العنوان",
+        "addressPlaceholder": "أدخل عنوانك بالتفصيل",
+        "bio": "نبذة تعريفية عني",
+        "bioLinkText": "(تظهر في صفحة الملف الشخصي)",
+        "bioPlaceholder": "اكتب نبذة عن نفسك",
+        "companyName": "اسم المنشأة",
+        "companyNamePlaceholder": "أدخل اسم المنشأة",
+        "registerNumber": "رقم السجل التجاري",
+        "registerNumberPlaceholder": "أدخل رقم السجل التجاري",
+        "taxCode": "الرقم الضريبي",
+        "taxCodePlaceholder": "أدخل الرقم الضريبي",
+        "updateButton": "تحديث البيانات",
+        "updateSuccess": "تم تحديث البيانات بنجاح",
+        "error": "حدث خطأ ما",
+        "contactAdminNote": "لتغيير البريد الإلكتروني أو رقم الجوال، يرجى التواصل مع الإدارة عبر",
+        "contactForm": "صفحة التواصل"
+      },
+      "branches": {
+        "title": "إدارة الفروع",
+        "addBranch": "إضافة فرع",
+        "branchName": "اسم الفرع",
+        "branchLocation": "موقع الفرع",
+        "branchLink": "رابط الفرع",
+        "noBranches": "لا توجد فروع مضافة بعد",
+        "delete": "حذف",
+        "edit": "تعديل",
+        "save": "حفظ",
+        "cancel": "إلغاء",
+        "copyLink": "نسخ الرابط",
+        "linkCopied": "تم نسخ الرابط بنجاح",
+        "addSuccess": "تم إضافة الفرع بنجاح",
+        "updateSuccess": "تم تحديث الفرع بنجاح",
+        "deleteSuccess": "تم حذف الفرع بنجاح",
+        "error": "حدث خطأ ما",
+        "confirmDelete": "هل أنت متأكد من حذف هذا الفرع?",
+        "address": "العنوان",
+        "coordinates": "الإحداثيات"
+      },
+      "confirmModal": {
+        "cancel": "تراجع",
+        "confirm": "تأكيد",
+        "delete": "حذف"
+      },
+      "holidayManager": {
+        "title": "فترات الإجازة وعدم التوفر",
+        "desc": "حدد فترات زمنية تكون فيها جميع منتجاتك غير متاحة للإيجار.",
+        "addPeriod": "إضافة فترة جديدة",
+        "editPeriod": "تعديل فترة إجازة",
+        "selectRange": "اختر نطاق التواريخ",
+        "add": "إضافة",
+        "update": "تعديل",
+        "cancel": "إلغاء",
+        "noPeriods": "لم يتم تحديد فترات إجازة بعد",
+        "saveSuccess": "تم تحديث فترات الإجازة بنجاح",
+        "error": "حدث خطأ ما",
+        "deleteConfirmTitle": "حذف فترة الإجازة",
+        "deleteConfirmMessage": "هل أنت متأكد من حذف فترة الإجازة هذه؟ سيتم إعادة تمكين حجز منتجاتك خلال هذه الفترة.",
+        "delete": "حذف"
+      }
+    },
+    "renterSettings": {
+      "title": "إعدادات المؤجر",
+      "nafathVerification": "توثيق نفاذ",
+      "nafathVerified": "تم التحقق من هويتك",
+      "nafathNotVerified": "مطلوب التحقق من الهوية",
+      "verifyNow": "تحقق الآن",
+      "nafathSuccess": "تم إكمال توثيق نفاذ بنجاح",
+      "nafathError": "فشل في توثيق نفاذ",
+      "bankAccount": "الحساب البنكي (IBAN)",
+      "ibanAdded": "تم إضافة معلومات الحساب البنكي",
+      "ibanNotAdded": "مطلوب معلومات الحساب البنكي",
+      "addIban": "إضافة IBAN",
+      "nafathRequiredForIban": "مطلوب توثيق نفاذ قبل إضافة IBAN",
+      "location": "الموقع",
+      "locationAdded": "تم إضافة معلومات الموقع",
+      "locationNotAdded": "مطلوب معلومات الموقع",
+      "addLocation": "إضافة الموقع",
+      "updateLocation": "تحديث الموقع",
+      "overallStatus": "الحالة العامة",
+      "completionRate": "معدل الإكمال",
+      "updateLocationTitle": "تحديث الموقع",
+      "cancel": "إلغاء",
+      "saveLocation": "حفظ الموقع",
+      "locationRequired": "يرجى اختيار موقع صحيح",
+      "locationUpdateError": "فشل في تحديث الموقع",
+      "locationUpdateSuccess": "تم تحديث الموقع بنجاح"
+    },
+    "home": {
+      "title": "لوحة التحكم",
+      "welcome": {
+        "greeting": "مرحباً بك\u00a0{name} في لوحة التحكم",
+        "notifications": "اليوم لديك\u00a0{count} إشعار غير مقروء",
+        "settings": "تعديل الحساب"
+      },
+      "cards": {
+        "rentalRequests": "طلبات التأجير المرسلة",
+        "completedOrders": "الطلبات المكتملة",
+        "pendingOrders": "الطلبات قيد الاتفاق",
+        "canceledOrders": "الطلبات الملغية",
+        "productRequests": "طلبات المنتجات الغير موجودة",
+        "unreadMessages": "رسائل غير مقروءة"
+      },
+      "latestOrders": {
+        "title": "احدث طلباتي",
+        "landlordTitle": "احدث الطلبات",
+        "viewAll": "عرض الكل",
+        "status": {
+          "completed": "مكتمل",
+          "pending": "قيد الاتفاق",
+          "canceled": "ملغي"
+        },
+        "cart": {
+          "total": "المجموع"
+        },
+        "landlord": "المؤجر",
+        "renter": "المستأجر",
+        "numberOfProducts": "عدد المنتجات",
+        "orderDetails": "تفاصيل الطلب",
+        "notSpecified": "غير محدد",
+        "perDay": "في اليوم",
+        "noOrders": "لا توجد طلبات بعد",
+        "noOrdersDescription": "ابدأ بإضافة المنتجات الآن!"
+      }
+    },
+    "myOrders": {
+      "title": "طلبات الإيجار الخاصة بي",
+      "noOrders": "لا توجد طلبات",
+      "orderNumber": "رقم الطلب",
+      "orderDate": "تاريخ الطلب",
+      "orderStatus": "حالة الطلب",
+      "totalAmount": "المبلغ الإجمالي",
+      "viewDetails": "عرض التفاصيل"
+    },
+    "orderStatus": {
+      "sendReceiptRequest": "ارسل طلب استلام",
+      "orderDelivered": "تم تسليم الطلب",
+      "orderCompleted": "طلب مكتمل",
+      "rejected": "تم الرفض",
+      "deleteOrder": "حذف الطلب",
+      "payNow": "ادفع الآن",
+      "waitingForAcceptance": "بإنتظار قبول الطلب",
+      "receiveOrder": "إستلام الطلب",
+      "processingRejection": "جاري معالجة الرفض...",
+      "received": "تم الإستلام",
+      "paymentProcessing": "جاري معالجة عملية الدفع",
+      "reportDamage": "الإبلاغ عن تلف!",
+      "damageReported": "تم الإبلاغ عن تلف"
+    },
+    "damageReport": {
+      "title": "تقرير الأضرار",
+      "description": "قم بتقديم تقرير عن أي أضرار لحقت بالمنتج بعد انتهاء فترة التأجير",
+      "orderInformation": "معلومات الطلب",
+      "orderId": "رقم الطلب",
+      "orderStatus": "حالة الطلب",
+      "startDate": "تاريخ البداية",
+      "endDate": "تاريخ النهاية",
+      "productInformation": "معلومات المنتج",
+      "quantity": "الكمية",
+      "beforeImages": {
+        "title": "صور المنتج قبل التأجير",
+        "description": "قم برفع صور المنتج كما كان قبل التأجير (اختياري)"
+      },
+      "afterImages": {
+        "title": "صور المنتج بعد التأجير",
+        "description": "قم بتصوير المنتج بحالته الحالية بعد انتهاء فترة التأجير"
+      },
+      "damageDescription": {
+        "title": "وصف الضرر",
+        "placeholder": "اكتب وصفاً تفصيلياً للأضرار التي لحقت بالمنتج..."
+      },
+      "notes": {
+        "title": "ملاحظات إضافية",
+        "placeholder": "أضف أي ملاحظات أو تفاصيل إضافية..."
+      },
+      "customerDocumentation": {
+        "title": "صور توثيق العميل",
+        "description": "الصور التي قام العميل بتوثيقها عند استلام المنتج"
+      },
+      "submitReport": "إرسال التقرير",
+      "errors": {
+        "damageDescriptionRequired": "وصف الضرر مطلوب",
+        "afterImagesRequired": "صور المنتج بعد التأجير مطلوبة",
+        "beforeImagesRequired": "صور المنتج قبل التأجير مطلوبة",
+        "productNotFound": "المنتج غير موجود",
+        "submitFailed": "فشل في إرسال التقرير"
+      },
+      "success": {
+        "reportSubmitted": "تم إرسال تقرير الضرر بنجاح"
+      }
+    },
+    "damageReports": {
+      "title": "تقارير الأضرار",
+      "noReports": "لا توجد تقارير أضرار",
+      "noReportsDescription": "لم تقم بتقديم أي تقارير أضرار بعد",
+      "reportId": "رقم التقرير",
+      "productInfo": "معلومات المنتج",
+      "damageDescription": "وصف الضرر",
+      "afterImages": "صور بعد الضرر",
+      "beforeImages": "صور قبل التأجير",
+      "notes": "ملاحظات إضافية",
+      "moreImages": "صورة إضافية",
+      "viewOrderDetails": "عرض تفاصيل الطلب",
+      "status": {
+        "pending": "قيد المراجعة",
+        "reviewed": "تحت المراجعة",
+        "resolved": "تم الحل",
+        "rejected": "مرفوض"
+      }
+    },
+    "renter": {
+      "title": "لوحة التحكم",
+      "currency": "ر.س",
+      "cards": {
+        "addProduct": "إضافة",
+        "products": "المنتجات",
+        "receivedRentals": "طلبات التأجير المستلمة",
+        "dailyViews": "مشاهدات اليوم",
+        "dailyEarnings": "ارباح اليوم",
+        "totalBalance": "الرصيد الكلي",
+        "unreadMessages": "رسائل غير مقروءة",
+        "progress": {
+          "completed": "طلب مكتمل",
+          "pending": "طلب قيد الاتفاق",
+          "canceled": "طلب ملغي"
+        }
+      }
+    },
+    "filters": {
+      "title": "مرشحات",
+      "productName": "اسم المنتج",
+      "productNamePlaceholder": "ابحث عن اسم المنتج",
+      "status": "الحالة",
+      "all": "الكل",
+      "approved": "موافق عليه",
+      "rejected": "مرفوض",
+      "pending": "قيد الانتظار",
+      "hidden": "مخفي",
+      "nana": "نعناع",
+      "deleted": "محذوف",
+      "main": "منتجات رئيسية",
+      "category": "التصنيف",
+      "allCategories": "كل التصنيفات",
+      "allSubCategories": "كل التصنيفات الفرعية",
+      "subcategory": "التصنيف الفرعية",
+      "apply": "تطبيق المرشحات",
+      "clear": "مسح المرشحات",
+      "sortBy": {
+        "title": "ترتيب حسب",
+        "dateAdded": "تاريخ الإضافة",
+        "newest": "الأحدث",
+        "oldest": "الأقدم"
+      }
+    },
+    "messages": {
+      "title": "الرسائل",
+      "noMessages": "لا توجد رسائل بعد",
+      "noMessagesDescription": "ابدأ بإضافة الاشخاص واستمتع بالمحادثات!"
+    },
+    "shop": {
+      "title": "متجري",
+      "description": "إدارة بيانات المتجر الخاص بك",
+      "noShopTitle": "لا يوجد متجر مرتبط بهذا الحساب",
+      "noShopDesc": "يرجى التواصل مع الإدارة لإنشاء المتجر الخاص بك",
+      "editShop": "تعديل بيانات المتجر",
+      "updateSuccess": "تم تحديث بيانات المتجر بنجاح",
+      "updateError": "حدث خطأ أثناء تحديث المتجر"
+    },
+    "visits": {
+      "title": "الزيارات",
+      "analytics": "تحليلات الزوار",
+      "overview": "نظرة عامة على الزيارات",
+      "noVisits": "لا توجد زيارات مسجلة للمنتجات في هذه الفترة.",
+      "totalVisits": "إجمالي الزيارات",
+      "totalVisitsDesc": "إجمالي عدد الزيارات",
+      "todayVisits": "زيارات اليوم",
+      "todayVisitsDesc": "نشاط اليوم الحالي",
+      "averageDaily": "متوسط الزوار",
+      "averageDailyDesc": "يومياً خلال الفترة",
+      "peakDaily": "أعلى زيارات يومية",
+      "peakDailyDesc": "أقصى عدد مسجل",
+      "trend": "نشاط الزيارات (آخر 30 يوم)",
+      "mostVisited": "أكثر الصفحات زيارة",
+      "mostVisitedDesc": "تحليل الصفحات الأكثر استقطاباً للزوار",
+      "pageName": "المنتج / الصفحة",
+      "visitsCount": "عدد الزيارات",
+      "rank": "الترتيب",
+      "lastVisit": "آخر زيارة",
+      "visit": "زيارة",
+      "visits": "زيارات",
+      "product": "منتج",
+      "profile": "الصفحة الشخصية",
+      "interest": "مؤشر الإقبال",
+      "unknownProduct": "منتج غير معروف",
+      "chartSummary": "ملخص الزيارات",
+      "highestCount": "أعلى عدد زوار",
+      "lowestCount": "أقل عدد زوار",
+      "visitorUnit": "زائر",
+      "noData": "لا توجد بيانات للعرض"
+    }
+  },
+  "profile": {
+    "company": "شركة",
+    "premium": "مميز",
+    "noAddress": "لا يوجد عنوان",
+    "noDescription": "لا يوجد وصف",
+    "lastSeen": "اخر تواجد له في الموقع",
+    "joinedAt": "انضم إلى استأجر",
+    "products": "المنتجات",
+    "rentalOrders": "طلبات الاستئجار",
+    "requestedProducts": "طلبات المنتجات الغير موجودة",
+    "productsList": "قائمة المنتجات",
+    "requestedProductsList": "قائمة المنتجات الغير موجودة",
+    "reviews": "التقييمات",
+    "monthsSinceJoined": "شهر منذ الانضمام",
+    "trustedRenter": "مؤجر موثوق",
+    "accountStatus": "حالة الحساب",
+    "share": "مشاركة",
+    "noRequests": "لم يتم العثور على اي عناصر",
+    "userNotFound": "المستخدم غير موجود",
+    "userNotFoundDescription": "لا يمكن العثور على الملف الشخصي للمستخدم المطلوب.",
+    "viewProductsBy": "عرض المنتجات بواسطة",
+    "viewRequestedProductsBy": "عرض المنتجات المطلوبة بواسطة",
+    "discoverItemsLookingFor": "اكتشف العناصر والخدمات التي يبحثون عنها.",
+    "viewReviewsFor": "عرض التقييمات لـ",
+    "customerReviews": "تقييمات العملاء",
+    "with": "مع",
+    "averageRating": "التقييم العام",
+    "profilePicture": "صورة الملف الشخصي",
+    "quality": "الجودة",
+    "price": "السعر",
+    "experience": "التجربة",
+    "communication": "التواصل",
+    "location": "الموقع",
+    "ratingStars": "نجوم التقييم",
+    "editProfile": "تعديل الملف الشخصي",
+    "shareProfile": "مشاركة الملف الشخصي",
+    "title": "التقييمات",
+    "productReviews": "تقييمات المنتج",
+    "reviewsList": "قائمة التقييمات",
+    "noReviews": "لا توجد تقييمات",
+    "noReviewsDescription": "لا توجد تقييمات متاحة حتى الآن.",
+    "loading": "جاري التحميل...",
+    "loadMore": "تحميل المزيد",
+    "siteName": "استأجر",
+    "ratingStar": "نجمة التقييم",
+    "viewProductsFor": "عرض المنتجات لـ",
+    "browseProductsFrom": "تصفح المنتجات من",
+    "viewRequestsFor": "عرض الطلبات لـ",
+    "browseRequestsFrom": "تصفح الطلبات من",
+    "readReviewsFor": "قراءة التقييمات لـ"
+  },
+  "singleBlog": {
+    "articleContents": "محتويات المقال",
+    "latestBlogPosts": "احدث المقالات",
+    "moreBlogs": "المزيد من المقالات",
+    "noLatestBlogPosts": "لا يوجد مقالات",
+    "shareButtons": {
+      "shareText": "مشاركة المقالة على",
+      "share": "مشاركة",
+      "shareThisPage": "مشاركة هذه الصفحة",
+      "shareOn": "مشاركة على",
+      "copyLink": "نسخ الرابط",
+      "copied": "تم النسخ!",
+      "shareProduct": "مشاركة المنتج",
+      "shareArticle": "مشاركة المقال"
+    },
+    "comments": {
+      "title": "التعليقات",
+      "respond": "رد",
+      "addComment": "أضف تعليق",
+      "noComments": "ليس هناك اي تعليقات",
+      "confirmModal": {
+        "cancel": "إلغاء",
+        "confirm": "تأكيد"
+      },
+      "delete": {
+        "title": "تأكيد الحذف",
+        "message": "هل أنت متأكد من حذف هذا التعليق؟",
+        "cancel": "إلغاء",
+        "confirm": "تأكيد الحذف",
+        "deleting": "جاري الحذف...",
+        "success": "تم حذف التعليق بنجاح",
+        "error": "حدث خطأ اثناء حذف التعليق"
+      }
+    },
+    "addComment": {
+      "title": "اضافة تعليق",
+      "enterComment": "اترك تعليقك",
+      "commentPlaceholder": "اوصف تجربتك مع المنتج والمؤجر...",
+      "add": "أضف تعليقك",
+      "adding": "يتم اضافة تعليقك...",
+      "cancel": "إلغاء الأمر",
+      "toast": {
+        "commentMissing": "الرجاء ادخال التعليق الخاص بك",
+        "success": "تم اضافة تعليقك",
+        "error": "حدث خطأ اثناء اضافة تعليقك"
+      },
+      "respond": {
+        "title": "اضافة الرد",
+        "text": "اترك ردك",
+        "placeholder": "اضف ردك على التعليق",
+        "add": "أضف ردك",
+        "adding": "يتم اضافة ردك..."
+      }
+    },
+    "editComment": {
+      "title": "تعديل التعليق",
+      "edit": "تعديل",
+      "editing": "يتم تعديل تعليقك...",
+      "cancel": "إلغاء الأمر",
+      "enterComment": "عدل تعليقك",
+      "commentPlaceholder": "عدل التعليق الخاص بك...",
+      "save": "حفظ",
+      "saving": "جاري الحفظ...",
+      "toast": {
+        "error": "حدث خطأ اثناء تعديل تعليقك",
+        "success": "تم تعديل تعليقك بنجاح"
+      }
+    }
+  },
+  "blog": {
+    "loading": "جاري التحميل...",
+    "empty": "ليس هناك اي مدونه",
+    "delete": "",
+    "cancel": "",
+    "frequentlyAskedQuestions": "الأسئلة الشائعة",
+    "categories": {
+      "all": "الكل",
+      "latestNews": "أخر الأخبار",
+      "partnerships": "الشراكات",
+      "eventParticipation": "مشاركات الفعاليات",
+      "topics": "المواضيع"
+    }
+  },
+  "singleProduct": {
+    "order": {
+      "clearCartModal": {
+        "title": "تنبيه",
+        "message": "استأجر منتجات من نفس المؤجر او احذف السلة السابقة لإضافة هذا المنتج",
+        "mixedDates": "يجب ان يكون تاريخ استئجار المنتج السابق مطابق لتاريخ استئجار المنتج الجديد",
+        "cancel": "إلغاء",
+        "clearCart": "حذف السلة"
+      },
+      "currency": "ر.س",
+      "cost": {
+        "title": "حساب التكلفة",
+        "cost": "التكلفة",
+        "insurance": "قيمة التأمين",
+        "tax": "الضريبة",
+        "total": "المجموع",
+        "services": "خدمات إضافية"
+      },
+      "toast": {
+        "selectRentalPeriod": "من فضلك اختر فترة تأجير",
+        "cantRentOwnProduct": "لا يمكنك استئجار المنتج الخاص بك",
+        "addedToCart": "تمت الإضافة إلى السلة",
+        "maxQuantity": "الحد الأقصى للكمية هو\u00a0{quantity}",
+        "error": "حدث خطأ ما"
+      },
+      "rangeDate": {
+        "datesUnavailable": "بعض التواريخ في هذا النطاق محجوزة بالكامل",
+        "minDays": "يجب ألا يقل عدد ايام الحجز عن\u00a0{days} يوم",
+        "bookingDays": "عدد ايام الحجز\u00a0{days} يوم"
+      },
+      "reviews": {
+        "toast": {
+          "success": "تم التقييم بنجاح",
+          "error": "حدث خطأ ما"
+        }
+      },
+      "report": {
+        "toast": {
+          "selectReason": "الرجاء اختيار سبب البلاغ",
+          "success": "تم إرسال البلاغ بنجاح",
+          "selectRentalPeriod": "من فضلك اختر فترة تأجير",
+          "cantRentOwnProduct": "لا يمكنك استئجار المنتج الخاص بك",
+          "addedToCart": "تمت الإضافة إلى السلة",
+          "error": "حدث خطأ ما"
+        }
+      },
+      "quantity": "العدد",
+      "additionalServices": "خدمات اضافية",
+      "costCalculation": "حساب التكلفة",
+      "insuranceValue": "قيمة التأمين",
+      "totalCost": "التكلفة الكلية",
+      "sendBookingRequest": "ارسل طلب حجز",
+      "clearCartConfirm": "هل تريد حذف المنتجات الموجودة في السلة؟",
+      "yes": "نعم",
+      "no": "لا",
+      "daysCount": "عدد ايام الحجز",
+      "hoursCount": "عدد ساعات الحجز",
+      "discount": "الخصم",
+      "quantityDiscount": "خصم الكمية",
+      "bookingDaysCount": "{daysNum} يوم",
+      "bookingHoursCount": "{hoursNum} ساعة",
+      "damageWarning": "في حالة اتلاف المنتج يتم دفع مبلغ\u00a0{amount}\u00a0{currency} إضافي",
+      "pickup": "تاريخ الإستلام",
+      "dropOff": "تاريخ التسليم",
+      "nextDiscountInfo": "احجز لمدة\u00a0{days} أيام واحصل على خصم\u00a0{discount}%",
+      "nextQtyDiscountInfo": "استأجر {quantity} قطع واحصل على خصم {discount}%",
+      "selectDate": "اختر التاريخ",
+      "minQuantity": "أقل كمية {min}",
+      "rentNow": "استأجر الآن",
+      "deliveryPickup": "طريقة الاستلام",
+      "back": "السابق",
+      "next": "التالي",
+      "selectPackage": "اختر الباقة",
+      "selectRentalPeriod": "اختر فترة الإيجار",
+      "piece": "قطعة",
+      "pieces": "قطع",
+      "am": "ص",
+      "receive": "استلام من المؤجر",
+      "pickupFrom": "استلام من",
+      "delivery": "توصيل لموقعك",
+      "free": "توصيل مجاني",
+      "deliveryCompany": "شركة توصيل",
+      "deliveryOptions": "خيارات التوصيل",
+      "redirectingTo": "سيتم تحويلك إلى",
+      "cart": "سلة المشتريات",
+      "after": "بعد",
+      "seconds": "ثواني",
+      "cancel": "إلغاء"
+    },
+    "reviews": {
+      "addReviewBtn": "أضف تقييم",
+      "userName": "اسم صاحب التقييم",
+      "userNamePlaceholder": "أدخل الاسم (مثال: محمد أحمد)",
+      "userImage": "صورة صاحب التقييم",
+      "uploadUserImage": "رفع صورة",
+      "title": "التقييمات",
+      "addReview": "أضف تقييمك",
+      "reviewProduct": "تقييم المنتج",
+      "rateExperience": "قيّم تجربتك مع المؤجر",
+      "quality": "الجودة",
+      "price": "السعر",
+      "communication": "التواصل",
+      "experience": "التجربة",
+      "leaveComment": "اترك تعليقك",
+      "commentPlaceholder": "اوصف تجربتك مع المنتج والمؤجر...",
+      "saving": "جاري الحفظ...",
+      "cancel": "إلغاء الأمر",
+      "loading": "جاري التحميل...",
+      "loadMore": "عرض المزيد",
+      "noReviews": "لا توجد تقييمات",
+      "noReviewsDescription": "ليس لديك أي عناصر في قائمتك بعد.\u2028 لم يَفُت الأوان لإضافتها",
+      "toast": {
+        "success": "تم التقييم بنجاح",
+        "error": "حدث خطاء ما",
+        "ratingError": "يرجى تقييم جميع العناصر"
+      }
+    },
+    "report": {
+      "reportProduct": "ابلاغ عن هذا المنتج",
+      "reportTitle": "الإبلاغ عن المنتج",
+      "reportReason": "سبب البلاغ",
+      "fakeProduct": "منتج مزيف",
+      "inappropriateContent": "محتوى غير لائق",
+      "scam": "عملية احتيال",
+      "otherReason": "سبب آخر",
+      "additionalDetails": "تفاصيل إضافية",
+      "detailsPlaceholder": "اشرح سبب البلاغ بالتفصيل...",
+      "sending": "جاري الإرسال...",
+      "send": "إرسال البلاغ",
+      "cancel": "إلغاء"
+    },
+    "nearbyProducts": {
+      "title": "منتجات متاحة في نفس المنطقة",
+      "description": "قائمة منتجات متاحة للايجار بالقرب من منطقتك",
+      "noProducts": "لا توجد منتجات متاحة في هذه المنطقة",
+      "showMore": "عرض المزيد"
+    },
+    "similarProducts": {
+      "title": "منتجات مشابهة",
+      "description": "قائمة منتجات مشابهة لهذا المنتج",
+      "noProducts": "لا توجد منتجات مشابهة لهذا المنتج",
+      "showMore": "عرض المزيد"
+    },
+    "deliveryInfo": {
+      "title": "معلومات التوصيل",
+      "pickupLocation": "موقع استلام المنتج",
+      "freeDeliveryTitle": "توصيل مجاني",
+      "freeDeliveryDescription": "استمتع بخدمة التوصيل المجانية داخل {governorate}",
+      "freeDeliveryBadge": "مجاني داخل {governorate}",
+      "deliveryAvailableTitle": "التوصيل متاح",
+      "perKmDescription": "نوصل لجميع مناطق المملكة العربية السعودية",
+      "perKmNote": "يتم احتساب تكلفة التوصيل حسب المسافة",
+      "fixedCityTitle": "مناطق التوصيل المتاحة",
+      "allGovernoratesAvailable": "التوصيل متاح لجميع المناطق",
+      "deliveryCost": "تكلفة التوصيل",
+      "sar": "ر.س",
+      "showMore": "عرض المزيد",
+      "showLess": "عرض أقل",
+      "deliveryCompanyTitle": "التوصيل عبر شركة شحن",
+      "deliveryCompanyDescription": "يتم التوصيل عن طريق شركة شحن معتمدة",
+      "allCities": "جميع المدن",
+      "free": "مجاني"
+    }
+  },
+  "privacy": {
+    "title": "سياسة الخصوصية",
+    "subtitle": "مرحباً بكم في موقع منصة استأجر",
+    "questions": {
+      "title": "لديك اسئلة؟",
+      "explore": "تصفح",
+      "faq": "الاسئلة الشائعة",
+      "contact": "تواصل معنا على",
+      "email": "service@estajer.com"
+    }
+  },
+  "cancellation": {
+    "title": "سياسة الإلغاء",
+    "subtitle": "توضح هذه الوثيقة سياسات الإلغاء التي تحكم المعاملات بين المؤجرين والمستأجرين على منصة استأجر، لضمان الوضوح والعدالة لجميع الأطراف."
+  },
+  "editProductPage": {
+    "title": "تعديل المنتج"
+  },
+  "addProductPage": {
+    "mcpBanner": {
+      "fabText": "أضف بالذكاء الاصطناعي",
+      "choiceTitle": "أضف منتجاتك بشكل أسرع",
+      "choiceSubtitle": "اختر طريقة إضافة منتجك:",
+      "aiOption": "ذكاء استأجر الاصطناعي",
+      "aiOptionDesc": "ارفع صور منتجك وسيتولى ذكاؤنا الاصطناعي ملء التفاصيل تلقائياً",
+      "mcpOption": "خادم MCP (Claude / أي ذكاء اصطناعي)",
+      "mcpOptionDesc": "اربط مساعدك الذكاء الاصطناعي الخاص عبر بروتوكول MCP",
+      "title": "أضف منتجاتك فوراً باستخدام الذكاء الاصطناعي!",
+      "description": "لا تضيع وقتك في ملء النماذج يدوياً. اربط خادم بروتوكول سياق النموذج (MCP) الخاص بنا بـ Claude أو أي مساعد ذكاء اصطناعي متوافق لتضيف منتجاتك في ثوانٍ معدودة عبر المحادثة فقط.",
+      "howItWorks": "كيف تعمل؟",
+      "serverUrl": "رابط خادم MCP",
+      "sseEndpoint": "رابط SSE",
+      "step1": "1. أضف إعداد خادم MCP إلى مساعد الذكاء الاصطناعي الخاص بك (مثل إعدادات Claude Desktop).",
+      "step2": "2. ابدأ محادثة وقل له: \"أريد إضافة منتج على استأجر\".",
+      "step3": "3. شارك تفاصيل منتجك أو ارفع الصور، وسيتولى الذكاء الاصطناعي الباقي!",
+      "configHeading": "مثال على إعداد Claude Desktop",
+      "copied": "تم النسخ!",
+      "copyConfig": "نسخ الإعدادات",
+      "backToChoice": "رجوع"
+    },
+    "aiAssist": {
+      "title": "إضافة منتج بالذكاء الاصطناعي",
+      "subtitle": "ارفع صور منتجك وسيتولى ذكاء استأجر ملء التفاصيل تلقائياً.",
+      "uploadLabel": "ارفع صور المنتج",
+      "hintsLabel": "تفاصيل إضافية (اختياري)",
+      "hintsPlaceholder": "مثل: اسم الماركة، الموقع، السعر المتوقع، الحالة...",
+      "analyzeBtn": "تحليل بالذكاء الاصطناعي",
+      "analyzing": "الذكاء الاصطناعي يحلل صورك...",
+      "suggestionTitle": "اقتراح الذكاء الاصطناعي",
+      "confidence": "دقة التحليل",
+      "high": "عالية",
+      "medium": "متوسطة",
+      "low": "منخفضة",
+      "applyBtn": "تطبيق على النموذج",
+      "retryBtn": "إعادة التحليل بصور جديدة",
+      "notes": "ملاحظات الذكاء الاصطناعي",
+      "nameAr": "الاسم بالعربية",
+      "nameEn": "الاسم بالإنجليزية",
+      "descAr": "الوصف بالعربية",
+      "descEn": "الوصف بالإنجليزية",
+      "category": "الفئة",
+      "subCategory": "الفئة الفرعية",
+      "rentalValue": "السعر / يوم (ريال)",
+      "insurance": "مبلغ التأمين (ريال)",
+      "locationText": "موقع تواجد المنتج (الحي والمدينة)",
+      "minDays": "أقل أيام إيجار",
+      "errorNoImages": "يرجى رفع صورة واحدة على الأقل أولاً.",
+      "errorAnalysis": "فشل التحليل. يرجى المحاولة مجدداً.",
+      "applied": "تم تطبيق البيانات على النموذج! راجعها وأرسل.",
+      "backToChoice": "رجوع",
+      "imageLimitNote": "سيقوم الذكاء الاصطناعي بتحليل أول 3 صور فقط لاستخراج التفاصيل. يمكنك سحب الصور لإعادة ترتيبها.",
+      "initialUserMessage": "تم رفع صور المنتج للتحليل.",
+      "chatTab": "المحادثة مع المساعد",
+      "suggestionTab": "البيانات المقترحة"
+    },
+    "promo": {
+      "title": "أضف منتجك فوراً بالذكاء الاصطناعي!",
+      "new": "جديد",
+      "description": "وفر وقتك! ارفع صور المنتج وسيتولى الذكاء الاصطناعي تعبئة جميع المواصفات، الوصف، الأسعار والخصومات في ثوانٍ معدودة.",
+      "btn": "✦ ابدأ الإضافة الذكية"
+    },
+    "formSteps": {
+      "step1": {
+        "title": "معلومات عامة",
+        "description": "قم بادخال بيانات المنتج"
+      },
+      "generalInformation": {
+        "categoryLabel": "الفئة",
+        "subCategoryLabel": "الفئة الفرعية",
+        "nameArLabel": "اسم المنتج (بالعربية)",
+        "nameEnLabel": "اسم المنتج (بالإنجليزية)",
+        "descriptionArLabel": "الوصف (بالعربية)",
+        "descriptionEnLabel": "الوصف (بالإنجليزية)",
+        "statusLabel": "حالة المنتج",
+        "namePlaceholder": "أدخل اسم المنتج",
+        "descriptionPlaceholder": "أدخل وصفًا للمنتج",
+        "nameArInputPlaceholder": "اضف اسم المنتج بالعربي",
+        "nameEnInputPlaceholder": "اضف اسم المنتج بالإنجليزية",
+        "statusOptionExcellent": "ممتازة",
+        "statusOptionVeryGood": "جيدة جداً",
+        "statusOptionGood": "جيدة",
+        "quantityLabel": "عدد القطع المتوفرة",
+        "quantityPlaceholder": "0",
+        "minQuantityLabel": "أقل كمية للإيجار",
+        "minQuantityPlaceholder": "1",
+        "noSubCategoriesText": "لا يوجد تصنيفات فرعية",
+        "descriptionArInputPlaceholder": "اضف وصف المنتج بالعربي",
+        "descriptionEnInputPlaceholder": "اضف وصف المنتج بالإنجليزية"
+      },
+      "step2": {
+        "title": "صور المنتج",
+        "description": "قم برفع صور واضحة للمنتج من عدة زوايا"
+      },
+      "step3": {
+        "title": "معلومات العنوان",
+        "description": "قم بادخال بيانات عنوانك"
+      },
+      "step4": {
+        "title": "تفاصيل الاستئجار",
+        "description": "قم بإدخال بيانات السعر وقيمة التأمين والخدمات الإضافية"
+      },
+      "additionalDetails": {
+        "title": "تفاصيل إضافية",
+        "optional": "اختياري",
+        "description": "أضف معلومات تزيد من جاذبية منتجك للمستأجرين — يمكنك تخطّيها.",
+        "skipHint": "يمكنك تخطّي هذا القسم كلياً — كل الحقول اختيارية",
+        "useCases": {
+          "title": "حالات الاستخدام المثالية",
+          "subtitle": "أضف سيناريوهات استخدام المنتج",
+          "placeholderAr": "مثال: الفعاليات والمعارض الدولية",
+          "placeholderEn": "Example: International events and exhibitions",
+          "addButton": "أضف",
+          "hint": "اضغط Enter أو \"أضف\" بعد كل نقطة"
+        },
+        "specs": {
+          "title": "المواصفات",
+          "subtitle": "أضف مواصفات تقنية (اسم + قيمة)",
+          "keyPlaceholderAr": "المواصفة (عربي)",
+          "keyPlaceholderEn": "Spec (English)",
+          "valuePlaceholderAr": "القيمة (عربي)",
+          "valuePlaceholderEn": "Value (English)",
+          "hint": "مثال: مقاس 200*200"
+        },
+        "features": {
+          "title": "مميزات الأداء",
+          "subtitle": "أبرز مميزات المنتج بعنوان ووصف مختصر",
+          "titlePlaceholderAr": "العنوان (عربي)",
+          "titlePlaceholderEn": "Title (English)",
+          "descPlaceholderAr": "الوصف (عربي)",
+          "descPlaceholderEn": "Description (English)",
+          "hint": "مثال: جودة عالية — صُنع من مواد مستدامة"
+        },
+        "seo": {
+          "title": "تحسين محركات البحث (SEO)",
+          "subtitle": "خصص كيف يظهر منتجك في نتائج بحث جوجل ووسائل التواصل الاجتماعي",
+          "titleLabelAr": "العنوان في جوجل (عربي)",
+          "descLabelAr": "الوصف في جوجل (عربي)",
+          "titleLabelEn": "العنوان في جوجل (إنجليزي)",
+          "descLabelEn": "الوصف في جوجل (إنجليزي)",
+          "hint": "أتركه فارغاً لاستخدام العنوان والوصف الافتراضي"
+        }
+      }
+    },
+    "buttons": {
+      "addProduct": "اضافة المنتج",
+      "updateProduct": "تحديث المنتج"
+    },
+    "toasts": {
+      "locationRequired": "يرجى تحديد الموقع على الخريطة",
+      "imagesRequired": "يرجى رفع صور المنتج",
+      "productAddedSuccess": "تم اضافة المنتج بنجاح و سيتم مراجعته",
+      "productUpdatedSuccess": "تم تعديل المنتج بنجاح",
+      "discountDateRequired": "يرجى تحديد تاريخ الخصم",
+      "packagesRequired": "يرجى إضافة الباقات",
+      "cityRequired": "يرجى إضافة المدن المتاحة للتوصيل"
+    },
+    "reviewNote": "ملاحظة: سيخضع المنتج للمراجعة للتأكد من مطابقته للشروط قبل ظهوره للعملاء.",
+    "imageUploader": {
+      "dragAndDrop": "اضغط او قم بسحب وادراج الصور هنا",
+      "dragging": "ادراج الصور هنا",
+      "maxFiles": "لا يمكنك تحميل أكثر من\u00a0{count} صور",
+      "imagesOnly": "الرجاء اختيار ملفات الصور فقط (jpg, png, الخ)",
+      "maxFileSize": "اقصي حجم للصورة 100 ميجابايت",
+      "processError": "حدث خطأ في معالجة بعض الصور. الرجاء المحاولة مرة أخرى",
+      "mainImage": "رئيسية",
+      "minWidth": "أقل عرض للصورة\u00a0{width} بكسل",
+      "tips": {
+        "mainImageTip": "الصورة الأولى ستكون صورة مميزة لهذا المنتج",
+        "dragTip": "اسحب الصور لإعادة ترتيبها",
+        "maxFilesTip": "لا يمكنك تحميل أكثر من\u00a0{count} صور",
+        "resizeTip": "يتم تصغير حجم الصور تلقائياً"
+      }
+    },
+    "common": {
+      "clearDates": "مسح التاريخ المحدد",
+      "errorSomethingWentWrong": "حدث خطأ ما، يرجى المحاولة مرة أخرى."
+    },
+    "location": {
+      "addressLabel": "عنوان المنتج",
+      "addressPlaceholder": "ابحث عن عنوان...",
+      "country": "الدولة",
+      "governorate": "الإمارة",
+      "city": "المدينة",
+      "cityPlaceholder": "اسم المدينة",
+      "neighborhood": "الحي",
+      "neighborhoodPlaceholder": "اسم الحي",
+      "search": "بحث",
+      "searching": "جاري البحث...",
+      "myLocation": "موقعي",
+      "loading": "جاري التحميل...",
+      "locationError": "خطأ في تحديد موقعك. يرجى المحاولة مرة أخرى.",
+      "browserError": "متصفحك لا يدعم تحديد الموقع.",
+      "searchError": "لم يتم العثور على الموقع. يرجى تغيير البحث.",
+      "coordinates": {
+        "latitude": "خط العرض",
+        "longitude": "خط الطول"
+      }
+    },
+    "form": {
+      "supplierModal": {
+        "title": "تأكيد",
+        "message": "يجب عليك التسجيل كمؤجر أولاً",
+        "cancel": "إلغاء",
+        "confirm": "تأكيد"
+      },
+      "rentDetails": {
+        "discountTiers": {
+          "title": "خصومات المدة",
+          "subtitle": "قم بإعداد خصومات لفترات الإيجار الأطول",
+          "addButton": "إضافة مستوى خصم",
+          "minDays": "الحد الأدنى للأيام",
+          "minDaysPlaceholder": "مثال:3",
+          "daysUnit": "أيام",
+          "discount": "الخصم",
+          "discountPlaceholder": "مثال:15",
+          "discountUnit": "خصم",
+          "discountType": "نوع الخصم",
+          "percentage": "نسبة مئوية",
+          "price": "السعر",
+          "totalPrice": "إجمالي السعر",
+          "totalPricePlaceholder": "أدخل إجمالي السعر",
+          "tierPreview": "استأجر لمدة\u00a0{days}+ أيام واحصل على خصم\u00a0{discount}%",
+          "originalPrice": "الأصلي",
+          "finalPrice": "النهائي",
+          "savings": "توفر",
+          "emptyTitle": "لا توجد مستويات خصم حتى الآن",
+          "emptyDescription": "أضف مستويات خصم لتشجيع الإيجارات الأطول وزيادة حجوزاتك",
+          "summary": "ملخص الخصومات",
+          "rentPriceRequired": "يرجى تحديد سعر الايجار",
+          "arrow": "←",
+          "from": "من",
+          "availabilityTitle": "التوافر",
+          "availabilityDesc": "حدد الخصم بتواريخ معينة. اتركه فارغًا لجعله متاحًا دائمًا.",
+          "alwaysAvailable": "هذا الخصم متاح دائما.",
+          "addDateRange": "إضافة نطاق تاريخ آخر",
+          "selectDateRange": "حدد نطاق التاريخ",
+          "yearRound": "على مدار السنة"
+        },
+        "quantityDiscountTiers": {
+          "title": "خصومات الكمية",
+          "subtitle": "تقديم خصومات بناءً على عدد القطع المستأجرة",
+          "addButton": "إضافة مستوى",
+          "minQuantity": "الحد الأدنى للكمية",
+          "minQuantityError": "يجب أن يكون أقل من الكمية المتاحة للمنتج",
+          "minQuantityPlaceholder": "مثال: 3",
+          "piecesUnit": "قطع",
+          "discount": "الخصم",
+          "discountPlaceholder": "مثال: 15",
+          "tierPreview": "استئجار {qty}+ قطع ← خصم {discount}%",
+          "saving": "يوفر",
+          "perDay": "يومياً",
+          "emptyTitle": "لا توجد خصومات كمية بعد",
+          "emptyDescription": "أضف خصومات للطلبات الكبيرة لتشجيع المستأجرين",
+          "summary": "ملخص خصومات الكمية"
+        },
+        "pricingModel": {
+          "label": "نموذج التسعير",
+          "perDay": "تسعير يومي",
+          "packages": "تسعير الباقات",
+          "perDayDescription": "حدد أسعار الإيجار اليومية مع خيارات تسعير مرنة",
+          "packagesDescription": "أنشئ حزم شاملة لفترات الإيجار الطويلة"
+        },
+        "packages": {
+          "title": "باقات الإيجار",
+          "subtitle": "قم بإعداد باقات بأسعار ثابتة لمدد محددة",
+          "addButton": "إضافة باقة",
+          "durationAndUnit": "المدة / الوحدة",
+          "durationPlaceholder": "أدخل المدة (مثل:3)",
+          "pricePlaceholder": "مثال:450",
+          "duration": "المدة",
+          "unit": "الوحدة",
+          "hours": "ساعات",
+          "days": "أيام",
+          "weeks": "أسابيع",
+          "months": "أشهر",
+          "totalPrice": "إجمالي السعر",
+          "yourEarnings": "أرباحك (بعد خصم عمولة\u00a0{commission}%)",
+          "empty": {
+            "title": "لا توجد باقات مضافة حتى الآن",
+            "subtitle": "انقر على \"إضافة باقة\"لإنشاء أول باقة إيجار لك"
+          }
+        },
+        "rentalValue": "قيمة الإيجار اليومي (غير شامل الضريبة)",
+        "yourEarnings": "أرباحك اليومية (بعد خصم عمولة\u00a0{commission}%)",
+        "insuranceValue": "قيمة التأمين",
+        "minDays": "أقل عدد أيام للإيجار",
+        "deliveryOptions": "خيارات التوصيل",
+        "delivery": {
+          "pickup": "استلام من موقع المؤجر",
+          "delivery": "توصيل إلى موقع المستأجر برسوم",
+          "shippingCompany": "شركة شحن",
+          "free": "توصيل مجاني"
+        },
+        "freeDeliveryNote": {
+          "title": "تنبيه التوصيل المجاني",
+          "description": "خدمة التوصيل المجاني ستظهر للمستأجرين كميزة خاصة داخل {governorate} فقط.",
+          "fallbackGovernorate": "منطقتك",
+          "tip": "إذا أردت تقديم توصيل مجاني لمدن أو مناطق أخرى، اختر \"توصيل لموقعك\" وأضف المناطق مع اختيار (توصيل مجاني)."
+        },
+        "deliveryPricingModel": {
+          "label": "نموذج تسعير التوصيل",
+          "perKm": "تسعير حسب الكيلومتر",
+          "fixedCity": "تسعير ثابت للمدن",
+          "perKmDescription": "تحديد السعر حسب المسافة من موقعك",
+          "fixedCityDescription": "تحديد أسعار ثابتة لمدن محددة"
+        },
+        "cityPricing": {
+          "deliveryPricingModel": "نموذج تسعير التوصيل",
+          "deliveryCost": "تكلفة التوصيل",
+          "fixedCityPricing": "تسعير المدن الثابت",
+          "setDeliveryPrices": "حدد أسعار التوصيل لمدن محددة",
+          "title": "تسعير المدن الثابت",
+          "subtitle": "تحديد أسعار التوصيل للمدن أو الإمارات المحددة",
+          "cityOrGovernorate": "المدينة/الإمارة",
+          "searchCityOrGovernorate": "ابحث عن مدينة أو إمارة...",
+          "addCity": "إضافة مدينة/إمارة",
+          "noCitiesAdded": "لم يتم إضافة مدن أو إمارات بعد",
+          "addFirstCity": "انقر على \"إضافة مدينة/إمارة\"لإضافة أول موقع",
+          "loading": "جاري تحميل الاقتراحات..."
+        },
+        "fixedCityPricing": "أسعار ثابتة للمدن",
+        "perKmPricing": "حسب الكيلومتر",
+        "deliveryCost": "تكلفة التوصيل لكل 1 كم",
+        "deliveryCostPerKm": "تكلفة التوصيل لكل كيلومتر",
+        "deliveryCostExample": "عرض مثال لكيفية حساب التكلفة",
+        "sar": "ر.س",
+        "weeklyDiscount": "تفعيل الخصم الأسبوعي (7 أيام أو أكثر)",
+        "weeklyDiscountPlaceholder": "أدخل نسبة الخصم % (مثال:10 لـ 10%)",
+        "monthlyDiscount": "تفعيل الخصم الشهري (30 يومًا أو أكثر)",
+        "monthlyDiscountPlaceholder": "أدخل نسبة الخصم % (مثال:20 لـ 20%)",
+        "percentageSign": "%",
+        "additionalServices": {
+          "title": "الخدمات الإضافية",
+          "subtitle": "أضف خدمات إضافية لتحسين تجربة الإيجار",
+          "addButton": "إضافة خدمة",
+          "emptyTitle": "لا توجد خدمات إضافية حتى الآن",
+          "emptyDescription": "أضف خدمات لزيادة قيمة الإيجار",
+          "summary": "ملخص الخدمات",
+          "totalServices": "إجمالي الخدمات",
+          "totalValue": "إجمالي القيمة",
+          "totalItems": "إجمالي العناصر"
+        },
+        "counter": {
+          "increment": "زيادة",
+          "decrement": "نقصان"
+        },
+        "serviceItem": {
+          "priceLabel": "سعر التأجير:",
+          "currency": "ر.س",
+          "quantityLabel": "الكمية المتاحة:"
+        },
+        "validation": {
+          "enterValidName": "الرجاء إدخال قيمة صالحة",
+          "requiredField": "هذا الحقل مطلوب"
+        },
+        "placeholder": {
+          "zero": "0",
+          "one": "1"
+        },
+        "noLocation": "يجب إضافة عنوان المنتج أولاً"
+      }
+    },
+    "addService": {
+      "title": "إضافة خدمات/اكسسوارات",
+      "editTitle": "تعديل الخدمة",
+      "nameAr": "الاسم بالعربية",
+      "nameArPlaceholder": "أدخل اسم الخدمة بالعربية",
+      "nameEn": "الاسم بالإنجليزية",
+      "nameEnPlaceholder": "ادخل اسم الخدمة بالإنجليزية",
+      "quantity": "الكمية المتاحة",
+      "pricingType": "نوع التسعير",
+      "perDay": "يومي",
+      "fixed": "ثابت",
+      "perDayHint": "سيتم ضرب سعر الخدمة في عدد أيام الإيجار",
+      "fixedHint": "سعر ثابت للخدمة بغض النظر عن مدة الإيجار",
+      "price": "السعر",
+      "currency": "ر.س",
+      "addButton": "إضافة الخدمة",
+      "editButton": "حفظ التعديلات",
+      "cancelButton": "إلغاء الأمر"
+    }
+  },
+  "adminProductsPage": {
+    "loading": "جاري التحميل...",
+    "title": "المنتجات المعلقة",
+    "approveAllButton": "قبول جميع المنتجات",
+    "approveButton": "قبول",
+    "rejectButton": "رفض",
+    "detailsButton": "التفاصيل",
+    "productApprovedSuccess": "تم قبول المنتج بنجاح",
+    "productRejectedSuccess": "تم رفض المنتج بنجاح",
+    "allProductsApprovedSuccess": "تم قبول جميع المنتجات بنجاح",
+    "errorGeneral": "حدث خطأ ما",
+    "rejectModal": {
+      "title": "رفض المنتج",
+      "reasonLabel": "سبب الرفض",
+      "reasonPlaceholder": "اكتب سبب رفض المنتج...",
+      "cancelButton": "إلغاء",
+      "confirmRejectButton": "تأكيد الرفض"
+    },
+    "noProducts": "لا توجد منتجات معلقة."
+  },
+  "productDocumentation": {
+    "loginButton": "تسجيل الدخول",
+    "loginTitle": "يجب تسجيل الدخول",
+    "loginDescription": "يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة",
+    "maxFilesExceeded": "لا يمكنك التقاط أكثر من\u00a0{count} صور",
+    "cameraNotReady": "الكاميرا ليست جاهزة أو لم يتم إعدادها لالتقاط صورة",
+    "imageProcessError": "حدث خطأ أثناء معالجة الصورة الملتقطة. يرجى المحاولة مرة أخرى",
+    "error": {
+      "mustAgreeToReceipt": "يجب الموافقة على اقرار الاستلام",
+      "mustEnterCode": "يرجى إدخال رمز التسليم المكون من 4 أرقام",
+      "invalidCode": "رمز التسليم غير صحيح. يرجى التحقق من المستأجر والمحاولة مرة أخرى."
+    },
+    "toast": {
+      "productReceivedSuccess": "تم استلام المنتج بنجاح",
+      "ownerVerifiedSuccess": "تم التحقق من التسليم بنجاح! تم تحديث حالة الطلب إلى مستلم."
+    },
+    "checkboxLabelPart1": "اقر بإستلام المنتج وبالموافقة على البنود الموجودة في",
+    "rentalContractLink": "عقد التأجير",
+    "imageDocumentationNote": "يجب توثيق المنتج بالصور عند الاستلام لحماية حقوقك، او إستلامه على مسؤليتك الشخصية",
+    "submitButtonText": "إرسال توثيق المنتج الذي استلمته",
+    "ownerSubmitButtonText": "التحقق من التسليم وتأكيد الاستلام",
+    "deliveryCodeTitle": "رمز التسليم الخاص بك",
+    "deliveryCodeDescription": "شارك هذا الرمز مع مالك المنتج لإتمام عملية التحقق من التسليم. لا تشاركه إلا بعد استلام المنتج.",
+    "ownerVerificationTitle": "أدخل رمز التسليم",
+    "ownerVerificationDescription": "اطلب من المستأجر رمز التسليم المكون من 4 أرقام للتحقق من عملية التسليم.",
+    "startTitle": "ابدأ توثيق المنتج قبل التسليم",
+    "successMessage": "تمت اضافة طلبك بنجاح ولحماية منتجك وضمان حقك، قم بتوثيق حالة المنتج خلال 24 ساعة قبل التسليم",
+    "startNowButton": "ابدأ التوثيق الآن",
+    "documentTitle": "قم بتصوير المنتجات بعد استلامها",
+    "documentDescription": "التقط صور واضحة للمنتج الذي استلمته من عدة زوايا باستخدام الكاميرا.",
+    "openCameraButton": "انقر هنا لفتح الكاميرا والتقاط صورة",
+    "imagesAdded": "صور مضافة",
+    "captureButton": "التقط صورة",
+    "closeCamera": "اغلق الكاميرا",
+    "capturedImages": "الصور الملتقطة",
+    "dragToReorder": "اسحب الصور لإعادة ترتيبها.",
+    "maxImagesAllowed": "يمكنك التقاط حتى\u00a0{count} صور.",
+    "timestampAddedToImages": "يتم إضافة تاريخ ووقت الالتقاط على الصورة.",
+    "onlyCameraAllowed": "يمكنك فقط التقاط الصور باستخدام الكاميرا المدمجة.",
+    "pageTitle": "توثيق المنتجات",
+    "pageDescription": "استلام المنتج",
+    "copiedToClipboard": "تم نسخ رقم الطلب",
+    "supportText": "إذا لم تستلم المنتج بعد أو واجهت مشكلة في الاستلام، يمكنك التواصل معنا عبر نموذج الاتصال وإرسال تفاصيل المشكلة لنساعدك في حلها.",
+    "supportOrderId": "رقم الطلب",
+    "copyOrderId": "نسخ",
+    "errors": {
+      "cameraNotFound": "لم يتم العثور على كاميرا. يرجى توصيل كاميرا، او فتح الصفحة من الهاتف المحمول",
+      "cameraPermissionDenied": "تم رفض الإذن. يرجى السماح بالوصول إلى الكاميرا في إعدادات المتصفح.",
+      "cameraConstraints": "لا يمكن للكاميرا تلبية الطلبات المحددة (مثل الدقة).",
+      "cameraInUse": "لا يمكن الوصول إلى الكاميرا. قد تكون قيد الاستخدام من قبل تطبيق آخر.",
+      "technicalError": "حدث خطأ فني أثناء محاولة التقاط الصورة."
+    }
+  },
+  "confirmAccountPage": {
+    "title": "تأكيد الحساب",
+    "instructions": "لقد أرسلنا رمز التحقق إلى رقم الواتساب الخاص بك. يرجى إدخال الرمز لتأكيد حسابك.",
+    "codeInputLabel": "رمز التحقق",
+    "codeInputPlaceholder": "أدخل رمز التحقق",
+    "submitButton": "تأكيد",
+    "didNotReceiveCode": "لم تستلم الرمز؟",
+    "resendButton": "إعادة إرسال الرمز",
+    "resendButtonCountdown": "إعادة الإرسال ({countdown})",
+    "resendSuccessMessage": "تم إرسال رمز جديد بنجاح!",
+    "errorInvalidCode": "رمز التحقق غير صالح.",
+    "errorGeneral": "حدث خطأ ما.",
+    "logout": "تسجيل الخروج",
+    "logoutSuccess": "تم تسجيل الخروج بنجاح"
+  },
+  "myProducts": {
+    "title": "منتجاتى",
+    "deleteConfirm": "هل أنت متأكد من حذف هذا المنتج؟",
+    "deleteFailed": "فشل حذف المنتج:",
+    "noProducts": "لم تقم بإضافة أي منتجات بعد",
+    "addFirst": "أضف أول منتج لك",
+    "perDay": "ر.س"
+  },
+  "admin": {
+    "visits": {
+      "title": "تحليل الزيارات والجمهور",
+      "subtitle": "إحصائيات شاملة للزوار وتفاعلهم مع الصفحات والمنتجات",
+      "totalVisitors": "إجمالي عدد الزوار",
+      "inPeriod": "في الفترة المحددة",
+      "todayVisits": "زوار اليوم",
+      "todayActivity": "نشاط اليوم",
+      "averageVisitors": "متوسط الزوار",
+      "peakDaily": "أعلى زيارات يومية",
+      "peakMax": "أقصى عدد",
+      "detailsTitle": "تفصيل الزيارات",
+      "tabs": {
+        "pages": "أكثر الصفحات زيارة",
+        "products": "أكثر المنتجات زيارة",
+        "owners": "أكثر الملاك"
+      },
+      "filters": {
+        "pageSearch": "بحث بمسار الصفحة",
+        "productSearch": "بحث بمسار المنتج",
+        "ownerSearch": "تصفية حسب مستخدم/مالك",
+        "userPlaceholder": "اسم المستخدم، البريد، الجوال",
+        "pagePlaceholder": "مثال: /product/",
+        "productPlaceholder": "ابحث بالاسم بالمسار..."
+      },
+      "table": {
+        "rank": "الترتيب",
+        "pageAndPath": "الصفحة والمسار",
+        "productAndOwner": "المنتج والمالك",
+        "ownerInfo": "معلومات المالك",
+        "searchDensity": "كثافة البحث",
+        "visitsCount": "عدد الزيارات",
+        "generalPage": "صفحة عامة",
+        "unknownProduct": "منتج غير معروف",
+        "unknownUser": "مستخدم غير معرف",
+        "ownsProducts": "يمتلك {count} منتج",
+        "noData": "لا توجد بيانات للعرض في هذه الفترة أو تطابق بحثك."
+      },
+      "chartSummary": "ملخص الزيارات",
+      "highestCount": "أعلى عدد زوار",
+      "lowestCount": "أقل عدد زوار",
+      "visitorUnit": "زائر",
+      "noData": "لا توجد بيانات للعرض"
+    },
+    "searchAnalytics": {
+      "title": "تحليل كلمات البحث",
+      "subtitle": "تتبع ذكي لما يبحث عنه المستخدمون",
+      "totalSearches": "إجمالي عمليات البحث",
+      "uniqueTerms": "كلمات بحث فريدة",
+      "noResults": "بحث بدون نتائج",
+      "trendChart": "نشاط البحث (30 يوم)",
+      "topSearches": "أكثر الكلمات بحثاً",
+      "topSearch": "الأكثر بحثاً",
+      "allSearches": "جميع كلمات البحث",
+      "searchPlaceholder": "ابحث في الكلمات...",
+      "searchesWithThisSpelling": "بحث بهذا الإملاء",
+      "period": {
+        "all": "كل الوقت",
+        "today": "اليوم",
+        "week": "آخر 7 أيام",
+        "month": "آخر 30 يوم"
+      },
+      "sort": {
+        "count": "الأكثر بحثاً",
+        "recent": "الأحدث",
+        "term": "كلمة البحث"
+      },
+      "filter": {
+        "source": "المصدر",
+        "language": "اللغة",
+        "results": "النتائج",
+        "all": "الكل",
+        "withResults": "لها نتائج",
+        "noResults": "بدون نتائج"
+      },
+      "languages": {
+        "ar": "عربي",
+        "en": "إنجليزي"
+      },
+      "sources": {
+        "header": "الهيدر",
+        "hero": "الصفحة الرئيسية",
+        "filters": "الفلاتر",
+        "unknown": "غير معروف",
+        "label": "المصادر"
+      },
+      "table": {
+        "term": "كلمة البحث",
+        "count": "عدد مرات البحث",
+        "lastSearched": "آخر بحث",
+        "actions": "إجراءات",
+        "total": "إجمالي"
+      },
+      "actions": {
+        "delete": "حذف",
+        "confirmDelete": "تأكيد الحذف؟",
+        "cancel": "إلغاء",
+        "yes": "نعم، احذف",
+        "searchButton": "بحث"
+      },
+      "noData": {
+        "title": "لا يوجد بيانات بحث بعد",
+        "subtitle": "ستظهر البيانات بمجرد بدء المستخدمين بالبحث"
+      },
+      "breakdown": {
+        "source": "مصادر البحث",
+        "language": "اللغات"
+      },
+      "pagination": {
+        "page": "صفحة {page} من {pages}",
+        "prev": "السابق",
+        "next": "التالي"
+      },
+      "units": {
+        "searches": "بحث",
+        "terms": "كلمة",
+        "ofTerms": "من الكلمات"
+      },
+      "status": {
+        "noResults": "بدون نتائج",
+        "noResultsDetail": "هذه الكلمة لم تُرجع نتائج"
+      },
+      "notEnoughData": "لا توجد بيانات كافية",
+      "noBreakdown": "لا يوجد"
+    },
+    "partners": {
+      "title": "إدارة الشركاء",
+      "partnerConfiguration": "إعدادات الشريك",
+      "description": "إدارة صفحات الهبوط والمحتوى المخصص للشركاء",
+      "addPartner": "إضافة شريك جديد",
+      "editPartner": "تعديل بيانات الشريك",
+      "deletePartner": "حذف الشريك",
+      "basicInfo": "المعلومات الأساسية",
+      "basicInfoDesc": "المعلومات الأساسية وبيانات الاتصال للشريك",
+      "seoData": "بيانات SEO",
+      "seoDataDesc": "إعدادات تحسين محركات البحث لصفحة الشريك",
+      "heroBanners": "بانرات الهيرو",
+      "heroBannersDesc": "البانرات الرئيسية التي تظهر في أعلى الصفحة",
+      "productSliders": "سلايدرات المنتجات",
+      "productSlidersDesc": "مجموعات المنتجات المعروضة في صفحة الشريك",
+      "offerBanners": "بانرات العروض",
+      "offerBannersDesc": "بانرات العروض والخصومات الجانبية",
+      "nameAr": "الاسم (بالعربي)",
+      "nameEn": "الاسم (بالإنجليزي)",
+      "name": "الاسم",
+      "slug": "الرابط (Slug)",
+      "logo": "الشعار",
+      "logoDesc": "رفع شعار الشريك",
+      "logoHint": "الحجم الموصى به: 400x400 بكسل. صيغة PNG أو SVG.",
+      "chooseFile": "اختر ملف",
+      "descriptionAr": "الوصف (بالعربي)",
+      "descriptionEn": "الوصف (بالإنجليزي)",
+      "status": "الحالة",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "view": "عرض",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "noPartners": "لا يوجد شركاء مضافين حالياً",
+      "confirmDelete": "هل أنت متأكد من حذف هذا الشريك؟",
+      "createSuccess": "تم إضافة الشريك بنجاح",
+      "updateSuccess": "تم تحديث بيانات الشريك بنجاح",
+      "deleteSuccess": "تم حذف الشريك بنجاح",
+      "slugHint": "سيتم استخدامه في الرابط: estajer.com/partners/slug",
+      "seoTitleAr": "عنوان SEO (بالعربي)",
+      "seoTitleEn": "عنوان SEO (بالإنجليزي)",
+      "seoDescriptionAr": "وصف SEO (بالعربي)",
+      "seoDescriptionEn": "وصف SEO (بالإنجليزي)",
+      "seoKeywordsAr": "الكلمات المفتاحية (بالعربي)",
+      "seoKeywordsEn": "الكلمات المفتاحية (بالإنجليزي)",
+      "addHeroBanner": "إضافة بانر هيرو",
+      "addOfferBanner": "إضافة بانر عرض",
+      "addSlider": "إضافة سلايدر منتجات",
+      "sliderTitleAr": "عنوان السلايدر (بالعربي)",
+      "sliderTitleEn": "عنوان السلايدر (بالإنجليزي)",
+      "sectionTitleArPlaceholder": "أدخل عنوان القسم بالعربية",
+      "sectionTitleEnPlaceholder": "أدخل عنوان القسم بالإنجليزية",
+      "selectProducts": "اختر المنتجات",
+      "searchProducts": "ابحث عن منتجات لضمها...",
+      "noProductsSelected": "لم يتم اختيار منتجات بعد",
+      "imageAr": "الصورة (بالعربي)",
+      "imageEn": "الصورة (بالإنجليزي)",
+      "link": "الرابط",
+      "altAr": "النص البديل (بالعربي)",
+      "altEn": "النص البديل (بالإنجليزي)",
+      "ctaTextAr": "نص الزر (بالعربي)",
+      "ctaTextEn": "نص الزر (بالإنجليزي)",
+      "banners": "البانرات",
+      "addOfferBannerSection": "إضافة قسم بانرات",
+      "noOfferBanners": "لا يوجد بانرات",
+      "noSliders": "لم يتم إضافة سلايدرات بعد",
+      "noBanners": "لم يتم إضافة بانرات بعد",
+      "removeSlider": "حذف السلايدر",
+      "removeSection": "حذف القسم",
+      "products": "منتج",
+      "displayMode": "طريقة العرض",
+      "slider": "سلايدر",
+      "grid": "شبكة",
+      "maxProductsReached": "الحد الأقصى 20 منتجاً مسموح به",
+      "order": "الترتيب",
+      "productSelection": "تحديد المنتجات",
+      "showFilters": "إظهار الفلاتر",
+      "hideFilters": "إخفاء الفلاتر",
+      "loadMore": "تحميل المزيد",
+      "selectedInSlider": "المنتجات المختارة في السلايدر",
+      "selectAll": "تحديد الكل",
+      "save": "حفظ",
+      "cancel": "إلغاء",
+      "actions": "الإجراءات",
+      "heroTextCustomization": "تخصيص نص الهيرو",
+      "reorder": "إعادة ترتيب الأقسام",
+      "sectionOrder": "ترتيب الأقسام",
+      "shopSettings": "إعدادات المتجر",
+      "sectionOrderDesc": "أعد ترتيب أقسام صفحة الهبوط للتحكم في مظهرها",
+      "saveOrder": "حفظ الترتيب",
+      "sectionLabel": "القسم",
+      "moveUp": "تحريك للأعلى",
+      "moveDown": "تحريك للأسفل",
+      "aboutUs": "من نحن",
+      "heroTitleAr": "عنوان الهيرو (بالعربي)",
+      "heroDescriptionAr": "وصف الهيرو (بالعربي)",
+      "heroTitleEn": "عنوان الهيرو (بالإنجليزي)",
+      "heroDescriptionEn": "وصف الهيرو (بالإنجليزي)",
+      "heroTitleArPlaceholder": "أدخل العنوان بالعربية",
+      "heroDescriptionArPlaceholder": "أدخل الوصف بالعربية",
+      "heroTitleEnPlaceholder": "Enter English title",
+      "heroDescriptionEnPlaceholder": "Enter English description",
+      "altArPlaceholder": "أدخل النص البديل بالعربية هنا...",
+      "altEnPlaceholder": "Enter English alt text here...",
+      "aboutUsActionBtn": "زر إجراء من نحن",
+      "aboutUsLink": "رابط الزر (مثال: products# أو رابط كامل)",
+      "aboutUsButtonTextAr": "نص الزر (بالعربي)",
+      "aboutUsButtonTextEn": "نص الزر (بالإنجليزي)",
+      "assignedSearchProducts": "منتجات البحث",
+      "assignedSearchProductsDesc": "اختر المنتجات التي ستظهر في النتائج عند البحث مع هذا الشريك كمزود",
+      "searchProductsTab": "منتجات البحث العالمي",
+      "searchProductsTabDesc": "اختر المنتجات التي يجب أن تظهر في نتائج البحث العالمي عند التصفية حسب هذا الشريك",
+      "searchAppearance": "مظهر البحث",
+      "howItWorks": {
+        "title": "كيف يعمل",
+        "description": "قسم يوضح آلية العمل بين استأجر والشريك والفوائد المشتركة",
+        "sectionTitleAr": "عنوان القسم (بالعربي)",
+        "sectionTitleEn": "عنوان القسم (بالإنجليزي)",
+        "sectionTitlePlaceholder": "مثال: كيف يعمل استأجر مع نُزل؟",
+        "sectionTitlePlaceholderEn": "e.g: How does Estajer work with Nuzul?",
+        "estajerSide": "من جانب استأجر",
+        "partnerSide": "من جانب الشريك",
+        "sharedBenefits": "فوائد مشتركة",
+        "stepTitleAr": "العنوان (بالعربي)",
+        "stepTitleEn": "العنوان (بالإنجليزي)",
+        "stepTitlePlaceholder": "مثال: من جانب استأجر",
+        "stepTitlePlaceholderEn": "e.g: From Estajer's side",
+        "itemsAr": "النقاط (بالعربي)",
+        "itemsEn": "النقاط (بالإنجليزي)",
+        "addItem": "إضافة نقطة",
+        "itemPlaceholder": "اكتب النقطة بالعربية...",
+        "itemPlaceholderEn": "Write the point in English..."
+      }
+    },
+    "shops": {
+      "name": "اسم المتجر",
+      "title": "إدارة المتاجر",
+      "description": "إدارة محتوى المتاجر والمنتجات المرتبطة بها",
+      "addShop": "إضافة متجر جديد",
+      "editShop": "تعديل بيانات المتجر",
+      "deleteShop": "حذف المتجر",
+      "basicInfo": "المعلومات الأساسية",
+      "basicInfoDesc": "المعلومات الأساسية وبيانات الاتصال للمتجر",
+      "owner": "مالك المتجر",
+      "selectOwner": "اختر مالك المتجر",
+      "searchOwner": "البحث عن مستخدم بالاسم أو البريد أو الهاتف...",
+      "ownerDesc": "اختر المستخدم الذي يمتلك هذا المتجر",
+      "view": "عرض",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "noShops": "لا يوجد متاجر مضافة حالياً",
+      "confirmDelete": "هل أنت متأكد من حذف هذا المتجر؟",
+      "createSuccess": "تم إضافة المتجر بنجاح",
+      "updateSuccess": "تم تحديث بيانات المتجر بنجاح",
+      "deleteSuccess": "تم حذف المتجر بنجاح",
+      "assignedSearchProducts": "منتجات المتجر",
+      "assignedSearchProductsDesc": "المنتجات التي ستظهر في هذا المتجر",
+      "heroBanners": "بانرات الهيرو",
+      "heroBannersDesc": "البانرات الرئيسية التي تظهر في أعلى الصفحة",
+      "productSliders": "سلايدرات المنتجات",
+      "productSlidersDesc": "مجموعات المنتجات المعروضة في صفحة المتجر",
+      "offerBanners": "بانرات العروض",
+      "offerBannersDesc": "بانرات العروض والخصومات الجانبية",
+      "shopCategories": "أقسام المتجر",
+      "shopCategoriesDesc": "قم بإنشاء أقسام مخصصة لمتجرك واربط المنتجات بها",
+      "showReviews": "إظهار التقييمات",
+      "reviews": "التقييمات",
+      "showReviewsDesc": "إظهار تقييمات العملاء في صفحة المتجر",
+      "addCategory": "إضافة قسم",
+      "categoryProducts": "اختر المنتجات لهذا القسم",
+      "image": "صورة القسم",
+      "nameAr": "الاسم (بالعربي)",
+      "nameEn": "الاسم (بالإنجليزي)",
+      "slug": "الرابط (Slug)",
+      "logo": "الشعار",
+      "logoDesc": "رفع شعار المتجر",
+      "logoHint": "الحجم الموصى به: 400x400 بكسل. صيغة PNG أو SVG.",
+      "chooseFile": "اختر ملف",
+      "descriptionAr": "الوصف (بالعربي)",
+      "descriptionEn": "الوصف (بالإنجليزي)",
+      "status": "الحالة",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "seoData": "بيانات SEO",
+      "seoDataDesc": "إعدادات تحسين محركات البحث لصفحة المتجر",
+      "addHeroBanner": "إضافة بانر هيرو",
+      "addOfferBanner": "إضافة بانر عرض",
+      "addSlider": "إضافة سلايدر منتجات",
+      "sliderTitleAr": "عنوان السلايدر (بالعربي)",
+      "sliderTitleEn": "عنوان السلايدر (بالإنجليزي)",
+      "sectionTitleArPlaceholder": "أدخل عنوان القسم بالعربية",
+      "sectionTitleEnPlaceholder": "أدخل عنوان القسم بالإنجليزية",
+      "selectProducts": "اختر المنتجات",
+      "searchProducts": "ابحث عن منتجات...",
+      "noProductsSelected": "لم يتم اختيار منتجات بعد",
+      "imageAr": "الصورة (بالعربي)",
+      "imageEn": "الصورة (بالإنجليزي)",
+      "link": "الرابط",
+      "altAr": "النص البديل (بالعربي)",
+      "altEn": "النص البديل (بالإنجليزي)",
+      "ctaTextAr": "نص الزر (بالعربي)",
+      "ctaTextEn": "نص الزر (بالإنجليزي)",
+      "banners": "بانر",
+      "addOfferBannerSection": "إضافة قسم بانرات",
+      "noOfferBanners": "لا يوجد بانرات",
+      "noSliders": "لم يتم إضافة سلايدرات بعد",
+      "noBanners": "لم يتم إضافة بانرات بعد",
+      "removeSlider": "حذف السلايدر",
+      "removeSection": "حذف القسم",
+      "products": "منتج",
+      "displayMode": "طريقة العرض",
+      "sectionSource": "مصدر المنتجات",
+      "manual": "اختيار يدوي",
+      "newest": "أحدث المنتجات",
+      "random": "منتجات عشوائية",
+      "slider": "سلايدر",
+      "grid": "شبكة",
+      "maxProductsReached": "الحد الأقصى 20 منتجاً مسموح به",
+      "order": "الترتيب",
+      "productSelection": "تحديد المنتجات",
+      "showFilters": "إظهار الفلاتر",
+      "hideFilters": "إخفاء الفلاتر",
+      "loadMore": "تحميل المزيد",
+      "selectedInSlider": "المنتجات المختارة",
+      "selectAll": "تحديد الكل",
+      "save": "حفظ",
+      "cancel": "إلغاء",
+      "actions": "الإجراءات",
+      "heroTextCustomization": "تخصيص نص الهيرو",
+      "reorder": "إعادة ترتيب الأقسام",
+      "sectionOrder": "ترتيب الأقسام",
+      "shopSettings": "إعدادات المتجر",
+      "saveOrder": "حفظ الترتيب",
+      "aboutUs": "من نحن",
+      "heroTitleAr": "عنوان الهيرو (بالعربي)",
+      "heroDescriptionAr": "وصف الهيرو (بالعربي)",
+      "heroTitleEn": "عنوان الهيرو (بالإنجليزي)",
+      "heroDescriptionEn": "وصف الهيرو (بالإنجليزي)",
+      "aboutUsActionBtn": "زر إجراء من نحن",
+      "aboutUsLink": "رابط الزر",
+      "aboutUsButtonTextAr": "نص الزر (بالعربي)",
+      "aboutUsButtonTextEn": "نص الزر (بالإنجليزي)",
+      "sectionOrderDesc": "ترتيب ظهور الأقسام في صفحة المتجر",
+      "heroTitleArPlaceholder": "أدخل عنوان الهيرو بالعربي",
+      "heroTitleEnPlaceholder": "Enter English hero title",
+      "heroDescriptionArPlaceholder": "أدخل وصف الهيرو بالعربي",
+      "heroDescriptionEnPlaceholder": "Enter English hero description",
+      "altArPlaceholder": "النص البديل بالعربي",
+      "altEnPlaceholder": "English Alt Text",
+      "howItWorks": {
+        "title": "كيف يعمل",
+        "description": "قسم يوضح آلية العمل بين استأجر والمتجر والفوائد المشتركة",
+        "sectionTitleAr": "عنوان القسم (بالعربي)",
+        "sectionTitleEn": "عنوان القسم (بالإنجليزي)",
+        "sectionTitlePlaceholder": "مثال: كيف يعمل استأجر مع المتجر؟",
+        "sectionTitlePlaceholderEn": "e.g: How does Estajer work with the Shop?",
+        "estajerSide": "من جانب استأجر",
+        "partnerSide": "من جانب المتجر",
+        "sharedBenefits": "فوائد مشتركة",
+        "stepTitleAr": "العنوان (بالعربي)",
+        "stepTitleEn": "العنوان (بالإنجليزي)",
+        "stepTitlePlaceholder": "مثال: من جانب استأجر",
+        "stepTitlePlaceholderEn": "e.g: From Estajer's side",
+        "itemsAr": "النقاط (بالعربي)",
+        "itemsEn": "النقاط (بالإنجليزي)",
+        "addItem": "إضافة نقطة",
+        "itemPlaceholder": "اكتب النقطة بالعربية...",
+        "itemPlaceholderEn": "Write the point in English..."
+      }
+    },
+    "users": {
+      "title": "إدارة المستخدمين",
+      "description": "إدارة ومراقبة جميع المستخدمين في النظام",
+      "searchPlaceholder": "البحث عن المستخدمين...",
+      "allAccountTypes": "جميع أنواع الحسابات",
+      "allStatuses": "جميع الحالات",
+      "personal": "شخصي",
+      "freelance": "عمل حر",
+      "company": "شركة",
+      "admin": "مدير",
+      "verified": "موثق",
+      "pending": "في الانتظار",
+      "banned": "محظور",
+      "search": "بحث",
+      "clearFilters": "مسح المرشحات",
+      "filterUsers": "تصفية المستخدمين",
+      "searchAndFilterDescription": "البحث وتصفية المستخدمين حسب معايير مختلفة",
+      "searchUsersLabel": "البحث عن المستخدمين",
+      "accountTypeLabel": "نوع الحساب",
+      "renterTypeLabel": "نوع الدور",
+      "approvedProductsLabel": "المنتجات",
+      "statusLabel": "الحالة",
+      "allRenterTypes": "جميع الأدوار",
+      "withApprovedProducts": "لديه منتجات موثقة",
+      "allProductsStatus": "الكل",
+      "renter": "مستأجر",
+      "lessor": "مؤجر",
+      "activeFiltersApplied": "تم تطبيق مرشحات نشطة",
+      "tryAdjustingCriteria": "جرب تعديل معايير البحث",
+      "noUsersFound": "لم يتم العثور على مستخدمين",
+      "totalUsers": "مستخدمين",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "accountType": "نوع الحساب",
+      "status": "الحالة",
+      "isRenter": "دور المستخدم",
+      "productsCount": "المنتجات",
+      "joined": "تاريخ الانضمام",
+      "actions": "الإجراءات",
+      "noName": "بدون اسم",
+      "noPhone": "بدون هاتف",
+      "unknown": "غير معروف",
+      "viewProfile": "عرض الملف الشخصي",
+      "editUser": "تعديل المستخدم",
+      "banUser": "حظر المستخدم",
+      "unbanUser": "إلغاء حظر المستخدم",
+      "deleteUser": "حذف المستخدم",
+      "previous": "السابق",
+      "next": "التالي",
+      "showing": "عرض",
+      "to": "إلى",
+      "of": "من",
+      "results": "نتيجة",
+      "editModal": {
+        "title": "تعديل المستخدم",
+        "basicInfo": "المعلومات الأساسية",
+        "fullName": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "username": "اسم المستخدم",
+        "address": "العنوان",
+        "bio": "النبذة الشخصية",
+        "bioAr": "النبذة الشخصية العربيه",
+        "bioEn": "النبذة الشخصية الانجليزيه",
+        "personalInformation": "المعلومات الشخصية",
+        "personalInfoDescription": "معلومات المستخدم الأساسية وتفاصيل الاتصال",
+        "accountSettings": "إعدادات الحساب",
+        "accountSettingsDescription": "نوع الحساب والمعلومات المالية",
+        "statusSettings": "إعدادات الحالة",
+        "statusSettingsDescription": "حالة الحساب والصلاحيات",
+        "accountType": "نوع الحساب",
+        "iban": "رقم الآيبان",
+        "nationalId": "رقم الهوية الوطنية",
+        "documentCode": "رمز الوثيقة المعتمد",
+        "enterFullName": "أدخل الاسم الكامل",
+        "enterEmail": "أدخل عنوان البريد الإلكتروني",
+        "enterPhone": "أدخل رقم الهاتف",
+        "enterUsername": "أدخل اسم المستخدم",
+        "enterAddress": "أدخل العنوان",
+        "enterBio": "أدخل النبذة الشخصية",
+        "enterBioAr": "أدخل النبذة الشخصية العربيه",
+        "enterBioEn": "أدخل النبذة الشخصية الانجليزيه",
+        "enterIban": "أدخل رقم الآيبان",
+        "enterNationalId": "أدخل رقم الهوية الوطنية",
+        "enterDocumentCode": "أدخل رمز الوثيقة المعتمد",
+        "status": "الحالة",
+        "verifiedAccount": "حساب موثق",
+        "verifiedAccountDescription": "المستخدم أكمل التحقق من الهوية",
+        "renterStatus": "حالة المستأجر",
+        "renterStatusDescription": "يمكن للمستخدم استئجار المنتجات من الآخرين",
+        "bannedAccount": "حساب محظور",
+        "bannedAccountDescription": "المستخدم مقيد من أنشطة المنصة",
+        "companyDetails": "تفاصيل الشركة",
+        "companyName": "اسم الشركة",
+        "registerNumber": "رقم السجل التجاري",
+        "taxCode": "الرقم الضريبي",
+        "cancel": "إلغاء",
+        "updating": "جاري التحديث...",
+        "updateUser": "تحديث المستخدم",
+        "updateSuccess": "تم تحديث المستخدم بنجاح",
+        "updateFailed": "فشل في تحديث المستخدم",
+        "bannedDescription": "المستخدم مقيد من أنشطة المنصة",
+        "verifiedDescription": "المستخدم أكمل التحقق من الهوية",
+        "premiumAccount": "حساب مميز",
+        "premiumDescription": "مستخدم بميزات مميزة",
+        "premium": "مميز",
+        "hasBranches": "تفعيل الفروع",
+        "hasBranchesDescription": "السماح للمستخدم بإدارة الفروع",
+        "skipIbanVerification": "تجاوز التحقق من الآيبان",
+        "skipIbanVerificationDescription": "السماح للمستخدم بإضافة المنتجات بدون رقم آيبان",
+        "invalidPhoneError": "رقم الجوال غير صالح"
+      },
+      "confirmModal": {
+        "banTitle": "تأكيد حظر المستخدم",
+        "unbanTitle": "تأكيد إلغاء حظر المستخدم",
+        "deleteTitle": "تأكيد حذف المستخدم",
+        "banMessage": "هل أنت متأكد من حظر هذا المستخدم؟",
+        "unbanMessage": "هل أنت متأكد من إلغاء حظر هذا المستخدم؟",
+        "deleteMessage": "هل أنت متأكد من حذف هذا المستخدم؟ لا يمكن التراجع عن هذا الإجراء.",
+        "cancel": "إلغاء",
+        "confirm": "تأكيد",
+        "banSuccess": "تم حظر المستخدم بنجاح",
+        "unbanSuccess": "تم إلغاء حظر المستخدم بنجاح",
+        "deleteSuccess": "تم حذف المستخدم بنجاح",
+        "banFailed": "فشل في حظر المستخدم",
+        "unbanFailed": "فشل في إلغاء حظر المستخدم",
+        "deleteFailed": "فشل في حذف المستخدم",
+        "fetchFailed": "فشل في جلب المستخدمين"
+      }
+    },
+    "header": {
+      "notifications": "الإشعارات",
+      "messages": "الرسائل",
+      "users": "المستخدمين",
+      "newProduct": "منتج جديد",
+      "newUser": "مستخدم جديد",
+      "refresh": "تحديث الرئيسية",
+      "refreshProducts": "تحديث المنتجات"
+    },
+    "home": {
+      "title": "لوحة التحكم",
+      "welcome": {
+        "greeting": "مرحباً بك\u00a0{name} في لوحة ادارة الموقع",
+        "desc": "اليوم لدينا\u00a0{productsCount} طلبات استئجار جديدة و\u00a0{chatsCount} رسالة جديدة و\u00a0{viewsCount} مشاهدة",
+        "print": "طباعة",
+        "filter": "فلترة",
+        "day": "اليوم",
+        "week": "هذا الأسبوع",
+        "month": "هذا الشهر"
+      },
+      "cards": {
+        "newPendingProducts": "منتجات جديدة بانتظار الموافقة",
+        "newPendingRequests": "طلبات جديدة بانتظار الموافقة",
+        "acceptedRequests": "طلبات مقبولة",
+        "allRequests": "كل الطلبات",
+        "activeProducts": "منتجات نشطة",
+        "outcome": "الدخل",
+        "websiteViews": "زيارات الموقع",
+        "websiteMessages": "رسائل الموقع",
+        "AllUsers": "كل مستخدمين",
+        "pendingPaidRequests": "طلبات مدفوعة بانتظار الموافقة",
+        "completedRequests": "طلبات مكتملة",
+        "confirmedRequests": "طلبات مؤكدة",
+        "cancelledRequests": "طلبات ملغية",
+        "averageRental": "متوسط قيمة الاستئجارات"
+      },
+      "orders": {
+        "title": "احدث الطلبات في الموقع",
+        "showAll": "عرض الكل",
+        "product": "المنتج",
+        "landlord": "المؤجر",
+        "renter": "المستأجر",
+        "renterPeriod": "مدة الإيجار",
+        "renterCost": "قيمة الإيجار",
+        "date": "التاريخ البدأ",
+        "status": "الحالة",
+        "actions": "إجراءات",
+        "allOrders": "كل الطلبات",
+        "declineOrder": "إلغاء الطلب",
+        "acceptOrder": "قبول الطلب",
+        "days": "أيام"
+      },
+      "latestActivities": {
+        "title": "احدث الانشطة في الموقع",
+        "dashboardTitle": "احدث الانشطة في لوحة التحكم",
+        "markAll": "اعتبار جميع النشاطات مقروءة",
+        "viewAll": "عرض الكل",
+        "noActivities": "لا توجد انشطة بعد"
+      },
+      "latestMessages": {
+        "title": "احدث الرسائل",
+        "viewAll": "عرض الكل",
+        "noMessages": "لا توجد رسائل بعد",
+        "noMessagesDescription": "ابدأ بإضافة الاشخاص واستمتع بالمحادثات!"
+      },
+      "latestSupportTickets": {
+        "title": "احدث تذاكر الدعم",
+        "viewAll": "عرض الكل",
+        "solved": "تم الحل",
+        "inprogress": "قيد الحل",
+        "cancelled": "تم الرفض",
+        "new": "جديد"
+      }
+    },
+    "sidebar": {
+      "myAccount": "حسابي",
+      "home": "استأجر",
+      "dashboard": "لوحة التحكم",
+      "rentalRequests": "الطلبات",
+      "overview": "نظرة عامة",
+      "rentalRequestsOrders": "طلبات الاستئجار",
+      "allProducts": "كل المنتجات",
+      "allMessages": "دردشة المستخدمين",
+      "aiChat": "دردشة مساعد استأجر",
+      "tickets": "تذاكر الدعم",
+      "allTickets": "كل التذاكر",
+      "support": "مركز الدعم الفني",
+      "allProductsList": "كل المنتجات (جدول)",
+      "productRequests": "طلبات المنتجات",
+      "products": "المنتجات",
+      "earnings": "الدخل",
+      "visits": "الزيارات",
+      "damageReports": "تقارير الأضرار",
+      "messages": "الدردشات",
+      "users": "المستخدمين",
+      "proposals": "طلبات العروض",
+      "sponsors": "الرعاة",
+      "blogs": "المدونة",
+      "contacts": "رسائل التواصل",
+      "myOrders": "طلباتي",
+      "notifications": "التنبيهات",
+      "addresses": "العناوين",
+      "advertisement": "الاعلانات",
+      "staticPages": "الصفحات الثابتة",
+      "reports": "التقارير",
+      "settings": "الاعدادات",
+      "categories": "التصنيفات",
+      "partners": "الشركاء",
+      "shops": "المتاجر",
+      "tasks": "المهام",
+      "logout": "تسجيل الخروج",
+      "login": "تسجيل الدخول",
+      "register": "إنشاء حساب",
+      "error": "حدث خطأ ما",
+      "logoutConfirm": "تم تسجيل الخروج بنجاح"
+    },
+    "requests": {
+      "title": "طلبات الاستئجار"
+    },
+    "filterOptions": {
+      "ranking": "التصنيف",
+      "all": "الكل",
+      "new": "جديد",
+      "inprogress": "قيد الحل",
+      "solved": "تم الحل",
+      "pending": "قيد الانتظار",
+      "approved": "مقبول",
+      "rejected": "مرفوض",
+      "not-paid": "غير مدفوع",
+      "nana": "نعناع",
+      "estajer": "استأجر",
+      "provider": "المزود",
+      "confirmed": "مؤكد",
+      "received": "تم استلامه",
+      "completed": "مكتمل",
+      "not-returned": "لم يتم ارجاعه",
+      "rejecting": "جاري الغاءه",
+      "rejectionConfirmed": "تم تأكيد الإلغاء",
+      "cancelled": "ملغى",
+      "status": "الحالة",
+      "today": "اليوم",
+      "week": "الأسبوع",
+      "month": "الشهر",
+      "date": "التاريخ",
+      "searchPlaceholder": "أبحث برقم الطلب",
+      "print": "تصدير Excel",
+      "addNewProduct": "منتج جديد",
+      "addNewNotification": "اضافة تنبيه جديد",
+      "dateAdded": "تاريخ الإنشاء",
+      "active": "نشط",
+      "inactive": "معطل",
+      "ownerSearch": "بحث بالمؤجر",
+      "customerSearch": "بحث بالعميل",
+      "exporting": "جاري التصدير..."
+    },
+    "products": {
+      "title": "المنتجات",
+      "tableProducts": {
+        "title": "كل الطلبات",
+        "declineProduct": "حذف المنتجات",
+        "acceptProduct": "قبول المنتجات",
+        "minDays": "أقل مدة للايجار",
+        "renterPricePerDay": "قيمة الايجار باليوم",
+        "dateAdded": "تاريخ الإضافة",
+        "dateEdited": "تاريخ التعديل",
+        "numOfRentRequests": "عدد طلبات التأجير",
+        "status": "الحالة",
+        "actions": "الإجراءات",
+        "product": "المنتج",
+        "landlord": "المؤجر",
+        "delete": "حذف",
+        "cancel": "إلغاء",
+        "approved": "نشط",
+        "rejected": "مرفوض",
+        "pendingApproval": "قيد الموافقة",
+        "deleted": "محذوف",
+        "hidden": "مخفي",
+        "showAll": "عرض الكل"
+      },
+      "cards": {
+        "allCategories": "كل التصنيفات",
+        "mostVisitedCategory": "تصنيفات اكثر زيارة",
+        "emptyCategories": "تصنيفات لا تحتوي على منتجات"
+      },
+      "categories": {
+        "addNewCategory": "تصنيف جديد",
+        "fetchError": "حدث خطأ في جلب التصنيفات",
+        "deleteSuccess": "تم حذف التصنيفات بنجاح",
+        "deleteError": "حدث خطأ أثناء حذف التصنيفات",
+        "modal": {
+          "title": "اضافة تصنيف جديد",
+          "editTitle": "تعديل التصنيف",
+          "titleAr": "الاسم بالعربية",
+          "titleEn": "الاسم بالانجليزية",
+          "status": "حالة التصنيف",
+          "active": "نشط",
+          "inactive": "معطل",
+          "image": "صورة التصنيف",
+          "imageOptional": "الصورة اختيارية للتصنيفات الفرعية",
+          "add": "أضف التصنيف",
+          "update": "تحديث التصنيف",
+          "cancel": "إلغاء الأمر",
+          "key": "الكود",
+          "addToNana": "إضافة إلى نعناع",
+          "keyDescription": "مثال: Electronics, Furniture",
+          "order": "الترتيب",
+          "orderDescription": "أولوية العرض (الأرقام الأقل تظهر أولاً)",
+          "categoryType": "نوع التصنيف",
+          "mainCategory": "تصنيف رئيسي",
+          "nameRequired": "الاسم مطلوب بالعربية والانجليزية",
+          "keyRequired": "كود التصنيف مطلوب",
+          "imageRequired": "الصورة مطلوبة للتصنيفات الرئيسية",
+          "createSuccess": "تم إنشاء التصنيف بنجاح",
+          "createError": "حدث خطأ أثناء إنشاء التصنيف",
+          "updateSuccess": "تم تحديث التصنيف بنجاح",
+          "updateError": "حدث خطأ أثناء تحديث التصنيف",
+          "hideFromHome": "إخفاء من الصفحة الرئيسية",
+          "seoData": "بيانات SEO",
+          "seoTitleAr": "عنوان SEO (بالعربية)",
+          "seoTitleEn": "عنوان SEO (بالانجليزية)",
+          "seoDescriptionAr": "وصف SEO (بالعربية)",
+          "seoDescriptionEn": "وصف SEO (بالانجليزية)",
+          "seoKeywordsAr": "كلمات SEO الدليلية (بالعربية)",
+          "seoKeywordsEn": "كلمات SEO الدليلية (بالانجليزية)",
+          "richContent": "المحتوى الغني",
+          "richContentAr": "محتوى غني (بالعربية)",
+          "richContentEn": "محتوى غني (بالانجليزية)",
+          "richContentArPlaceholder": "اضف المحتوى بالعربية هنا...",
+          "richContentEnPlaceholder": "Add rich content in English here..."
+        },
+        "tableCategories": {
+          "title": "كل التصنيفات",
+          "status": "الحالة",
+          "actions": "الإجراءات",
+          "deleteCategories": "حذف التصنيفات",
+          "image": "الصورة",
+          "nameAr": "الاسم بالعربية",
+          "nameEn": "الاسم بالانجليزية",
+          "key": "الكود",
+          "order": "الترتيب",
+          "adminCreatedCategory": "الادمن الذي انشأه",
+          "productsCount": "عدد المنتجات",
+          "visitorsCount": "عدد الزيارات",
+          "dateAdded": "تاريخ الإضافة",
+          "dateEdited": "تاريخ التعديل",
+          "rentalRequestsCount": "عدد طلبات التأجير",
+          "inactive": "معطل",
+          "active": "نشط",
+          "subCategories": "التصنيفات الفرعية",
+          "noSubCategories": "لا يوجد تصنيفات فرعية",
+          "noCategories": "لا يوجد تصنيفات",
+          "addCategoryHint": "قم بإضافة تصنيف جديد",
+          "edit": "تعديل",
+          "confirmDeleteSub": "هل أنت متأكد من حذف هذا التصنيف الفرعي؟",
+          "hideFromHome": "الرئيسية",
+          "hidden": "مخفي",
+          "visible": "ظاهر"
+        }
+      }
+    },
+    "earnings": {
+      "cards": {
+        "earnings": "الدخل",
+        "withdrawals": "السحوبات",
+        "pendingMoney": "المبالغ المعلّقة",
+        "conflicts": "النزاعات",
+        "totalEarnings": "صافي الربح"
+      },
+      "purchasesTable": {
+        "title": "احدث عمليات الدفع في الموقع",
+        "showAll": "عرض الكل",
+        "renter": "المستأجر",
+        "numOfItems": "عدد المنتجات",
+        "period": "المدة",
+        "amountOfPayment": "قيمة الدفع",
+        "methodOfPayment": "وسيلة الدفع",
+        "dateAdded": "تاريخ الإضافة",
+        "dateOfCompletePurchase": "تاريخ إتمام الدفع",
+        "status": "الحالة",
+        "actions": "الإجراءات",
+        "failed": "فشل",
+        "pending": "قيد الانتظار",
+        "completed": "مكتمل"
+      }
+    },
+    "notifications": {
+      "addNewNotification": "اضافة تنبيه جديد",
+      "modal": {
+        "title": "اضافة تنبيه جديد",
+        "titleAr": "العنوان بالعربية",
+        "titleEn": "العنوان بالانجليزية",
+        "usersType": "نوع المستخدمين المستهدف",
+        "notificationLink": "رابط التنبيه (إن وجد)",
+        "cancel": "إلغاء الأمر",
+        "add": "أضف التنبيه",
+        "all": "الكل"
+      }
+    },
+    "messages": {
+      "title": "الرسائل الإدارية",
+      "conversation": "محادثة بين\u00a0{customer} و{provider}",
+      "typePlaceholder": "اكتب رسالتك هنا...",
+      "noMessages": "لا توجد رسائل",
+      "noMessagesDescription": "لم يتم العثور على محادثات",
+      "deleteTitle": "حذف الرسالة",
+      "deleteConfirm": "هل أنت متأكد من حذف الرسالة",
+      "delete": "حذف",
+      "cancel": "إلغاء",
+      "deleteSuccess": "تم حذف الرسالة بنجاح",
+      "deleteError": "فشل في حذف الرسالة",
+      "cards": {
+        "unreadMessages": "رسائل غير مقروءة",
+        "deletedMessages": "رسائل محذوفة",
+        "reportedMessages": "رسائل مبلغ عنها",
+        "allMessages": "كل الرسائل",
+        "openedSupportTickets": "تذاكر دعم مفتوحة",
+        "closedSupportTickets": "تذاكر دعم مغلقة (تم حلها)",
+        "cancelledSupportTickets": "تذاكر دعم ملغية",
+        "allSupportTickets": "كل تذاكر الدعم"
+      }
+    },
+    "sponsors": {
+      "title": "إدارة المتاجر",
+      "description": "إدارة ومراقبة حسابات المتاجر",
+      "addSponsor": "إضافة راعي جديد",
+      "addNew": "إضافة جديد",
+      "selectUser": "اختر مستخدم",
+      "searchUser": "البحث عن مستخدم...",
+      "selectCategory": "اختر الفئة",
+      "priority": "الأولوية",
+      "endDate": "تاريخ الانتهاء (اختياري)",
+      "save": "حفظ",
+      "cancel": "إلغاء",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "user": "المستخدم",
+      "actions": "الإجراءات",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "editSponsor": "تعديل الراعي",
+      "deleteSponsor": "حذف الراعي",
+      "confirmDelete": "هل أنت متأكد من حذف هذا الراعي؟",
+      "noSponsorsFound": "لم يتم العثور على رعاة",
+      "currentSponsors": "المتاجر الحاليون",
+      "totalCount": "العدد الإجمالي",
+      "clearFilters": "مسح المرشحات",
+      "activeFilters": "المرشحات النشطة",
+      "sponsorAdded": "تم إضافة الراعي بنجاح",
+      "sponsorUpdated": "تم تحديث الراعي بنجاح",
+      "sponsorDeleted": "تم حذف الراعي بنجاح",
+      "errorAddingSponsor": "خطأ في إضافة الراعي",
+      "errorUpdatingSponsor": "خطأ في تحديث الراعي",
+      "errorDeletingSponsor": "خطأ في حذف الراعي",
+      "search": {
+        "label": "البحث",
+        "placeholder": "البحث في المتاجر بالاسم أو البريد الإلكتروني أو اسم المتجر..."
+      },
+      "category": {
+        "label": "الفئة",
+        "placeholder": "جميع الفئات"
+      },
+      "status": {
+        "label": "الحالة",
+        "placeholder": "جميع الحالات",
+        "active": "نشط",
+        "inactive": "غير نشط"
+      },
+      "sort": {
+        "label": "ترتيب حسب",
+        "createdAt": "تاريخ الإنشاء",
+        "priority": "الأولوية",
+        "category": "الفئة",
+        "userName": "اسم المستخدم",
+        "asc": "تصاعدي",
+        "desc": "تنازلي"
+      },
+      "table": {
+        "startDate": "تاريخ البداية",
+        "endDate": "تاريخ النهاية"
+      },
+      "stats": {
+        "products": "المنتجات",
+        "requests": "الطلبات",
+        "orders": "الطلبات"
+      },
+      "errors": {
+        "selectUserCategory": "يرجى اختيار مستخدم وفئة",
+        "createFailed": "فشل في إنشاء الراعي",
+        "updateFailed": "فشل في تحديث الراعي",
+        "deleteFailed": "فشل في حذف الراعي"
+      },
+      "success": {
+        "created": "تم إنشاء الراعي بنجاح",
+        "updated": "تم تحديث الراعي بنجاح",
+        "deleted": "تم حذف الراعي بنجاح"
+      },
+      "priorityDesc": "الأرقام الأعلى تظهر أولاً",
+      "endDateDesc": "اتركه فارغاً للرعاية غير المحددة",
+      "indefinite": "غير محدد",
+      "remove": "إزالة",
+      "updateSponsor": "تحديث الراعي"
+    },
+    "support": {
+      "cards": {
+        "openedTickets": "تذاكر مفتوحة",
+        "closedTickets": "تذاكر دعم مغلقة (تم حلها)",
+        "cancelledTickets": "تذاكر دعم ملغية",
+        "allTickets": "كل تذاكر الدعم"
+      }
+    },
+    "tasks": {
+      "title": "إدارة المهام",
+      "description": "إنشاء وإدارة المهام لفريقك",
+      "addTask": "إضافة مهمة",
+      "createTask": "إنشاء مهمة جديدة",
+      "editTask": "تعديل المهمة",
+      "noTasks": "لا توجد مهام",
+      "noTasksDesc": "قم بإنشاء مهمتك الأولى للبدء",
+      "totalCount": "إجمالي المهام",
+      "filters": "الفلاتر",
+      "searchPlaceholder": "البحث في المهام...",
+      "resetFilters": "إعادة تعيين",
+      "showCompleted": "عرض المكتملة",
+      "assignedTo": "مُسند إلى",
+      "unassigned": "غير مُسند",
+      "selectUser": "اختر مستخدم",
+      "selectAdminUsers": "اختر مستخدم",
+      "noUsersFound": "لا يوجد مستخدمين",
+      "addLink": "إضافة رابط",
+      "searching": "جاري البحث...",
+      "assignUsers": "تعيين المستخدمين",
+      "useModalForSearch": "استخدم نافذة التعديل للبحث الكامل",
+      "dateFrom": "من تاريخ",
+      "dateTo": "إلى تاريخ",
+      "sortBy": "ترتيب حسب",
+      "priority": "الأولوية",
+      "priorityUp": "زيادة الأولوية",
+      "priorityDown": "تقليل الأولوية",
+      "titleLabel": "العنوان",
+      "titlePlaceholder": "أدخل عنوان المهمة",
+      "descriptionLabel": "الوصف",
+      "descriptionPlaceholder": "اوصف المهمة بالتفصيل...",
+      "type": "النوع",
+      "status": "الحالة",
+      "createdBy": "أنشأها",
+      "completedBy": "أكملها",
+      "date": "التاريخ",
+      "attachments": "المرفقات",
+      "actions": "الإجراءات",
+      "images": "الصور",
+      "imageUrl": "رابط الصورة",
+      "imageAlt": "النص البديل",
+      "links": "الروابط",
+      "linkUrl": "رابط",
+      "linkTitle": "عنوان الرابط",
+      "openLink": "فتح",
+      "notes": "ملاحظات",
+      "notesPlaceholder": "أضف أي ملاحظات إضافية...",
+      "create": "إنشاء المهمة",
+      "update": "تحديث المهمة",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "cancel": "إلغاء",
+      "close": "إغلاق",
+      "confirmDelete": "هل أنت متأكد من حذف هذه المهمة؟",
+      "save": "حفظ",
+      "cancelDelete": "الغاء الحذف",
+      "confirmDeleteBtn": "تأكيد الحذف",
+      "types": {
+        "programming": "برمجة",
+        "bug": "خطأ برمجي",
+        "feature": "ميزة جديدة",
+        "seo": "تحسين SEO",
+        "marketing": "تسويق",
+        "ui": "واجهة المستخدم",
+        "ux": "تجربة المستخدم",
+        "design": "تصميم",
+        "content": "محتوى",
+        "testing": "اختبار",
+        "documentation": "توثيق",
+        "other": "أخرى"
+      },
+      "statuses": {
+        "pending": "قيد الانتظار",
+        "in_progress": "قيد التنفيذ",
+        "completed": "مكتملة",
+        "cancelled": "ملغاة"
+      },
+      "success": {
+        "created": "تم إنشاء المهمة بنجاح",
+        "updated": "تم تحديث المهمة بنجاح",
+        "deleted": "تم حذف المهمة بنجاح",
+        "statusUpdated": "تم تحديث الحالة بنجاح",
+        "assignmentUpdated": "تم تحديث المهمة بنجاح"
+      },
+      "errors": {
+        "createFailed": "فشل إنشاء المهمة",
+        "updateFailed": "فشل تحديث المهمة",
+        "deleteFailed": "فشل حذف المهمة",
+        "priorityFailed": "فشل تحديث الأولوية"
+      }
+    },
+    "banners": {
+      "place": "المكان",
+      "home": "الرئيسية",
+      "category": "التصنيف",
+      "placePlaceholder": "اختر المكان",
+      "categoryId": "التصنيف المختار",
+      "categoryPlaceholder": "اختر التصنيف",
+      "mainCategoryId": "التصنيف الرئيسي",
+      "mainCategoryPlaceholder": "اختر التصنيف الرئيسي",
+      "subCategoryId": "التصنيف الفرعي",
+      "subCategoryPlaceholder": "اختر التصنيف الفرعي (اختياري)",
+      "profile": "الملف الشخصي",
+      "userSelection": "اختيار المستخدم",
+      "userPlaceholder": "ابحث عن مستخدم بالاسم أو الإيميل أو الهاتف"
+    }
+  },
+  "login": {
+    "loginFirst": "يرجى تسجيل الدخول اولا",
+    "errorMsg": "حدث خطأ ما",
+    "successMsg": "تم تسجيل الدخول بنجاح",
+    "title": "تسجيل الدخول",
+    "welcomeBack": "مرحباً بعودتك! قم بملء الحقول التالية لتتمكن من تسجيل الدخول",
+    "emailAddress": "البريد الإلكتروني",
+    "placeholder": "مثل xxxxxxxx@xxxx.com",
+    "password": "كلمة المرور",
+    "remember": "تذكرني",
+    "forgetPassword": "نسيت كلمة المرور",
+    "login": "دخول",
+    "newAccount": "إنشاء حساب جديد",
+    "doNotHaveAccount": "ليس لديك حساب؟",
+    "followUs": "انضم لمتابعتنا على"
+  },
+  "register": {
+    "title": "انشاء حساب جديد",
+    "errorMsg": "حدث خطأ ما",
+    "welcomeMessage": "مرحباً بك! قم بملء الحقول التالية لتتمكن من انشاء حساب لك واستخدام منصة استأجر.",
+    "agreeToTermsError": "يجب الموافقة على الشروط والأحكام.",
+    "accountCreatedSuccess": "تم إنشاء الحساب بنجاح.",
+    "accountTypePersonal": "فرد",
+    "accountTypeCompany": "منشأة",
+    "accountTypeFreelanceDocument": "وثيقة ممارس حر",
+    "companyNameLabel": "اسم المنشأة",
+    "companyNamePlaceholder": "مثال : شركة او مؤسسة انت لخدمات التأجير",
+    "registerNumberLabel": "رقم السجل",
+    "taxCodeLabel": "الرقم الضريبي",
+    "documentCodeLabel": "رقم شهادة العمل الحر",
+    "documentCodePlaceholder": "FL-XXXXXXXXX",
+    "nationalIdLabel": "رقم الهوية الوطنية",
+    "nationalIdPlaceholder": "أدخل رقم الهوية المكون من 10 أرقام",
+    "invalidNationalIdError": "رقم الهوية يجب أن يكون 10 أرقام ويبدأ بالرقم 1.",
+    "invalidDocumentCodeError": "رقم الشهادة يجب أن يكون بالصيغة FL-XXXXXXXXX (FL- متبوعة بـ 9 أرقام).",
+    "certificateNotActive": "شهادة العمل الحر غير نشطة. يتم قبول الشهادات النشطة فقط للتسجيل.",
+    "certificateVerificationFailed": "فشل التحقق من شهادة العمل الحر. يرجى التحقق من البيانات والمحاولة مرة أخرى.",
+    "certificateStatus": "حالة الشهادة",
+    "certificateExpiry": "تاريخ الانتهاء",
+    "fullNameLabel": "الاسم بالكامل",
+    "fullNamePlaceholder": "مثل:أحمد محمد علي",
+    "emailLabel": "البريد الالكتروني",
+    "emailPlaceholder": "مثل xxxxxxxx@xxxx.com",
+    "invalidEmailError": "البريد الالكتروني غير صحيح.",
+    "phoneLabel": "الجوال",
+    "invalidPhoneError": "رقم الجوال غير صالح، يجب ان يتكون الرقم من 10 ارقام ويبدا 05، مثل:0500000000",
+    "passwordLabel": "كلمة المرور",
+    "passwordValidationError": "كلمة المرور يجب ان تحتوي على حرف كبير وحرف صغير ورقم ويجب ان تكون على الاقل 8 حروف.",
+    "confirmPasswordLabel": "تأكيد كلمة المرور",
+    "passwordsDoNotMatchError": "كلمة المرور غير متطابقة.",
+    "agreeToTermsCheckbox": "أوافق على كل البنود الموجودة في",
+    "termsOfUseLink": "شروط الاستخدام",
+    "and": "و",
+    "privacyPolicyLink": "سياسة الخصوصية",
+    "createAccountButton": "انشاء حساب",
+    "alreadyHaveAccount": "لديك حساب؟",
+    "loginLink": "تسجيل الدخول",
+    "followUs": "انضم لمتابعتنا على",
+    "whatsappVerificationNotice": "سيتم إرسال رمز التحقق عبر الواتساب فور التسجيل.",
+    "roleLabel": "التسجيل كـ",
+    "landlord": "مؤجر",
+    "renter": "مستأجر"
+  },
+  "changePasswordPage": {
+    "title": "تغيير كلمة المرور",
+    "subtitle": "أدخل كلمة المرور الجديدة",
+    "newPasswordLabel": "كلمة المرور الجديدة",
+    "confirmPasswordLabel": "تأكيد كلمة المرور الجديدة",
+    "passwordValidation": "كلمة المرور يجب ان تحتوي على حرف كبير وحرف صغير ورقم ويجب ان تكون على الاقل 8 حروف.",
+    "passwordMismatch": "كلمة المرور غير متطابقة.",
+    "submitButton": "تغيير كلمة المرور",
+    "successMessage": "تم تغيير كلمة المرور بنجاح.",
+    "errorMessage": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+    "tokenInvalidError": "الرمز غير صالح أو انتهت صلاحيته. يرجى طلب إعادة تعيين كلمة مرور جديدة.",
+    "genericError": "حدث خطأ ما"
+  },
+  "forgotPasswordPage": {
+    "title": "نسيت كلمة المرور",
+    "subtitle": "أدخل بريدك الإلكتروني وسنرسل لك رابطاً لتغيير كلمة المرور",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "submitButton": "إرسال رابط التغيير",
+    "successMessage": "تم إرسال رابط تغيير كلمة المرور إلى بريدك الإلكتروني. جاري تحويلك لصفحة تسجيل الدخول...",
+    "errorMessage": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+    "userNotFound": "المستخدم بهذا البريد الإلكتروني غير موجود.",
+    "genericError": "حدث خطأ ما"
+  },
+  "authPromotion": {
+    "backButton": "رجوع",
+    "logoAlt": "شعار استأجر",
+    "registerTitle": "انضم لمنصة استأجر واستفد من آلاف المنتجات التي يمكنك استئجارها",
+    "loginTitle": "سجل دخولك واستفد من آلاف المنتجات التي يمكنك استئجارها",
+    "listItem1": "مجموعة ضخمة من المنتجات المتنوعة",
+    "listItem2": "عملية استئجار آمنة وموثوقة",
+    "listItem3": "اسكتشف المنتجات المتاحة للاستئجار بالقرب من مكانك",
+    "listItem4": "اربح من عرض المنتجات التي لا تحتاج إليها للايجار"
+  },
+  "request": {
+    "title": "طلب منتج",
+    "description": "قم باضافة طلب للمنتج ليعلم الاخرون انك بحاجة إليها ويعرضوها عليك",
+    "editButton": "تعديل الطلب",
+    "button": "طلب المنتج",
+    "editTitle": "تعديل المنتج",
+    "editDescription": "قم بتعديل طلب للمنتج"
+  },
+  "titles": {
+    "admin": "لوحة التحكم",
+    "requests": "طلبات الاستئجار",
+    "all": "كل الطلبات",
+    "details": "تفاصيل الطلب",
+    "blogs": "مدونة استأجر",
+    "home": "الرئيسية",
+    "adminBlog": "ادارة المدونات",
+    "products": "المنتجات",
+    "orders": "طلبات الاستئجار",
+    "earnings": "الدخل",
+    "notifications": "التنبيهات",
+    "messages": "الرسائل",
+    "support": "مركز الدعم الفني",
+    "tickets": "كل التذاكر",
+    "categories": "التصنيفات",
+    "about": "من نحن"
+  },
+  "payment": {
+    "paymentCompleted": {
+      "title": "تهانينا! تم إنشاء طلبك بنجاح.",
+      "description": "تم إنشاء طلبك بنجاح، وبإنتظار قبول المؤجر له، الآن يمكنك الذهاب للوحة التحكم الخاصة بك لعرض الطلبات ومتابعة حالة الطلب.",
+      "button": "الذهاب للوحة التحكم"
+    },
+    "paymentError": {
+      "title": "لم يتم دفع ثمن الطلب",
+      "description": "لم يتم دفع ثمن الطلب، او حدث خطأ اثناء الدفع ، يرجى المحاولة مرة اخرى. او التواصل مع الدعم في حالة حدث خطاء .",
+      "openPaymentBtn": "فتح صفحة الدفع",
+      "callSupportBtn": "التحدث مع الدعم"
+    },
+    "paymentProcessing": {
+      "badge": "جاري معالجة الدفع",
+      "title": "جاري معالجة عملية الدفع الخاصة بك",
+      "description": "شكراً لاختيارك التحويل البنكي كوسيلة دفع. تم إنشاء طلبك وهو في انتظار تأكيد الدفع من البنك.",
+      "processingTimeTitle": "الوقت المتوقع للمعالجة: 3-4 أيام عمل",
+      "processingTimeDesc": "عادةً ما تستغرق التحويلات البنكية من 3-4 أيام عمل للتحقق منها ومعالجتها. بمجرد تأكيد الدفع، سيتم إكمال طلبك تلقائياً.",
+      "button": "الذهاب للوحة التحكم",
+      "contactSupport": "تحتاج مساعدة؟"
+    }
+  },
+  "productTour": {
+    "navigation": {
+      "next": "التالي",
+      "previous": "السابق",
+      "done": "إنهاء",
+      "progress": "{{current}} من {{total}}"
+    },
+    "steps": {
+      "introduction": {
+        "title": "مرحباً بك في جولة المنتج! 👋",
+        "description": "دعنا نرشدك خلال عملية الاستئجار خطوة بخطوة. ستوضح لك هذه الجولة السريعة كيفية حجز واستئجار المنتجات بسهولة على منصتنا."
+      },
+      "productTitle": {
+        "title": "اسم المنتج",
+        "description": "هذا هو اسم المنتج المتاح للإيجار. يمكنك إضافته إلى المفضلة بالنقر على أيقونة القلب."
+      },
+      "productImages": {
+        "title": "صور المنتج",
+        "description": "شاهد صور المنتج من زوايا مختلفة. انقر على أي صورة لعرضها بالحجم الكامل."
+      },
+      "productDescription": {
+        "title": "وصف المنتج",
+        "description": "اقرأ تفاصيل المنتج ومواصفاته الكاملة لمعرفة المزيد عنه."
+      },
+      "orderContainer": {
+        "title": "نموذج الطلب",
+        "description": "هنا يمكنك إتمام عملية حجز المنتج. اختر الكمية والتاريخ المناسب لك."
+      },
+      "quantity": {
+        "title": "اختيار الكمية",
+        "description": "حدد عدد الوحدات التي تريد استئجارها من هذا المنتج."
+      },
+      "additionalServices": {
+        "title": "الخدمات الإضافية",
+        "description": "أضف خدمات ومستلزمات إضافية لتعزيز تجربة الإيجار (إن وجدت)."
+      },
+      "bookingPackages": {
+        "title": "اختر الباقة",
+        "description": "اختر باقة التأجير التي تناسب احتياجاتك."
+      },
+      "packagesRangeDate": {
+        "title": "اختر التاريخ",
+        "description": "حدد تاريخ البدء للباقة الخاصة بك."
+      },
+      "dateSelector": {
+        "title": "اختيار التاريخ",
+        "description": "اختر تاريخ بداية ونهاية فترة الإيجار من التقويم. التواريخ المحجوزة ستكون غير متاحة."
+      },
+      "costCalculation": {
+        "title": "حساب التكلفة",
+        "description": "شاهد تفاصيل التكلفة الكاملة بما في ذلك سعر الإيجار، الخدمات الإضافية، الخصومات والضريبة."
+      },
+      "bookingButton": {
+        "title": "إرسال طلب الحجز",
+        "description": "عندما تكون جاهزاً، اضغط هنا لإضافة المنتج إلى السلة وإتمام عملية الحجز."
+      },
+      "deliveryOptions": {
+        "deliveryTitle": "خدمة التوصيل",
+        "deliveryDescription": "سيتم توصيل هذا المنتج إلى موقعك. سيتم احتساب تكلفة التوصيل بناءً على عنوانك عند إتمام الطلب.",
+        "pickupTitle": "استلام من المؤجر",
+        "pickupDescription": "هذا المنتج للاستلام فقط. يجب عليك الذهاب إلى موقع المؤجر لاستلام المنتج."
+      },
+      "productLocation": {
+        "title": "موقع المنتج",
+        "description": "شاهد موقع المنتج على الخريطة لمعرفة مدى قربه منك."
+      },
+      "ownerInfo": {
+        "title": "معلومات المؤجر",
+        "description": "تعرف على المؤجر وشاهد تقييماته من العملاء السابقين. يمكنك زيارة صفحته لمشاهدة منتجاته الأخرى."
+      },
+      "chatButton": {
+        "title": "التواصل مع المؤجر",
+        "description": "تواصل مباشرة مع المؤجر لطرح أي أسئلة أو استفسارات عن المنتج."
+      }
+    }
+  },
+  "tasks": {
+    "page": {
+      "title": "لوحة المهام",
+      "description": "عرض وتتبع جميع المهام النشطة",
+      "subtitle": "تصفح جميع المهام الجارية وتقدمها"
+    },
+    "searchPlaceholder": "البحث في المهام...",
+    "type": "النوع",
+    "status": "الحالة",
+    "showCompleted": "عرض المكتملة",
+    "filter": "تصفية",
+    "totalCount": "المجموع",
+    "tasks": "مهام",
+    "noTasks": "لا توجد مهام",
+    "noTasksDesc": "تم إكمال جميع المهام!",
+    "description": "الوصف",
+    "createdBy": "أنشأها",
+    "completedBy": "أكملها",
+    "images": "الصور",
+    "links": "الروابط",
+    "close": "إغلاق",
+    "types": {
+      "programming": "برمجة",
+      "bug": "خطأ برمجي",
+      "feature": "ميزة جديدة",
+      "seo": "تحسين SEO",
+      "marketing": "تسويق",
+      "ui": "واجهة المستخدم",
+      "ux": "تجربة المستخدم",
+      "design": "تصميم",
+      "content": "محتوى",
+      "testing": "اختبار",
+      "documentation": "توثيق",
+      "other": "أخرى"
+    },
+    "statuses": {
+      "pending": "قيد الانتظار",
+      "in_progress": "قيد التنفيذ",
+      "completed": "مكتملة",
+      "cancelled": "ملغاة"
+    }
+  },
+  "categoryRichContent": {
+    "aboutCategory": "حول هذا التصنيف",
+    "aboutCategoryTitle": "استأجر - {category}",
+    "showLess": "إظهار أقل"
+  },
+  "about": {
+    "metadata": {
+      "title": "من نحن - استأجر | منصة تأجير المنتجات في السعودية",
+      "description": "تعرّف على إستأجر، منصة تأجير المنتجات الأولى في السعودية لتجربة استئجار آمنة ومرنة وبتكلفة مناسبة.",
+      "keywords": [
+        "استأجر",
+        "تأجير منتجات",
+        "الاقتصاد التشاركي",
+        "السعودية",
+        "من نحن",
+        "حول استأجر"
+      ]
+    },
+    "about": {
+      "title": "من نحن ؟",
+      "description1": "استمتع بالتجربة.. دون تكاليف التملك",
+      "description2": "القيمة الحقيقية في الاستخدام. تمنحك منصة استأجر مرونة \"الاقتصاد التشاركي\" لتجربة كل جديد وتوفير المال. انضم إلى أفضل منصة للايجار في السعودية.",
+      "exploreProducts": "تصفح المنتجات المتاحة",
+      "howEstajerWorks": "كيف تعمل منصة استأجر؟"
+    },
+    "ourValues": {
+      "title": "القيم والأثر",
+      "description1": "بيئة مستدامة.. ومجتمع مترابط",
+      "description2": "لا نهدف للتوفير فقط، بل لصناعة أثر حقيقي عبر مبدأ \"الاقتصاد الدائري\".",
+      "values": [
+        {
+          "title": "حماية البيئة",
+          "description": "تقليل النفايات عبر تدوير استخدام الأغراض."
+        },
+        {
+          "title": "تخفيف الأعباء",
+          "description": "توفير لوازم المناسبات للأسر بأعلى جودة وأقل تكلفة."
+        },
+        {
+          "title": "كفاءة الاستهلاك",
+          "description": "تعزيز المشاركة بدلاً من الشراء والتخزين."
+        }
+      ],
+      "action": "شاركنا الأثر"
+    },
+    "incomeValue": {
+      "title": "العائد المادي",
+      "description1": "أصولك الراكدة.. مصدر دخل إضافي",
+      "description2": "لا تترك ممتلكاتك تفقد قيمتها في المخازن. تفتح لك منصة استأجر باباً لدعم \"اقتصاد المهام\" وزيادة دخلك بسهولة.",
+      "whyRentTitle": "لماذا تؤجر أغراضك؟",
+      "reasons": [
+        "حوّل الأصول الثابتة إلى استثمار ذكي.",
+        "ساهم في تمكين القوى العاملة الوطنية.",
+        "ادفع عجلة الابتكار في السوق السعودي."
+      ],
+      "ctaText": "انضم لمئات المؤجرين الذين حققوا أرباحاً هذا الأسبوع",
+      "action": "ابدأ بتأجير منتجاتك الآن"
+    },
+    "vision2030": {
+      "tagline": "نسعى لترسيخ مكانتنا كـ أفضل منصة للإيجار في السعودية تقود مستقبلاً اقتصادياً مشرقاً.",
+      "title": "نغطي المملكة.. بروح رؤية 2030",
+      "description": "نتوسع لنكون الأقرب إليكم في (الرياض، جدة، الدمام) وكافة المناطق. فخورون بكوننا نموذجاً وطنياً يترجم \"رؤية السعودية 2030\" في التحول الرقمي.",
+      "action": "شاركنا الأثر"
+    }
+  },
+  "partner": {
+    "about": {
+      "verifiedPartner": "شريك موثق",
+      "products": "منتج",
+      "exclusiveOffers": "عروض حصرية",
+      "browseProducts": "تصفح المنتجات"
+    },
+    "offerBanners": {
+      "shopNow": "تسوق الآن"
+    }
+  },
+  "shopReviews": {
+    "badge": "قالوا عنا",
+    "titlePart1": "آراء ",
+    "titleHighlight": "عملائنا ",
+    "fromReviews": "من أكثر من {count} تقييم",
+    "noComment": "لا يوجد تعليق",
+    "defaultCity": "الرياض"
+  },
+  "moreQuestions": {
+    "title": "هل لديك مزيد من الأسئلة؟",
+    "browse": "تصفح",
+    "faqs": "الأسئلة الشائعة",
+    "contactUS": "تواصل معنا"
+  },
+  "awareness": {
+    "metadata": {
+      "title": "أطلق متجرك الإلكتروني للتأجير بكل سهولة | منصة استأجر",
+      "description": "حوّل محلك لمتجر تأجير إلكتروني احترافي بدون خبرة تقنية. انضم لأول منصة سعودية لمشاريع التأجير وابدأ بزيادة أرباحك مع الدفع الآمن والعقود الموثقة.",
+      "keywords": [
+        "فتح متجر تأجير",
+        "تأجير منتجات",
+        "منصة تأجير سعودية",
+        "تأجير إلكترونيات",
+        "تأجير معدات حفلات",
+        "الاقتصاد التشاركي",
+        "منصة استأجر"
+      ]
+    },
+    "hero": {
+      "badge": "أول منصة سعودية 100% لمشاريع التأجير",
+      "titlePart1": "أطلق متجرك الإلكتروني ",
+      "titleHighlight": "للتأجير",
+      "titlePart2": " بكل سهولة",
+      "titleSuffix": "بدون تعقيد أو تكاليف كبيرة",
+      "subtitle": "حوّل محلك لمتجر تأجير إلكتروني احترافي خلال دقائق",
+      "action": "ابدأ متجرك الآن",
+      "features": {
+        "nationalAccess": "النفاذ الوطني",
+        "documentedContracts": "عقود موثقة",
+        "securePayment": "دفع آمن",
+        "partners": "٣٠+ شريك رسمي"
+      }
+    },
+    "createStore": {
+      "title": "أنشئ متجرك بدون خبرة تقنية",
+      "subtitle": "متجر احترافي يعطي عملائك ثقة من أول زيارة",
+      "features": [
+        "خصص متجرك بالكامل بدون كود أو تصميم معقد.",
+        "واجهة مصممة خصيصاً لمشاريع التأجير.",
+        "جاهز للإنطلاق بسرعة."
+      ],
+      "action": "ابدأ في تنفيذ متجرك الآن",
+      "mockup": {
+        "showReviews": "إظهار التقييمات",
+        "showReviewsDesc": "إظهار تقييمات العملاء في صفحة المتجر",
+        "storeSections": "أقسام المتجر",
+        "section1": "منحوتات",
+        "section2": "خشبيات",
+        "imagePlaceholder": "ضع صوره واجهة المنصة هنا"
+      }
+    },
+    "commissions": {
+      "title": "لا تشيل هم العمولات",
+      "subtitle": "متجر التأجير يعطيك حماية كاملة، ظهور دائم، و دعم مخصص",
+      "features": [
+        "دفع مسبق مضمون.",
+        "احتفظ بأرباحك بعمولة أقل.",
+        "خصومات حسب زيادة الكمية أو المدة."
+      ],
+      "action": "وفّر من أول طلب استئجار ابدأ الآن"
+    },
+    "support": {
+      "title": "معك في كل خطوة... وأمام كل عميل",
+      "subtitle": "نجاحك هو نجاحنا، فريق كامل يساعدك تنمي مشروعك",
+      "features": [
+        "أولوية الظهور في الصفحة الرئيسية لاستأجر.",
+        "معك مدير حساب مخصص يساعدك في الإعداد، التحسين، والنمو.",
+        "دعم 24/7."
+      ],
+      "action": "ابدأ بدعم كامل من منصة استأجر الآن",
+      "imagePlaceholder": "ضع صورة الواجهة المجمعة هنا",
+      "imageSubPlaceholder": "(الصورة الجاهزة كما طلبت)"
+    },
+    "statistics": {
+      "badge": "رواد الاقتصاد التشاركي",
+      "title": "منصة استأجر أفضل منصة للإيجار والاستئجار في السعودية",
+      "description": "انضم لمجتمع رواد الاقتصاد التشاركي، ",
+      "descriptionHighlight": "شركاؤنا يربحون من أغراضهم كل يوم",
+      "stats": [
+        {
+          "value": "100%",
+          "label": "حماية بعقود موثقة إلكترونياً"
+        },
+        {
+          "value": "+100,000",
+          "label": "عميل شهرياً يبحث عن منتجات"
+        },
+        {
+          "value": "+800",
+          "label": "شريك نشط يديرون مشاريعهم بثقة"
+        }
+      ]
+    },
+    "segments": {
+      "badge": "القطاعات",
+      "title": "تميّز في التأجير مهما كان تخصصك",
+      "subtitle": "يناسب جميع قطاعات التأجير",
+      "action": "انشئ متجرك الآن",
+      "categories": {
+        "electronics": {
+          "label": "الإلكترونيات",
+          "title": "تأجير الإلكترونيات... بدون قلق على أجهزتك",
+          "support": "متجرك بهويتك الخاصة = عملائك يرجعون لك أنت، مو للمنافسين",
+          "bullets": [
+            {
+              "title": "عقد موثق لكل جهاز (لابتوب، كاميرا، درون)",
+              "desc": "توثيق الحالة بالصور قبل وبعد + ضمان الاستلام والتسليم"
+            },
+            {
+              "title": "دفع مسبق مضمون",
+              "desc": "فلوسك محفوظة قبل ما يستلم العميل الجهاز"
+            },
+            {
+              "title": "تسعير مرن حسب مدة الإيجار",
+              "desc": "يوم واحد؟ أسبوع؟ شهر؟ الخصومات تلقائية"
+            }
+          ]
+        },
+        "parties": {
+          "label": "الحفلات",
+          "title": "إدارة طلبات المناسبات... بكل سهولة",
+          "support": "منظمو الحفلات يتعاملون معك كشريك موثوق، مو مجرد مؤجر",
+          "bullets": [
+            {
+              "title": "تقويم واضح يوضح توفر كل منتج",
+              "desc": "شاشات LED، كراسي، طاولات، نطيطات... كل شيء مرتب وواضح"
+            },
+            {
+              "title": "خصومات تلقائية للحجوزات الطويلة",
+              "desc": "حفلة يوم؟ مهرجان 3 أيام؟ النظام يحسبها تلقائياً"
+            },
+            {
+              "title": "عقود موثقة + توثيق الاستلام والتسليم",
+              "desc": "صور + توقيع رقمي + حماية كاملة لأغراضك"
+            }
+          ]
+        },
+        "furniture": {
+          "label": "الأثاث",
+          "title": "كتالوج رقمي يعرض كل قطع الأثاث اللي تبي تأجرها",
+          "support": "كتالوج فاخر بهويتك الخاصة يُعرض للمستأجرين ليحفظون متجرك",
+          "bullets": [
+            {
+              "title": "باقات شاملة أو قطع منفردة",
+              "desc": "كنب، طاولات، جلسات ... العميل يختار اللي يناسبه"
+            },
+            {
+              "title": "توثيق الحالة بالتفصيل",
+              "desc": "صور قبل وبعد + توقيع رقمي = حماية لأثاثك"
+            },
+            {
+              "title": "خيارات توصيل مرنة",
+              "desc": "حسب فروعك ونقاط الاستلام... أو توصيل للعميل"
+            }
+          ]
+        },
+        "camping": {
+          "label": "التخييم",
+          "title": "وصّل معداتك لمنظمي الرحلات والشركات",
+          "support": "منظمو الرحلات يرجعون لك موسم بعد موسم، مو يجربون مؤجر جديد كل مرة",
+          "bullets": [
+            {
+              "title": "باقات كاملة أو قطع منفردة",
+              "desc": "خيمة + كرفان + معدات شواء... أو أي شي لحاله"
+            },
+            {
+              "title": "حجوزات مرنة حسب الموسم",
+              "desc": "الشتاء؟ الربيع؟ النظام يدير التوفر تلقائياً"
+            },
+            {
+              "title": "توثيق شامل قبل وبعد الرحلة",
+              "desc": "صور الاستلام والتسليم + عقد موثق = راحة بال"
+            }
+          ]
+        },
+        "kids": {
+          "label": "الأطفال",
+          "title": "اجذب المهتم بتأجير مستلزمات الأطفال",
+          "support": "متجرك يعطي الأهالي ثقة من أول تعامل",
+          "bullets": [
+            {
+              "title": "من كراسي السيارة للعربيات",
+              "desc": "منتجات الأطفال غالية... والتأجير حل عملي"
+            },
+            {
+              "title": "نظافة وتوثيق شامل",
+              "desc": "صور الحالة + ضمان النظافة = ثقة الأهالي"
+            }
+          ]
+        },
+        "games": {
+          "label": "الألعاب",
+          "title": "ضاعف أرباحك من تأجير الألعاب بدون تكاليف زائدة",
+          "support": "متجرك المتخصص يميزك كـ\"خبير للترفيه\"، ويخلي العملاء دايماً يثقوا باختياراتك",
+          "bullets": [
+            {
+              "title": "من بلايستيشن لنطيطات عملاقة",
+              "desc": "ألعاب إلكترونية، ، ملاعب صابونية... كل شي"
+            },
+            {
+              "title": "باقات يومية وأسبوعية وشهرية",
+              "desc": "حفلة نهاية الأسبوع؟ باقة شهرية؟ الخصومات تلقائية"
+            },
+            {
+              "title": "عقود موثقة + ضمان الاستلام",
+              "desc": "صور الحالة + ضمان الاستلام والتسليم"
+            }
+          ]
+        }
+      }
+    },
+    "whyOpenStore": {
+      "title": "ليش تفتح متجر إلكتروني للتأجير؟",
+      "subtitle": "رواد الاقتصاد التشاركي",
+      "description": "انضم لمجتمع رواد الاقتصاد التشاركي، وابدأ بربح دخل إضافي اليوم مع مئات المؤجرين في استأجر.",
+      "cards": [
+        {
+          "title": "هوية متجر متكاملة",
+          "description": "شعارك، بنراتك وخيارات مخصصة. ابنِ علامتك التجارية وعزز ثقة عملائك بمتجر يعكس احترافيتك.",
+          "image": "https://res.cloudinary.com/dhfzkadm2/image/upload/v1777212177/design--1_lm3zrz.webp"
+        },
+        {
+          "title": "وفر تكاليف البرمجة",
+          "description": "لا حاجة لمبرمجين أو اشتراكات مكلفة. متجرك جاهز بدقائق وبأقل تكلفة، مع وصول مباشر لآلاف العملاء.",
+          "image": "https://res.cloudinary.com/dhfzkadm2/image/upload/v1777212177/design--2_iuprbc.webp"
+        },
+        {
+          "title": "إدارة ذكية 24 ساعة",
+          "description": "نظام حجوزات آلي يعمل على مدار الساعة. الدفع آمن، العقود رقمية، وأنت تتابع أداءك بضغطة زر.",
+          "image": "https://res.cloudinary.com/dhfzkadm2/image/upload/v1777212176/design--3_zqkcbh.webp"
+        }
+      ]
+    },
+    "howToStart": {
+      "label": "كيف تبدأ؟",
+      "title": "من الصفر لأول طلب... في 4 خطوات",
+      "description": "بعدها؟ كل شيء مؤتمت",
+      "steps": [
+        {
+          "title": "سجّل وفّعل حسابك",
+          "description": "في وقت قياسي وبدون تعقيد"
+        },
+        {
+          "title": "خصص متجرك",
+          "description": "شعارك وهويتك بضغطات بسيطة"
+        },
+        {
+          "title": "أضف منتجاتك",
+          "description": "صور المنتجات، الأسعار... وفريقنا يساعدك لو تبي"
+        },
+        {
+          "title": "استقبل أول طلب",
+          "description": "عقد موثق، دفع مسبق، وأنت مرتاح"
+        }
+      ],
+      "action": "سجّل الحين وأنشئ متجرك الآن"
+    },
+    "awarenessFaqs": {
+      "badge": "الأسئلة الشائعة",
+      "title": "عندك سؤال؟",
+      "titleHighlight": "عندنا جواب",
+      "faqs": [
+        {
+          "question": "متى تبدأ المميزات بعد الاشتراك في الباقة المميزة؟",
+          "answer": "بمجرد إتمام الدفع بنجاح، يتم تفعيل كافة مميزات الباقة المميزة فوراً على حسابك لتتمكن من استخدامها في إدارة متجرك."
+        },
+        {
+          "question": "ما الفرق الحقيقي بين باقة النمو والمؤجر العادي؟",
+          "answer": "باقة النمو توفر لك أدوات احترافية مثل مدير حساب مخصص، تقارير أداء متقدمة، وأولوية في عرض منتجاتك لآلاف العملاء، بينما المؤجر العادي يستخدم المميزات الأساسية فقط."
+        },
+        {
+          "question": "هل أحتاج خبرة تقنية أو تصميم لإنشاء متجري؟",
+          "answer": "لا أبداً. واجهة استأجر صُممت لتكون بسيطة وسهلة الاستخدام، يمكنك رفع منتجاتك وضبط هويتك بضغطات زر دون الحاجة لأي خبرة سابقة."
+        },
+        {
+          "question": "كيف يعمل مدير الحساب المخصص؟ وإيش بالضبط يسوي؟",
+          "answer": "مدير الحساب المخصص هو خبير من فريقنا يساعدك في تحسين أداء متجرك، اختيار أفضل الأسعار، وحل أي تحديات تقنية أو إدارية تواجهك."
+        },
+        {
+          "question": "هل يمكنني إلغاء الاشتراك في أي وقت؟ وماذا يحدث بعد الإلغاء؟",
+          "answer": "نعم، يمكنك إلغاء اشتراكك في أي وقت بسهولة من لوحة التحكم. بعد الإلغاء، سيظل متجرك متاحاً بالمميزات المجانية الأساسية."
+        },
+        {
+          "question": "كيف تحمون معلومات عملائي وبياناتهم الشخصية؟",
+          "answer": "نحن نلتزم بأعلى معايير الأمان الرقمي وتشفير البيانات لضمان خصوصية معلوماتك ومعلومات عملائك بشكل كامل وفقاً للأنظمة المعمول بها."
+        },
+        {
+          "question": "هل في دعم فني؟ وكيف أتواصل لو احتجت مساعدة؟",
+          "answer": "بالتأكيد، فريق الدعم الفني متواجد لمساعدتك عبر الدردشة المباشرة أو البريد الإلكتروني على مدار الساعة للإجابة على كافة استفساراتك."
+        }
+      ],
+      "action": "ابدأ متجرك الآن"
+    },
+    "finalCTA": {
+      "title": "حان وقت تحقق أرباح من ",
+      "titleHighlight": "تأجير",
+      "titleSuffix": " أغراضك",
+      "subtitlePart1": "انضم لأكثر من ",
+      "subtitleHighlight": "800 شريك ",
+      "subtitlePart2": "بدأوا رحلتهم معنا. المنصة كاملة جاهزة لك، متى تبدأ؟",
+      "createStore": "انشئ متجرك الآن",
+      "contactUs": "تواصل مع فريق استأجر الآن",
+      "features": [
+        { "label": "موثق من النفاذ الوطني" },
+        { "label": "بياناتك محمية" },
+        { "label": "دفع إلكتروني آمن" },
+        { "label": "+800 شريك رسمي" }
+      ],
+      "madeInSA": "صُنع بفخر في السعودية 🇸🇦"
+    }
+  },
+  "shopCategories": {
+    "title": "تصفح حسب الأقسام"
+  },
+  "marketing": {
+    "hero": {
+      "badge": "أول منصة سعودية 100% لمشاريع التأجير",
+      "title": "أنشئ متجرك للتأجير",
+      "titleLine2Part1": "بكل سهولة مع ",
+      "titleHighlight": "استأجر",
+      "subtitle": "عمولة أقل وأرباح أكثر",
+      "description": "استأجر هي أول منصة سعودية مصممة 100% لمشاريع التأجير.",
+      "descriptionLine2": "حنا فاهمين التأجير إيش يحتاج ونضمن لك:",
+      "features": [
+        "عقد تأجير إلكتروني موثق.",
+        "توثيق المستأجر بالنفاذ الوطني.",
+        "توثيق الاستلام والتسليم.",
+        "تسعير ذكي.",
+        "توصيل مرن."
+      ],
+      "trustBadge1": "محمي بالنفاذ الوطني",
+      "trustBadge2": "موثق من وزارة التجارة",
+      "ctaPrimary": "انشئ متجرك الآن",
+      "ctaSecondary": "اكتشف كيف توفر أكثر",
+      "floatingPartner": "باقة نمو",
+      "floatingPartnerSub": "وصول حصري",
+      "floatingStore": "متجر بهويتك",
+      "floatingStoreSub": "شعار + ألوان + بنرات",
+      "floatingPriority": "أولوية في الظهور",
+      "floatingPrioritySub": "دائماً في المقدمة",
+      "floatingCommission": "عمولة 10% فقط",
+      "floatingCommissionSub": "توفير 500 ريال/10K مبيعات",
+      "floatingSaved": "وفّرت 100 ريال",
+      "floatingSavedSub": "هذا الشهر من فارق العمولة"
+    },
+    "premiumAdvantages": {
+      "badge": "لماذا باقة نمو؟",
+      "title": "أربع مزايا تحوّل تجارتك",
+      "subtitle": "كل ميزة مصمّمة لزيادة أرباحك وتقليل جهدك",
+      "card1Title": "توفير حقيقي .. أرباح تزيد",
+      "card1Desc": "بدل ما تدفع عمولة عالية.. ادفع أقل نفس المبيعات.. فلوس أكثر في جيبك، الفرق البسيط يتراكم ويصير آلاف",
+      "card1Tag": "خل أرباحك تكبر... مع العمولات",
+      "card2Title": "متجر كامل بهويتك التجارية",
+      "card2Desc": "شعارك، بناراتك، ألوانك. صفحة احترافية تعكس مشروعك وتبني ثقة العميل من أول نظرة.",
+      "card2Tag": "هوية بصرية متكاملة",
+      "card3Title": "أولوية دائمة في الظهور",
+      "card3Desc": "متجرك يظهر في البداية على الصفحة الرئيسية لاستأجر، العميل يشوفك قبل أي أحد وطلباتك تتضاعف.",
+      "card3Tag": "زيادة مستمرة في الطلبات",
+      "card4Title": "أدوات تسويق و SEO مميزة",
+      "card4Desc": "صفحات منتجات محسّنة للتحويل، إحصائيات لحظية، ودعم من مدير حساب مخصص لك.",
+      "card4Tag": "محسّن بالكامل SEO"
+    },
+    "commissionBenefits": {
+      "title": "عمولة {titleHighlight} ربح اكثر",
+      "titleHighlight": "اقل",
+      "bullets": ["توفير حقيقي .. أرباح تزيد"],
+      "ctaBtn": "اشترك الآن",
+      "commissionRate": "10%",
+      "commissionSub": "فقط — بدل 15%",
+      "growthPartner": "شريك نمو",
+      "regularPartner": "شريك عادي",
+      "savingsBar": "توفير حتى 6,000 ريال/سنة",
+      "salesBase": "على مبيعات 10,000 ريال/شهر",
+      "regularCost": "1,500 ر/شهر",
+      "regularLabel": "شريك عادي — 15%",
+      "growthCost": "1,000 ر/شهر",
+      "growthLabel": "شريك نمو — 10%",
+      "savings": "500 ر/شهر",
+      "savingsLabel": "يبقى في جيبك",
+      "calcTitle": "احسبها صح",
+      "calcSubtitle": "النمو الذكي يبدأ من التحكم في التكاليف",
+      "cards": [
+        {
+          "label": "لو كنت بالبداية",
+          "title": "البداية مع استأجر",
+          "desc": "ابدأ بدون مخاطرة وجرّب المنصة بشكل كامل",
+          "features": ["تتعلم", "تنمو", "تنتقل للنمو لاحقا"]
+        },
+        {
+          "label": "تنمو؟",
+          "title": "مناسبة لمرحلة النمو",
+          "desc": "عمولة أقل وأدوات أقوى — الخيار الذكي للربح الأكثر.",
+          "features": ["توفير أكثر", "نمو أسرع", "توسع"],
+          "badge": "الأكثر شيوعاً"
+        },
+        {
+          "label": "محترف؟",
+          "title": "الاحترافية ضرورة",
+          "desc": "لوحة تحكم متقدمة وفريق دعم مخصص لأعمالك.",
+          "features": ["توفير كبير", "دعم مخصص 24/7", "توسع بلا حدود"]
+        }
+      ]
+    },
+    "pricingPlans": {
+      "badge": "الباقات",
+      "title": "اختر الباقة المناسبة لك",
+      "starterPlan": {
+        "currentLabel": "باقة البداية",
+        "name": "البداية",
+        "desc": "كل شيء في الباقة المجانية + إضافات حصرية",
+        "price": "999 ",
+        "currency": " ريال سنويا",
+        "priceSub": " غير شامل الضريبة",
+        "commissionNote": "العمولة",
+        "commissionRate": "15%",
+        "commissionSuffix": "من كل طلب",
+        "currentBtn": "اشترك الآن",
+        "featuresLabel": "ما تحصل عليه",
+        "features": [
+          "النفاذ الوطني",
+          "العقد الإلكتروني",
+          "طرق دفع آمنة",
+          "توثيق الاستلام والتسليم"
+        ]
+      },
+      "premiumPlan": {
+        "badge": "الأكثر قيمة",
+        "tierLabel": "الباقة المميزة",
+        "name": "نمو",
+        "desc": "هوية كاملة، ظهور مضمون، وأرباح أعلى",
+        "price": "2400",
+        "priceSuffix": "ريال سنوياً",
+        "commissionNote": "العمولة",
+        "commissionRate": "10%",
+        "commissionSuffix": "بس - بدل",
+        "commissionOld": "15%",
+        "subscribeBtn": "اشترك الآن",
+        "everythingPlus": "كل شيء في الباقة المجانية + إضافات حصرية",
+        "features": [
+          { "text": "عمولة مخفضة" },
+          { "text": "متجر كامل بهويتك" },
+          { "text": "الظهور باسمك بالكامل" },
+          { "text": "أولوية دائمة في الصفحة الرئيسية" },
+          { "text": "محسّن بالكامل SEO" },
+          { "text": "فريق إستأجر يضيف منتجاتك" },
+          { "text": "ربط فروع متعددة" },
+          { "text": "باركود مخصص لمتجرك" },
+          { "text": "تقارير وإحصائيات لحظية" },
+          { "text": "مدير حساب مخصص" }
+        ]
+      },
+      "enterprisePlan": {
+        "badge": "للمنشآت الكبرى",
+        "tierLabel": "الباقة المخصصة",
+        "name": "احترافية",
+        "desc": "حلول مصممة خصيصاً لحجم أعمالك واحتياجاتك",
+        "pricingLabel": "تسعير مرن",
+        "pricingSub": "يبدأ من سعر مخصص حسب حجم أعمالك",
+        "contactBtn": "تواصل معنا",
+        "everythingPlus": "كل شيء في النمو + مزايا حصرية",
+        "features": [
+          "إعداد وتهيئة كاملة من فريقنا",
+          "فروع وحسابات غير محدودة",
+          "لوحة تحكم وتقارير متقدمة",
+          "أولوية قصوى الدعم الفني",
+          "مدير حساب مخصص 24/7"
+        ],
+        "footerNote": "تناسب الشركات والمنشآت ذات الحجم الكبير والمتطلبات الخاصة"
+      }
+    },
+    "partnerShops": {
+      "title": "شركاؤنا من المتاجر",
+      "subtitle": "انضم لأكثر من ٨٠٠ شريك رسمي يثقون في استأجر"
+    },
+    "comparisonTable": {
+      "badge": "مقارنة الباقات",
+      "ctaBtn": "اختر الباقة المميزة الأن",
+      "title": "قارن واختار الباقة الأنسب لانطلاقتك",
+      "subtitle": "شوف الفرق بنفسك — الجدول يوضّح كل شيء",
+      "colFeature": "الميزة",
+      "colRegular": "باقة البداية",
+      "colPremium": "باقة نمو",
+      "footerNote": "الباقة المميزة توفّر لك من 500 إلى آلاف الريالات شهرياً اعتماداً على حجم مبيعاتك",
+      "rows": [
+        {
+          "feature": "العمولة",
+          "regular": "15% من كل طلب",
+          "premium": "10% بس"
+        },
+        {
+          "feature": "الظهور",
+          "regular": "محدود",
+          "premium": "أولوية دائمة"
+        },
+        {
+          "feature": "نوع الصفحة",
+          "regular": "صفحة بسيطة",
+          "premium": "متجر كامل بهويتك"
+        },
+        {
+          "feature": "التخصيص (الشعار، الألوان)",
+          "regular": "محدود",
+          "premium": "شعار + بنرات + ألوان"
+        },
+        {
+          "feature": "الظهور باسمك بالكامل",
+          "regular": "",
+          "premium": null
+        },
+        {
+          "feature": "أدوات تحسين محركات البحث SEO",
+          "regular": "أساسي",
+          "premium": "محسّن بالكامل"
+        },
+        {
+          "feature": "الدعم الفني",
+          "regular": "أساسي",
+          "premium": "أولوية مع مدير حساب"
+        },
+        {
+          "feature": "إضافة المنتجات",
+          "regular": "تضيفها بنفسك",
+          "premium": "فريق إستأجر يضيفها لك"
+        },
+        { "feature": "باركود مخصص لمتجرك", "regular": null, "premium": null },
+        {
+          "feature": "الربط بين الفروع",
+          "regular": null,
+          "premium": "فروع متعددة"
+        },
+        {
+          "feature": "النفاذ الوطني / العقد الإلكتروني",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "طرق دفع آمنة / توثيق الاستلام",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "تحليلات متقدمة",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "توثيق المنتجات",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "تحكم بالخصومات حسب المدة والكمية",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "تأجير بالمدة (ساعة | يوم | أسبوع | شهر)",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "تسعير الباقات",
+          "regular": null,
+          "premium": null
+        },
+        {
+          "feature": "ظهور المنتجات في السوق",
+          "regular": null,
+          "premium": null
+        }
+      ]
+    },
+    "storeControlPanel": {
+      "badge": "لوحة التحكم",
+      "title": "كل شيء مصمم عشانك",
+      "titleHighlight": "واضح، سهل، واحترافي",
+      "subtitle": "من أول يوم تشتغل على منصة جاهزة بالكامل — متجرك، عملاؤك، ومبيعاتك في مكان واحد.",
+      "features": [
+        "متجر كامل بهويتك",
+        "عملاؤك يشوفونك بالصفحة الرئيسة",
+        "فريق استأجر يضيف منتجاتك",
+        "إحصائيات ومتابعة الأداء",
+        "دعم مخصص مع مدير حساب"
+      ],
+      "ctaTitle": "جاهز تبدأ؟",
+      "ctaSubtitle": "سجل الآن واحجز متجرك — المنصة كاملة جاهزة لك",
+      "ctaBtn": "سجل الآن واحجز متجرك",
+      "floatingIdentity": "هويتك + ثقة عملائك",
+      "floatingVisits": "+245 زيارة",
+      "floatingVisitsSub": "اليوم فقط",
+      "floatingManager": "مدير حسابك",
+      "floatingManagerStatus": "متاح الآن",
+      "floatingPriority": "أولوية الظهور",
+      "floatingPrioritySub": "في المقدمة دائماً"
+    },
+    "faqs": {
+      "badge": "الأسئلة الشائعة",
+      "title": "عندك سؤال؟",
+      "titleHighlight": "عندنا جواب",
+      "footerTitle": "عندك أسئلة ثانية؟",
+      "footerBtn": "تواصل معنا الحين",
+      "items": [
+        {
+          "question": "متى تبدأ المميزات بعد الاشتراك في الباقة المميزة؟",
+          "answer": "التفعيل فوري بمجرد إتمام الاشتراك. العمولة المخفضة تبدأ من أول طلب جديد، ومتجرك ينتقل للصفحة الرئيسية خلال يوم عمل، وتقدر تبدأ التخصيص من نفس اللحظة. مدير حسابك المخصص يتواصل معك في أقرب وقت لمساعدتك في البداية."
+        },
+        {
+          "question": "ما الفرق الحقيقي بين باقة النمو والمؤجر العادي؟",
+          "answer": "باقة النمو توفر عمولة أقل بفارق واضح، ومتجر متكامل بهويتك الخاصة، ومساعدة فريق استأجر في إضافة المنتجات، ومدير حساب مخصص، ومتجر محسّن بالكامل لمحركات البحث. باختصار: باقة النمو مخصصة للشركاء الطامحين اللي يبون علامة تجارية قوية وأرباح أعلى."
+        },
+        {
+          "question": "هل أحتاج خبرة تقنية أو تصميم لإنشاء متجري؟",
+          "answer": "أبداً، كل شي بسيط وواضح. لوحة التحكم بالعربي وسهلة الاستخدام، وفيه قوالب جاهزة تقدر تستخدمها مباشرة. معظم الشركاء أنشأوا متاجرهم في نفس اليوم بدون أي مساعدة، والباقي استعانوا بمدير الحساب لبضع دقائق فقط."
+        },
+        {
+          "question": "كيف يعمل مدير الحساب المخصص؟ وإيش بالضبط يسوي؟",
+          "answer": "مدير حسابك يساعدك من البداية في إعداد متجرك وإضافة المنتجات، ويتابع أداءك بشكل دوري ويقترح تحسينات لزيادة الحجوزات. استفساراتك ومشاكلك لها أولوية قصوى، ويعلمك كيف تستخدم كل أدوات المنصة بأفضل طريقة."
+        },
+        {
+          "question": "هل يمكنني إلغاء الاشتراك في أي وقت؟ وماذا يحدث بعد انتهاء المدة؟",
+          "answer": "الاشتراك غير قابل للإلغاء أو الاسترجاع. بعد انتهاء المدة ستعود العمولة كما كانت وأغراضك تكون موجودة على منصة استأجر كمؤجر عادي وتفقد المميزات، لكن عملاؤك يبقون كما هم والطلبات الجارية تكتمل بشكل طبيعي."
+        },
+        {
+          "question": "كيف تحمون معلومات عملائي وبياناتهم الشخصية؟",
+          "answer": "كل البيانات مشفرة بأحدث التقنيات، والتوثيق عبر النفاذ الوطني يضمن هوية العملاء الحقيقية. ملتزمين بكل أنظمة حماية البيانات في السعودية وموثقون من وزارة التجارة، وما نشارك أي بيانات مع جهات خارجية نهائياً."
+        },
+        {
+          "question": "هل في دعم فني؟ وكيف أتواصل لو احتجت مساعدة؟",
+          "answer": "الدعم متاح عبر واتساب والإيميل ومركز المساعدة اللي فيه فيديوهات ومقالات شاملة. الشركاء المميزين عندهم تواصل مباشر مع مدير حساب شخصي بأولوية في الرد والحل. "
+        }
+      ]
+    }
+  },
+  "pricing": {
+    "hero": {
+      "badge": "تحديثات 2024: اكتشف باقاتنا الجديدة الآن",
+      "title": "أسعار تناسب جميع احتياجاتك",
+      "description": "اختر الخطة المثالية لنشاطك التجاري. نقدم شفافية كاملة، بدون رسوم خفية ."
+    }
+  },
+  "shops": {
+    "hero": {
+      "verifiedBadge": "متاجر موثوقة ومعتمدة على استأجر",
+      "titlePart1": "تصفح ",
+      "titleHighlight": "المتاجر",
+      "subtitle": "اكتشف أفضل المتاجر الموثوقة على منصة استأجر وتصفح آلاف المنتجات للإيجار",
+      "browseLink": "تصفح المتاجر",
+      "createShopLink": "ابدأ متجرك الخاص الآن",
+      "features": {
+        "nationalAccess": "النفاذ الوطني",
+        "documentedContracts": "عقود موثقة",
+        "securePayment": "دفع آمن",
+        "verifiedShops": "متاجر موثوقة"
+      }
+    },
+    "grid": {
+      "searchPlaceholder": "ابحث عن متجر…",
+      "results": "نتيجة",
+      "empty": "لا توجد متاجر مطابقة",
+      "verifiedShop": "موثوق",
+      "products": "منتج",
+      "categories": "تصنيف",
+      "browseShop": "تصفح المتجر"
+    }
+  },
+  "mcpAuth": {
+    "missingCode": "رمز التفويض مفقود أو غير صالح.",
+    "expired": "انتهت صلاحية رمز التفويض. يرجى طلب رابط جديد من الذكاء الاصطناعي.",
+    "alreadyAuthorized": "تم تفويض الذكاء الاصطناعي مسبقاً. يمكنك إغلاق هذه الصفحة.",
+    "somethingWrong": "حدث خطأ ما.",
+    "success": "تم التفويض بنجاح! يمكن للذكاء الاصطناعي الآن إضافة منتجات نيابةً عنك.",
+    "serverError": "فشل الاتصال بالخادم.",
+    "title": "استأجر — تفويض الذكاء الاصطناعي",
+    "subtitle": "السماح للذكاء الاصطناعي بالتصرف نيابةً عنك",
+    "verifying": "جاري التحقق...",
+    "welcome": "مرحباً، {name}",
+    "footerNote": "يمكنك إغلاق هذه النافذة والعودة إلى محادثتك مع الذكاء الاصطناعي.",
+    "platformName": "استأجر — منصة تأجير موثوقة"
+  },
+  "mcpUploadImages": {
+    "title": "رفع صور المنتج",
+    "subtitle": "ارفع صور المنتج وانسخ الرابط ليستخدمه الذكاء الاصطناعي",
+    "drop": "اسحب الصور هنا أو انقر للاختيار",
+    "dropActive": "أفلت الصور هنا...",
+    "uploadBtn": "رفع صورة {count}",
+    "uploadBtnPlural": "رفع {count} صور",
+    "uploading": "جاري الرفع...",
+    "copyBtn": "انسخ المصفوفة (صورة {count})",
+    "copyBtnPlural": "انسخ المصفوفة ({count} صور)",
+    "copied": "تم النسخ!",
+    "noAuth": "رابط غير صالح — يرجى استخدام الرابط الذي أرسله لك الذكاء الاصطناعي.",
+    "info": "بعد الرفع، انسخ المصفوفة وألصقها في المحادثة. سيستخدمها الذكاء الاصطناعي مباشرةً.",
+    "pending": "في الانتظار",
+    "done": "تم",
+    "error": "خطأ",
+    "remove": "×",
+    "footer": "استأجر • منصة التأجير الذكية",
+    "maxNote": "الحد الأقصى {count} صور",
+    "pasteNote": "يمكنك أيضاً لصق صورة من الحافظة (Ctrl+V)"
+  }
+}

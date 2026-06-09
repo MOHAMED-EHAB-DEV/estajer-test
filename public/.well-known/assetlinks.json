@@ -1,0 +1,22 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.estajer.app",
+      "sha256_cert_fingerprints": [
+        "9A:55:8B:7B:2A:1D:0E:9C:3F:4A:5B:6C:7D:8E:9F:0A:1B:2C:3D:4E:5F:6A:7B:8C:9D:0E:1F:2A:3B:4C:5D:6E"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.estajer.app",
+      "sha256_cert_fingerprints": [
+        "CB:39:8B:27:EC:90:15:6A:A1:14:A4:E7:2D:8D:C2:16:92:CE:B6:57:D9:8F:61:48:09:D1:EE:5D:0C:0C:01:DE"
+      ]
+    }
+  }
+]

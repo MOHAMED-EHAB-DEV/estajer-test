@@ -1,0 +1,184 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Estajer API",
+    "version": "1.0.0",
+    "description": "API for Estajer rental marketplace with agent discovery features. An MCP (Model Context Protocol) server is available at /api/mcp using Streamable HTTP transport.",
+    "x-mcp": {
+      "streamableHttp": "https://estajer.com/api/mcp/mcp",
+      "sse": "https://estajer.com/api/mcp/sse",
+      "transport": "streamable-http",
+      "tools": ["search_products", "get_product", "get_categories"]
+    }
+  },
+  "servers": [
+    {
+      "url": "https://estajer.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/api/products": {
+      "get": {
+        "summary": "Search products",
+        "description": "Returns a list of products based on search criteria.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Search by product name",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Category identifier",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "subCategory",
+            "in": "query",
+            "description": "SubCategory identifier",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "bounds",
+            "in": "query",
+            "description": "Geographical bounds JSON string",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Sorting criteria",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "discounts",
+                "bestSelling",
+                "highestRated",
+                "mostLiked",
+                "date-desc",
+                "date-asc"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of results",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "Language (ar or en)",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated fields to return",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "compressed",
+            "in": "query",
+            "description": "Return compressed response",
+            "schema": { "type": "boolean" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful search",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Product" }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": { "type": "integer" },
+                        "pages": { "type": "integer" },
+                        "page": { "type": "integer" },
+                        "limit": { "type": "integer" },
+                        "hasMore": { "type": "boolean" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mcp": {
+      "get": {
+        "summary": "MCP server info",
+        "description": "Returns MCP server metadata (name, version, tools, transport).",
+        "responses": {
+          "200": {
+            "description": "MCP server descriptor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "version": { "type": "string" },
+                    "tools": { "type": "array", "items": { "type": "string" } },
+                    "endpoint": { "type": "string" },
+                    "transport": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "MCP JSON-RPC endpoint",
+        "description": "Streamable HTTP MCP transport. Send JSON-RPC 2.0 messages to invoke tools: search_products, get_product, get_categories.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "description": "JSON-RPC 2.0 message" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON-RPC 2.0 response"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "price": { "type": "number" }
+        }
+      }
+    }
+  }
+}

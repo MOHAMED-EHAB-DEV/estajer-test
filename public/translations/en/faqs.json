@@ -1,0 +1,111 @@
+{
+  "faqs": {
+    "title": "Hello, how can we help you?",
+    "mainTitle": "Frequently Asked Questions",
+    "description": "Here you will find answers to the most common questions about using the Estajer platform, whether you are a renter or an owner. Our goal is to make your experience smooth and ensure you fully understand every step of the process.",
+    "carouselTitle": "Or choose a category to quickly get the help you need",
+    "search": {
+      "placeholder": "What are you looking for",
+      "action": "Search"
+    },
+    "faqs": [
+      {
+        "question": "What is the Estajer platform?",
+        "answer": "Estajer is an online platform that allows you to rent and lease various products easily and securely, ensuring reliable transactions between both parties.",
+        "categoryId": "about"
+      },
+      {
+        "question": "What types of products can be rented through the platform?",
+        "answer": "You can rent a variety of products such as equipment, electronic devices, furniture, professional tools, and more, in accordance with the platform’s policies.",
+        "categoryId": "about"
+      },
+      {
+        "question": "How can I register on the platform?",
+        "answer": "You can register by visiting our website Estajer.com, clicking on 'Register', and following the steps to enter your details and create a new account.",
+        "categoryId": "registration&Account"
+      },
+      {
+        "question": "When should I verify my account?",
+        "answer": "Account verification is required when requesting to rent a product to confirm the renter’s identity, or when accepting a product for rent to ensure transaction security and protect rights.",
+        "categoryId": "registration&Account"
+      },
+      {
+        "question": "Account verification for companies",
+        "answer": "If you are a company or organization and wish to verify your account, please send a copy of your commercial registration and tax number to obtain company verification.",
+        "categoryId": "registration&Account"
+      },
+      {
+        "question": "How can I rent a product?",
+        "answer": "● Browse the available products in different categories.\n● Choose the product you want and specify the rental period.\n● Pay through the platform and wait for the owner's confirmation.\n● Receive the product according to the agreed delivery method.",
+        "categoryId": "rentingOperations"
+      },
+      {
+        "question": "How can I list my products for rent?",
+        "answer": "● Log in to your account.\n● Click on 'Add New Product' and enter the product details, images, price, and rental duration.\n● You can set a security deposit (optional).\n● After approval, deliver the product to the renter as agreed.",
+        "categoryId": "rentingOperations"
+      },
+      {
+        "question": "Can I contact the owner before renting?",
+        "answer": "Yes, you can use the messaging feature within the platform to contact the owner and ask any questions before confirming the booking.",
+        "categoryId": "rentingOperations"
+      },
+      {
+        "question": "What are the delivery methods for the product?",
+        "answer": "The delivery method is determined between the owner and the renter, either through direct handover or available delivery services.",
+        "categoryId": "rentingOperations"
+      },
+      {
+        "question": "Can I rent products for long periods?",
+        "answer": "Yes, the owner can set rental options on a daily, weekly, or monthly basis depending on the product type.",
+        "categoryId": "rentingOperations"
+      },
+      {
+        "question": "When and how are rental payments transferred to my account?",
+        "answer": "● You must add your bank details during registration, matching your personal information.\n● Payments are transferred within 3 to 7 days after completing the rental transaction.\n● Transfers are made only when the balance reaches 200 SAR or more.\n● A fee of 3 SAR is deducted per withdrawal transaction, plus VAT.",
+        "categoryId": "payments&transfers"
+      },
+      {
+        "question": "How are payments processed?",
+        "answer": "All payments are made through the platform using secure payment methods, and the amount is transferred to the owner after confirming that the product has been received in good condition.",
+        "categoryId": "payments&transfers"
+      },
+      {
+        "question": "Are there any fees for using the platform?",
+        "answer": "The platform charges a commission on each successful rental transaction, which is clearly displayed when publishing the product or completing the payment.",
+        "categoryId": "payments&transfers"
+      },
+      {
+        "question": "How does Estajer protect my rights as an owner?",
+        "answer": "● You can add a security deposit that is held until the end of the rental period.\n● Document the product with photos and videos before and after the rental to protect your rights.\n● In case of an issue, contact us at info@estajer.com.",
+        "categoryId": "rights&security"
+      },
+      {
+        "question": "How can I ensure my rights when renting out my products?",
+        "answer": "● You can set a security deposit that will be withheld from the renter for each rental and refunded after you confirm the product is in good condition.\n● Document the product with photos and videos before delivery.\n● Keep invoices and serial numbers to facilitate claims.\n● In case of any damage or delay, submit a complaint within 24 hours through the platform or via info@estajer.com.",
+        "categoryId": "rights&security"
+      },
+      {
+        "question": "What should I do if the renter doesn’t return the product on time?",
+        "answer": "You can contact them directly or file a complaint through the platform within 24 hours after the rental period ends.",
+        "categoryId": "rights&security"
+      },
+      {
+        "question": "What should I do if I receive a damaged product?",
+        "answer": "Document the product’s condition with photos and videos immediately upon receipt, then contact us at info@estajer.com to resolve the issue.",
+        "categoryId": "rights&security"
+      },
+      {
+        "question": "Can I cancel my booking after payment?",
+        "answer": "The cancellation policy depends on the owner’s terms, so make sure to review the cancellation policy listed in the product details before booking.",
+        "categoryId": "Complaints&Cancellations"
+      },
+      {
+        "question": "How can I file a complaint?",
+        "answer": "If you face any issue, you can file a complaint through your account on the platform or contact us via email at info@estajer.com.",
+        "categoryId": "Complaints&Cancellations"
+      }
+    ],
+    "showMore": "Show more",
+    "showLess": "Show less"
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "home": {
+    "mainContent": "Main Content",
+    "heroSection": {
+      "seoTitle": "Estajer #1 Product Rental Platform in Saudi Arabia",
+      "title": "Don't",
+      "title2": "buy",
+      "subtitle": ".. Rent .. and save",
+      "description": "Explore a wide range of products and tools provided by Estajer platform",
+      "ariaLabel": "Hero section",
+      "searchAriaLabel": "Search for products to rent"
+    },
+    "search": {
+      "searchForProducts": "Search for products to rent",
+      "searchForRentalProducts": "Search for rental products",
+      "searchPlaceholder": "Search For Products",
+      "category": "Category",
+      "supCategory": "Sup Category",
+      "location": "Location",
+      "noSubCategories": "There are no subcategories."
+    },
+    "commonSearch": {
+      "title1": "Browse the most",
+      "title2": "searched by others",
+      "example": "Home Supplies",
+      "example2": "Furniture"
+    },
+    "verifiedShops": {
+      "title": "Rent shops",
+      "description": "A list of trusted companies on Estajer",
+      "products": "Products",
+      "productRequests": "Rental Requests",
+      "noRating": "No reviews",
+      "noDescription": "No description",
+      "viewProfile": "View Shop",
+      "showAllShops": "Show All Shops",
+      "shopsListLabel": "List of verified shops",
+      "showAllShopsLabel": "Show all verified shops"
+    },
+    "sponsors": {
+      "title": "Rent shops",
+      "description": "Discover our featured and trusted partner shops offering quality products and services",
+      "noSponsors": "No sponsored shops available at the moment",
+      "products": "Products",
+      "requests": "Requests",
+      "viewProfile": "View Profile",
+      "viewProducts": "View Products",
+      "sponsoredShop": "Sponsored Shop"
+    },
+    "productsSection": {
+      "ariaLabel": "Featured Products for Rent",
+      "navigation": {
+        "ariaLabel": "Show All Products",
+        "buttonAriaLabel": "Show All Featured Products for Rent"
+      },
+      "title": "Featured Products",
+      "description": "Handpicked products for you"
+    },
+    "newestProductsSection": {
+      "ariaLabel": "Latest Products for Rent",
+      "navigation": {
+        "ariaLabel": "Show All Products",
+        "buttonAriaLabel": "Show All Available Products for Rent"
+      },
+      "title": "Latest Products",
+      "description": "List of products available for rent"
+    },
+    "shopsProductsSection": {
+      "ariaLabel": "Products from Verified Shops",
+      "title": "Shop Products",
+      "description": "Explore exclusive products from our featured shops"
+    },
+    "offersProductsSection": {
+      "ariaLabel": "Discounted Products for Rent",
+      "navigation": {
+        "ariaLabel": "Show All Offers",
+        "buttonAriaLabel": "Show All Available Offers for Rent"
+      },
+      "title": "Exclusive Offers",
+      "description": "Best deals on rental products"
+    },
+    "categoryProductsSection": {
+      "ariaLabel": "Category Products for Rent",
+      "navigation": {
+        "ariaLabel": "Show All Products",
+        "buttonAriaLabel": "Show All Products in this category"
+      },
+      "title": "Products in {category}",
+      "description": "The best products from our {category} category"
+    },
+    "howToRentSection": {
+      "title": "How does Estajer work?",
+      "description": "Here are the steps on how to use Estajer",
+      "steps": {
+        "step1": {
+          "title": "Select the product",
+          "description": "Browse the products and choose the one that suits you"
+        },
+        "step2": {
+          "title": "Select the duration",
+          "description": "Specify the rental duration"
+        },
+        "step3": { "title": "Pay", "description": "Pay the rental cost" },
+        "step4": {
+          "title": "Receive the product",
+          "description": "Inspect the product well before receiving it"
+        },
+        "step5": {
+          "title": "Take photos and upload",
+          "description": "Take photos of the product and upload"
+        },
+        "step6": {
+          "title": "Specify available dates",
+          "description": "Specify the rental duration and date"
+        },
+        "step7": {
+          "title": "Set the price",
+          "description": "Set the rental price and any additional services"
+        },
+        "step8": {
+          "title": "Specify delivery method",
+          "description": "Specify the delivery method that suits you"
+        },
+        "step9": {
+          "title": "Receive your earnings",
+          "description": "Inspect the product well before receiving it"
+        },
+        "step10": { "title": "Start earning" },
+        "step11": { "title": "Start renting" }
+      },
+      "renter": "Renter",
+      "lessor": "Lessor"
+    },
+    "ctaSection": {
+      "title": "Start Your Journey with Estajer Today",
+      "description": "Whether you want to rent or list your products, we make it simple and rewarding",
+      "renter": {
+        "title": "Looking to Rent?",
+        "description": "Find exactly what you need from thousands of products available for rent at great prices with a secure booking experience.",
+        "feature1": "Browse a wide variety of products",
+        "feature2": "Secure and easy payment options",
+        "feature3": "Verified and trusted lessors",
+        "button": "Start Renting"
+      },
+      "lessor": {
+        "title": "Want to Earn Money?",
+        "description": "Turn your idle items into income by renting them out to people who need them.",
+        "feature1": "Set your own prices and terms",
+        "feature2": "Reach thousands of potential renters",
+        "feature3": "Secure transactions and contracts",
+        "button": "Start Earning"
+      },
+      "tagline": "Join Estajer today and be part of Saudi Arabia's growing sharing economy!"
+    },
+    "whyEstajerSection": {
+      "label": "Platform Features",
+      "title": "Why deal with Estajer?",
+      "icons": {
+        "icon1": {
+          "title": "Guaranteed Peace of Mind",
+          "description": "Legal protection for everyone with Documented Contracts"
+        },
+        "icon2": {
+          "title": "Trusted Community",
+          "description": "Every user is Verified, making transactions safe"
+        },
+        "icon3": {
+          "title": "Significant Savings",
+          "description": "Our rental prices outperform buying or renting elsewhere"
+        },
+        "icon4": {
+          "title": "Right Where You Are",
+          "description": "Rent Locally and find what you need close to home"
+        },
+        "icon5": {
+          "title": "Instant & Easy",
+          "description": "Rent everything from Your Phone in a few quick taps"
+        },
+        "icon6": {
+          "title": "Short Term Rentals",
+          "description": "Rent only when you need it"
+        }
+      }
+    },
+    "requestSection": {
+      "title": "Didn't find what you need? Just Ask for It!",
+      "description": "Post a request for the product or tool you're looking for, and we will contact you directly with the offers"
+    },
+    "requestedProducts": {
+      "title": "Unavailable Products Requests Section",
+      "description": "List of products people are looking to rent",
+      "noRequests": "No items found"
+    },
+    "blogs": { "title": "Estajer Blog" },
+    "filters": {
+      "main": "Main",
+      "newest": "Newest",
+      "discounts": "Discounts",
+      "bestSelling": "Most Ordered",
+      "highestRated": "Highest Rated",
+      "mainDesc": "Show featured main products",
+      "freeDelivery": "Free Delivery",
+      "freeDeliveryDesc": "Show products with free delivery",
+      "newestDesc": "Show the latest added products",
+      "discountsDesc": "Show discounted products",
+      "bestSellingDesc": "Show best selling products",
+      "highestRatedDesc": "Show highest rated products",
+      "mostLikedDesc": "Show most liked products",
+      "filtersLabel": "Product filters",
+      "filtersTitle": "Filter Products",
+      "loading": "Loading..."
+    }
+  }
+}
