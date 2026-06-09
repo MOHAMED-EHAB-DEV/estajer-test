@@ -108,10 +108,8 @@ export default function AdminSessionsContainer({
         },
       );
 
-      if (res.ok) {
-        // Remove session from local state
-        setSessions((prev) => prev.filter((s) => s.sessionId !== sessionId));
-      } else {
+      if (res.ok) router.refresh();
+      else {
         const error = await res.json();
         alert(error.error || "Failed to delete session");
       }

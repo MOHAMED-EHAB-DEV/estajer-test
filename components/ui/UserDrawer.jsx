@@ -1,4 +1,4 @@
-import { Drawer, DrawerContent } from "@heroui/react";
+import CustomDrawer from "./CustomDrawer";
 import { ChevronLeft } from "./svgs/icons/ChevronLeftSvg";
 import { User } from "./svgs/icons/UserSvg";
 import { X } from "./svgs/icons/XSvg";
@@ -40,14 +40,11 @@ export default function UserDrawer({
 
   return (
     <>
-      <Drawer
-        classNames={{ wrapper: "md:hidden", backdrop: "md:hidden" }}
+      <CustomDrawer
         isOpen={open}
-        placement="bottom"
-        onOpenChange={setOpen}
+        onClose={() => setOpen(false)}
         hideCloseButton
       >
-        <DrawerContent>
           <div className="py-4 px-6">
             <div className="flex justify-between items-center border-b py-6">
               {user ? (
@@ -119,7 +116,7 @@ export default function UserDrawer({
                   <Button
                     endContent={
                       <span
-                        className={`bg-[#F  48A4233] rounded-md p-1 ${
+                        className={`bg-[#F48A4233] rounded-md p-1 ${
                           lang === "ar" ? "" : "rotate-180"
                         }`}
                       >
@@ -157,8 +154,7 @@ export default function UserDrawer({
               </>
             )}
           </div>
-        </DrawerContent>
-      </Drawer>
+      </CustomDrawer>
     </>
   );
 }

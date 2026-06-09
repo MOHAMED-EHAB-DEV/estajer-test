@@ -616,6 +616,59 @@ export default function AiAssistModal({
                             </div>
                           </div>
 
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <label className="block text-xs font-semibold text-slate-600 mb-1">
+                                {t("quantity")}
+                              </label>
+                              <input
+                                type="number"
+                                min={1}
+                                value={suggestion.productData.quantity || 1}
+                                onChange={(e) => {
+                                  const val = +e.target.value;
+                                  setSuggestion((p) => {
+                                    const nextMin = p.productData.minQuantity || 1;
+                                    return {
+                                      ...p,
+                                      productData: {
+                                        ...p.productData,
+                                        quantity: val,
+                                        minQuantity: nextMin > val ? val : nextMin,
+                                      },
+                                    };
+                                  });
+                                }}
+                                className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs font-semibold text-slate-600 mb-1">
+                                {t("minQuantity")}
+                              </label>
+                              <input
+                                type="number"
+                                min={1}
+                                max={suggestion.productData.quantity || 1}
+                                value={suggestion.productData.minQuantity || 1}
+                                onChange={(e) => {
+                                  const val = +e.target.value;
+                                  setSuggestion((p) => {
+                                    const maxVal = p.productData.quantity || 1;
+                                    return {
+                                      ...p,
+                                      productData: {
+                                        ...p.productData,
+                                        minQuantity: val > maxVal ? maxVal : val,
+                                      },
+                                    };
+                                  });
+                                }}
+                                className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50"
+                              />
+                            </div>
+                          </div>
+
                           <div>
                             <label className="block text-xs font-semibold text-slate-600 mb-1">
                               {t("category")}

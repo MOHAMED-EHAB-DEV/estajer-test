@@ -70,7 +70,9 @@ export default function ProductBottomBar({ product, translate, lang }) {
 
   const handleRentNow = () => {
     window.dispatchEvent(
-      new CustomEvent("open-rent-drawer", { detail: { packageIndex: selectedPkgIdx } })
+      new CustomEvent("open-rent-drawer", {
+        detail: { packageIndex: selectedPkgIdx },
+      }),
     );
   };
 
@@ -92,21 +94,33 @@ export default function ProductBottomBar({ product, translate, lang }) {
     return () => document.removeEventListener("mousedown", handleOutside);
   }, [pkgDropOpen]);
 
+  const tax = 0.15;
+  const hasTaxCode = !!product.owner?.companyDetails?.taxCode;
+
   // Price display
   const { displayPrice, originalPrice, hasDiscount } = useMemo(() => {
     const discountTier = product?.rental?.discountTiers?.find(
       (tier) => tier.minDays === 1,
     );
     const hasDiscount = !!discountTier && product.pricingModel !== "packages";
-    const originalPrice =
+    const originalPriceVal =
       product.pricingModel === "packages"
         ? product.rental?.packages?.[selectedPkgIdx]?.price || 0
         : product.rental?.value || 0;
-    const displayPrice = hasDiscount
+    const displayPriceVal = hasDiscount
       ? discountTier.discountPrice
-      : originalPrice;
+      : originalPriceVal;
+
+    const originalPrice = hasTaxCode
+      ? Math.round(originalPriceVal * (1 + tax))
+      : originalPriceVal;
+
+    const displayPrice = hasTaxCode
+      ? Math.round(displayPriceVal * (1 + tax))
+      : displayPriceVal;
+
     return { displayPrice, originalPrice, hasDiscount };
-  }, [product, selectedPkgIdx]);
+  }, [product, selectedPkgIdx, hasTaxCode]);
 
   const handleChat = () => {
     if (!user) {
@@ -229,7 +243,9 @@ export default function ProductBottomBar({ product, translate, lang }) {
                                 className="font-bold font-IBMPlex"
                                 style={{ color: "#F48A42" }}
                               >
-                                {pkg.price}
+                                {hasTaxCode
+                                  ? Math.round(pkg.price * (1 + tax))
+                                  : pkg.price}
                               </span>
                             </li>
                           );

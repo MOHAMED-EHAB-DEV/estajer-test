@@ -1,11 +1,5 @@
 "use client";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@heroui/modal";
+import CustomModal from "../../ui/CustomModal";
 import { Textarea, Input } from "@heroui/input";
 import { useState } from "react";
 import { toast } from "@/utils/toast";
@@ -115,24 +109,16 @@ export default function AddReview({
     { type: "experience", name: t("experience") },
   ];
   return (
-    <Modal
+    <CustomModal
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
-      hideCloseButton
       size="4xl"
-      placement="center"
-      classNames={{
-        body: "py-6",
-        backdrop: "bg-black/40 backdrop-blur-sm",
-        base: "border-none bg-white dark:bg-gray-900 text-black dark:text-white",
-        header: "border-b-1 border-gray-200",
-        footer: "border-t-1 border-gray-200",
-        closeButton: "hover:bg-gray-100 active:bg-gray-200 rounded-full",
-      }}
+      className="bg-white dark:bg-gray-900 text-black dark:text-white rounded-3xl max-h-[92dvh] overflow-hidden flex flex-col"
+      backdropClass="bg-black/40 backdrop-blur-sm"
     >
-      <form onSubmit={handleSubmit}>
-        <ModalContent className="!p-4 overflow-auto max-h-[92dvh] !my-0">
-          <ModalHeader className="flex flex-col gap-1 justify-between items-center">
+      <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden">
+        <div className="flex flex-col h-full overflow-hidden p-4">
+          <div className="flex flex-col gap-1 justify-between items-center border-b border-gray-200 dark:border-gray-800 pb-3 mb-3 flex-shrink-0 relative">
             <div className="w-full">
               <div className="flex gap-4 items-center">
                 <svg width="35" height="35" viewBox="0 0 50 50" fill="#F48A42">
@@ -152,7 +138,7 @@ export default function AddReview({
               radius="none"
               color="transparent"
               size="md"
-              className="absolute left-4 top-8 px-4 min-w-0"
+              className="absolute start-4 top-8 px-4 min-w-0"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
@@ -164,109 +150,107 @@ export default function AddReview({
                 />
               </svg>
             </Button>
-          </ModalHeader>
-          <ModalBody>
-            <div className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
-                {ratingTypes.map(({ type, name }, idx) => (
-                  <div
-                    className="bg-[rgba(253,220,166,0.2)] fix rounded-md p-4 flex justify-between items-center"
-                    key={idx}
-                  >
-                    <span className="text-lg font-semibold">{name}</span>
-                    <div className="flex gap-4">
-                      {[1, 2, 3, 4, 5].map((star, idx) => (
-                        <button
-                          key={type + idx}
-                          type="button"
-                          onClick={() =>
-                            setRating((prev) => ({
-                              ...prev,
-                              [type]: star,
-                            }))
-                          }
-                          className="text-2xl"
-                        >
-                          <Star filled={rating[type] >= star} />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <Textarea
-                size="lg"
-                radius="sm"
-                isRequired
-                label={t("leaveComment")}
-                labelPlacement="outside"
-                name="review"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder={t("commentPlaceholder")}
-                type="text"
-                classNames={{
-                  input: "resize-y min-h-[140px] text-base text-right",
-                  label: "text-lg pb-3 flex items-center",
-                }}
-                minLength={3}
-              />
-
-              {isAdmin && (
-                <div className="grid md:grid-cols-2 gap-4 border-t border-gray-100 py-4">
-                  <Input
-                    label={t("userName")}
-                    placeholder={t("userNamePlaceholder")}
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
-                    labelPlacement="outside-top"
-                    size="lg"
-                    classNames={{
-                      label: "text-lg pb-3 flex items-center",
-                      inputWrapper: "  h-full",
-                    }}
-                  />
-                  <div className="flex flex-col gap-3">
-                    <label className="text-lg pb-0 flex items-center">
-                      {t("userImage")}
-                    </label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleUserImageChange}
-                      className="hidden"
-                      id="user-image-upload"
-                    />
-                    <label
-                      htmlFor="user-image-upload"
-                      className="cursor-pointer border-2 border-dashed border-gray-200 rounded-xl p-2 flex items-center justify-center h-[56px] hover:border-[#F48A42] transition-colors bg-gray-50 dark:bg-gray-800"
-                    >
-                      {userImage ? (
-                        <img
-                          src={userImage}
-                          alt="User Preview"
-                          className="h-full rounded-full aspect-square object-cover"
-                        />
-                      ) : (
-                        <span className="text-gray-500">
-                          {t("uploadUserImage")}
-                        </span>
-                      )}
-                    </label>
+          </div>
+          <div className="flex-1 overflow-y-auto space-y-4 py-2">
+            <div className="grid md:grid-cols-2 gap-4">
+              {ratingTypes.map(({ type, name }, idx) => (
+                <div
+                  className="bg-[rgba(253,220,166,0.2)] fix rounded-md p-4 flex justify-between items-center"
+                  key={idx}
+                >
+                  <span className="text-lg font-semibold">{name}</span>
+                  <div className="flex gap-4">
+                    {[1, 2, 3, 4, 5].map((star, idx) => (
+                      <button
+                        key={type + idx}
+                        type="button"
+                        onClick={() =>
+                          setRating((prev) => ({
+                            ...prev,
+                            [type]: star,
+                          }))
+                        }
+                        className="text-2xl"
+                      >
+                        <Star filled={rating[type] >= star} />
+                      </button>
+                    ))}
                   </div>
                 </div>
-              )}
-
-              <ImageUploader
-                review={true}
-                lang={lang}
-                files={images}
-                setFiles={setImages}
-                translate={translate}
-              />
+              ))}
             </div>
-          </ModalBody>
-          <ModalFooter className="flex justify-between">
+            <Textarea
+              size="lg"
+              radius="sm"
+              isRequired
+              label={t("leaveComment")}
+              labelPlacement="outside"
+              name="review"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder={t("commentPlaceholder")}
+              type="text"
+              classNames={{
+                input: "resize-y min-h-[140px] text-base text-right",
+                label: "text-lg pb-3 flex items-center",
+              }}
+              minLength={3}
+            />
+
+            {isAdmin && (
+              <div className="grid md:grid-cols-2 gap-4 border-t border-gray-100 py-4">
+                <Input
+                  label={t("userName")}
+                  placeholder={t("userNamePlaceholder")}
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  labelPlacement="outside-top"
+                  size="lg"
+                  classNames={{
+                    label: "text-lg pb-3 flex items-center",
+                    inputWrapper: "  h-full",
+                  }}
+                />
+                <div className="flex flex-col gap-3">
+                  <label className="text-lg pb-0 flex items-center">
+                    {t("userImage")}
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleUserImageChange}
+                    className="hidden"
+                    id="user-image-upload"
+                  />
+                  <label
+                    htmlFor="user-image-upload"
+                    className="cursor-pointer border-2 border-dashed border-gray-200 rounded-xl p-2 flex items-center justify-center h-[56px] hover:border-[#F48A42] transition-colors bg-gray-50 dark:bg-gray-800"
+                  >
+                    {userImage ? (
+                      <img
+                        src={userImage}
+                        alt="User Preview"
+                        className="h-full rounded-full aspect-square object-cover"
+                      />
+                    ) : (
+                      <span className="text-gray-500">
+                        {t("uploadUserImage")}
+                      </span>
+                    )}
+                  </label>
+                </div>
+              </div>
+            )}
+
+            <ImageUploader
+              review={true}
+              lang={lang}
+              files={images}
+              setFiles={setImages}
+              translate={translate}
+            />
+          </div>
+          <div className="flex justify-between border-t border-gray-200 dark:border-gray-800 pt-3 mt-3 flex-shrink-0">
             <Button
               type="submit"
               isDisabled={loading}
@@ -276,15 +260,15 @@ export default function AddReview({
               <Send size={18} />
             </Button>
             <Button
-              className="text-black px-0"
+              className="text-black dark:text-white px-0"
               color="transparent"
               onPress={() => setIsModalOpen(false)}
             >
               {t("cancel")}
             </Button>
-          </ModalFooter>
-        </ModalContent>
+          </div>
+        </div>
       </form>
-    </Modal>
+    </CustomModal>
   );
 }

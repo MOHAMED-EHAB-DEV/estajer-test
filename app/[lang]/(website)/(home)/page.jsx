@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import CommonSearch from "@/components/home/CommonSearch";
 import HeroSection from "@/components/home/HeroSection";
 import Categories from "@/components/home/Categories";
 import HomeBanners from "@/components/home/HomeBanners";
@@ -287,7 +286,6 @@ export default async function Home({ params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <HeroSection lang={lang} />
-      <CommonSearch lang={lang} />
       <Categories lang={lang} />
       <NewestProducts lang={lang} key={"main"} />
       <HomeBanners lang={lang} />

@@ -30,7 +30,6 @@ export default function SearchResultsDropdown({
     searchValue.trim().length >= 2 || selectedCategory || selectedLocation;
 
   if (!hasSearchParameters) return null;
-  console.log("product: ", searchResults);
   return (
     <div className="absolute text-start top-[calc(100%+8px)] left-0 right-0 bg-white/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-40 transition-all duration-300 animate-in fade-in slide-in-from-top-2 max-h-[70vh] overflow-y-auto w-full">
       {isSearching ? (
@@ -39,8 +38,30 @@ export default function SearchResultsDropdown({
         </div>
       ) : searchResults.length > 0 ? (
         <div className="py-2">
-          <div className="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider border-b border-gray-50 mb-1">
-            {lang === "ar" ? "النتائج المقترحة" : "Suggested Results"}
+          <div className="px-4 py-2 flex items-center justify-between text-xs font-bold text-gray-400 uppercase tracking-wider border-b border-gray-50 mb-1">
+            <span>
+              {lang === "ar" ? "النتائج المقترحة" : "Suggested Results"}
+            </span>
+            <button
+              type="button"
+              onClick={onResultClick}
+              className="absolute top-2.5 end-2.5 z-50 p-2 text-gray-400 hover:text-gray-600 rounded-full"
+              aria-label={lang === "ar" ? "إغلاق" : "Close"}
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2">
             {searchResults.map((product) => {

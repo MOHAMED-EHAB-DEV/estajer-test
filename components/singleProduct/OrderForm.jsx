@@ -106,9 +106,18 @@ function OrderForm({ product, lang, translate }) {
 
   // ── Lock body scroll when drawer is open ──
   useEffect(() => {
-    if (isOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "unset";
-    return () => (document.body.style.overflow = "unset");
+    const html = document.documentElement;
+    if (isOpen) {
+      html.style.scrollbarGutter = "stable";
+      html.style.overflow = "hidden";
+    } else {
+      html.style.scrollbarGutter = "";
+      html.style.overflow = "";
+    }
+    return () => {
+      html.style.scrollbarGutter = "";
+      html.style.overflow = "";
+    };
   }, [isOpen]);
 
   // ── Fetch Bookings ──
@@ -153,11 +162,22 @@ function OrderForm({ product, lang, translate }) {
       (tier) => tier.minDays === 1,
     );
     const hasDiscount = !!discountTier && product.pricingModel !== "packages";
-    const discountPrice = hasDiscount ? discountTier.discountPrice : null;
-    const basePrice =
+    const discountPriceVal = hasDiscount ? discountTier.discountPrice : null;
+    const basePriceVal =
       product.pricingModel === "packages"
         ? product.rental?.packages?.[0]?.price || 0
         : product.rental?.value || 0;
+
+    const tax = 0.15;
+    const hasTaxCode = !!product.owner?.companyDetails?.taxCode;
+    const basePrice = hasTaxCode
+      ? Math.round(basePriceVal * (1 + tax))
+      : basePriceVal;
+    const discountPrice = hasDiscount
+      ? hasTaxCode
+        ? Math.round(discountPriceVal * (1 + tax))
+        : discountPriceVal
+      : null;
 
     return { discountPrice, basePrice, hasDiscount };
   }, [product]);

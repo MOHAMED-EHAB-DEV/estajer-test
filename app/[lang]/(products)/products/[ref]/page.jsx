@@ -42,13 +42,17 @@ function getDisplayPrice(product) {
     (tier) => tier.minDays === 1,
   );
   const hasDiscount = !!discountTier && product.pricingModel !== "packages";
-  const discountPrice = hasDiscount ? discountTier.discountPrice : null;
-  const basePrice =
+  const discountPriceVal = hasDiscount ? discountTier.discountPrice : null;
+  const basePriceVal =
     product.pricingModel === "packages"
       ? product.rental?.packages?.[0]?.price || 0
       : product.rental?.value || 0;
 
-  return hasDiscount ? discountPrice : basePrice;
+  const displayPriceVal = hasDiscount ? discountPriceVal : basePriceVal;
+  const tax = 0.15;
+  const hasTaxCode = !!product.owner?.companyDetails?.taxCode;
+
+  return hasTaxCode ? Math.round(displayPriceVal * (1 + tax)) : displayPriceVal;
 }
 
 export async function generateMetadata({ params }) {

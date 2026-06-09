@@ -167,7 +167,7 @@ function UserData({
         </button>
         {dropdownOpen && (
           <div
-            className="absolute right-0 mt-4 w-60 bg-white rounded-lg shadow-lg border z-50 min-w-[200px]"
+            className="absolute text-black right-0 mt-4 w-60 bg-white rounded-lg shadow-lg border z-50 min-w-[200px]"
             role="menu"
             aria-labelledby="user-menu-button"
           >
@@ -255,13 +255,13 @@ function UserData({
       variant="light"
       title={t("loginTitle")}
       {...(!onPress ? { as: Link, href: `/${langPrefix}login` } : { onPress })}
-      className={`text-black items-center px-0 min-w-0 gap-2 text-lg ${
+      className={`text-current items-center px-0 min-w-0 gap-2 text-lg ${
         sm
           ? `flex md:hidden h-[2.6rem] min-w-[2.6rem] ${home ? "bg-white" : "bg-[#fff9f0]"}`
           : "hidden md:flex !bg-transparent"
       }`}
     >
-      <User size={22} />
+      <User size={22} color="currentColor" />
       <span className={`${sm ? "hidden md:block" : "block"} font-semibold`}>
         {t("login")}
       </span>
@@ -342,7 +342,7 @@ export default function Header({
           home
             ? partner || awareness
               ? `md:bg-transparent pt-4 !-top-28 `
-              : `md:bg-primary pt-4 !-top-24`
+              : `pt-2 !-top-24`
             : scrolled
               ? "bg-white md:pt-4 pt-"
               : "bg-white bg-opacity-85 md:shadow-lg shadow mb-10"
@@ -415,7 +415,7 @@ export default function Header({
           <div
             className={`${
               home ? "md:gap-5 gap-4" : scrolled ? "md:gap-5 gap-4" : "gap-4"
-            } transition-[gap] items-center md:flex hidden ${partner && scrolled ? "text-white" : ""}`}
+            } transition-[gap] items-center md:flex hidden ${(partner || home) && scrolled ? "text-white" : ""}`}
           >
             <UserData
               langPrefix={langPrefix}
@@ -447,8 +447,9 @@ export default function Header({
             </div>
             {!partner && (
               <Button
-                className={`${awareness && home ? "" : "bg-darkNavy"} !opacity-100 font-semibold gap-2 ps-6 pe-8 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2`}
+                className={`${awareness && home ? "" : "bg-darkNavy"} !opacity-100 font-semibold gap-2 ps-6 pe-8 focus:outline-none `}
                 as={Link}
+                variant="solid"
                 href={`/${langPrefix}add-product`}
                 aria-label={tHeader("addAdAriaLabel")}
                 title={tHeader("addAdTitle")}

@@ -42,11 +42,39 @@ export default function MapPage({
   const [addressLoading, setAddressLoading] = useState(false);
   const [isAddressOpen, setIsAddressOpen] = useState(false);
 
+  useEffect(() => {
+    const formatted = [
+      address?.neighborhood,
+      address?.city,
+      address?.governorate,
+      address?.country,
+    ]
+      .filter(Boolean)
+      .join(", ");
+    setFullAddressInput(formatted);
+  }, [
+    address?.neighborhood,
+    address?.city,
+    address?.governorate,
+    address?.country,
+  ]);
+
   const [center, setCenter] = useState(defaultCenter);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const mapRef = useRef(null);
+
+  useEffect(() => {
+    if (markerPosition?.lat && markerPosition?.lng) {
+      setCenter(markerPosition);
+      const map = mapRef?.current?.map || mapRef?.current;
+      if (map && typeof map.setCenter === "function") {
+        map.setCenter(markerPosition);
+        map.setZoom(14);
+      }
+    }
+  }, [markerPosition?.lat, markerPosition?.lng]);
 
   const setLocationPlace = useCallback(
     (addressComponents) => {

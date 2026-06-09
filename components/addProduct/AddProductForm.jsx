@@ -175,14 +175,34 @@ export default function AddProductForm({
   // ─── AI Apply Handler ───
   const handleAiApply = (suggestion, aiImages) => {
     // Fill basic product data
-    if (suggestion.nameAr || suggestion.nameEn) {
-      setProductData((prev) => ({
-        ...prev,
-        nameAr: suggestion.nameAr || prev.nameAr,
-        nameEn: suggestion.nameEn || prev.nameEn,
-        descriptionAr: suggestion.descriptionAr || prev.descriptionAr,
-        descriptionEn: suggestion.descriptionEn || prev.descriptionEn,
-      }));
+    if (
+      suggestion.nameAr ||
+      suggestion.nameEn ||
+      suggestion.quantity !== undefined ||
+      suggestion.minQuantity !== undefined
+    ) {
+      setProductData((prev) => {
+        const nextQty =
+          suggestion.quantity !== undefined
+            ? +suggestion.quantity
+            : prev.quantity;
+        let nextMinQty =
+          suggestion.minQuantity !== undefined
+            ? +suggestion.minQuantity
+            : prev.minQuantity;
+
+        if (nextMinQty > nextQty) nextMinQty = nextQty;
+
+        return {
+          ...prev,
+          nameAr: suggestion.nameAr || prev.nameAr,
+          nameEn: suggestion.nameEn || prev.nameEn,
+          descriptionAr: suggestion.descriptionAr || prev.descriptionAr,
+          descriptionEn: suggestion.descriptionEn || prev.descriptionEn,
+          quantity: nextQty,
+          minQuantity: nextMinQty,
+        };
+      });
     }
     // Fill rental data + discounts + delivery
     setRentData((prev) => {

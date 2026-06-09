@@ -11,13 +11,9 @@ import {
   Select,
   SelectItem,
   Button,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   useDisclosure,
 } from "@heroui/react";
+import CustomModal from "../ui/CustomModal";
 import { useTranslations } from "@/hooks/useTranslations";
 
 const taskTypes = [
@@ -411,154 +407,170 @@ const TasksPageContainer = ({ data, translate, lang, queryParams }) => {
       )}
 
       {/* Task Detail Modal */}
-      <Modal
+      <CustomModal
         isOpen={isOpen}
         onClose={onClose}
-        size="3xl"
-        scrollBehavior="inside"
+        size="4xl"
+        className="bg-white dark:bg-gray-900 text-black dark:text-white rounded-2xl max-h-[90vh] overflow-hidden flex flex-col"
+        backdropClass="bg-black/50 backdrop-blur-sm"
       >
-        <ModalContent>
-          {selectedTask && (
-            <>
-              <ModalHeader className="bg-gradient-to-r from-[#f48a42]/10 to-[#f47242]/10 border-b">
-                <div className="flex items-center gap-3 w-full">
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#f48a42] to-[#f47242] rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                    {selectedTask.priority}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900">
-                      {selectedTask.title}
-                    </h3>
-                    <div className="flex gap-2 mt-1">
-                      <Chip
-                        size="sm"
-                        color={getTypeInfo(selectedTask.type).color}
-                      >
-                        {selectedTask.type}
-                      </Chip>
-                      <Chip
-                        size="sm"
-                        color={getStatusInfo(selectedTask.status).color}
-                      >
-                        {selectedTask.status}
-                      </Chip>
+        {selectedTask && (
+          <div className="flex flex-col h-full overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-[#f48a42]/10 to-[#f47242]/10 border-b border-gray-200 dark:border-gray-800 p-4 md:p-6 flex items-center gap-3 flex-shrink-0 relative">
+              <div className="w-12 h-12 bg-gradient-to-r from-[#f48a42] to-[#f47242] rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg flex-shrink-0">
+                {selectedTask.priority}
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white truncate">
+                  {selectedTask.title}
+                </h3>
+                <div className="flex gap-2 mt-1">
+                  <Chip
+                    size="sm"
+                    color={getTypeInfo(selectedTask.type).color}
+                  >
+                    {selectedTask.type}
+                  </Chip>
+                  <Chip
+                    size="sm"
+                    color={getStatusInfo(selectedTask.status).color}
+                  >
+                    {selectedTask.status}
+                  </Chip>
+                </div>
+              </div>
+              {/* Close Button */}
+              <button
+                onClick={onClose}
+                type="button"
+                className="absolute top-4 end-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M18 6L6 18M6 6L18 18"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+              <div>
+                <h4 className="text-sm font-semibold text-gray-500 mb-2">
+                  {t("tasks.description")}
+                </h4>
+                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap bg-gray-50 dark:bg-gray-800 p-4 rounded-xl">
+                  {selectedTask.description}
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gradient-to-br from-[#f48a42]/10 to-[#f47242]/10 p-4 rounded-xl">
+                  <h4 className="text-sm font-semibold text-gray-500 mb-2">
+                    {t("tasks.createdBy")}
+                  </h4>
+                  <div className="flex items-center gap-2">
+                    <Avatar
+                      src={selectedTask.createdBy?.avatar}
+                      name={selectedTask.createdBy?.fullName}
+                      size="sm"
+                    />
+                    <div>
+                      <p className="font-medium">
+                        {selectedTask.createdBy?.fullName}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {formatDate(selectedTask.createdAt)}
+                      </p>
                     </div>
                   </div>
                 </div>
-              </ModalHeader>
-              <ModalBody className="py-6">
-                <div className="space-y-6">
-                  <div>
+                {selectedTask.completedBy && (
+                  <div className="bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-950 dark:to-emerald-950 p-4 rounded-xl">
                     <h4 className="text-sm font-semibold text-gray-500 mb-2">
-                      {t("tasks.description")}
+                      {t("tasks.completedBy")}
                     </h4>
-                    <p className="text-gray-700 whitespace-pre-wrap bg-gray-50 p-4 rounded-xl">
-                      {selectedTask.description}
-                    </p>
+                    <div className="flex items-center gap-2">
+                      <Avatar
+                        src={selectedTask.completedBy?.avatar}
+                        name={selectedTask.completedBy?.fullName}
+                        size="sm"
+                      />
+                      <div>
+                        <p className="font-medium">
+                          {selectedTask.completedBy?.fullName}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {selectedTask.completedAt &&
+                            formatDate(selectedTask.completedAt)}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-gradient-to-br from-[#f48a42]/10 to-[#f47242]/10 p-4 rounded-xl">
-                      <h4 className="text-sm font-semibold text-gray-500 mb-2">
-                        {t("tasks.createdBy")}
-                      </h4>
-                      <div className="flex items-center gap-2">
-                        <Avatar
-                          src={selectedTask.createdBy?.avatar}
-                          name={selectedTask.createdBy?.fullName}
-                          size="sm"
+                )}
+              </div>
+              {selectedTask.images?.length > 0 && (
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-500 mb-3">
+                    {t("tasks.images")}
+                  </h4>
+                  <div className="grid grid-cols-3 gap-3">
+                    {selectedTask.images.map((img, idx) => (
+                      <a
+                        key={idx}
+                        href={img.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block aspect-video bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden hover:opacity-80 transition-opacity shadow-md"
+                      >
+                        <img
+                          src={img.url}
+                          alt={img.alt}
+                          className="w-full h-full object-cover"
                         />
-                        <div>
-                          <p className="font-medium">
-                            {selectedTask.createdBy?.fullName}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {formatDate(selectedTask.createdAt)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    {selectedTask.completedBy && (
-                      <div className="bg-gradient-to-br from-green-100 to-emerald-100 p-4 rounded-xl">
-                        <h4 className="text-sm font-semibold text-gray-500 mb-2">
-                          {t("tasks.completedBy")}
-                        </h4>
-                        <div className="flex items-center gap-2">
-                          <Avatar
-                            src={selectedTask.completedBy?.avatar}
-                            name={selectedTask.completedBy?.fullName}
-                            size="sm"
-                          />
-                          <div>
-                            <p className="font-medium">
-                              {selectedTask.completedBy?.fullName}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              {selectedTask.completedAt &&
-                                formatDate(selectedTask.completedAt)}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                      </a>
+                    ))}
                   </div>
-                  {selectedTask.images?.length > 0 && (
-                    <div>
-                      <h4 className="text-sm font-semibold text-gray-500 mb-3">
-                        {t("tasks.images")}
-                      </h4>
-                      <div className="grid grid-cols-3 gap-3">
-                        {selectedTask.images.map((img, idx) => (
-                          <a
-                            key={idx}
-                            href={img.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block aspect-video bg-gray-100 rounded-xl overflow-hidden hover:opacity-80 transition-opacity shadow-md"
-                          >
-                            <img
-                              src={img.url}
-                              alt={img.alt}
-                              className="w-full h-full object-cover"
-                            />
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {selectedTask.links?.length > 0 && (
-                    <div>
-                      <h4 className="text-sm font-semibold text-gray-500 mb-3">
-                        {t("tasks.links")}
-                      </h4>
-                      <div className="space-y-2">
-                        {selectedTask.links.map((link, idx) => (
-                          <a
-                            key={idx}
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 p-3 bg-purple-50 hover:bg-purple-100 rounded-xl text-purple-700 transition-colors"
-                          >
-                            <LinkIcon className="w-4 h-4" />
-                            <span className="font-medium">
-                              {link.title || link.url}
-                            </span>
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
-              </ModalBody>
-              <ModalFooter className="border-t bg-gray-50">
-                <Button variant="flat" onPress={onClose}>
-                  {t("tasks.close")}
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+              )}
+              {selectedTask.links?.length > 0 && (
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-500 mb-3">
+                    {t("tasks.links")}
+                  </h4>
+                  <div className="space-y-2">
+                    {selectedTask.links.map((link, idx) => (
+                      <a
+                        key={idx}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 p-3 bg-purple-50 dark:bg-purple-950/30 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-xl text-purple-700 dark:text-purple-400 transition-colors"
+                      >
+                        <LinkIcon className="w-4 h-4" />
+                        <span className="font-medium">
+                          {link.title || link.url}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 p-4 flex justify-end flex-shrink-0">
+              <Button variant="flat" onPress={onClose}>
+                {t("tasks.close")}
+              </Button>
+            </div>
+          </div>
+        )}
+      </CustomModal>
     </div>
   );
 };

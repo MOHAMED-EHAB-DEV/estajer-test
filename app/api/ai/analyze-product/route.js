@@ -222,6 +222,10 @@ ${categoryInstructionText}
     - Set "isApproved" to true in the JSON response ONLY when the user explicitly agrees to approve, confirm, apply, publish, or save the listing (e.g. saying "اعتمد", "تمام انشر", "طبق", "موافق", "save", "confirm", "approve").
     - When "isApproved" is true, write a friendly "chatResponse" informing the user that you are applying the details to the form and closing the modal automatically.
     - On all other turns before approval, you MUST completely omit the "isApproved" key from the JSON structure (do not include it at all).
+9. Available Quantity & Minimum Rent Quantity (quantity, minQuantity):
+    - By default, do NOT ask the user about the available quantity ("quantity") or minimum rent quantity ("minQuantity"), and do NOT suggest changing them from their default values (which are both 1).
+    - If and ONLY IF the user explicitly requests to change either the available quantity or the minimum rental quantity, update "quantity" and/or "minQuantity" in "productData" to match the requested values.
+    - Ensure logical consistency: Available quantity ("quantity") MUST always be greater than or equal to the minimum rental quantity ("minQuantity"). If the user specifies values that violate this rule, politely explain and guide them.
 
 Conversational Flow & Sequential Questions (CRITICAL):
 - Avoid overwhelming the user by asking too many questions at once. Ask at most 2 or 4 related questions per turn.
@@ -247,6 +251,8 @@ You MUST return EXACTLY this JSON structure:
     "rentalValue": number,
     "insurance": number,
     "locationText": "string (e.g. Riyadh, Al-Malaz)",
+    "quantity": number (optional, only include if explicitly requested to change by the user),
+    "minQuantity": number (optional, only include if explicitly requested to change by the user),
     "delivery": {
       "type": "receive" | "delivery" | "free",
       "pricingModel": "free" | "perKm" | "fixedCity",

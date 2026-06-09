@@ -1303,6 +1303,8 @@
       "rentalValue": "Price / Day (SAR)",
       "insurance": "Security Deposit (SAR)",
       "locationText": "Product Location (City & Neighborhood)",
+      "quantity": "Available Quantity",
+      "minQuantity": "Min. Rental Quantity",
       "minDays": "Min. Rental Days",
       "errorNoImages": "Please upload at least one image first.",
       "errorAnalysis": "AI analysis failed. Please try again.",

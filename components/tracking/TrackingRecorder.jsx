@@ -3,6 +3,9 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { getSessionId, getVisitorId } from "@/lib/tracking";
 import { useUser } from "@/context/UserContext";
+let globalSessionInitialized = false;
+let globalLastTrackedPath = null;
+let globalLastUserId = null;
 
 export default function TrackingRecorder() {
   const { user } = useUser();
@@ -12,15 +15,17 @@ export default function TrackingRecorder() {
   const sessionIdRef = useRef(null);
   const visitorIdRef = useRef(null);
   const flushIntervalRef = useRef(null);
-  const sessionInitialized = useRef(false);
-  const lastUserIdRef = useRef(null);
   const rrwebRef = useRef(null); // Store rrweb instance
+  const isFlushing = useRef(false); // Prevent concurrent flushes
+  const isStartingRef = useRef(false); // Guard against concurrent/duplicate startup
+  const initialFlushTimeoutRef = useRef(null); // Ref to cancel the initial flush timeout on stop
 
   useEffect(() => {
     // Determine if we should record this page
     const isAdminPage = pathname?.includes("/admin");
 
     const stopRecording = () => {
+      isStartingRef.current = false;
       if (stopFnRef.current) {
         try {
           stopFnRef.current();
@@ -33,10 +38,17 @@ export default function TrackingRecorder() {
         clearInterval(flushIntervalRef.current);
         flushIntervalRef.current = null;
       }
+      if (initialFlushTimeoutRef.current) {
+        clearTimeout(initialFlushTimeoutRef.current);
+        initialFlushTimeoutRef.current = null;
+      }
     };
 
     const flushEvents = async () => {
       if (eventsRef.current.length === 0 || !sessionIdRef.current) return;
+      // Prevent concurrent flush calls from racing each other
+      if (isFlushing.current) return;
+      isFlushing.current = true;
 
       const eventsToSend = [...eventsRef.current];
       eventsRef.current = [];
@@ -53,17 +65,39 @@ export default function TrackingRecorder() {
         });
       } catch (err) {
         // eventsRef.current = [...eventsToSend, ...eventsRef.current];
+      } finally {
+        isFlushing.current = false;
       }
     };
 
     const startRecording = async () => {
       if (isAdminPage) return;
 
-      // Prevent starting if we are already recording
-      if (stopFnRef.current) return;
+      // Prevent starting if we are already recording or starting
+      if (stopFnRef.current || isStartingRef.current) return;
+      isStartingRef.current = true;
 
+      isFlushing.current = false;
       sessionIdRef.current = getSessionId();
-      visitorIdRef.current = await getVisitorId();
+
+      // Set initial tracked path to prevent duplicate pageview send on initial load
+      if (!globalLastTrackedPath) {
+        globalLastTrackedPath = window.location.pathname;
+      }
+
+      // Temporarily mark the user as tracked to prevent the concurrent identity useEffect from firing
+      if (!globalSessionInitialized && user) {
+        globalLastUserId = user._id;
+      }
+
+      // Only await on first load — localStorage read is sync under the hood
+      // but the async/await suspends the function on every navigation.
+      // On subsequent pages visitorIdRef is already populated, skip the yield.
+      if (!visitorIdRef.current) {
+        const vid = await getVisitorId();
+        if (!isStartingRef.current) return; // Aborted
+        visitorIdRef.current = vid;
+      }
 
       // Track page view function
       const trackPageView = (path) => {
@@ -84,8 +118,9 @@ export default function TrackingRecorder() {
       };
 
       // Only initialize session once
-      if (!sessionInitialized.current) {
-        if (user) lastUserIdRef.current = user._id;
+      if (!globalSessionInitialized) {
+        globalSessionInitialized = true;
+        if (user) globalLastUserId = user._id;
         try {
           const response = await fetch("/api/tracking", {
             method: "POST",
@@ -118,18 +153,26 @@ export default function TrackingRecorder() {
             }),
           });
 
+          if (!isStartingRef.current) return; // Aborted
+
           // Properly consume the response
           const result = await response.json();
+          if (!isStartingRef.current) return; // Aborted
           if (!result.success) {
             console.error("Tracking init failed:", result);
+            globalSessionInitialized = false;
           }
-          sessionInitialized.current = true;
         } catch (err) {
           console.error("Tracking init error:", err);
+          globalSessionInitialized = false;
         }
       }
 
-      trackPageView(window.location.pathname);
+      // Guard: only send pageview if path actually changed (prevents remount duplicates)
+      if (globalLastTrackedPath !== window.location.pathname) {
+        globalLastTrackedPath = window.location.pathname;
+        trackPageView(window.location.pathname);
+      }
 
       // Suppression for the annoying CSSStyleSheet SecurityError
       const handleSecurityError = (e) => {
@@ -145,9 +188,13 @@ export default function TrackingRecorder() {
       window.addEventListener("error", handleSecurityError, true);
 
       try {
-        // Dynamically import rrweb only when needed
+        // Only dynamically import rrweb if not already loaded.
+        // Even a cached dynamic import suspends the function via await,
+        // which creates a race window where pagehide can fire before
+        // rrweb.record() starts on fast navigations.
         if (!rrwebRef.current) {
           const mod = await import("rrweb");
+          if (!isStartingRef.current) return; // Aborted
           // Handle different module formats (ESM/CJS)
           rrwebRef.current = mod.default || mod;
         }
@@ -156,6 +203,7 @@ export default function TrackingRecorder() {
         // Verify record function exists
         if (!rrweb || typeof rrweb.record !== "function") {
           console.error("rrweb: record function not found on imported module");
+          isStartingRef.current = false;
           return;
         }
 
@@ -238,11 +286,19 @@ export default function TrackingRecorder() {
             window.fetch = originalFetch;
           };
 
-          flushIntervalRef.current = setInterval(flushEvents, 10000);
+          flushIntervalRef.current = setInterval(flushEvents, 10000); // flush every 10s
+          initialFlushTimeoutRef.current = setTimeout(() => {
+            initialFlushTimeoutRef.current = null;
+            flushEvents();
+          }, 100); // Flush the initial FullSnapshot immediately
+
+          isStartingRef.current = false; // Successfully started
         } catch (error) {
+          isStartingRef.current = false;
           console.error("rrweb recording failed", error);
         }
       } catch (err) {
+        isStartingRef.current = false;
         console.error("rrweb load failed", err);
       }
     };
@@ -251,8 +307,14 @@ export default function TrackingRecorder() {
     stopRecording();
     if (!isAdminPage) {
       startRecording();
-    } else if (sessionIdRef.current && pathname) {
+    } else if (
+      sessionIdRef.current &&
+      pathname &&
+      globalLastTrackedPath !== pathname
+    ) {
       // Track page view even if not recording (for journey tracking)
+      // Guard against duplicate sends on remount using same path guard as non-admin
+      globalLastTrackedPath = pathname;
       try {
         fetch("/api/tracking", {
           method: "POST",
@@ -270,15 +332,16 @@ export default function TrackingRecorder() {
     }
 
     return () => {
-      stopRecording();
+      // Flush first so events captured so far are sent, then stop the recorder
       flushEvents();
+      stopRecording();
     };
   }, [pathname]);
 
   // Handle user login/identity changes
   useEffect(() => {
-    if (user && user._id !== lastUserIdRef.current && sessionIdRef.current) {
-      lastUserIdRef.current = user._id;
+    if (user && user._id !== globalLastUserId && sessionIdRef.current) {
+      globalLastUserId = user._id;
 
       const userData = {
         _id: user._id,
@@ -306,20 +369,23 @@ export default function TrackingRecorder() {
 
   useEffect(() => {
     const handleFlush = () => {
-      if (eventsRef.current.length > 0 && sessionIdRef.current) {
-        const data = JSON.stringify({
-          type: "events",
-          sessionId: sessionIdRef.current,
-          events: eventsRef.current,
-        });
+      if (eventsRef.current.length === 0 || !sessionIdRef.current) return;
 
-        // Clear events after preparing data to avoid duplicate sends
-        eventsRef.current = [];
+      const data = JSON.stringify({
+        type: "events",
+        sessionId: sessionIdRef.current,
+        events: eventsRef.current,
+      });
 
-        if (navigator.sendBeacon) {
-          const blob = new Blob([data], { type: "application/json" });
-          navigator.sendBeacon("/api/tracking", blob);
-        } else {
+      // Clear events after preparing data to avoid duplicate sends
+      eventsRef.current = [];
+
+      if (navigator.sendBeacon) {
+        const blob = new Blob([data], { type: "application/json" });
+        // sendBeacon returns false if the browser rejects the payload
+        // (e.g. payload too large). Fall back to keepalive fetch in that case.
+        const queued = navigator.sendBeacon("/api/tracking", blob);
+        if (!queued) {
           fetch("/api/tracking", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -327,11 +393,20 @@ export default function TrackingRecorder() {
             keepalive: true,
           }).catch(() => {});
         }
+      } else {
+        fetch("/api/tracking", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: data,
+          keepalive: true,
+        }).catch(() => {});
       }
     };
 
-    // Use pagehide and visibilitychange instead of beforeunload/unload
-    // as they are more reliable and modern browser friendly
+    // Use both pagehide and visibilitychange for maximum coverage.
+    // pagehide fires on tab/window close; visibilitychange fires when
+    // switching tabs. Both are needed — the double-flush race is safe
+    // because eventsRef is cleared atomically before sending.
     window.addEventListener("pagehide", handleFlush);
 
     const handleVisibilityChange = () => {

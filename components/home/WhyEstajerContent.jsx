@@ -156,7 +156,7 @@ export default function WhyEstajerContent({ translate, lang }) {
 
             {/* Center Focus */}
             <div className="select-none flex items-center justify-center relative w-full col-start-2 row-start-1 row-span-3">
-              <div className="relative w-full max-w-md aspect-square animate-[bounce-slow_7s_ease-in-out_infinite] flex items-center justify-center">
+              <div className="relative w-full max-w-md aspect-square flex items-center justify-center">
                 <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[105%] aspect-square -z-10 flex items-center justify-center">
                   <svg
                     width="100%"

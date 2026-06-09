@@ -1,4 +1,4 @@
-import { Modal, ModalContent, ModalBody, ModalFooter } from "@heroui/modal";
+import CustomModal from "../ui/CustomModal";
 import Button from "../ui/Button";
 
 const WarningIcon = ({ className }) => (
@@ -71,62 +71,71 @@ export default function ConfirmModal({
     : "shadow-md";
 
   return (
-    <Modal
+    <CustomModal
       isOpen={isOpen}
       onClose={onClose}
       size="xl"
-      classNames={{
-        body: "px-4 md:px-4",
-        footer: "px-4 md:px-4",
-        backdrop: "backdrop-blur-sm",
-        base: "rounded-[24px] p-2 md:p-4",
-        closeButton:
-          "top-6 end-6 start-auto text-xl hover:bg-gray-100 transition-colors bg-white shadow-sm z-50",
-      }}
-      dir="rtl"
+      className="bg-white dark:bg-gray-900 rounded-[24px] p-2 md:p-4 text-black dark:text-white shadow-xl"
+      backdropClass="backdrop-blur-sm"
     >
-      <ModalContent>
-        {() => (
-          <>
-            <ModalBody className="p-0">
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-2 md:gap-4 mt-6">
-                <div className="flex-shrink-0">
-                  <WarningIcon className="w-[60px] h-[60px] md:w-[84px] md:h-[84px]" />
-                </div>
-                <div className="flex flex-col flex-1 text-center md:text-start">
-                  <h2
-                    className={`text-xl md:text-2xl font-bold ${titleColor} mb-2`}
-                  >
-                    {title || (isDelete ? "تحذير!" : t("confirmModal.title"))}
-                  </h2>
-                  <p className="text-base md:text-lg font-medium leading-[1.5] text-[#1D1B20]">
-                    {message}
-                  </p>
-                </div>
-              </div>
+      <div className="flex flex-col relative w-full" dir="rtl">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          type="button"
+          className="absolute top-6 end-6 text-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-900 text-[#1D1B20] dark:text-gray-200 shadow-sm z-50 p-2 rounded-full flex items-center justify-center border border-gray-100 dark:border-gray-850"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M18 6L6 18M6 6L18 18"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
 
-              <div className="border-t border-[#E8E8E8] mt-8 w-full" />
-            </ModalBody>
-            <ModalFooter className="flex flex-col md:flex-row justify-between items-center p-0 mt-6 pb-2 gap-4">
-              <Button
-                onPress={onClose}
-                disabled={loading}
-                color="none"
-                className="text-base md:text-lg font-bold text-[#1D1B20] hover:opacity-70 transition-opacity order-2 md:order-1"
+        {/* Body Container */}
+        <div className="flex flex-1 flex-col gap-3 md:px-4 p-0">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-2 md:gap-4 mt-6">
+            <div className="flex-shrink-0">
+              <WarningIcon className="w-[60px] h-[60px] md:w-[84px] md:h-[84px]" />
+            </div>
+            <div className="flex flex-col flex-1 text-center md:text-start">
+              <h2
+                className={`text-xl md:text-2xl font-bold ${titleColor} mb-2`}
               >
-                {cancelText || t("confirmModal.cancel")}
-              </Button>
-              <Button
-                onPress={onConfirm}
-                isLoading={loading}
-                className={`w-full md:w-auto min-w-[140px] md:min-w-[180px] h-12 md:h-[52px] rounded-[26px] ${primaryColor} hover:opacity-90 text-white text-base md:text-[18px] font-bold ${shadowColor} transition-all order-1 md:order-2`}
-              >
-                {confirmText || t("confirmModal.confirm")}
-              </Button>
-            </ModalFooter>
-          </>
-        )}
-      </ModalContent>
-    </Modal>
+                {title || (isDelete ? "تحذير!" : t("confirmModal.title"))}
+              </h2>
+              <p className="text-base md:text-lg font-medium leading-[1.5] text-[#1D1B20] dark:text-gray-200">
+                {message}
+              </p>
+            </div>
+          </div>
+
+          <div className="border-t border-[#E8E8E8] dark:border-gray-800 mt-8 w-full" />
+        </div>
+
+        {/* Footer Container */}
+        <div className="md:px-4 flex flex-col md:flex-row justify-between items-center p-0 mt-6 pb-2 gap-4">
+          <Button
+            onPress={onClose}
+            disabled={loading}
+            color="none"
+            className="text-base md:text-lg font-bold text-[#1D1B20] dark:text-gray-200 hover:opacity-70 transition-opacity order-2 md:order-1"
+          >
+            {cancelText || t("confirmModal.cancel")}
+          </Button>
+          <Button
+            onPress={onConfirm}
+            isLoading={loading}
+            className={`w-full md:w-auto min-w-[140px] md:min-w-[180px] h-12 md:h-[52px] rounded-[26px] ${primaryColor} hover:opacity-90 text-white text-base md:text-[18px] font-bold ${shadowColor} transition-all order-1 md:order-2`}
+          >
+            {confirmText || t("confirmModal.confirm")}
+          </Button>
+        </div>
+      </div>
+    </CustomModal>
   );
 }

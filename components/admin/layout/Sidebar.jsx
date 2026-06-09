@@ -174,6 +174,10 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
           link: "/banners",
         },
         {
+          text: lang === "ar" ? "سلايدر الهيرو" : "Hero Slider",
+          link: "/hero-slider",
+        },
+        {
           text: t("advertisement"),
           link: "/advertisements",
           // disabled: true,

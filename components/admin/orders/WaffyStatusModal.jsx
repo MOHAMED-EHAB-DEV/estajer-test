@@ -5,7 +5,7 @@ import ToastMessage from "../../ui/ToastMessage";
 import { Check } from "@/components/ui/svgs/icons/CheckSvg";
 import { CloseFilled } from "@/components/ui/svgs/icons/CloseFilledSvg";
 import { FaTimes } from "@/components/ui/svgs/AdminIcons";
-import { Modal, ModalContent, ModalBody } from "@heroui/modal";
+import CustomModal from "../../ui/CustomModal";
 
 const WaffyStatusModal = ({ order, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(true);
@@ -129,21 +129,16 @@ const WaffyStatusModal = ({ order, onClose, onSuccess }) => {
   };
 
   return (
-    <Modal
+    <CustomModal
       isOpen={true}
       onClose={onClose}
-      hideCloseButton
-      size="xl"
-      placement="center"
-      classNames={{
-        body: "py-6",
-        backdrop: "bg-black/60",
-        base: "border-none bg-white",
-        header: "border-b border-gray-200",
-      }}
+      size="lg"
+      className="bg-white dark:bg-gray-900 border-none rounded-2xl max-h-[90vh] overflow-hidden flex flex-col font-NotoSansArabic"
+      backdropClass="bg-black/60"
     >
-      <ModalContent className="!p-0 overflow-hidden font-NotoSansArabic">
-        <div className="bg-gradient-to-r from-darkNavy to-darkNavy text-white md:p-6 p-4 rounded-t-2xl border-b border-darkNavy">
+      <div className="flex flex-col h-full overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-darkNavy to-darkNavy text-white md:p-6 p-4 border-b border-darkNavy flex-shrink-0">
           <div className="flex items-center justify-between font-NotoSansArabic">
             <div className="flex items-center gap-3">
               <div className="md:w-10 md:h-10 w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center font-bold">
@@ -165,7 +160,8 @@ const WaffyStatusModal = ({ order, onClose, onSuccess }) => {
           </div>
         </div>
 
-        <ModalBody className="md:p-6 p-4">
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto md:p-6 p-4">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-12 gap-4">
               <div className="w-10 h-10 border-4 border-[#f48a42] border-t-transparent rounded-full animate-spin"></div>
@@ -548,9 +544,9 @@ const WaffyStatusModal = ({ order, onClose, onSuccess }) => {
               </button>
             </div>
           )}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        </div>
+      </div>
+    </CustomModal>
   );
 };
 

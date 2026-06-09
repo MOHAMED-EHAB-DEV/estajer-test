@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "@/hooks/useTranslations";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input, Select, SelectItem } from "@heroui/react";
 import Button from "../ui/Button";
 import { Line } from "../ui/svgs/icons/LineSvg";
@@ -132,6 +132,26 @@ export default function RentalDetailsForm({
     quantityDiscounts: !!(rentData?.quantityDiscountTiers?.length > 0),
     services: !!(services?.length > 0),
   });
+
+  // Automatically open panels when data is added (e.g. by AI assist)
+  useEffect(() => {
+    if (rentData?.discountTiers?.length > 0) {
+      setOpenPanels((prev) => ({ ...prev, discounts: true }));
+    }
+  }, [rentData?.discountTiers?.length]);
+
+  useEffect(() => {
+    if (rentData?.quantityDiscountTiers?.length > 0) {
+      setOpenPanels((prev) => ({ ...prev, quantityDiscounts: true }));
+    }
+  }, [rentData?.quantityDiscountTiers?.length]);
+
+  useEffect(() => {
+    if (services?.length > 0) {
+      setOpenPanels((prev) => ({ ...prev, services: true }));
+    }
+  }, [services?.length]);
+
   const togglePanel = (id) =>
     setOpenPanels((prev) => ({ ...prev, [id]: !prev[id] }));
 

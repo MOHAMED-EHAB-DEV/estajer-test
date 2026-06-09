@@ -264,6 +264,7 @@ export default function BannersContainer({ translate, lang }) {
         }}
         t={modalT}
         translate={translate}
+        lang={lang}
         data={bannerData}
         setData={setBannerData}
         images={bannerImage}

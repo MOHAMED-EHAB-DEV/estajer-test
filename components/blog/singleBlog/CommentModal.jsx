@@ -1,11 +1,5 @@
 "use client";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@heroui/modal";
+import CustomModal from "../../ui/CustomModal";
 import { Textarea } from "@heroui/input";
 import { useState } from "react";
 import { toast } from "@/utils/toast";
@@ -87,42 +81,60 @@ export default function CommentModal({
   };
 
   return (
-    <Modal
+    <CustomModal
       isOpen={isOpen}
       onClose={() => {
         setComment("");
         onClose();
       }}
-      size="2xl"
-      placement="center"
-      classNames={{
-        body: "py-6",
-        backdrop: "bg-darkNavy/50 backdrop-blur-sm",
-        base: "border-none bg-white dark:bg-gray-900 rounded-3xl",
-        header: "border-b-1 border-gray-200",
-        footer: "border-t-1 border-gray-200",
-      }}
+      size="lg"
+      className="bg-white dark:bg-gray-900 text-black dark:text-white rounded-3xl max-h-[90vh] overflow-hidden flex flex-col p-4 md:p-6"
+      backdropClass="bg-darkNavy/50 backdrop-blur-sm"
     >
-      <ModalContent className="p-4">
-        <ModalHeader className="flex gap-2 items-center text-[#F44242]">
+      <div className="flex flex-col h-full overflow-hidden relative">
+        {/* Header */}
+        <div className="flex gap-2 items-center text-[#F44242] font-semibold text-lg border-b border-gray-200 dark:border-gray-800 pb-3 mb-4 flex-shrink-0">
           <Review />
           <span>{title}</span>
-        </ModalHeader>
-        <ModalBody>
-          <div className="space-y-6">
-            <span className="font-NotoSansArabic font-bold text-lg text-darkNavy">
-              {label}
-            </span>
+        </div>
 
-            <Textarea
-              placeholder={placeholder}
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              minRows={4}
+        {/* Close Button */}
+        <Button
+          onPress={() => {
+            setComment("");
+            onClose();
+          }}
+          type="button"
+          radius="full"
+          className="absolute top-0 end-0 text-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-900 shadow-sm z-50 p-2 min-w-0"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M18 6L6 18M6 6L18 18"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
-          </div>
-        </ModalBody>
-        <ModalFooter className="flex justify-between">
+          </svg>
+        </Button>
+
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto space-y-6 py-2">
+          <span className="font-NotoSansArabic font-bold text-lg text-darkNavy dark:text-white block">
+            {label}
+          </span>
+
+          <Textarea
+            placeholder={placeholder}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            minRows={4}
+          />
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-between border-t border-gray-200 dark:border-gray-800 pt-4 mt-4 flex-shrink-0">
           <Button
             isDisabled={loading}
             className="bg-primary text-white px-8 py-6 flex gap-[10px] items-center"
@@ -132,7 +144,8 @@ export default function CommentModal({
             <Send size={20} />
           </Button>
           <Button
-            color="transparent text-darkNavy font-NotoSansArabic font-bold text-lg"
+            color="transparent"
+            className="text-darkNavy dark:text-gray-200 font-NotoSansArabic font-bold text-lg px-0"
             onPress={() => {
               onClose();
               setComment("");
@@ -140,8 +153,8 @@ export default function CommentModal({
           >
             {t("cancel")}
           </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </div>
+      </div>
+    </CustomModal>
   );
 }

@@ -149,7 +149,6 @@ export async function POST(request) {
       );
     }
     const { sessionId, visitorId, events, metadata, type } = data;
-
     if (!sessionId) {
       return NextResponse.json(
         { error: "Session ID is required" },
@@ -175,13 +174,28 @@ export async function POST(request) {
           newMetadata = { ...existingMetadata, ...metadata };
         }
 
+        const pageViews = existingMetadata?.pageViews || [];
+        const journeyPath = existingMetadata?.journeyPath || [];
+        if (newMetadata.initialPath) {
+          const hasInitialPath = pageViews.some((pv) => pv.path === newMetadata.initialPath);
+          if (!hasInitialPath) {
+            pageViews.push({
+              path: newMetadata.initialPath,
+              timestamp: newMetadata.startedAt || new Date().toISOString(),
+            });
+          }
+          if (!journeyPath.includes(newMetadata.initialPath)) {
+            journeyPath.push(newMetadata.initialPath);
+          }
+        }
+
         await safeWriteJSON(metadataPath, {
           ...newMetadata,
           sessionId,
           visitorId,
           user: data.user || null,
-          pageViews: existingMetadata?.pageViews || [],
-          journeyPath: existingMetadata?.journeyPath || [],
+          pageViews,
+          journeyPath,
           updatedAt: new Date().toISOString(),
         });
       } catch (error) {

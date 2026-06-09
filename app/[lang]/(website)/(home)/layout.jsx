@@ -13,6 +13,7 @@ export default async function RootLayout({ children, params }) {
         id="main-content"
         role="main"
         aria-label={translate("home.mainContent")}
+        className="-mt-[7.2rem]"
       >
         {children}
       </main>
