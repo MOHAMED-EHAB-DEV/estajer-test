@@ -259,14 +259,14 @@ export default async function RootLayout({ children, params }) {
         </Script>
       </head>
       <body className={`${IBMPlexArabic.variable} ${NotoSansArabic.className}`}>
-        <noscript>
+        {/* <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-W7PNC244"
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
-        </noscript>
+        </noscript> */}
         <Suspense fallback={null}>
           <GTMPageView />
         </Suspense>
