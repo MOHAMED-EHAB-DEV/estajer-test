@@ -2,7 +2,7 @@ import localFont from "next/font/local";
 import Providers from "./Providers";
 import { Suspense } from "react";
 import LocalSEO from "@/components/seo/LocalSEO";
-// import { GoogleTagManager } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import GTMPageView from "@/hooks/GTMPageView";
 import Script from "next/script";
 
@@ -212,7 +212,7 @@ export default async function RootLayout({ children, params }) {
   return (
     <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
       <head>
-        <Script
+        {/* <Script
           id="gtm-script"
           strategy="lazyOnload"
           dangerouslySetInnerHTML={{
@@ -231,9 +231,9 @@ export default async function RootLayout({ children, params }) {
               }
             `,
           }}
-        />
+        /> */}
         <LocalSEO lang={lang} />
-        <Script id="webmcp-registration" strategy="afterInteractive">
+        <Script id="webmcp-registration" strategy="lazyOnload">
           {`
             if ('modelContext' in navigator && navigator.modelContext.registerTool) {
               const controller = new AbortController();
@@ -273,6 +273,7 @@ export default async function RootLayout({ children, params }) {
         <Providers dir={lang === "ar" ? "rtl" : "ltr"} lang={lang}>
           {children}
         </Providers>
+        <GoogleTagManager gtmId="GTM-W7PNC244" />
       </body>
     </html>
   );
