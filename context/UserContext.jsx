@@ -1,7 +1,22 @@
 "use client";
-import { createContext, useContext, useState, useEffect, useRef } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  startTransition,
+} from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { sendGTMEvent } from "@next/third-parties/google";
+
+const runWhenIdle = (callback, timeout = 2000) => {
+  if (typeof window !== "undefined" && window.requestIdleCallback) {
+    window.requestIdleCallback(callback, { timeout });
+  } else {
+    setTimeout(callback, 300);
+  }
+};
 
 const UserContext = createContext();
 
@@ -25,72 +40,79 @@ export function UserProvider({ children }) {
     return "listing";
   };
 
-  const fetchUser = async () => {
-    try {
-      const res = await fetch("/api/auth/user");
-      const data = await res.json();
-      setLoading(false);
-      setUser(data.user);
-      if (!data.user) {
+  const fetchUser = () => {
+    startTransition(async () => {
+      try {
+        const res = await fetch("/api/auth/user");
+        const data = await res.json();
+        setLoading(false);
+        setUser(data.user);
+        if (!data.user) {
+          const id = localStorage.getItem("visitorId");
+          if (id) setVisitorId(id);
+        }
+        if (data.user) {
+          runWhenIdle(() => {
+            // Mark user as online (non-critical)
+            fetch("/api/auth/user/online", { method: "POST" }).catch(() => {});
+          }, 100);
+
+          // Fetch favorites concurrently in the background
+          fetchFavorites();
+          fetchVisitorCount(data.user);
+          // PERFORMANCE: Defer socket connection even further (3 seconds)
+          // Socket is not needed for initial page interaction
+          runWhenIdle(async () => {
+            const socketUrl =
+              process.env.NEXT_PUBLIC_SOCKET_URL ||
+              (process.env.NODE_ENV === "production"
+                ? window.location.origin
+                : null);
+            if (!socketUrl) return;
+
+            // Dynamically import IO only when the timeout hits
+            const { default: io } = await import("socket.io-client");
+
+            const socketConnection = io(socketUrl, {
+              path: "/socket/socket.io",
+              transports: ["polling", "websocket"],
+            });
+            // State updates inside async idle callbacks should also be transitions
+            startTransition(() => setSocket(socketConnection));
+            // Add connection event listeners
+            socketConnection.on("connect", () => {
+              socketConnection.emit("join-user", data.user._id);
+            });
+            socketConnection.on("reconnect", () =>
+              socketConnection.emit("join-user", data.user._id),
+            );
+            socketConnection.on("connect_error", (error) =>
+              console.error("Socket connection error:", error),
+            );
+          }, 3000); // Delay socket by 3 seconds
+        }
+        return data.user;
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
         const id = localStorage.getItem("visitorId");
         if (id) setVisitorId(id);
+        fetchVisitorCount(null);
       }
-      if (data.user) {
-        // PERFORMANCE: Defer ALL non-critical operations to after initial render
-        // This reduces Total Blocking Time significantly
-        setTimeout(() => {
-          // Mark user as online (non-critical)
-          fetch("/api/auth/user/online", { method: "POST" }).catch(() => {});
-
-          // Fetch favorites in background
-          fetchFavorites().catch(() => {});
-        }, 100);
-
-        // PERFORMANCE: Defer socket connection even further (3 seconds)
-        // Socket is not needed for initial page interaction
-        setTimeout(async () => {
-          const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || (process.env.NODE_ENV === "production" ? window.location.origin : null);
-          if (!socketUrl) return;
-
-          // Dynamically import IO only when the timeout hits
-          const { default: io } = await import("socket.io-client");
-
-          const socketConnection = io(socketUrl, {
-            path: "/socket/socket.io",
-            transports: ["polling", "websocket"],
-          });
-          setSocket(socketConnection);
-          // Add connection event listeners
-          socketConnection.on("connect", () => {
-            socketConnection.emit("join-user", data.user._id);
-          });
-          socketConnection.on("reconnect", () =>
-            socketConnection.emit("join-user", data.user._id),
-          );
-          socketConnection.on("connect_error", (error) =>
-            console.error("Socket connection error:", error),
-          );
-        }, 3000); // Delay socket by 3 seconds
-      }
-      return data.user;
-    } catch (error) {
-      console.error("Failed to fetch user:", error);
-      const id = localStorage.getItem("visitorId");
-      if (id) setVisitorId(id);
-    }
+    });
   };
 
-  const fetchFavorites = async () => {
-    try {
-      const res = await fetch("/api/favorites");
-      const data = await res.json();
-      if (data.success) {
-        const productIds = data.favorites.map((product) => product._id);
-        setFavoriteProducts(productIds);
+  const fetchFavorites = () => {
+    startTransition(async () => {
+      try {
+        const res = await fetch("/api/favorites");
+        const data = await res.json();
+        if (data.success) {
+          setFavoriteProducts(data.favorites.map((product) => product._id));
+        }
+      } catch (error) {
+        console.error("Failed to fetch favorites:", error);
       }
-    } catch (error) {
-      console.error("Failed to fetch favorites:", error);
-    }
+    });
   };
 
   // Detect product page and extract productId from URL
@@ -110,8 +132,8 @@ export function UserProvider({ children }) {
 
   // Fetch visitor count and increment it (non-blocking)
   const fetchVisitorCount = (currentUser) => {
-    // Use setTimeout to make this completely non-blocking
-    setTimeout(async () => {
+    // Analytics have no impact on UI, strictly defer them to idle time
+    runWhenIdle(async () => {
       try {
         const { page, productId } = getPageInfo();
 
@@ -231,9 +253,7 @@ export function UserProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchUser().then((currentUser) => {
-      fetchVisitorCount(currentUser);
-    });
+    fetchUser();
     const handleBeforeUnload = () =>
       fetch("/api/auth/user/offline", { method: "POST", keepalive: true });
     window.addEventListener("beforeunload", handleBeforeUnload);
