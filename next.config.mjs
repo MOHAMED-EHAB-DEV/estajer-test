@@ -5,7 +5,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const nextConfig = {
   distDir: process.env.BUILD_DIR || ".next",
-  assetPrefix: isProduction ? "https://assets.estajer.com" : "",
+  // assetPrefix: isProduction ? "https://assets.estajer.com" : "",
   compress: false,
   // Disable X-Powered-By header for security
   poweredByHeader: false,
