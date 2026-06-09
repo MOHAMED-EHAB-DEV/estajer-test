@@ -235,25 +235,25 @@ export default async function RootLayout({ children, params }) {
         <LocalSEO lang={lang} />
         <Script id="webmcp-registration" strategy="lazyOnload">
           {`
-            if ('modelContext' in navigator && navigator.modelContext.registerTool) {
-              const controller = new AbortController();
-              navigator.modelContext.registerTool({
-                name: 'search_products',
-                description: 'Search for products available for rent on Estajer',
-                inputSchema: {
-                  type: 'object',
-                  properties: {
-                    query: { type: 'string', description: 'The search term or product name' }
-                  },
-                  required: ['query']
-                },
-                execute: async ({ query }) => {
+            if ('modelContext' in navigator && navigator.modelContext.registerTool) { 
+              const controller = new AbortController(); 
+              navigator.modelContext.registerTool({ 
+                name: 'search_products', 
+                description: 'Search for products available for rent on Estajer', 
+                inputSchema: { 
+                  type: 'object', 
+                  properties: { 
+                    query: { type: 'string', description: 'The search term or product name' } 
+                  }, 
+                  required: ['query'] 
+                }, 
+                execute: async ({ query }) => { 
                   const lang = document.documentElement.lang;
-                  const prefix = lang === 'en' ? '/en' : '';
-                  window.location.href = \`\${prefix}/search/products?name=\${encodeURIComponent(query)}\`;
-                  return { success: true };
-                }
-              }, { signal: controller.signal });
+                  const prefix = lang === 'en' ? '/en' : ''; 
+                  window.location.href = \`\${prefix}/search/products?name=\${encodeURIComponent(query)}\`; 
+                  return { success: true }; 
+                } 
+              }, { signal: controller.signal }); 
             }
           `}
         </Script>
