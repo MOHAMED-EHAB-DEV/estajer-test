@@ -156,9 +156,9 @@ export default function ProductPageContent({
           reviews.rating?.count > 0
             ? {
                 "@type": "AggregateRating",
-                ratingValue: reviews.rating?.average,
-                ratingCount: reviews.rating?.count,
-                reviewCount: reviews.rating?.count,
+                ratingValue: reviews?.rating?.average,
+                ratingCount: reviews?.rating?.count,
+                reviewCount: reviews?.rating?.count,
                 bestRating: 5,
                 worstRating: 1,
               }

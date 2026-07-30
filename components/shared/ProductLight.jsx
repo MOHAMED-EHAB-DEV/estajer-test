@@ -78,7 +78,7 @@ export default function ProductLight({
   const gradientBg =
     product?.images?.[0]?.gradientStyle ||
     "linear-gradient(135deg, rgb(255 255 255), rgb(255 255 255))";
-  const rating = product.rating?.average;
+  const rating = product?.rating?.average;
 
   const roundedCls = sm ? "rounded-xl md:rounded-3xl" : "rounded-3xl";
   const imageRoundedCls = sm

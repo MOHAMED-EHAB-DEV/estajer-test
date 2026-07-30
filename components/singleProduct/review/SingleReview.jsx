@@ -99,7 +99,7 @@ export default function SingleRate({
                       className="w-3.5 h-3.5 md:w-5 md:h-5"
                       viewBox="0 0 22 22"
                       fill={
-                        idx < review.rating?.overall ? "#F48A42" : "#E5E5E5"
+                        idx < review?.rating?.overall ? "#F48A42" : "#E5E5E5"
                       }
                       aria-hidden="true"
                     >
@@ -108,7 +108,7 @@ export default function SingleRate({
                   ))}
                 </div>
                 <span className="text-darkNavy text-sm md:text-xl opacity-65 font-semibold">
-                  {review.rating?.overall.toFixed(1)}
+                  {review?.rating?.overall.toFixed(1)}
                 </span>
               </div>
             </div>
