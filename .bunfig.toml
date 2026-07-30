@@ -1,2 +1,0 @@
-[install]
-targets = ["browser", "windows-x64", "linux-x64"]
