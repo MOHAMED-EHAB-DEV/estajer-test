@@ -12,10 +12,10 @@ export default async function ShopsPage({ params }) {
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold flex items-center gap-3 text-darkNavy">
           <ShoppingBag className="text-primary w-8 h-8" />
-          {t("admin.shops.title")}
+          {t("admin.allShops.title")}
         </h1>
         <p className="text-neutral-500 max-w-2xl">
-          {t("admin.shops.description")}
+          {t("admin.allShops.description")}
         </p>
       </div>
 

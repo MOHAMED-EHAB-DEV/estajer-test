@@ -2,7 +2,7 @@ import React from "react";
 import { Facebook2 } from "@/components/ui/svgs/icons/Facebook2Svg";
 import { Twitter2 } from "@/components/ui/svgs/icons/Twitter2Svg";
 import { Telegram } from "@/components/ui/svgs/icons/TelegramSvg";
-import { Whatsapp2 } from "@/components/ui/svgs/icons/Whatsapp2Svg";;
+import { Whatsapp2 } from "@/components/ui/svgs/icons/Whatsapp2Svg";
 
 const ShareButtons = ({ trans, blogUrl, blogTitle }) => {
   const t = (text) => trans(`singleBlog.shareButtons.${text}`);
@@ -12,7 +12,7 @@ const ShareButtons = ({ trans, blogUrl, blogTitle }) => {
 
   return (
     <div className="border-y-1 border-y-[#B3B3B3] flex gap-4 py-8 items-center">
-      <span className="font-NotoSansArabic text-darkNavy text-medium">
+      <span className="font-NotoSansArabic text-darkNavy text-base">
         {t("shareText")}
       </span>
 

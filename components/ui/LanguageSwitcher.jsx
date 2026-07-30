@@ -3,9 +3,15 @@ import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { sendGTMEvent } from "@next/third-parties/google";
 
-export default function LanguageSwitcher({ lang, home, awareness }) {
+export default function LanguageSwitcher({
+  lang,
+  home,
+  awareness,
+  className,
+  brandColor,
+  roundedClass = "rounded-full",
+}) {
   const { user, setUser } = useUser();
   const router = useRouter();
   const currentPath = usePathname();
@@ -43,16 +49,6 @@ export default function LanguageSwitcher({ lang, home, awareness }) {
   const handleLanguageSwitch = async () => {
     const newLang = lang === "ar" ? "en" : "ar";
 
-    // Track language change intent
-    try {
-      sendGTMEvent({
-        event: "language_change",
-        location: "header",
-        previous_language: lang,
-        new_language: newLang,
-      });
-    } catch (_) {}
-    // If user is logged in and switching to a different language, update in database
     if (user && user.lang !== newLang) {
       try {
         const response = await fetch("/api/users/update-language", {
@@ -79,24 +75,23 @@ export default function LanguageSwitcher({ lang, home, awareness }) {
   return (
     <div
       onClick={handleLanguageSwitch}
-      className="relative flex items-center rounded-full p-1 shadow-sm cursor-pointer select-none"
-      style={{
-        background: home
-          ? "rgba(255, 255, 255, 0.15)"
-          : "linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)",
-        backdropFilter: home ? "blur(8px)" : "none",
-      }}
+      className={
+        className ||
+        `relative flex items-center rounded-full p-1 shadow-sm cursor-pointer select-none ${
+          home
+            ? "bg-white/15 backdrop-blur"
+            : "bg-gradient-to-br from-[#f3f4f6] to-[#e5e7eb]"
+        }`
+      }
       role="button"
       aria-label="Toggle language"
     >
       {/* Sliding indicator */}
       <div
-        className="absolute top-0.5 bottom-0.5 rounded-full transition-all duration-300 ease-out w-1/2 right-1"
-        style={{
-          background: home
-            ? "linear-gradient(135deg, #F48A42 0%, #e67730 100%)"
-            : "linear-gradient(135deg, #0D092B 0%, #1a1445 100%)",
-        }}
+        className={`absolute top-0.5 bottom-0.5 transition-all duration-300 ease-out w-1/2 right-1 ${roundedClass} ${
+          brandColor ? "" : home ? "bg-primary" : "bg-darkNavy"
+        }`}
+        style={brandColor ? { backgroundColor: brandColor } : {}}
       />
 
       {/* Arabic label */}

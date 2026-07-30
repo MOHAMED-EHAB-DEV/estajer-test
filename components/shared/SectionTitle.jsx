@@ -31,7 +31,7 @@ export default function SectionTitle({
         </h3>
       )}
       <p
-        className="text-[#5B5656] lg:text-[1.1rem] md:text-[1.2rem] px-2"
+        className="text-mutedGray lg:text-1.1 md:text-1.2 px-2"
         itemProp="description"
       >
         {text}

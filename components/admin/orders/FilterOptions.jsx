@@ -1,6 +1,6 @@
 "use client";
 import { useTranslations } from "@/hooks/useTranslations";
-import { Select, SelectItem } from "@heroui/react";
+import { Select, SelectItem } from "@/components/ui/Select";
 import { Print } from "@/components/ui/svgs/icons/PrintSvg";
 import { Search } from "@/components/ui/svgs/icons/SearchSvg";
 import { Add } from "@/components/ui/svgs/icons/AddSvg";
@@ -46,9 +46,7 @@ const FilterOptions = ({
   selectedPartner,
   setSelectedPartner,
   partners,
-  dateAddedOptions=[
-    { key: "all" }
-  ],
+  dateAddedOptions = [{ key: "all" }],
 }) => {
   const trans = useTranslations(translate);
   const t = (text) => trans(`admin.filterOptions.${text}`);
@@ -162,7 +160,7 @@ const FilterOptions = ({
         {showSearch && (
           <>
             <div className="relative flex-1 min-w-[200px] flex items-center bg-white rounded-xl border border-[#f48a42]/20 focus-within:border-[#f48a42] focus-within:ring-2 focus-within:ring-[#f48a42]/10 transition-all">
-              <div className="absolute start-4 top-1/2 -translate-y-1/2 text-[#f48a42]">
+              <div className="absolute start-4 top-1/2 -translate-y-1/2 text-primary">
                 <Search className="md:w-5 md:h-5 w-3.5 h-3.5" />
               </div>
               <input
@@ -177,7 +175,7 @@ const FilterOptions = ({
 
             {setOwnerSearch !== undefined && (
               <div className="relative flex-1 min-w-[200px] flex items-center bg-white rounded-xl border border-[#f48a42]/20 focus-within:border-[#f48a42] focus-within:ring-2 focus-within:ring-[#f48a42]/10 transition-all">
-                <div className="absolute start-4 top-1/2 -translate-y-1/2 text-[#f48a42]">
+                <div className="absolute start-4 top-1/2 -translate-y-1/2 text-primary">
                   <Search className="md:w-5 md:h-5 w-3.5 h-3.5" />
                 </div>
                 <input
@@ -193,7 +191,7 @@ const FilterOptions = ({
 
             {setCustomerSearch !== undefined && (
               <div className="relative flex-1 min-w-[150px] flex items-center bg-white rounded-xl border border-[#f48a42]/20 focus-within:border-[#f48a42] focus-within:ring-2 focus-within:ring-[#f48a42]/10 transition-all">
-                <div className="absolute start-4 top-1/2 -translate-y-1/2 text-[#f48a42]">
+                <div className="absolute start-4 top-1/2 -translate-y-1/2 text-primary">
                   <Search className="md:w-5 md:h-5 w-3.5 h-3.5" />
                 </div>
                 <input
@@ -244,7 +242,7 @@ const FilterOptions = ({
           </Button>
         )}
         {isShowAddButton && (
-          <Button className="bg-[#f48a42] md:py-2 py-1.5 md:px-6 px-4 text-white font-semibold text-xs md:text-sm rounded-xl flex items-center justify-center gap-2">
+          <Button className="bg-primary md:py-2 py-1.5 md:px-6 px-4 text-white font-semibold text-xs md:text-sm rounded-xl flex items-center justify-center gap-2">
             <Add className="md:w-4 md:h-4 w-3 h-3" />
             {t("addNewProduct")}
           </Button>

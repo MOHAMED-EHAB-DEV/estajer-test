@@ -1,15 +1,38 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  lazy,
+  Suspense,
+} from "react";
 import Link from "next/link";
 import { anyImgUrl } from "@/utils/ImageUrl";
 import { useTranslations } from "@/hooks/useTranslations";
 
+const EmblaInit = lazy(() =>
+  import("embla-carousel-react").then((mod) => {
+    const useEmblaCarousel = mod.default;
+    function Inner({ onReady, lang }) {
+      const [emblaRef, emblaApi] = useEmblaCarousel({
+        loop: true,
+        duration: 30,
+        direction: lang === "ar" ? "rtl" : "ltr",
+      });
+      useEffect(() => {
+        onReady(emblaRef, emblaApi);
+      }, [emblaRef, emblaApi, onReady]);
+      return null;
+    }
+    return { default: Inner };
+  }),
+);
+
 export default function HeroSlider({
   banners = [],
   lang,
-  fallbackData,
   isAdminMode = false,
   onEditField = () => {},
   onEditImages = () => {},
@@ -19,61 +42,239 @@ export default function HeroSlider({
   const trans = useTranslations(translate);
   const t = (key) => trans("heroSlider." + key);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  // Use admin banners or construct fallback banner
   const slides = banners.length > 0 ? banners : [];
+  const total = slides.length;
 
-  const handleNext = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
-  }, [slides.length]);
-
-  const handlePrev = useCallback(() => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + slides.length) % slides.length,
-    );
-  }, [slides.length]);
-
-  // Autoplay
+  const [shouldLoadCarousel, setShouldLoadCarousel] = useState(false);
   useEffect(() => {
-    if (slides.length <= 1) return;
-    const interval = setInterval(handleNext, 6000);
-    return () => clearInterval(interval);
-  }, [handleNext, slides.length, currentIndex]);
+    const load = () => setShouldLoadCarousel(true);
+    const t = setTimeout(load, 1000);
+    window.addEventListener("scroll", load, { passive: true, once: true });
+    window.addEventListener("touchstart", load, { passive: true, once: true });
+    window.addEventListener("click", load, { passive: true, once: true });
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("scroll", load);
+      window.removeEventListener("touchstart", load);
+      window.removeEventListener("click", load);
+    };
+  }, []);
 
-  // Map text alignment
-  const positionClasses = {
-    start:
-      "text-center items-center justify-center md:text-start md:items-start md:ps-6",
-    center: "text-center items-center justify-center",
-    end: "text-center items-center justify-center md:text-end md:items-end md:justify-end md:pe-6",
-  };
+  const [emblaRef, setEmblaRef] = useState(null);
+  const [emblaApi, setEmblaApi] = useState(null);
 
-  const innerPosClasses = {
-    start: "items-center md:items-start text-center md:text-start",
-    center: "items-center text-center",
-    end: "items-center md:items-end text-center md:text-end",
-  };
+  const handleEmblaReady = useCallback((ref, api) => {
+    setEmblaRef(() => ref);
+    setEmblaApi(api);
+  }, []);
 
-  const getSlideImage = (src) => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const containerRef = useRef(null);
+  const isInViewRef = useRef(false);
+
+  const intervalRef = useRef(null);
+
+  const resetTimer = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (
+      typeof document !== "undefined" &&
+      (document.hidden || !isInViewRef.current)
+    )
+      return;
+    intervalRef.current = setInterval(() => {
+      if (isInViewRef.current && emblaApi) emblaApi.scrollNext();
+    }, 6000);
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+    // Reset autoplay timer whenever the user starts dragging/swiping
+    emblaApi.on("pointerDown", resetTimer);
+  }, [emblaApi, onSelect, resetTimer]);
+
+  // Autoplay — only ticks while slider is visible in viewport and tab is active
+  useEffect(() => {
+    if (!emblaApi || total <= 1) return;
+
+    resetTimer();
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+      } else {
+        resetTimer();
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isInViewRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          resetTimer();
+        } else {
+          if (intervalRef.current) clearInterval(intervalRef.current);
+        }
+      },
+      { threshold: 0.3 },
+    );
+    if (containerRef.current) observer.observe(containerRef.current);
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [emblaApi, resetTimer, total]);
+
+  const getSlideImage = (src, width = 1600) => {
     if (!src) return "";
-    if (src.startsWith("data:") || src.startsWith("blob:")) {
-      return src;
-    }
-    return anyImgUrl({ src, size: 1600, quality: 85 });
+    if (src.startsWith("data:") || src.startsWith("blob:")) return src;
+    return anyImgUrl({ src, size: width, quality: 85 });
   };
+
+  const activeSlide = slides[selectedIndex] || {};
+  const slideBtnText =
+    lang === "en" ? activeSlide.buttonTextEn : activeSlide.buttonTextAr;
+  const slideLink =
+    lang === "en" && activeSlide.linkEn
+      ? activeSlide.linkEn
+      : activeSlide.link || "";
+
+  const progressPercent = total > 0 ? ((selectedIndex + 1) / total) * 100 : 0;
+  const padIndex = (n) => String(n).padStart(2, "0");
 
   return (
-    <div className="relative w-full min-h-[430px] md:aspect-[2.6/1] overflow-hidden bg-darkNavy">
-      {/* Top gradient shadow overlay for header readability */}
-      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black/60 to-transparent z-20 pointer-events-none" />
-      {/* Admin Floating Toolbelt at Top Left */}
+    <div
+      ref={containerRef}
+      className="select-none relative w-full min-h-[470px] md:aspect-[2.3/1] overflow-hidden bg-darkNavy flex flex-col justify-end"
+    >
+      {/* Top gradient shadow for header readability */}
+      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black/30 to-transparent z-20 pointer-events-none" />
+
+      {shouldLoadCarousel && (
+        <Suspense fallback={null}>
+          <EmblaInit onReady={handleEmblaReady} lang={lang} />
+        </Suspense>
+      )}
+
+      {/* ── Background Images Layer (Embla Viewport) ── */}
+      <div
+        className="absolute inset-0 w-full h-full overflow-hidden"
+        ref={emblaRef ?? undefined}
+      >
+        <div className="flex h-full w-full">
+          {/* hero items */}
+          {slides.map((slide, idx) => {
+            const slideImage =
+              lang === "en" && slide.imageEn ? slide.imageEn : slide.image;
+            const mobileImage =
+              lang === "en" && slide.imageMobileEn
+                ? slide.imageMobileEn
+                : slide.imageMobile || slideImage;
+            const posX = slide.imagePositionX || "center";
+            const posY = slide.imagePositionY || "center";
+
+            const imgSmallMobile = getSlideImage(mobileImage, 400);
+            const imgMobile = getSlideImage(mobileImage, 500);
+            const imgLargeMobile = getSlideImage(mobileImage, 768);
+            const imgTablet = getSlideImage(slideImage, 1024);
+            const imgDesktop = getSlideImage(slideImage, 1400);
+            const altText = lang === "ar" ? slide.altAr : slide.altEn;
+
+            return (
+              <div
+                key={slide._id || idx}
+                className="relative w-full h-full flex-[0_0_100%] min-w-0"
+              >
+                {idx === 0 && (
+                  <>
+                    <link
+                      rel="preload"
+                      as="image"
+                      href={imgSmallMobile}
+                      media="(max-width: 400px)"
+                      fetchPriority="high"
+                    />
+                    <link
+                      rel="preload"
+                      as="image"
+                      href={imgMobile}
+                      media="(min-width: 401px) and (max-width: 500px)"
+                      fetchPriority="high"
+                    />
+                    <link
+                      rel="preload"
+                      as="image"
+                      href={imgLargeMobile}
+                      media="(min-width: 501px) and (max-width: 768px)"
+                      fetchPriority="high"
+                    />
+                    <link
+                      rel="preload"
+                      as="image"
+                      href={imgTablet}
+                      media="(min-width: 769px) and (max-width: 1024px)"
+                      fetchPriority="high"
+                    />
+                    <link
+                      rel="preload"
+                      as="image"
+                      href={imgDesktop}
+                      media="(min-width: 1025px)"
+                      fetchPriority="high"
+                    />
+                  </>
+                )}
+                <picture className="absolute inset-0 w-full h-full">
+                  <source media="(max-width: 400px)" srcSet={imgSmallMobile} />
+                  <source
+                    media="(min-width: 401px) and (max-width: 500px)"
+                    srcSet={imgMobile}
+                  />
+                  <source
+                    media="(min-width: 501px) and (max-width: 768px)"
+                    srcSet={imgLargeMobile}
+                  />
+                  <source
+                    media="(min-width: 769px) and (max-width: 1024px)"
+                    srcSet={imgTablet}
+                  />
+                  <source media="(min-width: 1025px)" srcSet={imgDesktop} />
+                  <img
+                    src={imgDesktop}
+                    alt={altText || ""}
+                    fetchPriority={idx === 0 ? "high" : "low"}
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    style={{ objectPosition: `${posX} ${posY}` }}
+                    className="object-cover w-full h-full"
+                  />
+                </picture>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Stationary Gradient Overlay — bottom only ── */}
+      <div className="absolute bottom-0 left-0 right-0 top-auto h-[60%] lg:h-[55%] bg-gradient-to-t from-slate-950/70 md:from-slate-950/90 via-slate-950/40 lg:via-slate-950/60 to-transparent z-10 pointer-events-none" />
+
+      {/* ── Admin Floating Toolbelt ── */}
       {isAdminMode && (
-        <div className="absolute top-4 start-4 z-30 flex flex-wrap gap-2.5">
+        <div className="absolute top-14 start-4 z-30 flex flex-wrap gap-2.5">
           <button
             type="button"
             onClick={() => onEditImages()}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/95 hover:bg-white text-darkNavy font-semibold text-xs shadow-lg backdrop-blur-sm transition-all duration-300 transform active:scale-95 cursor-pointer border border-white/20 hover:border-white/40"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/95 hover:bg-white text-darkNavy font-semibold text-xs shadow-lg backdrop-blur-sm transition-all duration-300 active:scale-95 cursor-pointer border border-white/20"
           >
             <svg
               className="w-3.5 h-3.5 text-primary"
@@ -90,11 +291,10 @@ export default function HeroSlider({
             </svg>
             {t("admin.changeBackground")}
           </button>
-
           <button
             type="button"
             onClick={() => onEditPosition()}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/95 hover:bg-white text-darkNavy font-semibold text-xs shadow-lg backdrop-blur-sm transition-all duration-300 transform active:scale-95 cursor-pointer border border-white/20 hover:border-white/40"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/95 hover:bg-white text-darkNavy font-semibold text-xs shadow-lg backdrop-blur-sm transition-all duration-300 active:scale-95 cursor-pointer border border-white/20"
           >
             <svg
               className="w-3.5 h-3.5 text-primary"
@@ -111,11 +311,10 @@ export default function HeroSlider({
             </svg>
             {t("admin.imagePosition")}
           </button>
-
           <button
             type="button"
             onClick={() => onEditField("cta")}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/95 hover:bg-white text-darkNavy font-semibold text-xs shadow-lg backdrop-blur-sm transition-all duration-300 transform active:scale-95 cursor-pointer border border-white/20 hover:border-white/40"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/95 hover:bg-white text-darkNavy font-semibold text-xs shadow-lg backdrop-blur-sm transition-all duration-300 active:scale-95 cursor-pointer border border-white/20"
           >
             <svg
               className="w-3.5 h-3.5 text-primary"
@@ -135,178 +334,193 @@ export default function HeroSlider({
         </div>
       )}
 
-      {/* Background slide wrapper */}
-      <div className="absolute inset-0 w-full h-full">
-        {slides.map((slide, idx) => {
-          const isActive = idx === currentIndex;
-          const slideImage =
-            lang === "en" && slide.imageEn ? slide.imageEn : slide.image;
-          const slideTitle = lang === "en" ? slide.titleEn : slide.titleAr;
-          const slideSubtitle =
-            lang === "en" ? slide.subtitleEn : slide.subtitleAr;
-          const slideBtnText =
-            lang === "en" ? slide.buttonTextEn : slide.buttonTextAr;
-          const currentPosClass =
-            positionClasses[slide.textPosition || "start"];
-          const currentInnerPosClass =
-            innerPosClasses[slide.textPosition || "start"];
-          const posX = slide.imagePositionX || "center";
-          const posY = slide.imagePositionY || "center";
-          const objectPositionStyle = `${posX} ${posY}`;
+      {/* ── Bottom Content HUD ── */}
+      <div
+        className={`${isAdminMode ? "pb-8" : "pb-12 md:pb-20 lg:pb-24"} pointer-events-none max-w-screen-2xl mx-auto relative z-20 px-4 md:px-6  text-white w-full`}
+      >
+        {/* Text blocks container — renders all slides for SEO but visually toggles visibility/animation */}
+        <div className="relative min-h-[120px] mb-2 md:mb-8 flex items-end">
+          {slides.map((slide, idx) => {
+            const title = lang === "en" ? slide.titleEn : slide.titleAr;
+            const subtitle =
+              lang === "en" ? slide.subtitleEn : slide.subtitleAr;
+            const isActive = idx === selectedIndex;
 
-          return (
-            <div
-              key={slide._id || idx}
-              className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
-                isActive
-                  ? "opacity-100 z-10 pointer-events-auto"
-                  : "opacity-0 z-0 pointer-events-none"
-              }`}
-            >
-              {/* Background image overlay to ensure text readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-darkNavy/85 via-black/40 to-black/20 z-10" />
-              <Image
-                src={getSlideImage(slideImage)}
-                unoptimized
-                alt={lang === "ar" ? slide.altAr : slide.altEn}
-                fill
-                priority={isActive || idx === 0}
-                style={{ objectPosition: objectPositionStyle }}
-                className="object-cover w-full h-full"
-              />
-
-              {/* Slide text contents */}
-              <div className="absolute inset-0 z-10 flex items-center justify-center w-full max-w-screen-2xl mx-auto">
-                <div
-                  className={`flex flex-col w-full h-full justify-center ${currentPosClass}`}
-                >
-                  <div
-                    className={`max-w-[750px] mt-[-30px] pt-14 md:pt-0 px-4 transition-all duration-1000 transform ${
-                      isActive
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-4 opacity-0"
+            return (
+              <div
+                key={slide._id || idx}
+                className={`max-w-xl transition-all duration-300  ${
+                  isActive
+                    ? "relative z-10 block"
+                    : "absolute inset-x-0 top-0 pointer-events-none opacity-0 invisible h-0 overflow-hidden"
+                }`}
+              >
+                {idx === 0 ? (
+                  <h1
+                    className={`font-IBMPlex text-2xl md:text-[2.8rem] font-bold leading-tight md:mb-3 mb-2 ${
+                      isActive ? "hero-stagger-1" : "opacity-0"
                     }`}
                     style={{ color: slide.textColor || "#ffffff" }}
                   >
-                    <h2 className="group relative font-IBMPlex text-2xl md:text-[3.8rem] font-bold mb-4 leading-tight">
-                      {slideTitle || t("mainTitle")}
-                      {isAdminMode && (
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onEditField("texts");
-                          }}
-                          className="p-1.5 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 cursor-pointer scale-90 pointer-events-auto"
-                          title={t("admin.editTexts")}
-                        >
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                            />
-                          </svg>
-                        </button>
-                      )}
-                    </h2>
-                    <p className="group relative md:text-[1.8rem] opacity-90 max-w-[600px] flex items-center gap-3 w-fit">
-                      {slideSubtitle || t("subtitle")}
-                      {isAdminMode && (
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onEditField("texts");
-                          }}
-                          className="p-1.5 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 cursor-pointer scale-90 pointer-events-auto"
-                          title={t("admin.editTexts")}
-                        >
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                            />
-                          </svg>
-                        </button>
-                      )}
-                    </p>
-                    {slideBtnText && slide.link && (
-                      <Link
-                        href={
-                          slide.link.startsWith("/")
-                            ? slide.link
-                            : `/${slide.link}`
-                        }
-                        className="inline-block px-8 py-3.5 bg-primary hover:bg-primary/90 text-white rounded-full font-IBMPlex font-bold text-base transition-all duration-300 shadow-lg pointer-events-auto"
+                    {title || t("mainTitle")}
+                    {isAdminMode && isActive && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEditField("texts");
+                        }}
+                        className="ms-2 p-1.5 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm transition-all duration-300 cursor-pointer"
+                        title={t("admin.editTexts")}
                       >
-                        {slideBtnText}
-                      </Link>
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                          />
+                        </svg>
+                      </button>
                     )}
-                  </div>
-                </div>
+                  </h1>
+                ) : (
+                  <h2
+                    className={`font-IBMPlex text-2xl md:text-[2.8rem] font-bold leading-tight md:mb-3 mb-2 ${
+                      isActive ? "hero-stagger-1" : "opacity-0"
+                    }`}
+                    style={{ color: slide.textColor || "#ffffff" }}
+                  >
+                    {title || t("mainTitle")}
+                    {isAdminMode && isActive && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEditField("texts");
+                        }}
+                        className="ms-2 p-1.5 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm transition-all duration-300 cursor-pointer"
+                        title={t("admin.editTexts")}
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                          />
+                        </svg>
+                      </button>
+                    )}
+                  </h2>
+                )}
+                <p
+                  className={`text-sm md:text-lg opacity-85 leading-relaxed ${
+                    isActive ? "hero-stagger-2" : "opacity-0"
+                  }`}
+                  style={{ color: slide.textColor || "#ffffff" }}
+                >
+                  {subtitle || t("subtitle")}
+                </p>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
 
-      {/* Navigation Arrows */}
-      {slides.length > 1 && (
-        <>
-          <button
-            onClick={handlePrev}
-            className="hidden md:flex absolute z-20 start-4 top-1/2 -translate-y-1/2 items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white transition-all group duration-300 active:scale-95"
-            aria-label={t("prevSlide")}
-          >
-            <svg
-              className="w-6 h-6 transform transition-transform duration-300 group-hover:scale-110 rtl:rotate-180"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-          <button
-            onClick={handleNext}
-            className="hidden md:flex absolute z-20 end-4 top-1/2 -translate-y-1/2 items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white transition-all group duration-300 active:scale-95"
-            aria-label={t("nextSlide")}
-          >
-            <svg
-              className="w-6 h-6 transform transition-transform duration-300 group-hover:scale-110 rtl:rotate-180"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
-        </>
-      )}
+        {/* Bottom control bar */}
+        <div className="md:border-t border-white/10 md:pt-5 pt-1 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-5">
+          {/* CTA + Arrows */}
+          <div className="flex items-center gap-3 flex-wrap">
+            {slideBtnText && slideLink && (
+              <Link
+                href={slideLink.startsWith("/") ? slideLink : `/${slideLink}`}
+                className="hero-stagger-3 pointer-events-auto inline-block md:px-8 px-6 md:py-3 py-2 bg-primary hover:bg-primary/90 text-white rounded-full font-bold md:text-sm text-[12px] transition-all duration-300 shadow-lg"
+              >
+                {slideBtnText}
+              </Link>
+            )}
+            {total > 1 && (
+              <div className="hero-stagger-3 hidden md:flex border border-white/10 rounded-full">
+                <button
+                  onClick={() => {
+                    emblaApi && emblaApi.scrollPrev();
+                    resetTimer();
+                  }}
+                  className="w-14 h-11 border-e border-white/10 flex items-center justify-center rounded-s-full hover:bg-white/10 transition-colors"
+                  aria-label={t("prevSlide")}
+                >
+                  <svg
+                    className="w-4 h-4 rtl:rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2.5}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => {
+                    emblaApi && emblaApi.scrollNext();
+                    resetTimer();
+                  }}
+                  className="w-14 h-11 flex items-center justify-center hover:bg-white/10 rounded-e-full transition-colors"
+                  aria-label={t("nextSlide")}
+                >
+                  <svg
+                    className="w-4 h-4 rtl:rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2.5}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Progress bar */}
+          {total > 1 && (
+            <div className="hidden md:flex items-center gap-3 w-full md:w-60">
+              <span className="font-mono text-xs text-white/50 tabular-nums">
+                {padIndex(selectedIndex + 1)}
+              </span>
+              <div className="flex-1 bg-white/20 h-px relative rounded-full overflow-hidden">
+                <div
+                  className="absolute start-0 top-0 h-full bg-primary rounded-full"
+                  style={{
+                    width: `${progressPercent}%`,
+                    transition: "width 500ms ease-out",
+                  }}
+                />
+              </div>
+              <span className="font-mono text-xs text-white/50 tabular-nums">
+                {padIndex(total)}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

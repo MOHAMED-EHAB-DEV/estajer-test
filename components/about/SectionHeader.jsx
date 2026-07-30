@@ -14,7 +14,7 @@ export function SectionHeader({
 
   return (
     <div className="text-center mb-8 md:mb-16">
-      <div className="inline-flex items-center gap-2.5 md:gap-3 text-[#FF8C42] font-bold text-xs md:text-sm mb-3.5 md:mb-5 before:content-[''] before:w-[20px] md:before:w-[30px] before:h-[2px] before:bg-[#FF8C42] after:content-[''] after:w-[20px] md:after:w-[30px] after:h-[2px] after:bg-[#FF8C42]">
+      <div className="inline-flex items-center gap-2.5 md:gap-3 text-brandOrangeAlt font-bold text-xs md:text-sm mb-3.5 md:mb-5 before:content-[''] before:w-[20px] md:before:w-7.5 before:h-[2px] before:bg-brandOrangeAlt after:content-[''] after:w-[20px] md:after:w-7.5 after:h-[2px] after:bg-brandOrangeAlt">
         {Icon && <Icon className="w-3.5 h-3.5 md:w-4 md:h-4" />}
         {description1}
       </div>

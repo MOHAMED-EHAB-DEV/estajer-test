@@ -1,7 +1,12 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import PushNotificationModal from "../shared/PushNotificationModal";
 import { useEffect, useState, Suspense } from "react";
+import dynamic from "next/dynamic";
+
+const PushNotificationModal = dynamic(
+  () => import("../shared/PushNotificationModal"),
+  { ssr: false },
+);
 
 function PushNotificationTriggerContent({ lang, translate }) {
   const searchParams = useSearchParams();

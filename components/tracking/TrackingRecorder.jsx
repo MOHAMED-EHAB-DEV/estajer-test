@@ -7,6 +7,21 @@ let globalSessionInitialized = false;
 let globalLastTrackedPath = null;
 let globalLastUserId = null;
 
+// Polyfill Node.prototype.matches to prevent rrweb blockSelector errors on non-element nodes (like TextNode/Comment)
+if (typeof window !== "undefined" && !Node.prototype.matches) {
+  Node.prototype.matches = function (selector) {
+    if (this.nodeType === 1) {
+      // ELEMENT_NODE
+      const nativeMatches =
+        Element.prototype.matches ||
+        Element.prototype.webkitMatchesSelector ||
+        Element.prototype.msMatchesSelector;
+      return nativeMatches ? nativeMatches.call(this, selector) : false;
+    }
+    return false;
+  };
+}
+
 export default function TrackingRecorder() {
   const { user } = useUser();
   const pathname = usePathname();
@@ -215,6 +230,7 @@ export default function TrackingRecorder() {
               eventsRef.current.push(event);
             },
             // Optimization options to reduce data size
+            // blockSelector: "svg",
             sampling: {
               mousemove: 500, // Reduced frequency further
               mouseInteraction: {
@@ -229,7 +245,7 @@ export default function TrackingRecorder() {
               scroll: 600,
               input: "last",
             },
-            slimDOM: true, // Strips out scripts and other unnecessary elements
+            slimDOM: true,
             recordCanvas: false,
             collectFonts: false,
             inlineStylesheet: false,
@@ -305,8 +321,57 @@ export default function TrackingRecorder() {
 
     // Always stop previous before potentially starting new
     stopRecording();
+
     if (!isAdminPage) {
-      startRecording();
+      let interactionStarted = false;
+      const onFirstInteraction = () => {
+        if (interactionStarted) return;
+        interactionStarted = true;
+        clearTimeout(fallbackTimerId);
+        cleanupInteractionListeners();
+        startRecording();
+      };
+
+      const interactionOpts = { passive: true, capture: false, once: true };
+      window.addEventListener(
+        "pointerdown",
+        onFirstInteraction,
+        interactionOpts,
+      );
+      window.addEventListener("scroll", onFirstInteraction, interactionOpts);
+      window.addEventListener("wheel", onFirstInteraction, interactionOpts);
+      window.addEventListener("keydown", onFirstInteraction, interactionOpts);
+
+      const cleanupInteractionListeners = () => {
+        window.removeEventListener(
+          "pointerdown",
+          onFirstInteraction,
+          interactionOpts,
+        );
+        window.removeEventListener(
+          "scroll",
+          onFirstInteraction,
+          interactionOpts,
+        );
+        window.removeEventListener(
+          "wheel",
+          onFirstInteraction,
+          interactionOpts,
+        );
+        window.removeEventListener(
+          "keydown",
+          onFirstInteraction,
+          interactionOpts,
+        );
+      };
+      // 8s fallback — ensures recording starts even with no user input
+      const fallbackTimerId = setTimeout(onFirstInteraction, 8000);
+      return () => {
+        clearTimeout(fallbackTimerId);
+        cleanupInteractionListeners();
+        flushEvents();
+        stopRecording();
+      };
     } else if (
       sessionIdRef.current &&
       pathname &&

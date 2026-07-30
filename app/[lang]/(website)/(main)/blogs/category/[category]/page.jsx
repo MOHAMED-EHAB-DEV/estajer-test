@@ -31,6 +31,27 @@ export async function generateMetadata({ params }) {
       description: description,
       url: `${siteURL}/${lang === "ar" ? "" : `${lang}/`}blogs/category/${category}`,
       type: "website",
+      images: [
+        {
+          url:
+            lang === "ar"
+              ? `${siteURL}/og/blogs_ar.webp`
+              : `${siteURL}/og/blogs_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - المدونة" : "Estajer - Blog",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: title,
+      description: description,
+      images: [
+        lang === "ar"
+          ? `${siteURL}/og/blogs_ar.webp`
+          : `${siteURL}/og/blogs_en.webp`,
+      ],
     },
   };
 }
@@ -40,7 +61,7 @@ const getBlogPosts = async (
   limit = 15,
   lang,
   category = "latestNews",
-  skip = 0
+  skip = 0,
 ) => {
   try {
     const res = await fetch(
@@ -74,14 +95,14 @@ const Page = async ({ params, searchParams }) => {
     limit,
     langSuffix,
     category || "latestNews",
-    skip
+    skip,
   );
   return (
     <div className="py-16 flex flex-col gap-8 px-4 md:px-8 max-w-screen-2xl mx-auto">
       <TitleWithSegments
         title={translate("titles.blogs")}
         translate={translate()}
-        titleClassNames="lg:text-[2.8rem] md:text-[2.6rem] text-[2rem] text-[#F48A42]"
+        titleClassNames="lg:text-[2.8rem] md:text-[2.6rem] text-[2rem] text-primary"
         isMain={true}
       />
 

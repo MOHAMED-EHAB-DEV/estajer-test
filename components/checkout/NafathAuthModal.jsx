@@ -6,11 +6,10 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
-  Spinner,
-} from "@heroui/react";
+} from "@/components/ui/CustomModal";
+import { Input } from "@/components/ui/Input";
+import { Spinner } from "@/components/ui/Spinner";
 import Button from "../ui/Button";
-import { sendGTMEvent } from "@next/third-parties/google";
 
 export default function NafathAuthModal({
   isOpen,
@@ -26,16 +25,26 @@ export default function NafathAuthModal({
   const [transactionData, setTransactionData] = useState(null);
   const [status, setStatus] = useState("");
 
+  const handleNationalIdChange = (val) => {
+    const cleaned = val.replace(/\D/g, "").slice(0, 10);
+    setNationalId(cleaned);
+  };
+
   const handleSendRequest = async () => {
-    if (!nationalId) return onError?.(t("validation.nationalIdRequired"));
+    if (!nationalId || nationalId.length !== 10) {
+      return onError?.(t("validation.nationalIdRequired"));
+    }
 
     setLoading(true);
     try {
-      const response = await fetch("/api/auth/nafath/send-request?client=true", {
-        method: "POST",
-        body: JSON.stringify({ nationalId }),
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await fetch(
+        "/api/auth/nafath/send-request?client=true",
+        {
+          method: "POST",
+          body: JSON.stringify({ nationalId }),
+          headers: { "Content-Type": "application/json" },
+        },
+      );
       const data = await response.json();
 
       if (data.success) {
@@ -44,16 +53,11 @@ export default function NafathAuthModal({
         startPolling(data);
         openNafathApp();
       } else {
-        // GTM event: Nafath request failed
-        sendGTMEvent({
-          event: "nafath_request_failed",
-          detail: data.message || data.detail || undefined,
-        });
         onError?.(data.message || data.detail || t("errors.requestFailed"));
       }
     } catch (error) {
       // GTM event: Nafath request network error
-      sendGTMEvent({ event: "nafath_request_error" });
+
       onError?.(t("errors.networkError"));
     } finally {
       setLoading(false);
@@ -63,11 +67,14 @@ export default function NafathAuthModal({
   const startPolling = ({ transId, random }) => {
     const pollInterval = setInterval(async () => {
       try {
-        const response = await fetch("/api/auth/nafath/check-status?client=true", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nationalId, transId, random }),
-        });
+        const response = await fetch(
+          "/api/auth/nafath/check-status?client=true",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nationalId, transId, random }),
+          },
+        );
 
         const statusData = await response.json();
         setStatus(statusData.status);
@@ -75,7 +82,6 @@ export default function NafathAuthModal({
         if (statusData.status === "COMPLETED") {
           clearInterval(pollInterval);
           // GTM event: Nafath verification succeeded
-          sendGTMEvent({ event: "nafath_verification_success" });
           onSuccess?.(statusData);
           onClose();
         } else if (
@@ -84,10 +90,6 @@ export default function NafathAuthModal({
         ) {
           clearInterval(pollInterval);
           // GTM event: Nafath verification failed
-          sendGTMEvent({
-            event: "nafath_verification_failed",
-            status: statusData.status,
-          });
           onError?.(t(`status.${statusData.status.toLowerCase()}`));
           // Reset after 2.5s so user can resend without reloading
           setTimeout(() => {
@@ -98,7 +100,6 @@ export default function NafathAuthModal({
       } catch (error) {
         clearInterval(pollInterval);
         // GTM event: Nafath status check error
-        sendGTMEvent({ event: "nafath_status_check_error" });
         onError?.(t("errors.statusCheckFailed"));
         // Reset so user can retry
         setTimeout(() => {
@@ -111,7 +112,6 @@ export default function NafathAuthModal({
     setTimeout(() => {
       clearInterval(pollInterval);
       // GTM event: Nafath verification timeout
-      sendGTMEvent({ event: "nafath_verification_timeout" });
       setStatus((prev) => {
         if (prev !== "COMPLETED") {
           onError?.(t("status.expired"));
@@ -131,8 +131,19 @@ export default function NafathAuthModal({
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const isAndroid = /Android/.test(navigator.userAgent);
 
-    if (isIOS) window.location.href = "nafath://home";
-    else if (isAndroid) window.location.href = "nic://nafath";
+    if (isIOS) {
+      const now = Date.now();
+      window.location.href = "nafath://home";
+      setTimeout(() => {
+        if (Date.now() - now < 2500) {
+          window.location.href =
+            "https://apps.apple.com/sa/app/nafath-%D9%86%D9%81%D8%A7%D8%B0/id1598909871";
+        }
+      }, 2000);
+    } else if (isAndroid) {
+      window.location.href =
+        "intent://nafath#Intent;scheme=nic;package=sa.gov.nic.myid;S.browser_fallback_url=https://play.google.com/store/apps/details?id=sa.gov.nic.myid;end";
+    }
   };
 
   const getStatusConfig = () => {
@@ -232,12 +243,12 @@ export default function NafathAuthModal({
         backdrop: "bg-black/50 backdrop-blur-sm",
       }}
     >
-      <ModalContent className="overflow-hidden">
+      <ModalContent className="overflow-hidden rounded-xl">
         {(onClose) => (
           <>
             {/* Header */}
-            <ModalHeader className="flex flex-col gap-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white p-6 relative overflow-hidden">
-              <div className="relative z-10 flex items-center gap-4">
+            <ModalHeader className="flex flex-col items-start gap-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white p-6 relative overflow-hidden rounded-xl">
+              <div className="relative z-10 flex items-center justify-start gap-4">
                 <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
                   <svg
                     className="w-6 h-6 text-white"
@@ -290,10 +301,12 @@ export default function NafathAuthModal({
                   <div className="space-y-4">
                     <Input
                       type="text"
+                      inputMode="numeric"
+                      maxLength={10}
                       label={t("form.nationalIdLabel")}
                       placeholder={t("form.nationalIdPlaceholder")}
                       value={nationalId}
-                      onValueChange={setNationalId}
+                      onValueChange={handleNationalIdChange}
                       disabled={loading}
                       classNames={{
                         input: "text-lg",

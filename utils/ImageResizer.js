@@ -32,6 +32,17 @@ export const resizeImage = (
 
         ctx?.drawImage(img, 0, 0, width, height);
 
+        // Extract colors for gradient (using a smaller canvas for analysis)
+        const analysisCanvas = document.createElement("canvas");
+        const analysisCtx = analysisCanvas.getContext("2d");
+        analysisCanvas.width = 150;
+        analysisCanvas.height = 150;
+        analysisCtx?.drawImage(img, 0, 0, 150, 150);
+
+        const gradientColors = analysisCtx
+          ? extractColorsFromCanvas(analysisCtx, 150, 150)
+          : ["#fff", "#fff"];
+
         // Convert to WebP format with base64
         const resizedBase64 = canvas.toDataURL("image/webp", quality);
 
@@ -41,6 +52,8 @@ export const resizeImage = (
           type: "image/webp",
           width,
           height,
+          gradientColors,
+          gradientStyle: `linear-gradient(135deg, ${gradientColors[0]}, ${gradientColors[1]})`,
         });
       };
 
@@ -61,7 +74,12 @@ export const extractEdgeColors = (imageData, width, height) => {
     [0, Math.min(cornerSize, height), 0, Math.min(cornerSize, width)],
     [0, Math.min(cornerSize, height), Math.max(0, width - cornerSize), width],
     [Math.max(0, height - cornerSize), height, 0, Math.min(cornerSize, width)],
-    [Math.max(0, height - cornerSize), height, Math.max(0, width - cornerSize), width],
+    [
+      Math.max(0, height - cornerSize),
+      height,
+      Math.max(0, width - cornerSize),
+      width,
+    ],
   ];
   for (const [y0, y1, x0, x1] of regions) {
     for (let y = y0; y < y1; y += step) {
@@ -145,4 +163,3 @@ export const extractColorsFromImage = (imgEl) => {
     return ["#fff7f0", "#fff3ea"];
   }
 };
-

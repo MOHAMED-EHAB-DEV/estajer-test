@@ -1,6 +1,10 @@
 "use client";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@heroui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
 import { useState, memo } from "react";
 import Button from "../ui/Button";
 import { CalendarIcon } from "../ui/svgs/icons/CalendarIconSvg";
@@ -13,6 +17,7 @@ function PackagesRangeDate({
   setDaysCount,
   translate,
   ownerHolidayPeriods = [],
+  allowSameDayRent = true,
 }) {
   const [date, setDate] = useState();
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +37,7 @@ function PackagesRangeDate({
 
   return (
     <div className="mt-6" id="packages-range-date">
-      <h3 className="text-darkNavy font-semibold text-[1rem] md:text-[1.2rem] lg:text-[1.4rem] font-IBMPlex mb-4">
+      <h3 className="text-darkNavy font-semibold text-[1rem] md:text-1.2 lg:text-[1.4rem] font-IBMPlex mb-4">
         {t("selectDurationDate")}
       </h3>
       <Popover
@@ -107,7 +112,11 @@ function PackagesRangeDate({
                 setIsOpen(false);
               }}
               disabled={[
-                { before: new Date().setDate(new Date().getDate()) },
+                {
+                  before: allowSameDayRent
+                    ? new Date().setHours(0, 0, 0, 0)
+                    : new Date().setHours(24, 0, 0, 0),
+                },
                 (date) => isHolidayDate(date),
               ]}
               initialFocus

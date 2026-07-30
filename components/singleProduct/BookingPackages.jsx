@@ -44,7 +44,7 @@ function BookingPackages({
 
   return (
     <div className="w-full" id="booking-packages">
-      <h3 className="text-darkNavy font-semibold text-[1rem] md:text-[1.2rem] lg:text-[1.4rem] font-IBMPlex mb-4">
+      <h3 className="text-darkNavy font-semibold text-0.95 md:text-[1.15rem] lg:text-[1.25rem] font-IBMPlex mb-3.5">
         {t("selectDuration")}
       </h3>
       <div className="flex flex-col gap-3">
@@ -60,24 +60,15 @@ function BookingPackages({
             <button
               key={pkg.id}
               onClick={() => handleSelectPackage(pkg.id)}
-              className={`
-                w-full p-4 rounded-xl border-2 transition-all duration-300 ease-in-out
-                flex justify-between items-center
-                ${isRTL ? "text-right" : "text-left"}
-                ${
-                  isSelected
-                    ? "bg-orange-50 border-orange-500 shadow-md"
-                    : "bg-white border-gray-200 hover:border-orange-400"
-                }
-              `}
+              className={`w-full p-3 rounded-xl border-2 transition-all duration-300 ease-in-out flex justify-between items-center ${isSelected ? "bg-orange-50 border-orange-500 shadow-md" : "bg-white border-gray-200 hover:border-orange-400"}`}
             >
               {/* Info side: Duration and Checkmark */}
-              <div className="flex items-center gap-3">
-                <div className="relative md:w-6 md:h-6 w-5 h-5 ">
+              <div className="flex items-center md:gap-3 gap-3">
+                <div className="relative md:w-5 md:h-5 w-5 h-5">
                   {/* Empty circle placeholder */}
                   <div
                     className={`
-                      md:w-6 md:h-6 w-5 h-5  rounded-full border-2 transition-all duration-300
+                      md:w-5 md:h-5 w-5 h-5 rounded-full border-2 transition-all duration-300
                       ${isSelected ? "border-orange-500" : "border-gray-300"}
                     `}
                   />
@@ -85,7 +76,7 @@ function BookingPackages({
                   <CheckCircleIcon
                     className={`
                       absolute top-0 left-0
-                      md:w-6 md:h-6 w-5 h-5  text-orange-500 transition-all duration-300 ease-in-out
+                      md:w-5 md:h-5 w-5 h-5 text-orange-500 transition-all duration-300 ease-in-out
                       ${
                         isSelected
                           ? "scale-100 opacity-100"
@@ -95,7 +86,7 @@ function BookingPackages({
                   />
                 </div>
 
-                <div className="text-[0.9rem] md:text-[1.1rem] font-semibold text-gray-800">
+                <div className="text-[0.9rem] md:text-[1.0rem] font-semibold text-gray-800">
                   {displayDuration}
                 </div>
               </div>
@@ -106,14 +97,20 @@ function BookingPackages({
                   isRTL ? "items-end" : "items-start"
                 }`}
               >
-                <span className="flex items-center gap-1 text-[1rem] md:text-[1.1rem] font-bold text-primary">
+                <span className="flex items-center gap-1 text-[1rem] md:text-[1.05rem] font-bold text-primary">
                   {pkg.price.toFixed(0)}{" "}
-                  <Currency color="#f48a42" className="w-4 h-4" />
+                  <Currency
+                    color="#f48a42"
+                    className="w-4 h-4 md:w-3.5 md:h-3.5"
+                  />
                 </span>
                 {pkg.originalPrice && (
-                  <span className="flex items-center gap-1 text-sm text-gray-500 line-through">
+                  <span className="flex items-center gap-1 text-sm md:text-xs text-gray-500 line-through">
                     {pkg.originalPrice.toFixed(0)}{" "}
-                    <Currency color="#FF6B00" className="w-4 h-4" />
+                    <Currency
+                      color="#FF6B00"
+                      className="w-4 h-4 md:w-3.5 md:h-3.5"
+                    />
                   </span>
                 )}
               </div>

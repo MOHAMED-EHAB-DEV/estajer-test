@@ -30,18 +30,34 @@ async function getAddressFromCoords(lat, lng) {
         city: "",
         neighborhood: "",
       };
+      const typeToField = {
+        country: "country",
+        administrative_area_level_1: "governorate",
+        administrative_area_level_2: "city",
+        locality: "city",
+        sublocality_level_1: "neighborhood",
+        neighborhood: "neighborhood",
+      };
       addressComponents.forEach((component) => {
         const { types, long_name } = component;
-        const typeToField = {
-          country: "country",
-          administrative_area_level_1: "governorate",
-          administrative_area_level_2: "city",
-          sublocality_level_1: "neighborhood",
-          neighborhood: "neighborhood",
-        };
-        const field = typeToField[types[0]];
-        if (field) address[field] = long_name;
+        const matchedType = types.find((type) => typeToField[type]);
+        if (matchedType) {
+          const field = typeToField[matchedType];
+          if (!address[field]) {
+            address[field] = long_name;
+          }
+        }
       });
+
+      let finalCity = address.city || "";
+      if (finalCity) {
+        finalCity = finalCity
+          .replace(/^(إمارة منطقة|امارة منطقة|منطقة|إمارة|امارة)\s+/, "")
+          .replace(/\s+(Province|Region|Governorate)$/i, "")
+          .trim();
+      }
+      address.city = finalCity;
+
       return address;
     };
 
@@ -59,13 +75,18 @@ async function getAddressFromCoords(lat, lng) {
 // Geocoding helper to resolve text address to lat/lng and components
 async function getCoordsFromAddress(addressString) {
   try {
+    const cleanAddress = addressString
+      .replace(/^(إمارة منطقة|امارة منطقة|منطقة|إمارة|امارة)\s+/, "")
+      .replace(/\s+(Province|Region|Governorate)$/i, "")
+      .trim();
+
     const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
     const [resAr, resEn] = await Promise.all([
       fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(addressString)}&language=ar&key=${key}`,
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(cleanAddress)}&language=ar&key=${key}`,
       ),
       fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(addressString)}&language=en&key=${key}`,
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(cleanAddress)}&language=en&key=${key}`,
       ),
     ]);
     const [dataAr, dataEn] = await Promise.all([resAr.json(), resEn.json()]);
@@ -83,24 +104,51 @@ async function getCoordsFromAddress(addressString) {
           city: "",
           neighborhood: "",
         };
+        const typeToField = {
+          country: "country",
+          administrative_area_level_1: "governorate",
+          administrative_area_level_2: "city",
+          locality: "city",
+          sublocality_level_1: "neighborhood",
+          neighborhood: "neighborhood",
+        };
         addressComponents.forEach((component) => {
           const { types, long_name } = component;
-          const typeToField = {
-            country: "country",
-            administrative_area_level_1: "governorate",
-            administrative_area_level_2: "city",
-            sublocality_level_1: "neighborhood",
-            neighborhood: "neighborhood",
-          };
-          const field = typeToField[types[0]];
-          if (field) address[field] = long_name;
+          const matchedType = types.find((type) => typeToField[type]);
+          if (matchedType) {
+            const field = typeToField[matchedType];
+            if (!address[field]) {
+              address[field] = long_name;
+            }
+          }
         });
+
+        let finalCity = address.city || "";
+        if (finalCity) {
+          finalCity = finalCity
+            .replace(/^(إمارة منطقة|امارة منطقة|منطقة|إمارة|امارة)\s+/, "")
+            .replace(/\s+(Province|Region|Governorate)$/i, "")
+            .trim();
+        }
+        address.city = finalCity;
+
         return address;
       };
 
+      let addressAr = extractComponents(dataAr.results);
+      let addressEn = extractComponents(dataEn.results);
+
+      if (!addressAr.city || !addressEn.city) {
+        const resolved = await getAddressFromCoords(location.lat, location.lng);
+        if (resolved) {
+          addressAr = resolved.addressAr;
+          addressEn = resolved.addressEn;
+        }
+      }
+
       return {
-        addressAr: extractComponents(dataAr.results),
-        addressEn: extractComponents(dataEn.results),
+        addressAr,
+        addressEn,
         coordinates: [location.lng, location.lat],
       };
     }
@@ -108,6 +156,54 @@ async function getCoordsFromAddress(addressString) {
     console.error("[Geocoding] Geocoding failed:", e);
   }
   return null;
+}
+
+function cleanAndParseJSON(text) {
+  let cleaned = text.trim();
+
+  // Remove markdown code block wrappers if they exist
+  if (cleaned.startsWith("```")) {
+    cleaned = cleaned
+      .replace(/^```(?:json)?\n?/i, "")
+      .replace(/\n?```$/, "")
+      .trim();
+  }
+
+  // Try direct parse first
+  try {
+    return JSON.parse(cleaned);
+  } catch (_) {
+    // Fall through to extraction strategies
+  }
+
+  // Find the start of the root JSON object
+  const startIdx = cleaned.indexOf("{");
+  if (startIdx === -1) throw new SyntaxError("No JSON object found in AI response");
+
+  // Walk the string tracking brace depth to find the balanced closing '}'
+  // This handles cases where the model appends extra text after the JSON object
+  let depth = 0;
+  let inString = false;
+  let escape = false;
+  let endIdx = -1;
+
+  for (let i = startIdx; i < cleaned.length; i++) {
+    const ch = cleaned[i];
+    if (escape) { escape = false; continue; }
+    if (ch === "\\" && inString) { escape = true; continue; }
+    if (ch === '"') { inString = !inString; continue; }
+    if (inString) continue;
+    if (ch === "{") depth++;
+    else if (ch === "}") {
+      depth--;
+      if (depth === 0) { endIdx = i; break; }
+    }
+  }
+
+  if (endIdx === -1) throw new SyntaxError("Unbalanced JSON object in AI response");
+
+  const candidate = cleaned.substring(startIdx, endIdx + 1);
+  return JSON.parse(candidate);
 }
 
 export async function POST(req) {
@@ -192,7 +288,8 @@ Strict Listing & Default Rules:
    - Insurance Value (insurance): MUST default to 0. Only suggest a non-zero insurance deposit if the item is a known high-value asset (e.g. camera, drone, heavy equipment) or if the user explicitly requests/consents to it.
 ${categoryInstructionText}
 4. Product Location (locationText):
-   - You MUST ask the user for the product's location (city and neighborhood in Saudi Arabia, e.g. "Riyadh, Al-Malaz").
+   - You MUST ask the user for the product's location (specific city and neighborhood in Saudi Arabia, e.g. "Riyadh, Al-Malaz").
+   - STRICT RULE: You MUST specify a specific city (e.g. Riyadh, Jeddah, Dammam), NOT a broad province, region, or governorate (e.g. Riyadh Region, Riyadh Province, Makkah Province, Giza Governorate). If the user specifies a region/province, politely ask them for the specific city name within that region/province, and update the "locationText" field to include the specific city.
    - If a default location is provided below, ask the user if this is the correct location of the product to confirm it.
    - Fill "locationText" with the verified location string (e.g., "Jeddah, Al-Hamra"). Do NOT try to guess or fill "location" lat/lng coordinates or addressAr/addressEn components yourself. They will be geocoded automatically on the backend.
 5. Delivery Options:
@@ -255,7 +352,7 @@ You MUST return EXACTLY this JSON structure:
     "minQuantity": number (optional, only include if explicitly requested to change by the user),
     "delivery": {
       "type": "receive" | "delivery" | "free",
-      "pricingModel": "free" | "perKm" | "fixedCity",
+      "pricingModel": "perKm" | "fixedCity",
       "cost": number,
       "fixedCityPricing": [
         {
@@ -339,7 +436,7 @@ You MUST return EXACTLY this JSON structure:
     });
     const result = await model.generateContent({ contents });
     const text = result.response.text();
-    let data = JSON.parse(text);
+    let data = cleanAndParseJSON(text);
 
     // Merge new suggestion data with currentSuggestion to preserve fields omitted on subsequent turns
     if (currentSuggestion && data.productData) {
@@ -392,6 +489,15 @@ You MUST return EXACTLY this JSON structure:
         data.productData.location = currentSuggestion.location;
         data.productData.addressAr = currentSuggestion.addressAr;
         data.productData.addressEn = currentSuggestion.addressEn;
+      }
+    }
+
+    if (data.productData?.delivery) {
+      const d = data.productData.delivery;
+      if (d.type !== "delivery") {
+        d.pricingModel = "perKm";
+        d.cost = 0;
+        d.fixedCityPricing = [];
       }
     }
 

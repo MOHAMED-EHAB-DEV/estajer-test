@@ -9,7 +9,34 @@ import { handleApiError } from "@/lib/errorHandler";
 import mongoose from "mongoose";
 import Review from "@/models/review";
 
-// GET - Fetch a single shop by ID or Slug or OwnerID
+/**
+ * Recursively walk an object and upload any base64 data: image strings to Cloudinary.
+ */
+async function uploadImagesInObject(obj, folder = "shops") {
+  if (typeof obj === "string") {
+    if (obj.startsWith("data:image/")) {
+      const uploaded = await cloudinary.uploader.upload(obj, {
+        folder,
+        format: "webp",
+      });
+      return uploaded.secure_url;
+    }
+    return obj.replace("https://estajer.com", "").replace("/en/", "/");
+  }
+  if (Array.isArray(obj)) {
+    return Promise.all(obj.map((item) => uploadImagesInObject(item, folder)));
+  }
+  if (obj && typeof obj === "object") {
+    const result = {};
+    for (const key of Object.keys(obj)) {
+      result[key] = await uploadImagesInObject(obj[key], folder);
+    }
+    return result;
+  }
+  return obj;
+}
+
+// GET - Fetch a single shop by ID, OwnerID, or Slug
 export async function GET(req, { params }) {
   try {
     await connectDB();
@@ -17,7 +44,6 @@ export async function GET(req, { params }) {
 
     let query = {};
     if (mongoose.isValidObjectId(id)) {
-      // Check if it's an ID or OwnerID
       query.$or = [{ _id: id }, { owner: id }];
     } else {
       query.slug = id.toLowerCase();
@@ -28,20 +54,10 @@ export async function GET(req, { params }) {
     const lang = searchParams.get("lang") || "ar";
     const langSuffix = lang === "en" ? "En" : "Ar";
 
-    const commonFields = `images owner name${langSuffix} rental rating pricingModel location address${langSuffix} category subCategory`;
-
-    const shop = await Shop.findOne(query)
-      .populate({
-        path: "sliders.products",
-        select: commonFields,
-        options: { strictPopulate: false },
-      })
-      .populate({
-        path: "categories.allowedProducts",
-        select: commonFields,
-        options: { strictPopulate: false },
-      })
-      .populate("owner", "fullName email phone");
+    const shop = await Shop.findOne(query).populate(
+      "owner",
+      "fullName email phone",
+    );
 
     if (!shop) {
       return NextResponse.json(
@@ -50,52 +66,89 @@ export async function GET(req, { params }) {
       );
     }
 
-    const transformProduct = (product) => {
-      if (!product) return null;
-      const p = product.toObject ? product.toObject() : product;
-      const res = {
-        ...p,
-        name: p[`name${langSuffix}`] || p.name,
-        address: p[`address${langSuffix}`] || p.address,
-      };
-
-      if (res.images && res.images.length > 0) {
-        res.images = [res.images[0]];
-      }
-
-      delete res.nameAr;
-      delete res.nameEn;
-      delete res.addressAr;
-      delete res.addressEn;
-
-      return res;
-    };
-
     const shopObj = shop.toObject();
+
+    // Populate product references inside sections[].data
+    // We collect all product IDs from all sections then batch-fetch them
+    const productIdSet = new Set();
+    (shopObj.sections || []).forEach((section) => {
+      if (section.data?.products && Array.isArray(section.data.products)) {
+        section.data.products.forEach((p) => {
+          const id = p?._id || p;
+          if (id) productIdSet.add(id.toString());
+        });
+      }
+      if (section.data?.product) {
+        const id = section.data.product?._id || section.data.product;
+        if (id) productIdSet.add(id.toString());
+      }
+      if (section.data?.categories && Array.isArray(section.data.categories)) {
+        section.data.categories.forEach((cat) => {
+          (cat.allowedProducts || []).forEach((p) => {
+            const id = p?._id || p;
+            if (id) productIdSet.add(id.toString());
+          });
+        });
+      }
+    });
+
+    const commonFields = `images owner name${langSuffix} description${langSuffix} rental rating pricingModel location address${langSuffix} category subCategory approved`;
+    const productsMap = {};
+    if (productIdSet.size > 0) {
+      const products = await Product.find({ _id: { $in: [...productIdSet] } })
+        .select(commonFields)
+        .lean();
+      products.forEach((p) => {
+        productsMap[p._id.toString()] = {
+          ...p,
+          name: p[`name${langSuffix}`] || p.name,
+          description: p[`description${langSuffix}`] || p.description,
+          address: p[`address${langSuffix}`] || p.address,
+          images: p.images?.slice(0, 1) || [],
+        };
+      });
+    }
+
+    // Replace product IDs in sections with populated objects
+    const populatedSections = (shopObj.sections || []).map((section) => {
+      const newSection = { ...section, data: { ...(section.data || {}) } };
+      if (newSection.data.products) {
+        newSection.data.products = newSection.data.products
+          .map((p) => productsMap[(p?._id || p)?.toString()])
+          .filter(Boolean);
+      }
+      if (newSection.data.product) {
+        newSection.data.product =
+          productsMap[
+            (
+              newSection.data.product?._id || newSection.data.product
+            )?.toString()
+          ] || null;
+      }
+      if (newSection.data.categories) {
+        newSection.data.categories = newSection.data.categories.map((cat) => ({
+          ...cat,
+          allowedProducts: (cat.allowedProducts || [])
+            .map((p) => productsMap[(p?._id || p)?.toString()])
+            .filter(Boolean),
+        }));
+      }
+      return newSection;
+    });
+
     const localizedShop = {
       ...shopObj,
+      sections: populatedSections,
       name: shopObj[`name${langSuffix}`] || shopObj.name,
       description: shopObj[`description${langSuffix}`] || shopObj.description,
     };
 
-    if (localizedShop.sliders) {
-      localizedShop.sliders.forEach((slider) => {
-        if (slider.products) {
-          slider.products = slider.products.map(transformProduct);
-        }
-      });
-    }
-
-    if (localizedShop.categories) {
-      localizedShop.categories.forEach((cat) => {
-        if (cat.allowedProducts) {
-          cat.allowedProducts = cat.allowedProducts.map(transformProduct);
-        }
-      });
-    }
-
-    if (localizedShop.showReviews) {
-      const reviews = await Review.find({ owner: localizedShop.owner._id })
+    // Load reviews if a reviews section is present
+    const hasReviewsSection = (localizedShop.sections || []).some(
+      (s) => s.sectionType === "reviews",
+    );
+    if (hasReviewsSection) {
+      const reviews = await Review.find({ owner: localizedShop.owner?._id })
         .populate({ path: "user", select: "fullName avatar address" })
         .populate({
           path: "product",
@@ -105,7 +158,6 @@ export async function GET(req, { params }) {
         .limit(10)
         .lean();
 
-      // Transform product data in reviews to include localized name and first image
       localizedShop.reviews = reviews.map((review) => {
         if (review.product) {
           const product = review.product;
@@ -144,7 +196,7 @@ export async function PUT(req, { params }) {
     }
 
     const { id } = await params;
-    const data = await req.json();
+    let data = await req.json();
 
     const shop = await Shop.findOne({
       $or: [
@@ -161,7 +213,7 @@ export async function PUT(req, { params }) {
       );
     }
 
-    // Check if user is Admin OR the Owner of the shop
+    // Auth: Admin or Owner
     if (
       user.accountType !== "admin" &&
       shop.owner.toString() !== user._id.toString()
@@ -172,7 +224,13 @@ export async function PUT(req, { params }) {
       );
     }
 
-    // Handle Logo Upload if changed
+    // Prevent non-admins from changing shopCommission and plan
+    if (user.accountType !== "admin") {
+      delete data.shopCommission;
+      delete data.plan;
+    }
+
+    // Upload logo if changed
     if (data.logo && data.logo.startsWith("data:")) {
       const uploaded = await cloudinary.uploader.upload(data.logo, {
         folder: "shops",
@@ -181,7 +239,7 @@ export async function PUT(req, { params }) {
       data.logo = uploaded.secure_url;
     }
 
-    // Handle OG Image Upload if changed
+    // Upload OG image if changed
     if (data.ogImage && data.ogImage.startsWith("data:")) {
       const uploaded = await cloudinary.uploader.upload(data.ogImage, {
         folder: "shops/seo",
@@ -190,102 +248,61 @@ export async function PUT(req, { params }) {
       data.ogImage = uploaded.secure_url;
     }
 
-    // Handle Hero Banners Upload
-    if (data.heroBanners && Array.isArray(data.heroBanners)) {
-      for (let banner of data.heroBanners) {
-        if (banner.imageAr && banner.imageAr.startsWith("data:")) {
-          const uploadedAr = await cloudinary.uploader.upload(banner.imageAr, {
-            folder: "shops/banners",
-            format: "webp",
-          });
-          banner.imageAr = uploadedAr.secure_url;
-        }
-        if (banner.imageEn && banner.imageEn.startsWith("data:")) {
-          const uploadedEn = await cloudinary.uploader.upload(banner.imageEn, {
-            folder: "shops/banners",
-            format: "webp",
-          });
-          banner.imageEn = uploadedEn.secure_url;
-        }
-        if (banner.link) {
-          banner.link = banner.link
-            .replace("https://estajer.com", "")
-            .replace("/en/", "/");
-        }
-      }
-    }
-
-    // Handle Offer Banners Upload (Multi-section)
-    if (data.offerBanners && Array.isArray(data.offerBanners)) {
-      for (let section of data.offerBanners) {
-        if (section.banners && Array.isArray(section.banners)) {
-          for (let banner of section.banners) {
-            if (banner.imageAr && banner.imageAr.startsWith("data:")) {
-              const uploadedAr = await cloudinary.uploader.upload(
-                banner.imageAr,
-                {
-                  folder: "shops/offers",
-                  format: "webp",
-                },
-              );
-              banner.imageAr = uploadedAr.secure_url;
-            }
-            if (banner.imageEn && banner.imageEn.startsWith("data:")) {
-              const uploadedEn = await cloudinary.uploader.upload(
-                banner.imageEn,
-                {
-                  folder: "shops/offers",
-                  format: "webp",
-                },
-              );
-              banner.imageEn = uploadedEn.secure_url;
-            }
-            if (banner.link) {
-              banner.link = banner.link
-                .replace("https://estajer.com", "")
-                .replace("/en/", "/");
-            }
-          }
-        }
-      }
-    }
-
-    // Handle Shop Categories Upload and IDs
-    if (data.categories && Array.isArray(data.categories)) {
-      for (let category of data.categories) {
-        if (category.image && category.image.startsWith("data:")) {
-          const uploaded = await cloudinary.uploader.upload(category.image, {
-            folder: "shops/categories",
-            format: "webp",
-          });
-          category.image = uploaded.secure_url;
-        }
-        // Ensure new categories have an ID for product syncing
-        if (!category._id) {
-          category._id = new mongoose.Types.ObjectId();
-        }
-      }
-    }
-
-    // Sync Shop Categories with Products
-    if (data.categories) {
-      // 1. Get current category IDs to clean up
-      const oldCategoryIds = shop.categories.map((c) => c._id);
-
-      // 2. Remove old category links from ALL products
-      if (oldCategoryIds.length > 0) {
-        await Product.updateMany(
-          { shopCategories: { $in: oldCategoryIds } },
-          { $pull: { shopCategories: { $in: oldCategoryIds } } },
-        );
-      }
-
-      // 3. Add new category links to selected products
-      for (const cat of data.categories) {
-        if (cat.allowedProducts && cat.allowedProducts.length > 0) {
-          const productIds = cat.allowedProducts.map((p) =>
-            p._id ? p._id : p,
+    // Upload all images inside sections[].data generically
+    if (data.sections && Array.isArray(data.sections)) {
+      data.sections = await Promise.all(
+        data.sections.map(async (section) => {
+          const uploadedData = await uploadImagesInObject(
+            section.data,
+            `shops/${section.sectionType}`,
           );
+          if (
+            section.sectionType === "categories" &&
+            uploadedData?.categories
+          ) {
+            uploadedData.categories = uploadedData.categories.map((cat) => {
+              if (!cat._id) {
+                cat._id = new mongoose.Types.ObjectId().toString();
+              }
+              return cat;
+            });
+          }
+          return {
+            ...section,
+            data: uploadedData,
+          };
+        }),
+      );
+    }
+
+    // Sync shopCategories on products (from categories sections)
+    const categorySections = (data.sections || []).filter(
+      (s) => s.sectionType === "categories",
+    );
+    const oldCategorySections = (shop.sections || []).filter(
+      (s) => s.sectionType === "categories",
+    );
+
+    // Collect old category IDs to clean up
+    const oldCategoryIds = [];
+    oldCategorySections.forEach((s) => {
+      (s.data?.categories || []).forEach((cat) => {
+        if (cat._id) oldCategoryIds.push(cat._id);
+      });
+    });
+
+    if (oldCategoryIds.length > 0) {
+      await Product.updateMany(
+        { shopCategories: { $in: oldCategoryIds } },
+        { $pull: { shopCategories: { $in: oldCategoryIds } } },
+      );
+    }
+
+    // Add new category links
+    for (const section of categorySections) {
+      for (const cat of section.data?.categories || []) {
+        if (cat._id && cat.allowedProducts?.length > 0) {
+          const productIds = cat.allowedProducts.map((p) => p._id || p);
           await Product.updateMany(
             { _id: { $in: productIds } },
             { $addToSet: { shopCategories: cat._id } },
@@ -300,7 +317,15 @@ export async function PUT(req, { params }) {
       { new: true },
     );
 
-    // Sync hasShop status with User model
+    // If plan is updated by admin, sync the plan to the owner user document
+    if (user.accountType === "admin" && data.plan) {
+      await User.findByIdAndUpdate(shop.owner, {
+        shopPlan: data.plan,
+        premium: true,
+      });
+    }
+
+    // Sync hasShop status
     if (data.hasOwnProperty("isActive")) {
       await User.findByIdAndUpdate(shop.owner, { hasShop: !!data.isActive });
     }
@@ -346,8 +371,13 @@ export async function DELETE(req, { params }) {
       );
     }
 
-    // Reset user hasShop status
-    await User.findByIdAndUpdate(deleted.owner, { hasShop: false });
+    // Reset user hasShop status and shop plans
+    await User.findByIdAndUpdate(deleted.owner, {
+      hasShop: false,
+      shopPlan: null,
+      shopPlanExpiresAt: null,
+      premium: false,
+    });
 
     return NextResponse.json({
       success: true,

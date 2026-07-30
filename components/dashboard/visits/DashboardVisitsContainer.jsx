@@ -296,11 +296,11 @@ export default function DashboardVisitsContainer({
                             <a
                               href={RedirectUrl}
                               target="_blank"
-                              className="font-bold text-gray-900 truncate hover:text-[#F48A42] transition-colors flex items-center gap-1.5"
+                              className="font-bold text-gray-900 truncate hover:text-primary transition-colors flex items-center gap-1.5"
                             >
                               {NameTitle}
                               <ExternalLinkIcon
-                                className="opacity-0 group-hover/title:opacity-100 transition-opacity text-[#F48A42] shrink-0"
+                                className="opacity-0 group-hover/title:opacity-100 transition-opacity text-primary shrink-0"
                                 size={13}
                               />
                             </a>

@@ -77,7 +77,7 @@ const ICONS = [ChartIcon, RocketIcon, SecurityIcon];
 const CommissionBenefits = ({ translate, lang }) => {
   const trans = useTranslations(translate);
   const t = (key) => trans(`marketing.commissionBenefits.${key}`);
-  const bullets = trans("marketing.commissionBenefits.bullets");
+  // const bullets = trans("marketing.commissionBenefits.bullets");
   const cards = trans("marketing.commissionBenefits.cards");
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -123,7 +123,7 @@ const CommissionBenefits = ({ translate, lang }) => {
 
   return (
     <section
-      className="bg-[#FFF9F0] font-sans overflow-hidden"
+      className="bg-[#FFF9F0] overflow-hidden"
       dir={lang === "ar" ? "rtl" : "ltr"}
     >
       <div className="py-16 md:py-28 relative">
@@ -147,9 +147,9 @@ const CommissionBenefits = ({ translate, lang }) => {
                   ),
                 )}{" "}
             </h2>
-            <p className="text-[#6B7280] text-base md:text-xl font-medium max-w-3xl mx-auto leading-relaxed">
+            {/* <p className="text-[#6B7280] text-base md:text-xl font-medium max-w-3xl mx-auto leading-relaxed">
               {Array.isArray(bullets) ? bullets.join(" • ") : t("calcSubtitle")}
-            </p>
+            </p> */}
           </div>
 
           {/* Embla Viewport */}
@@ -208,7 +208,9 @@ const CommissionBenefits = ({ translate, lang }) => {
                   key={index}
                   onClick={() => scrollTo(index)}
                   className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                    index === selectedIndex ? "bg-[#F97316] w-6" : "bg-[#F0E0CE]"
+                    index === selectedIndex
+                      ? "bg-[#F97316] w-6"
+                      : "bg-[#F0E0CE]"
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />

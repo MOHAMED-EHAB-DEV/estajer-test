@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const damageReportSchema = new mongoose.Schema(
   {
     order: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "Order",
       required: true,
     },
@@ -61,7 +61,7 @@ damageReportSchema.pre("find", function (next) {
     },
     {
       path: "product",
-      select: "nameAr nameEn images",
+      select: "nameAr nameEn images saleUnit",
     },
     {
       path: "reporter",
@@ -87,7 +87,7 @@ damageReportSchema.pre("findOne", function (next) {
     },
     {
       path: "product",
-      select: "nameAr nameEn images",
+      select: "nameAr nameEn images saleUnit",
     },
     {
       path: "reporter",

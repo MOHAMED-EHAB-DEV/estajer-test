@@ -6,7 +6,8 @@ import { useTranslations } from "@/hooks/useTranslations";
 import Link from "next/link";
 import EmptyPlaceholder from "@/components/shared/EmptyPlaceholder";
 import { Order } from "@/components/ui/svgs/OrdersSvg";
-import { Chip, Button } from "@heroui/react";
+import { Chip } from "@/components/ui/Chip";
+import Button from "@/components/ui/Button";
 import ImagePreviewModal from "../admin/ImagePreviewModal";
 
 // Icons
@@ -213,7 +214,7 @@ export default function DamageReportsList({
                           href={`/${langPrefix}dashboard/report/${report.order?._id || report.order}`}
                           variant="light"
                           size="sm"
-                          className="font-bold text-[#f48a42] p-0 h-auto min-w-0 bg-transparent hover:underline"
+                          className="font-bold text-primary p-0 h-auto min-w-0 bg-transparent hover:underline"
                         >
                           {t("viewOrderDetails")}
                         </Button>

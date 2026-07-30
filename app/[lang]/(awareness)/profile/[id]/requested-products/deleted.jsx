@@ -156,8 +156,8 @@ export default async function page({ params }) {
             <EmptyPlaceholder
               title={t("noRequests")}
               Icon={NoItems}
-              containerClassName="bg-[#EAEEF3] w-full"
-              titleClassName="text-[#5B5656]"
+              containerClassName="bg-surfaceBlue w-full"
+              titleClassName="text-mutedGray"
               detailsContainerClassName="w-full"
             />
           ) : (

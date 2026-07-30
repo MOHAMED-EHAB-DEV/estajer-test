@@ -1,13 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useTranslations } from "@/hooks/useTranslations";
-import { Input } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
 import Link from "next/link";
 import Checkbox from "../ui/Checkbox";
 import Button from "../ui/Button";
-import { Email } from "../ui/svgs/icons/EmailSvg";;
+import { Email } from "../ui/svgs/icons/EmailSvg";
 import SocialLinks from "./SocialLinks";
-import { sendGTMEvent } from "@next/third-parties/google";
 
 export default function LoginForm({
   lang,
@@ -60,7 +59,6 @@ export default function LoginForm({
       else localStorage.removeItem("rememberedEmail");
 
       setMessage({ type: "success", content: t("successMsg") });
-      sendGTMEvent({ event: "login", method: "email", location: "login_page" });
 
       if (queryPage) return (window.location.href = queryPage);
       window.location.href = `/${langPrefix}`;
@@ -75,10 +73,10 @@ export default function LoginForm({
   return (
     <div className="w-[650px] max-w-full">
       <div className="text-center mb-14">
-        <h1 className="lg:text-[2.2rem] md:text-[1.9rem] text-[1.6rem] font-semibold mb-2 text-darkNavy">
+        <h1 className="lg:text-[2.2rem] md:text-1.9 text-[1.6rem] font-semibold mb-2 text-darkNavy">
           {t("title")}
         </h1>
-        <p className="lg:text-[1.2rem] text-[1rem] text-darkNavy">
+        <p className="lg:text-1.2 text-[1rem] text-darkNavy">
           {t("welcomeBack")}
         </p>
       </div>
@@ -160,7 +158,7 @@ export default function LoginForm({
               onChange={() => setRememberMe(!rememberMe)}
               classNames={{
                 base: "flex",
-                label: "text-base font-medium ml-2",
+                label: "text-base font-medium",
               }}
               size="md"
             >
@@ -171,13 +169,6 @@ export default function LoginForm({
             <Link
               href={`/${langPrefix}forgot-password`}
               className="text-primary  hover:underline"
-              onClick={() =>
-                sendGTMEvent({
-                  event: "navigation_click",
-                  link_text: "forgot_password",
-                  location: "login_page",
-                })
-              }
             >
               {t("forgetPassword")}
             </Link>
@@ -189,7 +180,7 @@ export default function LoginForm({
           color="secondary"
           type="submit"
           variant="solid"
-          className="w-full font-semibold py-7 mb-6"
+          className="w-full font-semibold py-7 mb-6 text-white"
           isLoading={isLoading}
         >
           {t("login")}
@@ -203,13 +194,6 @@ export default function LoginForm({
               queryPage ? `?page=${queryPage}` : ""
             }`}
             className="text-primary hover:underline"
-            onClick={() =>
-              sendGTMEvent({
-                event: "navigation_click",
-                link_text: "new_account",
-                location: "login_page",
-              })
-            }
           >
             {t("newAccount")}
           </Link>

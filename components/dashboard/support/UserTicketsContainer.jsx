@@ -1,6 +1,7 @@
 "use client";
 import { useState, useCallback } from "react";
-import { Pagination, Spinner } from "@heroui/react";
+import { Pagination } from "@/components/ui/Pagination";
+import { Spinner } from "@/components/ui/Spinner";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "@/hooks/useTranslations";
@@ -175,14 +176,14 @@ const UserTicketsContainer = ({
         {!initialTickets || initialTickets.length === 0 ? (
           /* Empty State */
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100">
-            <div className="w-16 h-16 bg-[#FDF5EE] rounded-2xl flex items-center justify-center mb-5">
+            <div className="w-16 h-16 bg-brandCream rounded-2xl flex items-center justify-center mb-5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-8 h-8 text-[#f48a42]"
+                className="w-8 h-8 text-primary"
               >
                 <path
                   strokeLinecap="round"

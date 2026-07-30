@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
@@ -7,6 +8,7 @@ import { isArabic, linkify } from "@/lib/utils";
 import { Seen } from "../ui/svgs/icons/SeenSvg";
 import { Trash } from "../ui/svgs/icons/TrashSvg";
 import MessageHandler from "./MessageHandler";
+import CustomModal from "@/components/ui/CustomModal";
 
 export default function MessageItem({
   msg,
@@ -28,6 +30,7 @@ export default function MessageItem({
   handleDeleteClick,
   firstMessageSenderId,
 }) {
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const sender = msg.sender?._id === currentUserId;
   const isAdmin = msg.isAdmin;
   const isAssistant = aiAssistant && msg.sender?._id === "assistant";
@@ -72,23 +75,35 @@ export default function MessageItem({
         } ${msg.isVanishing ? "opacity-0 scale-90 blur-md -translate-y-4" : "opacity-100 scale-100"}`}
       >
         <div className="relative shrink-0">
-          <Image
-            src={anyImgUrl({
-              src: getUserAvatar({ id: msg.sender?._id, isAdmin, msg }),
-              size: 100,
-            })}
-            alt="avatar"
-            unoptimized
-            width={45}
-            height={45}
-            className={`${aiAssistant && isAssistant ? "" : "rounded-full"} ${
-              isAdminChat && aiAssistant && isAssistant
-                ? "object-contain p-1"
-                : isAdmin
-                  ? "object-contain p-1 bg-white/80 shadow-sm border border-white/50"
-                  : "object-cover shadow-sm border border-white/50"
-            }  h-[45px] w-[45px] min-w-[45px]`}
-          />
+          {(() => {
+            const avatarUrl = getUserAvatar({
+              id: msg.sender?._id,
+              isAdmin,
+              msg,
+            });
+            const isSupportLogo = avatarUrl?.includes("final-logo-with-slogan");
+            return (
+              <Image
+                src={anyImgUrl({
+                  src: avatarUrl,
+                  size: 100,
+                })}
+                alt="avatar"
+                unoptimized
+                width={45}
+                height={45}
+                className={`rounded-full h-[45px] w-[45px] min-w-[45px] ${
+                  isSupportLogo
+                    ? "object-contain p-0.5 bg-white shadow-sm border border-gray-100"
+                    : aiAssistant && isAssistant
+                      ? "object-contain p-1"
+                      : isAdmin
+                        ? "object-contain p-1 bg-white/80 shadow-sm border border-white/50"
+                        : "object-cover shadow-sm border border-white/50"
+                }`}
+              />
+            );
+          })()}
         </div>
         <div
           className={`flex flex-col max-w-[80%] ${
@@ -116,7 +131,7 @@ export default function MessageItem({
                       ? "text-primary"
                       : aiAssistant
                         ? "text-[#05113a]"
-                        : "text-black"
+                        : "text-darkNavy"
               }`}
             >
               {getUserName({ id: msg.sender?._id, isAdmin, msg })}
@@ -126,7 +141,7 @@ export default function MessageItem({
                 locale: ar,
               })}
             </span>
-            {!aiAssistant && isAdminChat && (
+            {isAdminChat && (
               <button
                 onClick={() => handleDeleteClick(msg)}
                 className="px-1 text-red-500 hover:bg-red-50 rounded hidden group-hover:block transition-all"
@@ -137,34 +152,51 @@ export default function MessageItem({
             )}
           </div>
           <div>
-            {msg.content && (
+            {(msg.content || msg.imageUrl) && (
               <div
                 className={`inline-block py-2.5 px-4 rounded-2xl text-[#333] whitespace-pre-line text-sm md:text-base shadow-sm transition-all duration-200 ${bubbleClasses}`}
               >
-                <div className="relative">
-                  <span
-                    className={
-                      expandedMessages.has(msg._id) ? "" : "line-clamp-6"
-                    }
-                    ref={createOverflowRef(msg._id)}
+                {msg.content && (
+                  <div className="relative">
+                    <span
+                      className={
+                        expandedMessages.has(msg._id) ? "" : "line-clamp-6"
+                      }
+                      ref={createOverflowRef(msg._id)}
+                    >
+                      {linkify(msg.content)}
+                    </span>
+                    {!expandedMessages.has(msg._id) && (
+                      <div className="has-more-btn hidden [.has-more+&]:block text-end mt-2">
+                        <button
+                          onClick={() =>
+                            setExpandedMessages(
+                              (prev) => new Set([...prev, msg._id]),
+                            )
+                          }
+                          className="text-primary hover:underline text-[11px] font-bold"
+                        >
+                          {t("chat.showMore")}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {msg.imageUrl && (
+                  <div
+                    className={`${msg.content ? "mt-2" : ""} overflow-hidden rounded-lg border border-gray-200/60 max-w-[260px]`}
                   >
-                    {linkify(msg.content)}
-                  </span>
-                  {!expandedMessages.has(msg._id) && (
-                    <div className="has-more-btn hidden [.has-more+&]:block text-end mt-2">
-                      <button
-                        onClick={() =>
-                          setExpandedMessages(
-                            (prev) => new Set([...prev, msg._id]),
-                          )
-                        }
-                        className="text-primary hover:underline text-[11px] font-bold"
-                      >
-                        {t("chat.showMore")}
-                      </button>
-                    </div>
-                  )}
-                </div>
+                    <Image
+                      src={anyImgUrl({ src: msg.imageUrl, size: 260 })}
+                      alt="attachment"
+                      width={260}
+                      height={180}
+                      className="object-cover w-full h-auto max-h-[220px] rounded-lg cursor-pointer hover:opacity-95 transition-opacity"
+                      unoptimized
+                      onClick={() => setIsImageModalOpen(true)}
+                    />
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -188,6 +220,28 @@ export default function MessageItem({
           )}
         </div>
       </div>
+
+      {isImageModalOpen && (
+        <CustomModal
+          isOpen={isImageModalOpen}
+          onClose={() => setIsImageModalOpen(false)}
+          size="4xl"
+          className="bg-transparent shadow-none border-none p-0 overflow-hidden max-w-7xl"
+          backdropClass="bg-black/80 backdrop-blur-md"
+          disableScrollbarGutter={true}
+        >
+          <div className="relative p-2 flex items-center justify-center max-h-[90vh]">
+            <Image
+              src={anyImgUrl({ src: msg.imageUrl, size: 1200 })}
+              alt="Enlarged image"
+              width={1200}
+              height={800}
+              className="object-contain max-h-[85vh] w-auto rounded-lg shadow-2xl"
+              unoptimized
+            />
+          </div>
+        </CustomModal>
+      )}
     </div>
   );
 }

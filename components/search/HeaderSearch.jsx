@@ -10,10 +10,8 @@ import { useTranslations } from "@/hooks/useTranslations";
 import { useProductSearch } from "@/hooks/useProductSearch";
 import SearchResultsDropdown from "../shared/SearchResultsDropdown";
 
-const Location = dynamic(() => import("../home/Location"), { ssr: false });
-const SelectCategory = dynamic(() => import("../home/SelectCategory"), {
-  ssr: false,
-});
+const Location = dynamic(() => import("../home/Location"));
+const SelectCategory = dynamic(() => import("../home/SelectCategory"));
 
 export default function HeaderSearch({
   scrolled,
@@ -21,6 +19,8 @@ export default function HeaderSearch({
   t,
   lang,
   translate,
+  userId,
+  shopSlug,
 }) {
   const trans = useTranslations(translate);
   const [categoriesData, setCategoriesData] = useState([]);
@@ -42,7 +42,7 @@ export default function HeaderSearch({
     searchRef,
     queryParams,
     trackFinalSearch,
-  } = useProductSearch({ lang, source: "header" });
+  } = useProductSearch({ lang, source: "header", userId });
 
   const router = useRouter();
 
@@ -86,7 +86,9 @@ export default function HeaderSearch({
     }
     setShowResults(false);
     setSearchValue("");
-    router.push(`/${langPrefix}search/products?${queryParams}`);
+    router.push(
+      `/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}search/products?${queryParams}`,
+    );
   };
 
   return (
@@ -94,7 +96,7 @@ export default function HeaderSearch({
       ref={searchRef}
       onSubmit={handleSearch}
       className={`${
-        scrolled ? "bg-[#EAEEF3] py-2" : "bg-[#0932701a] py-1"
+        scrolled ? "bg-surfaceBlue py-2" : "bg-[#0932701a] py-1"
       } hidden md:flex rounded-full max-w-full md:max-w-[70vw] w-full items-center ps-4 pe-2 gap-1 justify-between transition-all flex-1 relative`}
       role="search"
       aria-label={t("search")}
@@ -169,6 +171,7 @@ export default function HeaderSearch({
         t={t}
         onResultClick={() => setShowResults(false)}
         trackFinalSearch={trackFinalSearch}
+        shopSlug={shopSlug}
       />
     </form>
   );

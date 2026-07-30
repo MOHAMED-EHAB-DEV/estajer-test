@@ -55,7 +55,7 @@ const Faqs = ({ translate, lang, activeCategory }) => {
           <h2 className="text-primary font-IBMPlex font-semibold text-2xl md:text-4xl">
             {t("mainTitle")}
           </h2>
-          <p className="text-lg md:text-xl text-center text-[#5B5656]">
+          <p className="text-lg md:text-xl text-center text-mutedGray">
             {t("description")}
           </p>
         </div>
@@ -119,7 +119,7 @@ const Faqs = ({ translate, lang, activeCategory }) => {
 
         <Button
           onClick={hasMore ? showMore : showLess}
-          className="bg-[#0E0E0E] font-semibold font-IBMPlex text-medium"
+          className="bg-[#0E0E0E] font-semibold font-IBMPlex text-base"
         >
           {hasMore ? t("showMore") : t("showLess")}
         </Button>

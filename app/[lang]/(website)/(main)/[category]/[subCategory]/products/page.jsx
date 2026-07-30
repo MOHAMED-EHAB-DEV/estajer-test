@@ -238,7 +238,10 @@ export default async function SubCategoryProductsPage({
         {/* Search Filters */}
         <SearchFilters
           lang={lang}
-          translate={translate()}
+          translate={{
+            search: translate("search"),
+            product: { page: translate("product.page") },
+          }}
           initialProducts={initialProducts}
           queryParams={{
             ...queryParams,
@@ -265,7 +268,11 @@ export default async function SubCategoryProductsPage({
             key={queryString}
             search={true}
             lang={lang}
-            translate={translate()}
+            translate={{
+              productComponent: translate("productComponent"),
+              bulkEditDelivery: translate("bulkEditDelivery"),
+              ui: translate("ui"),
+            }}
             initialProducts={initialProducts}
             addedValue={addedValue}
             category={category}
@@ -277,7 +284,9 @@ export default async function SubCategoryProductsPage({
           categoryName={subCategoryData.label}
           richContent={subCategoryData[`richContent${langSuffix}`]}
           lang={lang}
-          translate={translate()}
+          translate={{
+            categoryRichContent: translate("categoryRichContent"),
+          }}
         />
       </div>
     </>

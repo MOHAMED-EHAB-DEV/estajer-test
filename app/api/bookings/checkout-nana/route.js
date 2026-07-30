@@ -151,10 +151,10 @@ export async function POST(req) {
     }).then((res) => res.json());
     if (!paymentUrl.success)
       throw new Error(paymentUrl.error_message || paymentUrl || "Failed to create payment page");
-    // Create order using pre-calculated data
     const order = await Order.create({
       paymentId: paymentUrl.data.id,
       paymentGateway: "nana",
+      source: { type: "nana" },
       userData,
       ownerData: preOrder.ownerData,
       items: preOrder.items,

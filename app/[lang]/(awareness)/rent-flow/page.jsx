@@ -10,16 +10,51 @@ import MarketingFaqs from "@/components/marketing/MarketingFaqs";
 
 export async function generateMetadata({ params }) {
   const { lang } = await params;
+  const siteURL = process.env.NEXT_PUBLIC_APP_URL;
+
+  const title =
+    lang === "ar"
+      ? "باقات استأجر - تحوّل تجارتك"
+      : "Estajer Plans - Transform Your Business";
+  const description =
+    lang === "ar"
+      ? "تعرف على مزايا باقات استأجر الاستثنائية التي تزيد أرباحك وتقلل جهدك."
+      : "Discover Estajer's premium plans that increase profits and reduce efforts.";
+
+  const isAr = lang === "ar";
 
   return {
-    title:
-      lang === "ar"
-        ? "باقات استأجر - تحوّل تجارتك"
-        : "Estajer Plans - Transform Your Business",
-    description:
-      lang === "ar"
-        ? "تعرف على مزايا باقات استأجر الاستثنائية التي تزيد أرباحك وتقلل جهدك."
-        : "Discover Estajer's premium plans that increase profits and reduce efforts.",
+    title,
+    description,
+    metadataBase: new URL(siteURL),
+    alternates: {
+      canonical: `${siteURL}/${lang === "ar" ? "" : `${lang}/`}rent-flow`,
+      languages: {
+        ar: `/rent-flow`,
+        en: `/en/rent-flow`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      images: [
+        {
+          url: isAr ? `${siteURL}/og/rent_flow_ar.webp` : `${siteURL}/og/rent_flow_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: isAr ? "استأجر - باقات استأجر" : "Estajer - Estajer Plans",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [
+        isAr ? `${siteURL}/og/rent_flow_ar.webp` : `${siteURL}/og/rent_flow_en.webp`,
+      ],
+    },
   };
 }
 

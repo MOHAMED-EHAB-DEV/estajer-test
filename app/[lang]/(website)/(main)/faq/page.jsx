@@ -37,6 +37,14 @@ export async function generateMetadata({ params }) {
       description: currentMeta.description,
       url: `${siteURL}/${lang === "ar" ? "" : `${lang}/`}faq`,
       type: "website",
+      images: [
+        {
+          url: lang === "ar" ? `${siteURL}/og/faq_ar.webp` : `${siteURL}/og/faq_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - الأسئلة الشائعة" : "Estajer - FAQ",
+        },
+      ],
     },
   };
 }

@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { anyImgUrl } from "@/utils/ImageUrl";
 import Image from "next/image";
 import { toast } from "@/utils/toast";
-import { Textarea } from "@heroui/react";
+import { Textarea } from "@/components/ui/Input";
 import { Send } from "@/components/ui/svgs/icons/SendSvg";
 
 const formatDate = (dateStr) => {
@@ -168,7 +168,7 @@ export default function AdminNotesModal({ order, onClose }) {
         {/* Header */}
         <div className="flex items-center justify-between md:px-6 md:py-4 px-4 py-3 border-b border-gray-100 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-0.5 h-5 md:w-1 md:h-6 rounded-full bg-[#f48a42]" />
+            <div className="w-0.5 h-5 md:w-1 md:h-6 rounded-full bg-primary" />
             <div>
               <h2 className="font-bold text-darkNavy text-sm md:text-base font-IBMPlex">
                 ملاحظات الإدارة
@@ -208,14 +208,14 @@ export default function AdminNotesModal({ order, onClose }) {
             </div>
           ) : notes.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-40 text-center gap-3">
-              <div className="md:w-14 md:h-14 w-12 h-12 rounded-2xl bg-[#FDF5EE] flex items-center justify-center">
+              <div className="md:w-14 md:h-14 w-12 h-12 rounded-2xl bg-brandCream flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-7 h-7 text-[#f48a42]"
+                  className="w-7 h-7 text-primary"
                 >
                   <path
                     strokeLinecap="round"
@@ -257,7 +257,7 @@ export default function AdminNotesModal({ order, onClose }) {
                       <button
                         onClick={() => handleEdit(note._id)}
                         disabled={submitting || !editingText.trim()}
-                        className="px-4 py-1.5 text-xs font-bold rounded-lg bg-[#f48a42] text-white hover:bg-[#f48a42]/90 disabled:opacity-50 transition-colors"
+                        className="px-4 py-1.5 text-xs font-bold rounded-lg bg-primary text-white hover:bg-primary/90 disabled:opacity-50 transition-colors"
                       >
                         {submitting ? "حفظ..." : "حفظ التعديل"}
                       </button>
@@ -267,7 +267,7 @@ export default function AdminNotesModal({ order, onClose }) {
                   /* View mode */
                   <div className="md:p-4 p-3">
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="w-7 h-7 rounded-full bg-[#FDF5EE] overflow-hidden shrink-0 flex items-center justify-center">
+                      <div className="w-7 h-7 rounded-full bg-brandCream overflow-hidden shrink-0 flex items-center justify-center">
                         {note.userId?.avatar ? (
                           <Image
                             src={anyImgUrl({ src: note.userId.avatar })}
@@ -277,7 +277,7 @@ export default function AdminNotesModal({ order, onClose }) {
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          <span className="text-[#f48a42] text-xs font-bold">
+                          <span className="text-primary text-xs font-bold">
                             {note.userId?.fullName?.charAt(0) ?? "A"}
                           </span>
                         )}
@@ -294,7 +294,7 @@ export default function AdminNotesModal({ order, onClose }) {
                       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                         <button
                           onClick={() => startEdit(note)}
-                          className="w-7 h-7 rounded-lg bg-gray-50 hover:bg-[#FDF5EE] text-gray-400 hover:text-[#f48a42] flex items-center justify-center transition-colors"
+                          className="w-7 h-7 rounded-lg bg-gray-50 hover:bg-brandCream text-gray-400 hover:text-primary flex items-center justify-center transition-colors"
                           title="تعديل"
                         >
                           <svg

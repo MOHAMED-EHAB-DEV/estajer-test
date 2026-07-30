@@ -80,7 +80,7 @@ async function safeReadJSON(filePath) {
 }
 
 // Ensure metadata.json exists for a session, creating a minimal one if needed.
-async function ensureMetadata(sessionDir, sessionId) {
+async function ensureMetadata(sessionDir, sessionId, ipAddress) {
   const metadataPath = path.join(sessionDir, "metadata.json");
   try {
     const minimalMeta = JSON.stringify(
@@ -88,6 +88,7 @@ async function ensureMetadata(sessionDir, sessionId) {
         sessionId,
         startedAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        ipAddress: ipAddress || "Unknown",
         pageViews: [],
         journeyPath: [],
         user: null,
@@ -100,7 +101,10 @@ async function ensureMetadata(sessionDir, sessionId) {
       encoding: "utf8",
       flag: "wx",
     });
-  } catch (e) {}
+  } catch (e) {
+    // Only Suppress EEXIST error and rethrow all others
+    if (e.code !== "EEXIST") throw e;
+  }
 }
 
 // Safe JSON write with atomic operation using unique temp files
@@ -130,6 +134,9 @@ async function safeWriteJSON(filePath, data) {
 
 export async function POST(request) {
   try {
+    const forwarded = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "";
+    const ipAddress = forwarded ? forwarded.split(",")[0].trim().replace("::ffff:", "") : "Unknown";
+
     // Read the raw text first to avoid stream consumption issues
     const rawBody = await request.text();
 
@@ -193,6 +200,7 @@ export async function POST(request) {
           ...newMetadata,
           sessionId,
           visitorId,
+          ipAddress: existingMetadata?.ipAddress || ipAddress,
           user: data.user || null,
           pageViews,
           journeyPath,
@@ -213,7 +221,7 @@ export async function POST(request) {
 
       try {
         await acquireLock(lockKey);
-        await ensureMetadata(sessionDir, sessionId);
+        await ensureMetadata(sessionDir, sessionId, ipAddress);
 
         const meta = await safeReadJSON(metadataPath);
         if (meta) {
@@ -233,7 +241,7 @@ export async function POST(request) {
 
       try {
         await acquireLock(lockKey);
-        await ensureMetadata(sessionDir, sessionId);
+        await ensureMetadata(sessionDir, sessionId, ipAddress);
 
         const meta = await safeReadJSON(metadataPath);
         if (meta) {
@@ -278,7 +286,15 @@ export async function POST(request) {
             existingEvents = JSON.parse(decompressedContent.toString());
           }
         } catch (e) {
-          console.error(`Error reading existing events for ${sessionId}:`, e);
+          if (e.code === "Z_DATA_ERROR" || e instanceof SyntaxError) {
+            // Corrupt gz file — delete it and start fresh rather than spam-logging
+            console.warn(`Corrupt events file for ${sessionId}, resetting. Error: ${e.message}`);
+            try { await fs.unlink(eventsPath); } catch (_) {}
+            existingEvents = [];
+          } else {
+            console.error(`Error reading existing events for ${sessionId}:`, e);
+            return NextResponse.json({ success: false, error: "Failed to read existing stream" }, { status: 500 });
+          }
         }
 
         const allEvents = [...existingEvents, ...events];
@@ -292,7 +308,7 @@ export async function POST(request) {
         // Update file size in metadata
         try {
           await acquireLock(metadataLockKey);
-          await ensureMetadata(sessionDir, sessionId);
+          await ensureMetadata(sessionDir, sessionId, ipAddress);
           const metadataPath = path.join(sessionDir, "metadata.json");
           const meta = await safeReadJSON(metadataPath);
           if (meta) {

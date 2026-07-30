@@ -8,7 +8,6 @@ const NotificationsDrawer = dynamic(() => import("./NotificationsDrawer"), {
   ssr: false,
 });
 import { useUser } from "@/context/UserContext";
-import { sendGTMEvent } from "@next/third-parties/google";
 import Button from "../ui/Button";
 
 export default function NotificationList({ translate, lang, home }) {
@@ -78,16 +77,7 @@ export default function NotificationList({ translate, lang, home }) {
         color="transparent"
         size="md"
         variant="light"
-        onPress={() => {
-          try {
-            sendGTMEvent({
-              event: "drawer_open",
-              drawer_name: "notifications_drawer",
-              location: home ? "home_header" : "header",
-            });
-          } catch (_) {}
-          onOpen();
-        }}
+        onPress={() => onOpen()}
         radius="full"
         title={t("title")}
         className="w-full h-full"

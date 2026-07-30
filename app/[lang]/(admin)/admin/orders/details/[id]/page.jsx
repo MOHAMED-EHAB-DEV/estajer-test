@@ -33,7 +33,7 @@ const Page = async ({ params }) => {
         title={translate("titles.details")}
         translate={translate()}
       />
-      <OrderDetails order={orderData} />
+      <OrderDetails order={orderData} translate={translate()} />
     </div>
   );
 };

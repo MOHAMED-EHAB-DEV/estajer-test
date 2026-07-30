@@ -36,6 +36,14 @@ export async function generateMetadata({ params }) {
       description: currentMeta.description,
       url: `${siteURL}/${lang === "ar" ? "" : `${lang}/`}requests`,
       type: "website",
+      images: [
+        {
+          url: lang === "ar" ? `${siteURL}/og/requests_ar.webp` : `${siteURL}/og/requests_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - طلبات الأعضاء" : "Estajer - User Requests",
+        },
+      ],
     },
   };
 }

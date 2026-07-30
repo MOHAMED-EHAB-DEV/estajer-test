@@ -74,9 +74,9 @@ const ArrowIcon = ({ isRtl }) => (
 export default function PartnerAbout({ partner, lang, translate }) {
   const trans = useTranslations(translate);
   const t = (key) => trans(`partner.about.${key}`);
-  const isAr = lang === "ar";
-  const name = isAr ? partner.nameAr : partner.nameEn;
-  const description = isAr ? partner.descriptionAr : partner.descriptionEn;
+  const name = lang === "ar" ? partner.nameAr : partner.nameEn;
+  const description =
+    lang === "ar" ? partner.descriptionAr : partner.descriptionEn;
 
   if (!description && !name) return null;
 
@@ -194,10 +194,10 @@ export default function PartnerAbout({ partner, lang, translate }) {
                   }
                   className="group/btn inline-flex items-center gap-2.5 bg-gradient-to-r from-primary to-primary/90 text-white px-7 py-3.5 rounded-2xl text-sm font-bold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98]"
                 >
-                  {isAr
+                  {lang === "ar"
                     ? partner.aboutUsButtonTextAr || t("browseProducts")
                     : partner.aboutUsButtonTextEn || t("browseProducts")}
-                  <ArrowIcon isRtl={isAr} />
+                  <ArrowIcon isRtl={lang === "ar"} />
                 </Link>
               </div>
             </div>

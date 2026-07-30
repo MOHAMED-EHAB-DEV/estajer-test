@@ -66,10 +66,30 @@ export async function POST(req) {
       imageEnUrl = uploaded.secure_url;
     }
 
+    let imageMobileUrl = data.imageMobile;
+    if (data.imageMobile && data.imageMobile.startsWith("data:")) {
+      const uploaded = await cloudinary.uploader.upload(data.imageMobile, {
+        folder: "hero-slides",
+        format: "webp",
+      });
+      imageMobileUrl = uploaded.secure_url;
+    }
+
+    let imageMobileEnUrl = data.imageMobileEn;
+    if (data.imageMobileEn && data.imageMobileEn.startsWith("data:")) {
+      const uploaded = await cloudinary.uploader.upload(data.imageMobileEn, {
+        folder: "hero-slides",
+        format: "webp",
+      });
+      imageMobileEnUrl = uploaded.secure_url;
+    }
+
     const slide = await HeroSlide.create({
       ...data,
       image: imageUrl,
       imageEn: imageEnUrl,
+      imageMobile: imageMobileUrl,
+      imageMobileEn: imageMobileEnUrl,
     });
 
     return NextResponse.json({ success: true, data: slide });

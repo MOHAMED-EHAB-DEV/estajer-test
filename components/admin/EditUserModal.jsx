@@ -12,7 +12,7 @@ import { toast } from "@/utils/toast";
 import { useTranslations } from "@/hooks/useTranslations";
 import ToastMessage from "../ui/ToastMessage";
 import { formatNumber, validateNumber } from "@/utils/formatNumber";
-import { Input } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
 import ImagePreviewModal from "./ImagePreviewModal";
 import NafathAuthModal from "@/components/checkout/NafathAuthModal";
 import SupplierModal from "@/components/addProduct/SupplierModal";

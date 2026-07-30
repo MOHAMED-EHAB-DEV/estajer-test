@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { Autocomplete, AutocompleteItem } from "@heroui/autocomplete";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { Autocomplete, AutocompleteItem } from "@/components/ui/Autocomplete";
 import Button from "../ui/Button";
 
 export default function Location({ lang, onLocationSelect, placeholder }) {
@@ -65,17 +64,6 @@ export default function Location({ lang, onLocationSelect, placeholder }) {
 
         setSearchValue(locationData.name);
         onLocationSelect(locationData);
-        try {
-          sendGTMEvent({
-            event: "home_location_select",
-            location_name: locationData.name,
-            lat: locationData.lat,
-            lng: locationData.lng,
-            source: "autocomplete",
-            location: "home_search_box",
-            language: lang,
-          });
-        } catch (_) {}
       }
     } catch (error) {
       console.error("Error getting place details:", error);
@@ -140,10 +128,11 @@ export default function Location({ lang, onLocationSelect, placeholder }) {
     <div className="items-center gap-2 md:flex hidden">
       <Autocomplete
         size="sm"
-        aria-label="Location"
+        aria-label={placeholder || "Location"}
         classNames={{
           base: "hover:md:w-40 hover:w-30 focus-within:md:w-40 w-32 transition-width duration-500",
           endContentWrapper: "absolute end-0 top-0",
+          popoverContent: "z-50",
         }}
         inputProps={{
           classNames: {
@@ -160,11 +149,12 @@ export default function Location({ lang, onLocationSelect, placeholder }) {
         }}
         isLoading={isLoading}
         placeholder={placeholder}
+        defaultFilter={() => true}
         startContent={
           <Button
             size="md"
             color="transparent"
-            className="px-0 ms-2 w-10 min-w-0 bg-transparent justify-end "
+            className="px-0 w-10 min-w-0 bg-transparent justify-end -me-2"
             onPress={getCurrentLocation}
             aria-label="Get current location"
           >

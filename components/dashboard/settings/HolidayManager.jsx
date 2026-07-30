@@ -1,7 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
 import Button from "../../ui/Button";
 import { toast } from "@/utils/toast";
 import ToastMessage from "../../ui/ToastMessage";
@@ -194,7 +198,7 @@ export default function HolidayManager({ user, setUser, t, lang }) {
       <p className="text-sm text-gray-500 mb-6">{t("holidayManager.desc")}</p>
 
       {/* Add new period */}
-      <div className="bg-[#FDF5EE] border border-primary/20 rounded-2xl p-4 mb-6">
+      <div className="bg-brandCream border border-primary/20 rounded-2xl p-4 mb-6">
         <p className="text-sm font-semibold text-darkNavy mb-3">
           {editingIndex !== null
             ? t("holidayManager.editPeriod")

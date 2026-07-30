@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 
 /**
@@ -30,6 +30,12 @@ export default function CustomDrawer({
 }) {
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
+
+  // Direct DOM references for 60FPS zero-rerender dragging on low-end hardware
+  const panelRef = useRef(null);
+  const dragStartY = useRef(0);
+  const currentDragY = useRef(0);
+  const rafId = useRef(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -68,16 +74,100 @@ export default function CustomDrawer({
     return () => document.removeEventListener("keydown", onKey);
   }, [isOpen, onClose]);
 
+  // Touch drag handlers (direct DOM manipulation, 0 React re-renders)
+  const handleTouchStart = (e) => {
+    dragStartY.current = e.touches[0].clientY;
+    currentDragY.current = 0;
+    if (panelRef.current) {
+      panelRef.current.style.transition = "none";
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (!dragStartY.current) return;
+    const deltaY = e.touches[0].clientY - dragStartY.current;
+    if (deltaY > 0) {
+      currentDragY.current = deltaY;
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+      rafId.current = requestAnimationFrame(() => {
+        if (panelRef.current) {
+          panelRef.current.style.transform = `translate3d(0, ${deltaY}px, 0)`;
+        }
+      });
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    if (panelRef.current) {
+      panelRef.current.style.transition =
+        "transform 320ms cubic-bezier(0.32, 0.72, 0, 1)";
+    }
+    if (currentDragY.current > 80) {
+      onClose?.();
+    } else {
+      if (panelRef.current) {
+        panelRef.current.style.transform = "translate3d(0, 0, 0)";
+      }
+    }
+    dragStartY.current = 0;
+    currentDragY.current = 0;
+  };
+
+  // Mouse drag handlers
+  const handleMouseDown = (e) => {
+    dragStartY.current = e.clientY;
+    currentDragY.current = 0;
+    if (panelRef.current) {
+      panelRef.current.style.transition = "none";
+    }
+
+    const onMouseMove = (moveEvent) => {
+      const deltaY = moveEvent.clientY - dragStartY.current;
+      if (deltaY > 0) {
+        currentDragY.current = deltaY;
+        if (rafId.current) cancelAnimationFrame(rafId.current);
+        rafId.current = requestAnimationFrame(() => {
+          if (panelRef.current) {
+            panelRef.current.style.transform = `translate3d(0, ${deltaY}px, 0)`;
+          }
+        });
+      }
+    };
+
+    const onMouseUp = () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+      if (panelRef.current) {
+        panelRef.current.style.transition =
+          "transform 320ms cubic-bezier(0.32, 0.72, 0, 1)";
+      }
+      if (currentDragY.current > 80) {
+        onClose?.();
+      } else {
+        if (panelRef.current) {
+          panelRef.current.style.transform = "translate3d(0, 0, 0)";
+        }
+      }
+      dragStartY.current = 0;
+      currentDragY.current = 0;
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+  };
+
   if (!mounted) return null;
 
   // Placement styles & transitions
   let transformStyle = "";
   if (placement === "bottom") {
-    transformStyle = visible ? "translateY(0)" : "translateY(100%)";
+    transformStyle = visible ? "translate3d(0, 0, 0)" : "translate3d(0, 100%, 0)";
   } else if (placement === "left") {
-    transformStyle = visible ? "translateX(0)" : "translateX(-100%)";
+    transformStyle = visible ? "translate3d(0, 0, 0)" : "translate3d(-100%, 0, 0)";
   } else if (placement === "right") {
-    transformStyle = visible ? "translateX(0)" : "translateX(100%)";
+    transformStyle = visible ? "translate3d(0, 0, 0)" : "translate3d(100%, 0, 0)";
   }
 
   // Size styling classes mapping
@@ -89,7 +179,6 @@ export default function CustomDrawer({
       sizeClass = "w-full rounded-t-3xl";
     }
   } else {
-    // left or right placement
     if (size === "full") {
       sizeClass = "w-full h-full";
     } else if (size === "sm") {
@@ -111,7 +200,6 @@ export default function CustomDrawer({
     placementClass = "top-0 bottom-0 right-0";
   }
 
-  // Backdrop backdrop-blur or transparency style
   const backdropClass =
     backdrop === "transparent"
       ? "bg-transparent"
@@ -125,7 +213,7 @@ export default function CustomDrawer({
         onClick={onClose}
         style={{ transition: "opacity 300ms ease" }}
         className={[
-          "fixed inset-0 z-[60]",
+          "fixed inset-0 z-drawer",
           backdropClass,
           visible ? "opacity-100" : "opacity-0 pointer-events-none",
         ].join(" ")}
@@ -133,14 +221,17 @@ export default function CustomDrawer({
 
       {/* Drawer Panel */}
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         style={{
           transition: "transform 320ms cubic-bezier(0.32, 0.72, 0, 1)",
           transform: transformStyle,
+          paddingBottom: "env(safe-area-inset-bottom, 0px)",
+          willChange: "transform",
         }}
         className={[
-          "fixed z-[61] bg-white shadow-2xl flex flex-col",
+          "fixed z-drawer-content bg-white shadow-2xl flex flex-col",
           placementClass,
           sizeClass,
           className,
@@ -148,8 +239,14 @@ export default function CustomDrawer({
       >
         {/* Top grab handle bar for bottom sheets that are not full size */}
         {placement === "bottom" && size !== "full" && showGrabHandle && (
-          <div className="flex justify-center pt-3 pb-1 flex-shrink-0 select-none">
-            <div className="w-10 h-1 rounded-full bg-gray-300" />
+          <div
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            className="flex justify-center pt-3 pb-2 flex-shrink-0 select-none cursor-grab active:cursor-grabbing touch-none"
+          >
+            <div className="w-12 h-1.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors" />
           </div>
         )}
 

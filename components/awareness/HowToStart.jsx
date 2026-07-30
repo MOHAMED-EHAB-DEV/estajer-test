@@ -76,7 +76,7 @@ const HowToStart = ({ translate, lang }) => {
           <h2 className="font-IBMPlex font-bold lg:text-[2.2rem] md:text-[1.8rem] text-[1.3rem] text-darkNavy mb-4 leading-tight">
             {t("title")}
           </h2>
-          <p className="text-[#5B5656] text-xs md:text-base font-IBMPlex">
+          <p className="text-mutedGray text-xs md:text-base font-IBMPlex">
             {t("description")}
           </p>
         </div>
@@ -101,10 +101,10 @@ const HowToStart = ({ translate, lang }) => {
                     </div>
                   </div>
                   <div className="max-w-[180px] md:max-w-[200px]">
-                    <h3 className="font-IBMPlex font-bold text-base md:text-[1.1rem] text-darkNavy mb-2 leading-snug">
+                    <h3 className="font-IBMPlex font-bold text-base md:text-1.1 text-darkNavy mb-2 leading-snug">
                       {step.title}
                     </h3>
-                    <p className="text-[#5B5656] text-[11px] md:text-sm leading-relaxed">
+                    <p className="text-mutedGray text-[11px] md:text-sm leading-relaxed">
                       {step.description}
                     </p>
                   </div>

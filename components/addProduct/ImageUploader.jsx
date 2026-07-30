@@ -18,6 +18,7 @@ export default function ImageUploader({
   sm,
   layout = "horizontal",
   hideTips = false,
+  size,
 }) {
   const trans = useTranslations(translate);
   const t = (key) => trans(`addProductPage.imageUploader.${key}`);
@@ -195,7 +196,9 @@ export default function ImageUploader({
     <>
       <div
         className={`border-2 border-dashed ${
-          sm ? "rounded-2xl p-4" : "rounded-2xl p-8"
+          sm
+            ? "rounded-xl md:rounded-2xl p-3 md:p-4"
+            : "rounded-xl md:rounded-2xl p-4 md:p-8"
         } text-center cursor-pointer transition-colors bg-[#fff8ed] ${
           isDragging
             ? "border-primary bg-primary/5 animate-pulse"
@@ -217,22 +220,28 @@ export default function ImageUploader({
         <div
           className={`flex ${
             layout === "vertical"
-              ? "flex-col items-center justify-center py-6 px-4 gap-3"
+              ? "flex-col items-center justify-center py-4 md:py-6 px-3 md:px-4 gap-2 md:gap-3"
               : "items-center justify-center gap-2"
           } pointer-events-none ${
             review
               ? sm
-                ? "min-h-[5rem]"
-                : "min-h-[6rem]"
+                ? "min-h-[4rem] md:min-h-[5rem]"
+                : "min-h-[5rem] md:min-h-[6rem]"
               : sm
-                ? "min-h-[8rem]"
-                : "min-h-[12rem]"
+                ? "min-h-[6rem] md:min-h-[8rem]"
+                : "min-h-[7rem] md:min-h-[12rem]"
           }`}
         >
-          <ImageSvg size={review ? (sm ? 22 : 26) : sm ? 26 : 31} />
+          <ImageSvg size={review ? (sm ? 20 : 24) : sm ? 22 : 28} />
           <p
-            className={`text-[#5B5656] ${
-              !review ? (sm ? "text-sm" : "text-lg") : sm ? "text-xs" : ""
+            className={`text-mutedGray ${
+              !review
+                ? sm
+                  ? "text-xs md:text-sm"
+                  : "md:text-lg text-xs"
+                : sm
+                  ? "text-[10px] md:text-xs"
+                  : "text-xs md:text-base"
             }`}
           >
             {isDragging ? t("dragging") : t("dragAndDrop")}
@@ -241,8 +250,8 @@ export default function ImageUploader({
       </div>
 
       {files.length > 0 && (
-        <div className={sm ? "mt-2" : "mt-6"}>
-          <div className="flex flex-wrap gap-4">
+        <div className={sm ? "mt-2" : "mt-3 md:mt-6"}>
+          <div className="flex flex-wrap gap-2 md:gap-4">
             {files.map((file, idx) => (
               <div
                 key={idx}
@@ -254,7 +263,7 @@ export default function ImageUploader({
               >
                 <div
                   className={`relative aspect-[1/.8] ${
-                    sm ? "h-24" : "h-32"
+                    sm ? "h-16 md:h-24" : "h-20 md:h-32"
                   } border rounded-lg overflow-hidden`}
                 >
                   <div
@@ -267,7 +276,7 @@ export default function ImageUploader({
                     className="w-full h-full object-contain relative z-10"
                   />
                   {!review && !proposal && idx === 0 && (
-                    <div className="absolute bottom-0 z-20 left-0 right-0 bg-primary/80 text-white text-xs py-1 text-center">
+                    <div className="absolute bottom-0 z-20 left-0 right-0 bg-primary/80 text-white text-[10px] md:text-xs py-0.5 md:py-1 text-center">
                       {t("mainImage")}
                     </div>
                   )}
@@ -277,7 +286,7 @@ export default function ImageUploader({
                   onClick={() => removeFile(idx)}
                   className="absolute z-20 -top-2 -left-2 bg-red-500 bg-opacity-90 hover:bg-opacity-100 transition-colors text-white rounded-full p-1 "
                 >
-                  <Close className="w-4 h-4" />
+                  <Close className="w-3 h-3 md:w-4 md:h-4" />
                 </button>
               </div>
             ))}
@@ -287,13 +296,23 @@ export default function ImageUploader({
       {!hideTips && (
         <ul
           className={`text-darkNavy ${
-            sm ? "text-sm space-y-0.5 mt-1" : "space-y-1 mt-4"
+            sm
+              ? "text-xs md:text-sm space-y-0.5 mt-1"
+              : "text-xs md:text-base space-y-0.5 md:space-y-1 mt-2 md:mt-4"
           }`}
         >
           {!review || (!proposal && <li>• {t("tips.mainImageTip")}</li>)}
           {!isThumbnail && <li>• {t("tips.dragTip")}</li>}
           <li>• {t("tips.maxFilesTip").replace("{count}", MAX_FILES)}</li>
           {!review && <li>• {t("tips.resizeTip")}</li>}
+          {size && (
+            <li>
+              •{" "}
+              {t("tips.sizeTip")
+                .replace("{width}", size.width)
+                .replace("{height}", size.height)}
+            </li>
+          )}
         </ul>
       )}
     </>

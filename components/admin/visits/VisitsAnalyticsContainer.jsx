@@ -3,7 +3,9 @@
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useTranslations } from "@/hooks/useTranslations";
 import VisitsChart from "./VisitsChart";
-import { Autocomplete, AutocompleteItem, Input } from "@heroui/react";
+import { Autocomplete, AutocompleteItem } from "@/components/ui/Autocomplete";
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Input } from "@/components/ui/Input";
 import { useDebounce } from "use-debounce";
 import DateRangePicker from "../DateRangePicker";
 import { User } from "@/components/ui/svgs/icons/UserSvg";
@@ -131,7 +133,7 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
   });
 
   // Table Tabs & Data
-  const [tab, setTab] = useState("pages"); // "pages" | "products" | "owners"
+  const [tab, setTab] = useState("pages"); // "pages" | "products" | "owners" | "mainCategories" | "subCategories"
   const [data, setData] = useState({ results: [], summary: {} });
   const [loading, setLoading] = useState(true);
 
@@ -139,6 +141,8 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
   const [pageSearch, setPageSearch] = useState("");
   const [productSearch, setProductSearch] = useState("");
   const [selectedUser, setSelectedUser] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [mainCategories, setMainCategories] = useState([]);
   const [userSearchTerm, setUserSearchTerm] = useState("");
   const [usersAutocomplete, setUsersAutocomplete] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
@@ -147,6 +151,22 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
   const [debouncedPage] = useDebounce(pageSearch, 500);
   const [debouncedProduct] = useDebounce(productSearch, 500);
   const [debouncedUserSearch] = useDebounce(userSearchTerm, 600);
+
+  // Fetch Main Categories for filter dropdown
+  useEffect(() => {
+    const fetchMainCategories = async () => {
+      try {
+        const res = await fetch("/api/categories?mainOnly=true&status=active");
+        const json = await res.json();
+        if (json.success) {
+          setMainCategories(json.data || []);
+        }
+      } catch (e) {
+        console.error("Error fetching main categories:", e);
+      }
+    };
+    fetchMainCategories();
+  }, []);
 
   // 1. Fetch Overall Stats (Chart + Top Cards)
   const fetchOverallStats = useCallback(async () => {
@@ -177,6 +197,11 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
       if (debouncedProduct && tab === "products")
         params.set("page", debouncedProduct); // Reusing page search on API for product names/ids conceptually
       if (selectedUser) params.set("ownerId", selectedUser);
+      if (
+        selectedCategory &&
+        (tab === "mainCategories" || tab === "subCategories")
+      )
+        params.set("category", selectedCategory);
 
       const res = await fetch(`/api/visitors/pages?${params.toString()}`);
       const json = await res.json();
@@ -186,7 +211,14 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
     } finally {
       setLoading(false);
     }
-  }, [tab, range, debouncedPage, debouncedProduct, selectedUser]);
+  }, [
+    tab,
+    range,
+    debouncedPage,
+    debouncedProduct,
+    selectedUser,
+    selectedCategory,
+  ]);
 
   useEffect(() => {
     fetchOverallStats();
@@ -338,6 +370,8 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
                 { id: "pages", label: t("tabs.pages") },
                 { id: "products", label: t("tabs.products") },
                 { id: "owners", label: t("tabs.owners") },
+                { id: "mainCategories", label: t("tabs.mainCategories") },
+                { id: "subCategories", label: t("tabs.subCategories") },
               ].map((tItem) => (
                 <button
                   key={tItem.id}
@@ -383,10 +417,38 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
                 size="md"
               />
             )}
-            <div className="w-full md:w-72 relative">
+            {(tab === "mainCategories" || tab === "subCategories") && (
+              <div className="w-full md:w-64">
+                <Select
+                  labelPlacement="outside"
+                  label={t("filters.categorySearch")}
+                  placeholder={t("filters.allCategories")}
+                  selectedKeys={selectedCategory ? [selectedCategory] : []}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  variant="flat"
+                  classNames={{
+                    base: "gap-3",
+                    label: "tracking-normal",
+                    trigger:
+                      "h-14 rounded-2xl px-3.5 bg-slate-50/50 border border-slate-200/80 focus-within:bg-white focus-within:border-slate-400 focus-within:ring-4 focus-within:ring-slate-500/5",
+                  }}
+                >
+                  <SelectItem key="" value="">
+                    {t("filters.allCategories")}
+                  </SelectItem>
+                  {mainCategories.map((cat) => (
+                    <SelectItem key={cat.key} value={cat.key}>
+                      {lang === "ar" ? cat.nameAr : cat.nameEn}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
+            )}
+            <div className="w-full md:w-64 relative">
               <Autocomplete
                 labelPlacement="outside"
                 label={t("filters.ownerSearch")}
+                aria-label={t("filters.ownerSearch")}
                 placeholder={t("filters.userPlaceholder")}
                 inputValue={userSearchTerm}
                 onInputChange={setUserSearchTerm}
@@ -396,6 +458,7 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
                 isLoading={loadingUsers}
                 allowsCustomValue={false}
                 menuTrigger="input"
+                defaultFilter={() => true}
                 items={usersAutocomplete}
                 variant="flat"
                 radius="lg"
@@ -414,7 +477,7 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
                   >
                     <div className="flex flex-col">
                       <span className="font-medium">{user.fullName}</span>
-                      <span className="text-xs text-gray-500 font-sans">
+                      <span className="text-xs text-gray-500">
                         {user.email}
                       </span>
                     </div>
@@ -464,7 +527,9 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
                       ? t("table.pageAndPath")
                       : tab === "products"
                         ? t("table.productAndOwner")
-                        : t("table.ownerInfo")}
+                        : tab === "owners"
+                          ? t("table.ownerInfo")
+                          : t("table.categoryInfo")}
                   </th>
                   <th className="px-4 py-3 w-56 text-start">
                     {t("table.searchDensity")}
@@ -514,8 +579,53 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
                       "{count}",
                       item.productCount,
                     );
-                    RedirectUrl = `/${lang === "en" ? "en" : "ar"}/search/products?ownerId=${item._id}`;
+                    RedirectUrl = `/${lang === "en" ? "en" : "ar"}/profile/${item._id}/products`;
                     CopyValue = item.owner?.email || item._id;
+                  } else if (tab === "mainCategories") {
+                    NameTitle =
+                      (lang === "ar"
+                        ? item.categoryDoc?.nameAr
+                        : item.categoryDoc?.nameEn) ||
+                      (lang === "ar"
+                        ? item.categoryDoc?.nameEn
+                        : item.categoryDoc?.nameAr) ||
+                      item._id ||
+                      t("table.unknownCategory");
+                    SubInfo = `/${item._id}/products`;
+                    ExtraInfo = item.productCount
+                      ? t("table.ownsProducts").replace(
+                          "{count}",
+                          item.productCount,
+                        )
+                      : null;
+                    RedirectUrl = `/${lang === "en" ? "en" : "ar"}/${item._id}/products`;
+                    CopyValue = `/${item._id}/products`;
+                  } else if (tab === "subCategories") {
+                    NameTitle =
+                      (lang === "ar"
+                        ? item.categoryDoc?.nameAr
+                        : item.categoryDoc?.nameEn) ||
+                      (lang === "ar"
+                        ? item.categoryDoc?.nameEn
+                        : item.categoryDoc?.nameAr) ||
+                      item._id ||
+                      t("table.unknownCategory");
+                    const parentName =
+                      lang === "ar"
+                        ? item.parentCategoryDoc?.nameAr
+                        : item.parentCategoryDoc?.nameEn;
+                    SubInfo = parentName
+                      ? `${t("table.parentCategory")}: ${parentName}`
+                      : item._id;
+                    ExtraInfo = item.productCount
+                      ? t("table.ownsProducts").replace(
+                          "{count}",
+                          item.productCount,
+                        )
+                      : null;
+                    const parentKey = item.parentCategoryDoc?.key || "category";
+                    RedirectUrl = `/${lang === "en" ? "en" : "ar"}/${parentKey}/${item._id}/products`;
+                    CopyValue = `/${parentKey}/${item._id}/products`;
                   }
 
                   const isRank1 = idx === 0;
@@ -552,12 +662,12 @@ export default function VisitsAnalyticsContainer({ lang, translate }) {
                               <a
                                 href={RedirectUrl}
                                 target="_blank"
-                                className="font-bold text-gray-900 truncate hover:text-[#F48A42] transition-colors flex items-center gap-1.5"
+                                className="font-bold text-gray-900 truncate hover:text-primary transition-colors flex items-center gap-1.5"
                                 dir={tab === "pages" ? "ltr" : "rtl"}
                               >
                                 {NameTitle}
                                 <ExternalLinkIcon
-                                  className="opacity-0 group-hover/title:opacity-100 transition-opacity text-[#F48A42] shrink-0"
+                                  className="opacity-0 group-hover/title:opacity-100 transition-opacity text-primary shrink-0"
                                   size={13}
                                 />
                               </a>

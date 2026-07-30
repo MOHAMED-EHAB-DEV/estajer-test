@@ -1,12 +1,12 @@
 "use client";
+import Button from "@/components/ui/Button";
 import {
-  Button,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from "@heroui/react";
+} from "@/components/ui/CustomModal";
 import Image from "next/image";
 import { anyImgUrl } from "@/utils/ImageUrl";
 

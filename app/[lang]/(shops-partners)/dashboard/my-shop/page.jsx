@@ -22,7 +22,7 @@ export default async function MyShopPage({ params }) {
 
   if (!user) redirect(`/${lang}/login`);
 
-  const t = await getTranslations(lang, ["all", "home"]);
+  const t = await getTranslations(lang, ["all", "shop", "home"]);
   const [categoriesData, subCategoriesData] = await Promise.all([
     categories({ lang }),
     subCategories({ lang }),
@@ -41,6 +41,7 @@ export default async function MyShopPage({ params }) {
       categories={categoriesData}
       subCategories={subCategoriesData}
       isAdmin={false} // User editing their own shop
+      userPlan={user.shopPlan || (user.premium ? "growth" : "starter")}
     />
   );
 }

@@ -26,7 +26,7 @@ async function getProducts({ lang, type, categoryKey }) {
 
     const params = new URLSearchParams({
       lang,
-      limit: 16,
+      limit: 12,
       compressed: true,
       fields: commonFields,
     });
@@ -101,7 +101,7 @@ export default async function NewestProducts({
       className={`max-w-screen-2xl mx-auto flex flex-col gap-4 px-4 text-white my-16 md:my-24 lg:my-28 ${type === "main" ? "mt-12 md:mt-16 lg:mt-20" : ""}`}
       aria-label={t("ariaLabel")}
       itemScope
-      itemyype="https://schema.org/ItemList"
+      itemType="https://schema.org/ItemList"
     >
       <meta itemProp="numberOfItems" content={products.length} />
       <meta
@@ -121,7 +121,12 @@ export default async function NewestProducts({
         <EmblaCarousel
           lang={lang}
           initialProducts={products}
-          translate={translate()}
+          translate={{
+            productComponent: translate("productComponent"),
+            ui: translate("ui"),
+            heroSlider: translate("heroSlider"),
+            home: { filters: translate("home.filters") },
+          }}
           shops={type !== "main"}
         />
       </div>

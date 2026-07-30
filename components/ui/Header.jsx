@@ -23,7 +23,6 @@ const LangDrawer = dynamic(() => import("./LangDrawer"), { ssr: false });
 import { toast } from "@/utils/toast";
 import ToastMessage from "./ToastMessage";
 import NotificationList from "../shared/NotificationList";
-import { sendGTMEvent } from "@next/third-parties/google";
 
 function UserData({
   user,
@@ -45,7 +44,6 @@ function UserData({
           height={sm ? 36 : 32}
           className="rounded-full"
           alt={user.fullName}
-          priority
         />
       </div>
       <span className={`${sm ? "hidden md:block" : "block"} font-semibold`}>
@@ -75,26 +73,42 @@ function UserData({
     };
   }, [dropdownOpen]);
 
+  const isRenter = user?.isRenter === undefined || user?.isRenter;
   const links = [
     {
       href: `/${langPrefix}dashboard`,
       text: t("dashboard"),
       description: t("dashboardDescription"),
     },
-    {
-      href: `/${langPrefix}favorites`,
-      text: t("favorites"),
-      description: t("favoritesDescription"),
-    },
+    ...(isRenter
+      ? [
+          {
+            href: `/${langPrefix}dashboard/my-orders`,
+            text: t("myOrders"),
+            description: t("myOrdersDescription"),
+          },
+        ]
+      : [
+          {
+            href: `/${langPrefix}dashboard/requests`,
+            text: t("rentalRequests"),
+            description: t("rentalRequestsDescription"),
+          },
+          {
+            href: `/${langPrefix}dashboard/products`,
+            text: t("myProducts"),
+            description: t("myProductsDescription"),
+          },
+        ]),
     {
       href: `/${langPrefix}dashboard/messages`,
       text: t("messages"),
       description: t("messagesDescription"),
     },
     {
-      href: `/${langPrefix}dashboard/products`,
-      text: t("myProducts"),
-      description: t("myProductsDescription"),
+      href: `/${langPrefix}favorites`,
+      text: t("favorites"),
+      description: t("favoritesDescription"),
     },
     {
       href: `/${langPrefix}dashboard/settings`,
@@ -134,7 +148,7 @@ function UserData({
         size="sm"
         className={`text-black items-center px-0 min-w-0 gap-2 text-lg ${
           sm
-            ? "flex md:hidden h-[2.6rem] min-w-[2.6rem] bg-white"
+            ? "flex md:hidden md:h-[2.6rem] md:min-w-[2.6rem] h-[2.2rem] min-w-[2.2rem] bg-white"
             : "hidden md:flex !bg-transparent"
         }`}
       >
@@ -145,14 +159,7 @@ function UserData({
         <button
           type="button"
           className="cursor-pointer flex items-center gap-2 p-1 rounded-lg transition-colors hover:bg-gray-100/20 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-          onClick={() => {
-            setDropdownOpen((v) => !v);
-            sendGTMEvent({
-              event: "user_menu_toggle",
-              link_text: t("userMenuAriaLabel"),
-              location: "user_menu",
-            });
-          }}
+          onClick={() => setDropdownOpen((v) => !v)}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
@@ -196,13 +203,6 @@ function UserData({
                       tabIndex={0}
                       title={link.description}
                       aria-label={link.description}
-                      onClick={() =>
-                        sendGTMEvent({
-                          event: "navigation_click",
-                          link_text: link.text,
-                          location: "user_menu",
-                        })
-                      }
                     >
                       {link.text}
                     </Link>
@@ -218,13 +218,6 @@ function UserData({
                   tabIndex={0}
                   title={link.description}
                   aria-label={link.description}
-                  onClick={() =>
-                    sendGTMEvent({
-                      event: "navigation_click",
-                      link_text: link.text,
-                      location: "user_menu",
-                    })
-                  }
                 >
                   {link.text}
                 </Link>
@@ -257,7 +250,7 @@ function UserData({
       {...(!onPress ? { as: Link, href: `/${langPrefix}login` } : { onPress })}
       className={`text-current items-center px-0 min-w-0 gap-2 text-lg ${
         sm
-          ? `flex md:hidden h-[2.6rem] min-w-[2.6rem] ${home ? "bg-white" : "bg-[#fff9f0]"}`
+          ? `flex md:hidden md:h-[2.6rem] md:min-w-[2.6rem] h-[2.2rem] min-w-[2.2rem] ${home ? "bg-white" : "bg-[#fff9f0]"}`
           : "hidden md:flex !bg-transparent"
       }`}
     >
@@ -270,12 +263,19 @@ function UserData({
 }
 
 export default function Header({
+  logo,
   lang,
   home,
   partner,
   products,
   awareness,
   translate,
+  headerData,
+  userId,
+  showSearch = true,
+  isStatic = false,
+  scrollContainerId,
+  shopSlug,
 }) {
   const trans = useTranslations(translate);
   const t = (value) => trans(`ui.button.${value}`);
@@ -303,14 +303,25 @@ export default function Header({
     onOpenChange: onLangOpenChange,
   } = useDrawerWithHistory();
 
-  const checkScrollPosition = () =>
-    setScrolled((prev) => window.scrollY < (prev ? 30 : 1));
-
   useEffect(() => {
+    const container = scrollContainerId
+      ? document.getElementById(scrollContainerId)
+      : window;
+
+    if (!container) return;
+
+    const getScrollY = () =>
+      scrollContainerId && container !== window
+        ? container.scrollTop
+        : window.scrollY;
+
+    const checkScrollPosition = () =>
+      setScrolled((prev) => getScrollY() < (prev ? 30 : 1));
+
     checkScrollPosition();
-    window.addEventListener("scroll", checkScrollPosition);
-    return () => window.removeEventListener("scroll", checkScrollPosition);
-  }, []);
+    container.addEventListener("scroll", checkScrollPosition);
+    return () => container.removeEventListener("scroll", checkScrollPosition);
+  }, [scrollContainerId]);
 
   const logout = async () => {
     try {
@@ -320,11 +331,6 @@ export default function Header({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || trans("sidebar.error"));
       toast.success(ToastMessage(trans("sidebar.logoutConfirm")));
-      sendGTMEvent({
-        event: "logout",
-        method: "button",
-        location: "user_menu",
-      });
       setTimeout(() => {
         window.location.href = `/${langPrefix}`;
       }, 100);
@@ -341,12 +347,12 @@ export default function Header({
         className={`${
           home
             ? partner || awareness
-              ? `md:bg-transparent pt-4 !-top-28 `
-              : `pt-2 !-top-24`
+              ? `md:bg-transparent pt-4 ${isStatic ? "" : "!-top-28"}`
+              : `pt-2 ${isStatic ? "" : "!-top-24"}`
             : scrolled
               ? "bg-white md:pt-4 pt-"
               : "bg-white bg-opacity-85 md:shadow-lg shadow mb-10"
-        } ${products ? "md:sticky" : "sticky"} top-0 z-30 md:z-50 w-full transition-all ${awareness && home ? "backdrop-blur-[2px]" : "backdrop-blur-sm"}`}
+        } ${products ? "md:sticky" : isStatic ? "relative" : "sticky"} top-0 z-30 md:z-50 w-full transition-all ${awareness && home ? "backdrop-blur-[2px]" : "md:backdrop-blur-sm"}`}
         aria-label={tHeader("siteHeaderAriaLabel")}
       >
         <nav
@@ -357,30 +363,31 @@ export default function Header({
           }`}
         >
           <Link
-            href={`/${langPrefix}`}
+            href={`/${langPrefix}${shopSlug ? `shops/${shopSlug}` : ""}`}
             className={`transition-[min-height,height] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg ${
               scrolled ? "md:min-h-[75px] h-[60px]" : "md:min-h-[60px] h-[55px]"
             }`}
             aria-label={tHeader("logoAriaLabel")}
             title={tHeader("logoTitle")}
-            onClick={() =>
-              sendGTMEvent({
-                event: "navigation_click",
-                link_text: "Estajer",
-                location: "header",
-              })
-            }
           >
             <Image
               src={anyImgUrl({
                 src:
                   home && !awareness
                     ? lang === "ar"
-                      ? "logoWhite_l0rabo_hkkqjj"
-                      : "white-logo-with-slogan--estajer--english_k4cwvh_eno8rz_vsopvk_ugss33"
+                      ? headerData?.logoLightAr ||
+                        logo ||
+                        "logoWhite_l0rabo_hkkqjj"
+                      : headerData?.logoLightEn ||
+                        logo ||
+                        "white-logo-with-slogan--estajer--english_k4cwvh_eno8rz_vsopvk_ugss33"
                     : lang === "ar"
-                      ? "df29491010c0d93a10d9a4be03e0a505_bm0quc_ucrmq4"
-                      : "final-logo-with-slogan--estajer--english_k4cwvh_rmcy09_rdlor1_nx9hds",
+                      ? headerData?.logoDarkAr ||
+                        logo ||
+                        "df29491010c0d93a10d9a4be03e0a505_bm0quc_ucrmq4"
+                      : headerData?.logoDarkEn ||
+                        logo ||
+                        "final-logo-with-slogan--estajer--english_k4cwvh_rmcy09_rdlor1_nx9hds",
                 size: !home
                   ? lang === "ar"
                     ? !scrolled
@@ -402,20 +409,22 @@ export default function Header({
               priority
             />
           </Link>
-          {!home && (
+          {!home && showSearch && (
             <HeaderSearch
               t={t}
               lang={lang}
               scrolled={scrolled}
               langPrefix={langPrefix}
               translate={translate}
+              userId={userId}
+              shopSlug={shopSlug}
             />
           )}
 
           <div
             className={`${
               home ? "md:gap-5 gap-4" : scrolled ? "md:gap-5 gap-4" : "gap-4"
-            } transition-[gap] items-center md:flex hidden ${(partner || home) && scrolled ? "text-white" : ""}`}
+            } transition-[gap] items-center md:flex hidden ${(partner || (home && !awareness)) && scrolled ? "text-white" : ""}`}
           >
             <UserData
               langPrefix={langPrefix}
@@ -428,17 +437,10 @@ export default function Header({
 
             <NotificationList home={true} translate={trans} lang={lang} />
             <Link
-              href={`/${langPrefix}cart`}
+              href={`/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}cart`}
               className="rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               aria-label={tHeader("cartAriaLabel")}
               title={tHeader("cartTitle")}
-              onClick={() =>
-                sendGTMEvent({
-                  event: "navigation_click",
-                  link_text: "cart",
-                  location: "header",
-                })
-              }
             >
               <Cart aria-hidden="true" />
             </Link>
@@ -463,20 +465,13 @@ export default function Header({
             )}
           </div>
 
-          <div className="flex items-center gap-3 md:hidden">
+          <div className="flex items-center md:gap-3 gap-2 md:hidden">
             <Button
               variant="solid"
               className="min-w-12 p-2 min-h-14 bg-transparent"
               aria-label={tHeader("langTitle")}
               title={tHeader("langTitle")}
-              onPress={() => {
-                sendGTMEvent({
-                  event: "drawer_open",
-                  drawer_name: "lang_drawer",
-                  location: "header",
-                });
-                onLangOpen();
-              }}
+              onPress={() => onLangOpen()}
             >
               <Lang
                 className={home ? "min-w-10" : "min-w-6"}
@@ -489,14 +484,7 @@ export default function Header({
               t={tDropdown}
               sm={true}
               home={home}
-              onPress={() => {
-                sendGTMEvent({
-                  event: "drawer_open",
-                  drawer_name: "user_drawer",
-                  location: "header",
-                });
-                onUserOpen();
-              }}
+              onPress={() => onUserOpen()}
             />
           </div>
         </nav>
@@ -514,7 +502,9 @@ export default function Header({
           navOpen={navOpen}
           // onOpen={onOpen}
           onNavOpen={onNavOpen}
+          shopSlug={shopSlug}
           lang={lang}
+          partner={partner}
         />
       )}
       {userOpen && (

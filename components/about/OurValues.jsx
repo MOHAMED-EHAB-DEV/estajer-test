@@ -5,7 +5,6 @@ import { useTranslations } from "@/hooks/useTranslations";
 import useEmblaCarousel from "embla-carousel-react";
 import Link from "next/link";
 
-
 const HeaderIcon = ({ className, ...props }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -123,10 +122,13 @@ const OurValues = ({ translate, lang }) => {
   );
 
   return (
-    <section id="our-values" className="bg-white py-12 md:py-[100px] relative overflow-hidden">
+    <section
+      id="our-values"
+      className="bg-white py-12 md:py-[100px] relative overflow-hidden"
+    >
       <div className="absolute -top-[100px] -end-[100px] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(255,140,66,0.08)_0%,transparent_70%)] rounded-full"></div>
       <div className="absolute -bottom-[100px] -start-[100px] w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(255,140,66,0.06)_0%,transparent_70%)] rounded-full"></div>
-      
+
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 relative z-10">
         <SectionHeader
           title={t("description1")}
@@ -134,34 +136,38 @@ const OurValues = ({ translate, lang }) => {
           description2={t("description2")}
           icon={HeaderIcon}
         />
-        
+
         {/* Embla Viewport */}
         <div
           className="overflow-hidden md:overflow-visible w-full mt-6 md:mt-[50px]"
           ref={emblaRef}
         >
           <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-[30px] pb-6 pt-4 md:pt-0 md:pb-0 cursor-grab active:cursor-grabbing md:cursor-auto md:active:cursor-auto w-full">
-            {Array.isArray(values) && values.map((value, index) => {
-              const Icon = cardIcons[index % cardIcons.length];
-              return (
-                <div key={index} className="relative overflow-hidden bg-white rounded-[24px] md:rounded-[32px] px-6 py-8 md:px-8 md:py-10 text-center border border-[#FCE6D6] shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all duration-400 group hover:-translate-y-2 hover:shadow-[0_16px_48px_rgba(0,0,0,0.15),0_0_40px_rgba(255,140,66,0.15)] hover:border-[#FCE6D6] flex-[0_0_82%] sm:flex-[0_0_60%] md:flex-none min-w-0">
-                  {/* Top gradient bar */}
-                  <div className="absolute top-0 start-0 end-0 h-1 bg-gradient-to-r from-[#FF8C42] to-[#FF6B35] scale-x-0 transition-transform duration-400 origin-center group-hover:scale-x-100"></div>
-                  
-                  <div className="relative w-16 h-16 md:w-20 md:h-20 bg-[#FFF0E6] rounded-[20px] md:rounded-[24px] flex items-center justify-center mx-auto mb-5 md:mb-6 text-[#FF8C42] transition-all duration-400 group-hover:bg-gradient-to-r group-hover:from-[#FF8C42] group-hover:to-[#FF6B35] group-hover:text-white group-hover:scale-110 group-hover:-rotate-[5deg]">
-                    <div className="absolute -inset-1.5 rounded-[26px] md:-inset-2 md:rounded-[32px] border-2 border-dashed border-[rgba(255,140,66,0.2)] animate-[spin_20s_linear_infinite] group-hover:border-[rgba(255,140,66,0.4)] group-hover:animate-[spin_10s_linear_infinite]"></div>
-                    <Icon className="w-6 h-6 md:w-8 md:h-8 relative z-10" />
+            {Array.isArray(values) &&
+              values.map((value, index) => {
+                const Icon = cardIcons[index % cardIcons.length];
+                return (
+                  <div
+                    key={index}
+                    className="relative overflow-hidden bg-white rounded-[24px] md:rounded-[32px] px-6 py-8 md:px-8 md:py-10 text-center border border-[#FCE6D6] shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all duration-400 group hover:-translate-y-2 hover:shadow-[0_16px_48px_rgba(0,0,0,0.15),0_0_40px_rgba(255,140,66,0.15)] hover:border-[#FCE6D6] flex-[0_0_82%] sm:flex-[0_0_60%] md:flex-none min-w-0"
+                  >
+                    {/* Top gradient bar */}
+                    <div className="absolute top-0 start-0 end-0 h-1 bg-gradient-to-r from-[#FF8C42] to-[#FF6B35] scale-x-0 transition-transform duration-400 origin-center group-hover:scale-x-100"></div>
+
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-[#FFF0E6] rounded-[20px] md:rounded-[24px] flex items-center justify-center mx-auto mb-5 md:mb-6 text-brandOrangeAlt transition-all duration-400 group-hover:bg-gradient-to-r group-hover:from-[#FF8C42] group-hover:to-[#FF6B35] group-hover:text-white group-hover:scale-110 group-hover:-rotate-[5deg]">
+                      <div className="absolute -inset-1.5 rounded-[26px] md:-inset-2 md:rounded-[32px] border-2 border-dashed border-[rgba(255,140,66,0.2)] animate-[spin_20s_linear_infinite] group-hover:border-[rgba(255,140,66,0.4)] group-hover:animate-[spin_10s_linear_infinite]"></div>
+                      <Icon className="w-6 h-6 md:w-8 md:h-8 relative z-10" />
+                    </div>
+
+                    <h3 className="text-lg md:text-[22px] font-[800] text-[#1A1A2E] mb-2 md:mb-[14px]">
+                      {value.title}
+                    </h3>
+                    <p className="text-xs sm:text-[13px] md:text-[15px] text-[#666] leading-[1.7] md:leading-[1.8]">
+                      {value.description}
+                    </p>
                   </div>
-                  
-                  <h3 className="text-lg md:text-[22px] font-[800] text-[#1A1A2E] mb-2 md:mb-[14px]">
-                    {value.title}
-                  </h3>
-                  <p className="text-xs sm:text-[13px] md:text-[15px] text-[#666] leading-[1.7] md:leading-[1.8]">
-                    {value.description}
-                  </p>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
 

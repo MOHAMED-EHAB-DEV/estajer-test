@@ -23,6 +23,7 @@ export async function PATCH(request) {
       registerNumber,
       taxCode,
       holidayPeriods,
+      disableSameDayRent,
     } = data;
     let newData = {};
 
@@ -31,6 +32,7 @@ export async function PATCH(request) {
     if (address) newData.address = address;
     if (bioAr) newData.bioAr = bioAr;
     if (bioEn) newData.bioEn = bioEn;
+    if (disableSameDayRent !== undefined) newData.disableSameDayRent = disableSameDayRent;
     if (location) newData.location = location;
     if (nationalId) newData.nationalId = nationalId;
     if (!isRenter || isRenter) newData.isRenter = isRenter;

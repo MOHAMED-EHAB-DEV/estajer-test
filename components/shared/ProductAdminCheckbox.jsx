@@ -1,5 +1,5 @@
 "use client";
-import { Checkbox } from "@heroui/checkbox";
+import { Checkbox } from "@/components/ui/Checkbox";
 
 export default function ProductAdminCheckbox({
   product,

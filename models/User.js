@@ -54,6 +54,14 @@ const userSchema = new mongoose.Schema(
       companyName: String,
       registerNumber: String,
       taxCode: String,
+      billingAddress: {
+        street: String,
+        city: String,
+        district: String,
+        postalCode: String,
+        buildingNumber: String,
+        country: { type: String, default: "Saudi Arabia" },
+      },
     },
     documentCode: String,
     freelanceCertificate: {
@@ -73,6 +81,7 @@ const userSchema = new mongoose.Schema(
     },
     iban: String,
     vomId: String,
+    qoyodId: String,
     waffyId: String,
     waffyAddress: Boolean,
     clientUserToken: String,
@@ -99,6 +108,8 @@ const userSchema = new mongoose.Schema(
       status: String,
     },
     premium: { type: Boolean, default: false },
+    shopPlan: { type: String, enum: ["starter", "growth"], default: null },
+    shopPlanExpiresAt: { type: Date, default: null },
     isVerified: { type: Boolean, default: false },
     nafathVerified: { type: Boolean, default: false },
     hasBranches: { type: Boolean, default: false },
@@ -135,6 +146,7 @@ const userSchema = new mongoose.Schema(
     isRenter: { type: Boolean, default: false },
     commission: { type: Number, default: 15, min: 0, max: 100 },
     skipIbanVerification: { type: Boolean, default: false },
+    disableSameDayRent: { type: Boolean, default: false },
     profileImageStatus: {
       type: String,
       enum: ["pending", "approved", "rejected"],
@@ -142,6 +154,17 @@ const userSchema = new mongoose.Schema(
     },
     rejectionReason: { type: String },
     rejectedImage: { type: String },
+    adminNotes: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        note: String,
+        addedAt: { type: Date, default: Date.now },
+      },
+    ],
     reviewRequested: { type: Boolean, default: false },
     productsCount: { type: Number, default: 0 },
     hasShop: { type: Boolean, default: false },
@@ -151,6 +174,7 @@ const userSchema = new mongoose.Schema(
         to: { type: Date, required: true },
       },
     ],
+    lastWaChatAt: { type: Date },
   },
   { timestamps: true, strict: true },
 );

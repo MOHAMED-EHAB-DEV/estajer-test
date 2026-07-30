@@ -127,7 +127,7 @@ const VisitsChart = ({ data = [], translations }) => {
     <div className="bg-white rounded-2xl shadow-sm p-6 w-full">
       {/* Header */}
       <div className="flex justify-between items-center border-b border-b-black/10 pb-4">
-        <h2 className="text-medium md:text-lg font-semibold text-darkNavy font-IBMPlex text-start">
+        <h2 className="text-base md:text-lg font-semibold text-darkNavy font-IBMPlex text-start">
           {t("chartSummary")}
         </h2>
       </div>

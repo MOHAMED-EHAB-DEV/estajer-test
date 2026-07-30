@@ -7,11 +7,10 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Select,
-  SelectItem,
-  Input,
-  Checkbox,
-} from "@heroui/react";
+} from "@/components/ui/CustomModal";
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Input } from "@/components/ui/Input";
+import { Checkbox } from "@/components/ui/Checkbox";
 import Button from "@/components/ui/Button";
 import { toast } from "@/utils/toast";
 import { useEffect } from "react";
@@ -137,6 +136,9 @@ function EditFormStep({
                 }}
                 aria-label="Category"
                 placeholder={t("selectCategory")}
+                classNames={{
+                  popoverContent: "z-modal",
+                }}
               >
                 {(categories || []).map(({ key, label }) => (
                   <SelectItem key={key}>{label}</SelectItem>
@@ -162,6 +164,9 @@ function EditFormStep({
                 }
                 aria-label="Sub Category"
                 placeholder={t("selectSubCategory")}
+                classNames={{
+                  popoverContent: "z-modal",
+                }}
               >
                 {filteredSubCategories.length > 0 ? (
                   filteredSubCategories.map(({ key, label }) => (
@@ -220,6 +225,9 @@ function EditFormStep({
               }
               aria-label="Product Condition"
               placeholder={t("changeStatusTo")}
+              classNames={{
+                popoverContent: "z-modal",
+              }}
             >
               {statusOptions.map(({ key, label }) => (
                 <SelectItem key={key}>{label}</SelectItem>
@@ -253,6 +261,9 @@ function EditFormStep({
                 }))
               }
               aria-label="Delivery Type"
+              classNames={{
+                popoverContent: "z-modal",
+              }}
             >
               {deliveryOptions.map(({ key, label }) => (
                 <SelectItem key={key}>{label}</SelectItem>
@@ -280,7 +291,7 @@ function EditFormStep({
                         }
                         className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
                           formData.delivery.pricingModel === model
-                            ? "bg-[#f48a42] text-white shadow"
+                            ? "bg-primary text-white shadow"
                             : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                         }`}
                       >
@@ -338,7 +349,7 @@ function EditFormStep({
           {t("back")}
         </Button>
         <Button
-          className="bg-[#f48a42] text-white"
+          className="bg-primary text-white"
           isDisabled={!hasAnyEnabled}
           onPress={() => onNext(enabledFields)}
         >
@@ -371,13 +382,13 @@ function FieldWrapper({
         onClick={disabled ? undefined : onToggle}
       >
         <span
-          className={`text-sm font-semibold ${enabled ? "text-[#f48a42]" : "text-gray-700"}`}
+          className={`text-sm font-semibold ${enabled ? "text-primary" : "text-gray-700"}`}
         >
           {label}
         </span>
         <div
           className={`w-10 h-6 rounded-full relative transition-colors duration-200 ${
-            enabled ? "bg-[#f48a42]" : "bg-gray-300"
+            enabled ? "bg-primary" : "bg-gray-300"
           }`}
         >
           <div
@@ -620,7 +631,9 @@ function ConfirmStep({
                       <span className="text-[9px] lg:text-xs bg-red-50 text-red-600 px-1.5 lg:px-2 py-0.5 rounded-full border border-red-100 line-through">
                         {String(change.from)}
                       </span>
-                      <span className="text-[9px] lg:text-xs text-gray-400">→</span>
+                      <span className="text-[9px] lg:text-xs text-gray-400">
+                        →
+                      </span>
                       <span className="text-[9px] lg:text-xs bg-green-50 text-green-700 px-1.5 lg:px-2 py-0.5 rounded-full border border-green-100 font-medium">
                         {String(change.to)}
                       </span>
@@ -647,7 +660,7 @@ function ConfirmStep({
           {t("back")}
         </Button>
         <Button
-          className="bg-[#f48a42] text-white font-semibold"
+          className="bg-primary text-white font-semibold"
           isLoading={isLoading}
           onPress={onConfirm}
         >
@@ -706,6 +719,28 @@ export default function AdminBulkEditModal({
   );
 
   const handleNext = (fields) => {
+    if (fields.delivery) {
+      const d = formData.delivery;
+      if (d.type === "delivery" && d.pricingModel === "fixedCity") {
+        if (d.fixedCityPricing.length === 0) {
+          const errorCityReq =
+            lang === "ar"
+              ? "يرجى إضافة مدينة واحدة على الأقل"
+              : "Please add at least one city";
+          return toast.error(ToastMessage(errorCityReq));
+        }
+        const hasInvalidCity = d.fixedCityPricing.some(
+          (c) => !c.cityAr?.trim() && !c.governorateAr?.trim(),
+        );
+        if (hasInvalidCity) {
+          const errorMsg =
+            lang === "ar"
+              ? "يرجى اختيار مدينة صالحة من الاقتراحات لكل مدن التسعير"
+              : "Please select a valid city from the suggestions for all pricing cities";
+          return toast.error(ToastMessage(errorMsg));
+        }
+      }
+    }
     setEnabledFields(fields);
     setStep(2);
   };

@@ -1,6 +1,6 @@
 "use client";
 import CustomModal from "../../ui/CustomModal";
-import { Textarea } from "@heroui/input";
+import { Textarea } from "@/components/ui/Input";
 import { useState } from "react";
 import { toast } from "@/utils/toast";
 import Button from "../../ui/Button";
@@ -93,7 +93,7 @@ export default function CommentModal({
     >
       <div className="flex flex-col h-full overflow-hidden relative">
         {/* Header */}
-        <div className="flex gap-2 items-center text-[#F44242] font-semibold text-lg border-b border-gray-200 dark:border-gray-800 pb-3 mb-4 flex-shrink-0">
+        <div className="flex gap-2 items-center text-dangerRed font-semibold text-lg border-b border-gray-200 dark:border-gray-800 pb-3 mb-4 flex-shrink-0">
           <Review />
           <span>{title}</span>
         </div>

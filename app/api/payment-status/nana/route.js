@@ -49,7 +49,7 @@ export async function POST(req) {
         },
       })
       .select(
-        "status userData ownerData items totalAmount paymentUrl contractId deliveryCost invoiceId startDate endDate deliveryCode renterConfirmedAt ownerConfirmedAt",
+        "status userData ownerData items totalAmount paymentUrl contractId deliveryCost invoiceId startDate endDate deliveryCode renterConfirmedAt ownerConfirmedAt checkoutOrigin",
       );
 
     if (!order) {
@@ -137,10 +137,10 @@ export async function POST(req) {
           title:
             ownerLang === "en"
               ? `You have a new rental request`
-              : `لديك طلب تأجير جديد رقم الطلب`,
+              : `لديك طلب تأجير جديد`,
           body: notificationTitle,
           data: {
-            url: `${process.env.NEXT_PUBLIC_APP_URL}/${ownerLang}/dashboard/requests?id=${order._id}`,
+            url: `${order.checkoutOrigin || process.env.NEXT_PUBLIC_APP_URL}/${ownerLang}/dashboard/requests?id=${order._id}`,
           },
           actions: [
             {
@@ -198,9 +198,9 @@ export async function POST(req) {
         try {
           const customer = order.userData.id;
           const customerLang = customer?.lang || "ar";
-          const invoiceUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/orders/${order._id}/invoice`;
+          const invoiceUrl = `${order.checkoutOrigin || process.env.NEXT_PUBLIC_APP_URL}/api/orders/${order._id}/invoice`;
           const dashboardUrl = `${
-            process.env.NEXT_PUBLIC_APP_URL || "https://estajer.com"
+            order.checkoutOrigin || process.env.NEXT_PUBLIC_APP_URL || "https://estajer.com"
           }/${customerLang}/dashboard/my-orders`;
 
           const notificationTitle =
@@ -215,7 +215,7 @@ export async function POST(req) {
                 ? "Your payment was successful and the order is now being processed."
                 : "تم الدفع بنجاح وجاري معالجة الطلب.",
             data: {
-              url: `${process.env.NEXT_PUBLIC_APP_URL}/${customerLang}/dashboard/my-orders?id=${order._id}`,
+              url: `${order.checkoutOrigin || process.env.NEXT_PUBLIC_APP_URL}/${customerLang}/dashboard/my-orders?id=${order._id}`,
             },
             actions: [
               {
@@ -256,6 +256,7 @@ export async function POST(req) {
               userLang: customerLang,
               invoiceUrl,
               dashboardUrl,
+              checkoutOrigin: order.checkoutOrigin,
             }));
         } catch (emailError) {
           console.error(

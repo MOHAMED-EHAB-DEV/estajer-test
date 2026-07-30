@@ -201,7 +201,7 @@ export default function McpUploadImagesClient({ authCode, lang, translate }) {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-br from-[#fff7f0] via-[#fff] to-[#fff3ea] flex items-center justify-center p-4 pb-16 font-sans">
+    <div className="min-h-[100dvh] bg-gradient-to-br from-[#fff7f0] via-[#fff] to-[#fff3ea] flex items-center justify-center p-4 pb-16">
       <div className="bg-white mb-12 rounded-3xl shadow-[0_8px_48px_rgba(244,138,66,0.12),_0_2px_12px_rgba(0,0,0,0.06)] p-10 max-w-[640px] w-full">
         {/* Header */}
         <div className="mb-7 text-center">
@@ -299,7 +299,7 @@ export default function McpUploadImagesClient({ authCode, lang, translate }) {
                   <circle cx="8.5" cy="8.5" r="1.5" />
                   <polyline points="21 15 16 10 5 21" />
                 </svg>
-                <p className="text-[#5B5656] text-[15px] mt-2.5">
+                <p className="text-mutedGray text-[15px] mt-2.5">
                   {isDragging ? t("dropActive") : t("drop")}
                 </p>
                 <p className="text-xs text-[#bbb] mt-2">

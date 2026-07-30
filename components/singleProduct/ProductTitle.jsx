@@ -11,7 +11,7 @@ export default function ProductTitle({ product, requested, lang }) {
       className="flex justify-between items-center mb-2 lg:mb-4"
     >
       <h1
-        className="font-IBMPlex lg:text-[2rem] md:text-[1.8rem] text-[1.2rem] font-semibold"
+        className="font-IBMPlex lg:text-1.9 md:text-1.75 text-1.2 font-semibold"
         itemProp="name"
       >
         {lang === "ar" ? "تأجير " : "Rental "} {product.name}

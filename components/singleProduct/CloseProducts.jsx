@@ -4,7 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 const EmblaCarousel = dynamic(() => import("../home/EmblaCarousel"));
 
-async function getNearbyProducts({ lang, product }) {
+async function getNearbyProducts({ lang, product, userId }) {
   try {
     const query = {
       limit: 12,
@@ -23,9 +23,10 @@ async function getNearbyProducts({ lang, product }) {
       }),
       excludeProducts: product._id,
       random: true,
+      ...(userId && { userId }),
     };
 
-    if (product.owner?.premium) query.userId = product.owner._id;
+    if (!userId && product.owner?.premium) query.userId = product.owner._id;
 
     const params = new URLSearchParams(query);
 
@@ -45,8 +46,14 @@ async function getNearbyProducts({ lang, product }) {
   }
 }
 
-export default async function CloseProducts({ lang, product, translate }) {
-  const nearbyProducts = await getNearbyProducts({ lang, product });
+export default async function CloseProducts({
+  lang,
+  product,
+  translate,
+  userId,
+  shopSlug,
+}) {
+  const nearbyProducts = await getNearbyProducts({ lang, product, userId });
   const t = (value) => translate(`singleProduct.nearbyProducts.${value}`);
   if (!nearbyProducts?.length > 0) return null;
 
@@ -54,10 +61,10 @@ export default async function CloseProducts({ lang, product, translate }) {
     <div className="mb-16 md:mb-24">
       <div className="flex flex-wrap justify-between items-center w-full p-2 gap-4">
         <div>
-          <div className="text-darkNavy font-IBMPlex font-semibold text-[1.1rem] md:text-[1.7rem] lg:text-[1.9rem] mb-2">
+          <h2 className="text-darkNavy font-IBMPlex font-semibold text-1.1 md:text-[1.5rem] lg:text-[1.7rem] mb-2">
             {t("title")}
-          </div>
-          <div className="text-[1rem] md:text-[1.2rem] lg:text-[1.5rem] text-[#5B5656]">
+          </h2>
+          <div className="text-[1rem] md:text-1.1 lg:text-1.2 text-mutedGray">
             {t("description")}
           </div>
         </div>
@@ -69,20 +76,27 @@ export default async function CloseProducts({ lang, product, translate }) {
             <EmblaCarousel
               lang={lang}
               initialProducts={nearbyProducts}
-              translate={translate()}
+              translate={{
+                productComponent: translate("productComponent"),
+                ui: translate("ui"),
+                heroSlider: translate("heroSlider"),
+              }}
               shops={true}
+              shopSlug={shopSlug}
+              userId={userId}
             />
           </div>
           <div className="flex justify-center mt-8">
             <Button
               as={Link}
-              href={`/${lang === "ar" ? "" : "en/"}search/products?location=${
+              href={`/${lang === "ar" ? "" : "en/"}${shopSlug ? `shops/${shopSlug}/` : ""}search/products?location=${
                 product?.address?.city
               }&lat=${product?.location?.coordinates[1]}&lng=${
                 product?.location?.coordinates[0]
               }`}
               color="secondary"
-              className="shadow-[rgba(244,138,66,0.2)] shadow-xl px-8 py-4 lg:px-12 lg:py-7 text-[0.8rem] md:text-[1rem] lg:text-[1.2rem] font-IBMPlex"
+              className="shadow-[rgba(244,138,66,0.2)] shadow-xl px-8 py-4 lg:px-12 lg:py-7 text-0.8 md:text-[1rem] lg:text-1.2 font-IBMPlex"
+              aria-label={t("showMoreAriaLabel")}
             >
               {t("showMore")}
             </Button>

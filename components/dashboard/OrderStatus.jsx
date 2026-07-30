@@ -4,6 +4,7 @@ import { Delete } from "../ui/svgs/icons/DeleteSvg";
 import { Send } from "../ui/svgs/icons/SendSvg";
 import { Report } from "../ui/svgs/icons/ReportSvg";
 import { Checked, RoundedX } from "../ui/svgs/OrdersSvg";
+import TaxInvoiceAction from "./TaxInvoiceAction";
 
 const StatusIndicator = ({ children, color, icon: Icon }) => (
   <div
@@ -24,6 +25,9 @@ const OrderStatus = ({
   handleDeliveryConfirmation,
   t,
   lang,
+  user,
+  tOrdersList,
+  owner,
 }) => {
   const langPrefix = lang === "ar" ? "" : "en/";
   const ownerConfig = {
@@ -32,7 +36,7 @@ const OrderStatus = ({
         <Button
           variant="solid"
           startContent={<RoundedX />}
-          className="bg-[#F9D9D9] text-[#F44242] md:px-7 px-4 md:text-sm text-xs"
+          className="bg-[#F9D9D9] text-dangerRed md:px-7 px-4 md:text-sm text-xs"
           onPress={() => showModal(order._id, "cancel")}
           isDisabled={isPending}
         >
@@ -41,7 +45,7 @@ const OrderStatus = ({
         <Button
           variant="solid"
           startContent={<Checked color="#fff" />}
-          className="text-white bg-[#4FD658] md:px-7 px-4 md:text-sm text-xs"
+          className="text-white bg-successGreen md:px-7 px-4 md:text-sm text-xs"
           onPress={() => showModal(order._id, "confirm")}
           isDisabled={isPending}
         >
@@ -62,11 +66,11 @@ const OrderStatus = ({
             <Send className="md:w-5 md:h-5 w-4 h-4" />
           </span>
         }
-        className="text-white bg-[#4FD658] md:px-7 px-4 md:text-sm text-xs"
+        className="text-white bg-successGreen md:px-7 px-4 md:text-sm text-xs"
         onPress={() => handleDeliveryConfirmation(order, isOwner)}
         isDisabled={isPending}
       >
-        {t("dashboard.orderStatus.sendReceiptRequest")}
+        {t("dashboard.orderStatus.deliveryOrder")}
       </Button>
     ),
     received: (
@@ -77,7 +81,7 @@ const OrderStatus = ({
           className={`${
             order.hasDamageReport
               ? "bg-gray-100 text-gray-500"
-              : "bg-[#F9D9D9] text-[#F44242]"
+              : "bg-[#F9D9D9] text-dangerRed"
           } rounded-lg md:py-3 py-2 md:px-6 px-4 font-semibold md:text-sm text-xs`}
           as={Link}
           href={
@@ -104,7 +108,7 @@ const OrderStatus = ({
           className={`${
             order.hasDamageReport
               ? "bg-gray-100 text-gray-500"
-              : "bg-[#F9D9D9] text-[#F44242]"
+              : "bg-[#F9D9D9] text-dangerRed"
           } rounded-lg md:py-3 py-2 md:px-6 px-4 font-semibold md:text-sm text-xs`}
           as={Link}
           href={
@@ -118,6 +122,14 @@ const OrderStatus = ({
             ? t("dashboard.orderStatus.damageReported")
             : t("dashboard.orderStatus.reportDamage")}
         </Button>
+        <TaxInvoiceAction
+          order={order}
+          isOwner={isOwner}
+          owner={owner}
+          t={t}
+          tOrdersList={tOrdersList}
+          lang={lang}
+        />
         <StatusIndicator color="#4FD658" icon={<Checked />}>
           {t("dashboard.orderStatus.orderCompleted")}
         </StatusIndicator>
@@ -153,7 +165,7 @@ const OrderStatus = ({
           <Button
             variant="border"
             startContent={<Delete className="md:w-5 md:h-5 w-4 h-4" />}
-            className="bg-[#F9D9D9] text-[#F44242] md:px-7 px-4 py-[0.6rem] md:gap-3 gap-1 md:py-4 h-auto md:text-sm text-xs"
+            className="bg-[#F9D9D9] text-dangerRed md:px-7 px-4 py-[0.6rem] md:gap-3 gap-1 md:py-4 h-auto md:text-sm text-xs"
             onPress={() => showModal(order._id, "delete")}
             isDisabled={isPending}
           >
@@ -168,7 +180,7 @@ const OrderStatus = ({
                 <Send className="md:w-5 md:h-5 w-4 h-4" />
               </span>
             }
-            className="text-white bg-[#4FD658] md:px-7 px-4 py-[0.6rem] md:gap-3 gap-1 md:py-4 h-auto md:text-sm text-xs"
+            className="text-white bg-successGreen md:px-7 px-4 py-[0.6rem] md:gap-3 gap-1 md:py-4 h-auto md:text-sm text-xs"
             isDisabled={isPending}
           >
             {t("dashboard.orderStatus.payNow")}
@@ -207,7 +219,7 @@ const OrderStatus = ({
             <Send className="md:w-5 md:h-5 w-4 h-4" />
           </span>
         }
-        className="text-white bg-[#4FD658] md:px-7 px-4 md:text-sm text-xs"
+        className="text-white bg-successGreen md:px-7 px-4 md:text-sm text-xs"
         onPress={() => handleDeliveryConfirmation(order, isOwner)}
         isDisabled={isPending}
       >
@@ -220,9 +232,19 @@ const OrderStatus = ({
       </StatusIndicator>
     ),
     completed: (
-      <StatusIndicator color="#4FD658" icon={<Checked />}>
-        {t("dashboard.orderStatus.orderCompleted")}
-      </StatusIndicator>
+      <div className="flex gap-2">
+        <TaxInvoiceAction
+          order={order}
+          isOwner={isOwner}
+          owner={owner}
+          t={t}
+          tOrdersList={tOrdersList}
+          lang={lang}
+        />
+        <StatusIndicator color="#4FD658" icon={<Checked />}>
+          {t("dashboard.orderStatus.orderCompleted")}
+        </StatusIndicator>
+      </div>
     ),
     cancelled: (
       <StatusIndicator color="#F44242" icon={<RoundedX />}>

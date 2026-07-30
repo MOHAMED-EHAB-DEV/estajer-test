@@ -12,7 +12,7 @@ function NavLink({ href, text, lang, title }) {
     <Link
       href={href}
       title={title || text}
-      className="bg-[#F6F6F6] rounded-md p-4 font-semibold w-full flex items-center justify-between gap-2"
+      className="bg-lightBg rounded-md p-4 font-semibold w-full flex items-center justify-between gap-2"
     >
       <span>{text}</span>
       <span
@@ -45,115 +45,152 @@ export default function UserDrawer({
         onClose={() => setOpen(false)}
         hideCloseButton
       >
-          <div className="py-4 px-6">
-            <div className="flex justify-between items-center border-b py-6">
-              {user ? (
-                <div className="flex items-center gap-4">
-                  <div className="bg-[#FDDCA680] rounded-full flex items-center justify-center">
-                    <Image
-                      src={anyImgUrl({ src: user.avatar, size: 100 })}
-                      unoptimized
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                      alt={user.fullName}
-                      priority
-                    />
-                  </div>
-                  <span className="text-xl font-semibold font-IBMPlex">
-                    {user.fullName}
-                  </span>
+        <div className="py-4 px-6">
+          <div className="flex justify-between items-center border-b py-6">
+            {user ? (
+              <div className="flex items-center gap-4">
+                <div className="bg-orangeHighlight rounded-full flex items-center justify-center">
+                  <Image
+                    src={anyImgUrl({ src: user.avatar, size: 100 })}
+                    unoptimized
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                    alt={user.fullName}
+                    priority
+                  />
                 </div>
-              ) : (
-                <div className="flex items-center gap-4">
-                  <div className="p-2 bg-[#FDDCA680] rounded-full flex items-center justify-center">
-                    <User size={28} />
-                  </div>
-                  <span className="text-xl font-semibold font-IBMPlex">
-                    {t("myAccount")}
-                  </span>
+                <span className="text-xl font-semibold font-IBMPlex">
+                  {user.fullName}
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <div className="p-2 bg-orangeHighlight rounded-full flex items-center justify-center">
+                  <User size={28} />
+                </div>
+                <span className="text-xl font-semibold font-IBMPlex">
+                  {t("myAccount")}
+                </span>
+              </div>
+            )}
+            <Button
+              color="transparent"
+              onPress={() => setOpen(false)}
+              variant="light"
+              size="md"
+              className="min-w-8 p-0 -me-1"
+            >
+              <X className="text-darkNavy w-[22px] h-[22px]"></X>
+            </Button>
+          </div>
+          {user ? (
+            <>
+              {user.accountType === "admin" && (
+                <div className="mt-8 mb-4">
+                  <NavLink
+                    href={`/${langPrefix}admin`}
+                    text={t("adminDashboard")}
+                    title={t("adminDashboardTitle")}
+                    lang={lang}
+                  />
                 </div>
               )}
-              <Button
-                color="transparent"
-                onPress={() => setOpen(false)}
-                variant="light"
-                size="md"
-                className="min-w-8 p-0 -me-1"
-              >
-                <X className="text-[#0D092B] w-[22px] h-[22px]"></X>
-              </Button>
-            </div>
-            {user ? (
-              <>
-                {user.accountType === "admin" && (
-                  <div className="mt-8 mb-4">
+              <div className="mt-8 mb-4">
+                <NavLink
+                  href={`/${langPrefix}dashboard`}
+                  text={t("dashboard")}
+                  title={t("dashboardTitle")}
+                  lang={lang}
+                />
+              </div>
+              {user?.isRenter === undefined || user?.isRenter ? (
+                <div className="mb-4">
+                  <NavLink
+                    href={`/${langPrefix}dashboard/my-orders`}
+                    text={t("myOrders")}
+                    title={t("myOrders")}
+                    lang={lang}
+                  />
+                </div>
+              ) : (
+                <>
+                  <div className="mb-4">
                     <NavLink
-                      href={`/${langPrefix}admin`}
-                      text={t("adminDashboard")}
-                      title={t("adminDashboardTitle")}
+                      href={`/${langPrefix}dashboard/requests`}
+                      text={t("rentalRequests")}
+                      title={t("rentalRequests")}
                       lang={lang}
                     />
                   </div>
-                )}
-                <div className="mt-8 mb-4">
-                  <NavLink
-                    href={`/${langPrefix}dashboard`}
-                    text={t("dashboard")}
-                    title={t("dashboardTitle")}
-                    lang={lang}
-                  />
-                </div>
-                <div className="mb-4">
-                  <NavLink
-                    href={`/${langPrefix}dashboard/settings`}
-                    text={t("settings")}
-                    title={t("settingsTitle")}
-                    lang={lang}
-                  />
-                </div>
-                <div className="mb-8">
-                  <Button
-                    endContent={
-                      <span
-                        className={`bg-[#F48A4233] rounded-md p-1 ${
-                          lang === "ar" ? "" : "rotate-180"
-                        }`}
-                      >
-                        <ChevronLeft />
-                      </span>
-                    }
-                    onPress={logout}
-                    color="transparent"
-                    isLoading={isLoading}
-                    size="lg"
-                    className="h-16 bg-[#F6F6F6] rounded-md p-4 font-semibold w-full justify-between gap-2"
-                  >
-                    <span> {t("logout")}</span>
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="mt-8 mb-4">
-                  <NavLink
-                    href={`/${langPrefix}login`}
-                    text={t("login")}
-                    title={t("loginTitle")}
-                    lang={lang}
-                  />
-                </div>
-                <div className="mb-8">
-                  <NavLink
-                    href={`/${langPrefix}register`}
-                    text={t("register")}
-                    title={t("registerTitle")}
-                    lang={lang}
-                  />
-                </div>
-              </>
-            )}
-          </div>
+                  <div className="mb-4">
+                    <NavLink
+                      href={`/${langPrefix}dashboard/products`}
+                      text={t("myProducts")}
+                      title={t("myProducts")}
+                      lang={lang}
+                    />
+                  </div>
+                </>
+              )}
+              <div className="mb-4">
+                <NavLink
+                  href={`/${langPrefix}dashboard/messages`}
+                  text={t("messages")}
+                  title={t("messages")}
+                  lang={lang}
+                />
+              </div>
+              <div className="mb-4">
+                <NavLink
+                  href={`/${langPrefix}dashboard/settings`}
+                  text={t("settings")}
+                  title={t("settingsTitle")}
+                  lang={lang}
+                />
+              </div>
+              <div className="mb-8">
+                <Button
+                  endContent={
+                    <span
+                      className={`bg-[#F48A4233] rounded-md p-1 ${
+                        lang === "ar" ? "" : "rotate-180"
+                      }`}
+                    >
+                      <ChevronLeft />
+                    </span>
+                  }
+                  onPress={logout}
+                  color="transparent"
+                  isLoading={isLoading}
+                  size="lg"
+                  className="h-16 bg-lightBg rounded-md p-4 font-semibold w-full justify-between gap-2"
+                >
+                  <span> {t("logout")}</span>
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mt-8 mb-4">
+                <NavLink
+                  href={`/${langPrefix}login`}
+                  text={t("login")}
+                  title={t("loginTitle")}
+                  lang={lang}
+                />
+              </div>
+              <div className="mb-8">
+                <NavLink
+                  href={`/${langPrefix}register`}
+                  text={t("register")}
+                  title={t("registerTitle")}
+                  lang={lang}
+                />
+              </div>
+            </>
+          )}
+        </div>
       </CustomDrawer>
     </>
   );

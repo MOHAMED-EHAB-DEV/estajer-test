@@ -8,7 +8,7 @@ import { getUrlName } from "@/lib/sitemap";
 
 const Star = ({ fill }) => (
   <svg
-    className="w-[16px] h-[16px] drop-shadow-sm"
+    className="w-[16px] h-[16px] drop-shadow-sm text-primary"
     viewBox="0 0 22 22"
     fill={fill}
   >
@@ -18,15 +18,14 @@ const Star = ({ fill }) => (
 
 const QuoteIcon = () => (
   <svg
-    width="52"
-    height="52"
+    width="42"
+    height="42"
     viewBox="0 0 512 512"
-    className="opacity-[0.1] scale-x-[-1]"
+    className="opacity-[0.1] scale-x-[-1] text-primary"
+    fill="currentColor"
   >
-    <g fill="#F48A42">
-      <path d="M119.472,66.59C53.489,66.59,0,120.094,0,186.1c0,65.983,53.489,119.487,119.472,119.487   c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.135,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.829-6.389   c82.925-90.7,115.385-197.448,115.385-251.8C238.989,120.094,185.501,66.59,119.472,66.59z" />
-      <path d="M392.482,66.59c-65.983,0-119.472,53.505-119.472,119.51c0,65.983,53.489,119.487,119.472,119.487   c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.136,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.828-6.389   C479.539,347.2,512,240.452,512,186.1C512,120.094,458.511,66.59,392.482,66.59z" />
-    </g>
+    <path d="M119.472,66.59C53.489,66.59,0,120.094,0,186.1c0,65.983,53.489,119.487,119.472,119.487   c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.135,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.829-6.389   c82.925-90.7,115.385-197.448,115.385-251.8C238.989,120.094,185.501,66.59,119.472,66.59z" />
+    <path d="M392.482,66.59c-65.983,0-119.472,53.505-119.472,119.51c0,65.983,53.489,119.487,119.472,119.487   c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.136,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.828-6.389   C479.539,347.2,512,240.452,512,186.1C512,120.094,458.511,66.59,392.482,66.59z" />
   </svg>
 );
 
@@ -35,22 +34,27 @@ export default function ShopReviews({
   lang,
   reviewsOrder,
   translate,
+  shop,
 }) {
   const trans = useTranslations(translate);
+  const langPrefix = lang === "ar" ? "" : "en/";
+  const shopSlug = shop?.slug;
   const t = (key) => trans(`shopReviews.${key}`);
   const containerRef = useRef(null);
   const [shouldLoadCarousel, setShouldLoadCarousel] = useState(false);
+  const [isIntersecting, setIsIntersecting] = useState(false);
 
-  // Intersection Observer to lazy load carousel
+  // Intersection Observer to lazy load carousel and track visibility
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
+        const entry = entries[0];
+        setIsIntersecting(entry.isIntersecting);
+        if (entry.isIntersecting) {
           setShouldLoadCarousel(true);
-          observer.disconnect();
         }
       },
-      { rootMargin: "200px" },
+      { rootMargin: "0px" },
     );
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
@@ -90,6 +94,21 @@ export default function ShopReviews({
     emblaApi.on("select", onSelect);
   }, [emblaApi, onSelect]);
 
+  // Autoplay when in viewport
+  useEffect(() => {
+    if (!emblaApi || !isIntersecting) return;
+
+    const interval = setInterval(() => {
+      if (emblaApi.canScrollNext()) {
+        emblaApi.scrollNext();
+      } else {
+        emblaApi.scrollTo(0);
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [emblaApi, isIntersecting]);
+
   if (!reviews || reviews.length === 0) return null;
 
   return (
@@ -98,15 +117,15 @@ export default function ShopReviews({
       style={{ order: reviewsOrder || 5 }}
       ref={containerRef}
     >
-      <div className="max-w-screen-2xl w-full mx-auto px-4 md:px-6 lg:px-8 relative z-10">
+      <div className="max-w-screen-2xl w-full mx-auto px-4 md:px-6 lg:px-8 relative z-10 my-6 md:my-12">
         {/* Section Header */}
-        <div className="text-center mb-3 md:mb-10">
-          <span className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary/10 to-amber-100/80 text-primary text-sm font-bold rounded-full mb-5 shadow-sm border border-primary/10">
+        <div className="text-center mb-3 md:mb-6">
+          <span className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary/10 to-primary-100/70 text-primary text-sm font-bold rounded-full mb-5 shadow-sm border border-primary/10">
             <svg
               width="16"
               height="16"
               viewBox="0 0 22 22"
-              fill="#F48A42"
+              fill="currentColor"
               className="flex-shrink-0"
             >
               <path d="M9.45776 2.07373C10.016 0.355663 12.4466 0.355665 13.0048 2.07373L14.2667 5.95732C14.5163 6.72566 15.2323 7.24586 16.0402 7.24586H20.1237C21.9301 7.24586 22.6812 9.5575 21.2198 10.6193L17.9162 13.0195C17.2626 13.4944 16.9891 14.3361 17.2388 15.1044L18.5006 18.988C19.0588 20.7061 17.0925 22.1348 15.631 21.0729L12.3274 18.6727C11.6738 18.1979 10.7888 18.1979 10.1352 18.6727L6.83161 21.0729C5.37014 22.1348 3.40374 20.7061 3.96198 18.988L5.22383 15.1044C5.47348 14.3361 5.19999 13.4944 4.5464 13.0195L1.24282 10.6193C-0.218649 9.5575 0.532448 7.24586 2.33892 7.24586H6.42238C7.23026 7.24586 7.94626 6.72566 8.19591 5.95732L9.45776 2.07373Z" />
@@ -115,11 +134,11 @@ export default function ShopReviews({
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-darkNavy mb-4">
             {t("titlePart1")}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-amber-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/80">
               {t("titleHighlight")}
             </span>
           </h2>
-          <div className="mx-auto w-20 h-1 rounded-full bg-gradient-to-r from-primary to-amber-400 mb-2 md:mb-4" />
+          <div className="mx-auto w-20 h-1 rounded-full bg-gradient-to-r from-primary to-primary/70 mb-2 md:mb-4" />
           <p className="text-neutral-400 font-medium text-base">
             {t("fromReviews").replace("{count}", reviews.length)}
           </p>
@@ -139,7 +158,7 @@ export default function ShopReviews({
                 >
                   <div className="relative h-full group">
                     {/* Gradient border effect */}
-                    <div className="absolute -inset-[1px] rounded-[28px] bg-gradient-to-br from-primary/20 via-transparent to-amber-300/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <div className="absolute -inset-[1px] rounded-[28px] bg-gradient-to-br from-primary/20 via-transparent to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                     <div className="relative bg-white/80 backdrop-blur-sm rounded-[28px] p-6 md:p-8 h-full shadow-[0_4px_32px_rgba(0,0,0,0.04)] border border-neutral-100/80 flex flex-col group-hover:shadow-[0_8px_40px_rgba(244,138,66,0.08)] group-hover:border-primary/10 transition-all duration-500 group-hover:-translate-y-1">
                       {/* Quote icon as background decorative element */}
@@ -151,8 +170,8 @@ export default function ShopReviews({
                       <div className="flex items-center justify-between gap-2 mb-3 md:mb-5 relative z-10">
                         <div className="flex items-center gap-3.5 min-w-0">
                           <div className="relative flex-shrink-0">
-                            <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-primary/40 to-amber-400/40 opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500" />
-                            <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-primary/15 to-amber-100 flex items-center justify-center text-primary font-bold text-base overflow-hidden ring-2 ring-white shadow-sm">
+                            <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-primary/40 to-primary/40 opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500" />
+                            <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-primary/15 to-primary/10 flex items-center justify-center text-primary font-bold text-base overflow-hidden ring-2 ring-white shadow-sm">
                               {review.userImage || review.user?.avatar ? (
                                 <img
                                   src={review.userImage || review.user.avatar}
@@ -160,7 +179,7 @@ export default function ShopReviews({
                                   className="w-full h-full object-cover"
                                 />
                               ) : (
-                                <span className="bg-gradient-to-br from-primary to-amber-500 text-transparent bg-clip-text font-black">
+                                <span className="bg-gradient-to-br from-primary to-primary/80 text-transparent bg-clip-text font-black">
                                   {(review.userName ||
                                     review.user
                                       ?.fullName)?.[0]?.toUpperCase() || "U"}
@@ -169,7 +188,7 @@ export default function ShopReviews({
                             </div>
                           </div>
                           <div className="flex flex-col min-w-0">
-                            <h4 className="font-bold text-darkNavy text-sm truncate">
+                            <h4 className=" mb-1">
                               {review.userName || review.user?.fullName}
                             </h4>
                             <div className="flex items-center gap-2 bg-neutral-50/80 rounded-full">
@@ -179,7 +198,7 @@ export default function ShopReviews({
                                     key={i}
                                     fill={
                                       i < (review.rating?.overall || 5)
-                                        ? "#F48A42"
+                                        ? "currentColor"
                                         : "#E5E7EB"
                                     }
                                   />
@@ -194,7 +213,7 @@ export default function ShopReviews({
                       </div>
 
                       {/* Comment */}
-                      <div className="flex-1 relative mb-6">
+                      <div className="flex-1 relative mb-2">
                         <p className="text-darkNavy/75 font-medium leading-[1.85] text-[15px] line-clamp-4">
                           &rdquo;
                           {review.comment || t("noComment")}
@@ -205,7 +224,7 @@ export default function ShopReviews({
                       {/* Bottom Section: Product Info (Link) */}
                       {review.product && (
                         <Link
-                          href={`/products/${getUrlName(review.product.name)}_ref_${review.product._id}`}
+                          href={review.product ? `/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}products/${getUrlName(review.product.name)}_ref_${review.product._id}` : "#"}
                           className="flex items-center gap-3 p-3 bg-neutral-50/50 rounded-2xl border border-neutral-100/50 hover:bg-neutral-100/80 transition-all duration-300 group/product mt-auto"
                         >
                           <div className="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 border border-neutral-200/50">
@@ -298,7 +317,7 @@ export default function ShopReviews({
               onClick={() => scrollTo(index)}
               className={`rounded-full transition-all duration-500 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${
                 index === selectedIndex
-                  ? "bg-gradient-to-r from-primary to-amber-500 w-8 h-2.5 shadow-sm shadow-primary/30"
+                  ? "bg-gradient-to-r from-primary to-primary/80 w-8 h-2.5 shadow-sm shadow-primary/30"
                   : "bg-neutral-200/80 w-2.5 h-2.5 hover:bg-neutral-300 hover:scale-125"
               }`}
               aria-label={`Go to slide ${index + 1}`}

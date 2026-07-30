@@ -1,13 +1,13 @@
 "use client";
+import Button from "@/components/ui/Button";
 import {
-  Button,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Textarea,
-} from "@heroui/react";
+} from "@/components/ui/CustomModal";
+import { Textarea } from "@/components/ui/Input";
 import ImageUploader from "@/components/addProduct/ImageUploader";
 
 export default function ContactReplyModal({

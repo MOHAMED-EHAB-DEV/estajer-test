@@ -6,6 +6,7 @@
     "addFavoritesHint": "You can add products to favorites by clicking the heart icon",
     "loginRequired": "Please login to view your favorites"
   },
+  "saleUnit": "Unit",
   "product": {
     "safety": {
       "title": "Pickup and Return Instructions",
@@ -59,6 +60,7 @@
       "useCasesTitle": "Ideal Use Cases",
       "statusLabel": "Product Condition",
       "quantityLabel": "Available Quantity",
+      "saleUnitLabel": "Unit",
       "specsNote": "We guarantee full product readiness before every rental."
     },
     "page": {
@@ -202,6 +204,7 @@
     "subtotal": "Subtotal",
     "pieces": "piece",
     "piecesCount": "Pieces",
+    "saleUnit": "Unit",
     "tax": "VAT",
     "insurance": "Insurance",
     "completePayment": "Complete Payment",
@@ -292,7 +295,23 @@
     "companyNote": "Unified Number is required for companies (10 digits) and starts with 700",
     "loading": "Adding...",
     "cancel": "Cancel",
-    "addData": "Add Data"
+    "addData": "Add Data",
+    "billingAddress": "National Address",
+    "street": "Street Name",
+    "city": "City",
+    "district": "District / Area",
+    "postalCode": "Postal Code",
+    "buildingNumber": "Building Number",
+    "country": "Select Country",
+    "saudiArabia": "Saudi Arabia",
+    "billingAddressCompanyRequired": "All National Address fields are required for companies",
+    "invalidIban": "IBAN must start with SA followed by 22 digits",
+    "invalidUnifiedNumber": "Unified number must be 10 digits starting with 7",
+    "next": "Next",
+    "back": "Back",
+    "step1Title": "Account Details",
+    "step2Title": "National Address",
+    "billingInfoDesc": "Please enter your company National Address details for tax invoices"
   },
   "checkout": {
     "completePayment": "Complete Payment",
@@ -303,6 +322,7 @@
     "success": "Payment completed successfully",
     "address": "Address",
     "addressPlaceholder": "Enter your address",
+    "saleUnit": "Unit",
     "city": "City",
     "cityPlaceholder": "Enter your city",
     "area": "Area",
@@ -320,7 +340,15 @@
     "deliveryNotAvailable": "Delivery not available for this location",
     "discount": "Discount",
     "locationRequired": "Please specify the location on the map",
-    "notesHint": "You can specify your preferred pickup time here; final coordination is with the lessor."
+    "notesHint": "You can specify your preferred pickup time here; final coordination is with the lessor.",
+    "trustIndicators": {
+      "secureEscrowTitle": "Secure Escrow",
+      "secureEscrowDesc": "Money is held safely until you receive the product",
+      "refundGuaranteeTitle": "Refund Guarantee",
+      "refundGuaranteeDesc": "Full refund if the product doesn't match",
+      "supportTitle": "24/7 Support",
+      "supportDesc": "Our team is always available to help you anytime"
+    }
   },
   "bookings": {
     "title": "My Bookings",
@@ -485,6 +513,10 @@
       "viewTicket": "View Ticket",
       "backToTickets": "Back to Tickets"
     },
+    "requestedProducts": {
+      "title": "Requested Products",
+      "noRequests": "You have no product requests"
+    },
     "SwitchRole": {
       "label": "Preview as",
       "renter": "Renter",
@@ -503,6 +535,7 @@
       "notes": "Notes",
       "pieces": "pieces",
       "piecesCount": "Number of Pieces",
+      "saleUnit": "Unit",
       "price": "Price",
       "subtotal": "Subtotal",
       "tax": "VAT",
@@ -519,6 +552,23 @@
       "noRequests": "No requests yet",
       "noRequestsDescription": "Start adding products and enjoy shopping!",
       "addProduct": "Add Product",
+      "invalidFileType": "Only PDFs and images are allowed",
+      "taxInvoiceUploaded": "Tax invoice uploaded successfully",
+      "reuploadTaxInvoice": "Re-upload Tax Invoice",
+      "uploadTaxInvoice": "Upload Tax Invoice",
+      "downloadTaxInvoice": "Download Tax Invoice",
+      "openTicket": "Contact Support",
+      "requestTaxInvoice": "Request Tax Invoice",
+      "taxInvoiceRequestSent": "Request sent to the landlord",
+      "openSupportTicket": "Open Support Ticket",
+      "taxInvoiceModalNote": "Note: Ordinary uploading of the tax invoice takes from 1 to 3 business days.",
+      "ticketSubject": "Ticket Subject",
+      "delayedTaxInvoiceUpload": "Delayed Tax Invoice Upload",
+      "problemWithTaxInvoice": "Problem with Tax Invoice",
+      "ticketMessage": "Message",
+      "submitTicket": "Submit",
+      "pleaseEnterMessage": "Please enter a message",
+      "ticketOpenedSuccessfully": "Ticket opened successfully",
       "confirmReject": {
         "title": "Confirm Order Rejection",
         "message": "Are you sure you want to reject this order?",
@@ -529,6 +579,11 @@
         "cancel": "Cancel",
         "confirm": "Confirm",
         "delete": "Delete"
+      },
+      "editModal": {
+        "companyName": "Company Name",
+        "registerNumber": "Register Number",
+        "taxCode": "Tax Code"
       },
       "confirmAccept": {
         "title": "Confirm Order Acceptance",
@@ -547,6 +602,7 @@
     "ordersList": {
       "products": "Products",
       "orderCreationDate": "Order creation date:",
+      "orderFromYourShop": "Order from your shop",
       "additionalServices": "Additional services:",
       "reviewProduct": "Review product",
       "requesterData": "Requester data",
@@ -572,7 +628,9 @@
       "noOrdersDescription": "Your shopping cart is empty.\u2028 Start adding products and enjoy shopping!",
       "searchProducts": "Shop Now!",
       "viewReceipt": "View Receipt",
-      "viewInvoice": "View Commission Invoice"
+      "viewInvoice": "View invoice",
+      "viewTaxInvoice": "View Tax Invoice",
+      "viewCommissionInvoice": "View Commission Invoice"
     },
     "settings": {
       "title": "Settings",
@@ -656,6 +714,24 @@
         "contactAdminNote": "To change your email or phone number, please contact the admin using the",
         "contactForm": "contact form"
       },
+      "sameDayRentManager": {
+        "title": "Same Day Rental",
+        "subtitle": "Control whether customers can rent items starting today",
+        "enabledDesc": "Same day rental is active. Customers can select today as the start of their rental period.",
+        "disabledDesc": "Same day rental is disabled. Customers must choose tomorrow or later as their first rental day.",
+        "enabledBadge": "Enabled",
+        "disabledBadge": "Disabled",
+        "whenEnabled": "When enabled",
+        "whenDisabled": "When disabled",
+        "benefit1": "Today appears as an available rental start date",
+        "benefit2": "Increases urgent booking opportunities and improves customer experience",
+        "benefit3": "Ideal for products that can be handed over immediately",
+        "restriction1": "Customers cannot select today as a rental start date",
+        "restriction2": "The earliest rental start day will be tomorrow",
+        "restriction3": "Gives you extra preparation time before handover",
+        "toggleLabel": "Allow same day rental",
+        "success": "Settings updated successfully"
+      },
       "branches": {
         "title": "Branches Management",
         "addBranch": "Add Branch",
@@ -707,10 +783,13 @@
       "verifyNow": "Verify Now",
       "nafathSuccess": "Nafath verification completed successfully",
       "nafathError": "Nafath verification failed",
-      "bankAccount": "Bank Account (IBAN)",
-      "ibanAdded": "Bank account information added",
-      "ibanNotAdded": "Bank account information required",
+      "bankAccount": "Bank Account & National Address",
+      "ibanAdded": "Bank account & National address added",
+      "ibanNotAdded": "Bank account and National address required",
       "addIban": "Add IBAN",
+      "nationalAddressNotAdded": "National address required",
+      "addNationalAddress": "Add National Address",
+      "addIbanAndNationalAddress": "Add IBAN & National Address",
       "nafathRequiredForIban": "Nafath verification required before adding IBAN",
       "location": "Location",
       "locationAdded": "Location information added",
@@ -781,6 +860,7 @@
       "payNow": "Pay Now",
       "waitingForAcceptance": "Waiting for Order Acceptance",
       "receiveOrder": "Receive Order",
+      "deliveryOrder": "Delivery Order",
       "processingRejection": "Processing Rejection...",
       "received": "Received",
       "paymentProcessing": "Payment is being processed",
@@ -797,6 +877,7 @@
       "endDate": "End Date",
       "productInformation": "Product Information",
       "quantity": "Quantity",
+      "saleUnit": "Unit",
       "beforeImages": {
         "title": "Product Images Before Rental",
         "description": "Upload images of the product as it was before rental (optional)"
@@ -875,6 +956,8 @@
       "approved": "Approved",
       "rejected": "Rejected",
       "pending": "Pending",
+      "pendingChanges": "Pending Edits Review",
+      "edited": "Edit Pending",
       "hidden": "Hidden",
       "deleted": "Deleted",
       "nana": "Nana",
@@ -885,11 +968,15 @@
       "subcategory": "Subcategory",
       "apply": "Apply Filters",
       "clear": "Clear Filters",
+      "userSelection": "User Selection",
+      "userSearchPlaceholder": "Search by name, email, or phone",
       "sortBy": {
         "title": "Sort By",
         "dateAdded": "Date Added",
         "newest": "Newest",
-        "oldest": "Oldest"
+        "oldest": "Oldest",
+        "statusAsc": "Status (Ascending)",
+        "statusDesc": "Status (Descending)"
       }
     },
     "messages": {
@@ -1075,6 +1162,9 @@
   },
   "singleProduct": {
     "order": {
+      "securePaymentTitle": "Secure Payment:",
+      "securePaymentDesc": "Your money is safe with Estajer until you receive the product successfully. In case of any problem, you can contact {support} to get a full refund.",
+      "saleUnit": "Unit",
       "clearCartModal": {
         "title": "Alert",
         "message": "Rent products from the same lessor or clear the previous cart to add this product",
@@ -1160,7 +1250,8 @@
       "cart": "cart page",
       "after": "after",
       "seconds": "seconds",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "close": "Close"
     },
     "reviews": {
       "addReviewBtn": "Add Review",
@@ -1208,13 +1299,15 @@
       "title": "Available Products in the Same Area",
       "description": "List of products available for rent near your area",
       "noProducts": "No products available in this area",
-      "showMore": "Show More"
+      "showMore": "Show More",
+      "showMoreAriaLabel": "Show more products available in the same area"
     },
     "similarProducts": {
       "title": "Similar Products",
       "description": "List of products similar to this product",
       "noProducts": "No similar products available",
-      "showMore": "Show More"
+      "showMore": "Show More",
+      "showMoreAriaLabel": "Show more similar products"
     },
     "deliveryInfo": {
       "title": "Delivery Information",
@@ -1235,6 +1328,36 @@
       "deliveryCompanyDescription": "Delivery through an authorized shipping company",
       "allCities": "All Cities",
       "free": "FREE"
+    },
+    "trustSection": {
+      "ariaLabel": "Secure payment system steps",
+      "badge": "Escrow Payment",
+      "titlePart1": "A secure journey from start",
+      "titlePart2": "to finish",
+      "description": "Your funds do not reach the lessor until you receive the product and verify its condition — if you face any issue, we guarantee a hassle-free, full refund.",
+      "cta": "Instant and full refund without complex conditions",
+      "steps": {
+        "step1": {
+          "title": "Pay Securely",
+          "desc": "Your payment is deposited into a secured escrow account within the platform immediately upon completion.",
+          "status": "First Step"
+        },
+        "step2": {
+          "title": "Funds are Frozen",
+          "desc": "The lessor cannot access your funds throughout the rental period — the platform is the custodian.",
+          "status": "During Rental"
+        },
+        "step3": {
+          "title": "Receive and Verify",
+          "desc": "Receive the product and make sure it is as described. Any issues? Inform us immediately.",
+          "status": "Upon Receipt"
+        },
+        "step4": {
+          "title": "Finish and Confirm",
+          "desc": "After the product is returned and the rental period ends, the funds are transferred to the lessor.",
+          "status": "End of Rental"
+        }
+      }
     }
   },
   "privacy": {
@@ -1256,6 +1379,13 @@
     "title": "Edit Product"
   },
   "addProductPage": {
+    "leaveModal": {
+      "title": "Leave page?",
+      "subtitle": "Unsaved changes will be lost",
+      "description": "You haven't finished entering your details. Do you want to leave before completing?",
+      "stay": "Stay on Page",
+      "leave": "Leave Page"
+    },
     "mcpBanner": {
       "fabText": "List with AI",
       "choiceTitle": "List Products Faster",
@@ -1313,13 +1443,35 @@
       "imageLimitNote": "AI will analyze the first 3 images only to extract details. You can drag images to reorder them.",
       "initialUserMessage": "Uploaded product images for listing.",
       "chatTab": "Chat with Assistant",
-      "suggestionTab": "Suggested Data"
+      "suggestionTab": "Suggested Data",
+      "nafathTitle": "Identity Verification via Nafath",
+      "nafathSubtitle": "Required to list products",
+      "nafathDesc": "To list products on Estajer, identity verification via Nafath is required.",
+      "nafathNationalIdLabel": "National ID / Iqama Number",
+      "nafathErrorIdLength": "National ID must be exactly 10 digits.",
+      "nafathVerifyBtn": "Verify via Nafath",
+      "nafathPrivacyNote": "Your data is sent directly to Nafath servers and not stored by us.",
+      "nafathErrorGeneral": "An error occurred, please try again.",
+      "nafathErrorNetwork": "Network error. Please try again.",
+      "nafathWaitingTitle": "Waiting for Nafath Verification",
+      "nafathWaitingSubtitle": "Open the app and confirm the request",
+      "nafathRandomNumLabel": "Random Number — Confirm in app",
+      "nafathStep1": "Open the Nafath app on your phone",
+      "nafathStep2": "Find the pending request and confirm number {random}",
+      "nafathStep3": "Verification will complete automatically",
+      "nafathOpenAppBtn": "Open Nafath App",
+      "nafathVerifiedSuccess": "✅ Identity verified! Analyzing your image now...",
+      "nafathErrorRejected": "❌ Request rejected. Please try again.",
+      "nafathErrorExpired": "❌ Request expired. Please try again.",
+      "nafathErrorPolling": "❌ Error during verification. Please try again.",
+      "nafathErrorTimeout": "⏱️ Verification timed out. Please try again."
     },
     "promo": {
       "title": "List your product instantly with AI!",
       "new": "NEW",
       "description": "Save time! Upload product images and let our AI fill in all specifications, descriptions, prices, and discounts in seconds.",
-      "btn": "✦ Start Smart Listing"
+      "btn": "✦ Start Smart Listing",
+      "howTo": "how to use it"
     },
     "formSteps": {
       "step1": {
@@ -1328,6 +1480,7 @@
       },
       "generalInformation": {
         "categoryLabel": "Category",
+        "categoryPlaceholder": "Select category",
         "subCategoryLabel": "Sub Category",
         "nameArLabel": "Product Name (Arabic)",
         "nameEnLabel": "Product Name (English)",
@@ -1343,11 +1496,21 @@
         "statusOptionGood": "Good",
         "quantityLabel": "Quantity Available",
         "quantityPlaceholder": "0",
-        "minQuantityLabel": "Minimum Quantity for Rent",
+        "minQuantityLabel": "Minimum Quantity for Rent & Delivery",
         "minQuantityPlaceholder": "1",
         "noSubCategoriesText": "No subcategories available",
         "descriptionArInputPlaceholder": "Add product description (AR)",
-        "descriptionEnInputPlaceholder": "Add Product Description (EN)"
+        "descriptionEnInputPlaceholder": "Add Product Description (EN)",
+        "saleUnitLabel": "Unit",
+        "saleUnitPlaceholder": "Select unit (optional)",
+        "saleUnitSquareMeter": "Square Meter",
+        "saleUnitMeter": "Meter",
+        "saleUnitPiece": "Piece",
+        "saleUnitService": "Service",
+        "saleUnitTrip": "Trip",
+        "saleUnitSubscription": "Subscription",
+        "saleUnitKiloWatt": "Kilowatt",
+        "saleUnitTnTabredy": "Refrigerated Ton"
       },
       "step2": {
         "title": "Product Images",
@@ -1403,6 +1566,10 @@
         }
       }
     },
+    "pendingChanges": {
+      "pendingReviewNote": "New edits to this product are currently under review. The live public product still shows the previous values.",
+      "rejectedTitle": "The recent edits were rejected by the admin:"
+    },
     "buttons": {
       "addProduct": "Add Product",
       "updateProduct": "Update Product"
@@ -1412,6 +1579,7 @@
       "imagesRequired": "Please upload at least one image",
       "productAddedSuccess": "Product added successfully and will be reviewed",
       "productUpdatedSuccess": "Product updated successfully",
+      "productUpdatedPendingReviewSuccess": "Product updated and pending review",
       "discountDateRequired": "Please specify the discount date",
       "packagesRequired": "Please add packages",
       "cityRequired": "Please add cities available for delivery"
@@ -1430,10 +1598,12 @@
         "mainImageTip": "The first image will be the featured image for this product",
         "dragTip": "Drag images to reorder them",
         "maxFilesTip": "You cannot upload more than\u00a0{count} images",
-        "resizeTip": "Images are automatically resized"
+        "resizeTip": "Images are automatically resized",
+        "sizeTip": "Image dimensions must be at least {width} width x {height} height"
       }
     },
     "location": {
+      "mapTip": "You can pin the exact product location by clicking directly on the map.",
       "addressLabel": "Product Address",
       "addressPlaceholder": "Search for an address...",
       "country": "Country",
@@ -1713,6 +1883,14 @@
       "cameraConstraints": "The camera cannot meet the specified requirements (like resolution).",
       "cameraInUse": "Cannot access camera. It may be in use by another application.",
       "technicalError": "A technical error occurred while trying to capture the image."
+    },
+    "viewFullContract": "View Full Contract",
+    "contractSnippetTitle": "Electronic Contract Snippet",
+    "warnModal": {
+      "title": "Warning: Leaving Page",
+      "message": "You will lose the images you uploaded if you leave this page now. Do you want to continue?",
+      "confirm": "Yes, continue",
+      "cancel": "Cancel"
     }
   },
   "confirmAccountPage": {
@@ -1777,12 +1955,16 @@
       "tabs": {
         "pages": "Most Visited Pages",
         "products": "Most Visited Products",
-        "owners": "Top Owners"
+        "owners": "Top Owners",
+        "mainCategories": "Main Categories",
+        "subCategories": "Sub Categories"
       },
       "filters": {
         "pageSearch": "Search by page path",
         "productSearch": "Search by product path",
         "ownerSearch": "Filter by user/owner",
+        "categorySearch": "Main Category",
+        "allCategories": "All Main Categories",
         "userPlaceholder": "Username, email, phone",
         "pagePlaceholder": "e.g., /product/",
         "productPlaceholder": "Search by name in path..."
@@ -1792,6 +1974,9 @@
         "pageAndPath": "Page and Path",
         "productAndOwner": "Product and Owner",
         "ownerInfo": "Owner Information",
+        "categoryInfo": "Category Information",
+        "parentCategory": "Main Category",
+        "unknownCategory": "Unknown Category",
         "searchDensity": "Search Density",
         "visitsCount": "Visits Count",
         "generalPage": "General Page",
@@ -2020,141 +2205,6 @@
         "itemPlaceholderEn": "Write the point in English..."
       }
     },
-    "shops": {
-      "name": "Shop Name",
-      "title": "Shop Management",
-      "description": "Manage shop content and associated products",
-      "addShop": "Add New Shop",
-      "editShop": "Edit Shop Details",
-      "deleteShop": "Delete Shop",
-      "basicInfo": "Basic Information",
-      "basicInfoDesc": "Basic information and contact details for the shop",
-      "owner": "Shop Owner",
-      "selectOwner": "Select Shop Owner",
-      "searchOwner": "Search by name, email or phone...",
-      "ownerDesc": "Select the user who owns this shop",
-      "view": "View",
-      "edit": "Edit",
-      "delete": "Delete",
-      "noShops": "No shops added yet",
-      "confirmDelete": "Are you sure you want to delete this shop?",
-      "createSuccess": "Shop added successfully",
-      "updateSuccess": "Shop updated successfully",
-      "deleteSuccess": "Shop deleted successfully",
-      "assignedSearchProducts": "Shop Products",
-      "assignedSearchProductsDesc": "Products that will appear in this shop",
-      "heroBanners": "Hero Banners",
-      "heroBannersDesc": "Main banners that appear at the top of the page",
-      "productSliders": "Product Sliders",
-      "productSlidersDesc": "Product collections displayed on the shop page",
-      "offerBanners": "Offer Banners",
-      "offerBannersDesc": "Promotional and discount banners",
-      "shopCategories": "Shop Categories",
-      "shopCategoriesDesc": "Create custom categories for your shop and assign products to them",
-      "showReviews": "Show Reviews",
-      "reviews": "Reviews",
-      "showReviewsDesc": "Show customer reviews on the shop page",
-      "addCategory": "Add Category",
-      "categoryProducts": "Select Products for this Category",
-      "image": "Category Image",
-      "nameAr": "Name (Arabic)",
-      "nameEn": "Name (English)",
-      "slug": "Link (Slug)",
-      "logo": "Logo",
-      "logoDesc": "Upload Logo",
-      "logoHint": "Recommended size: 400x400px. PNG or SVG.",
-      "descriptionAr": "Description (Arabic)",
-      "descriptionEn": "Description (English)",
-      "status": "Status",
-      "active": "Active",
-      "inactive": "Inactive",
-      "seoData": "SEO Data",
-      "seoDataDesc": "Search engine optimization settings for the shop page",
-      "addHeroBanner": "Add Hero Banner",
-      "addOfferBanner": "Add Offer Banner",
-      "addSlider": "Add Product Slider",
-      "sliderTitleAr": "Slider Title (Arabic)",
-      "sliderTitleEn": "Slider Title (English)",
-      "sectionTitleArPlaceholder": "Enter section title in Arabic",
-      "sectionTitleEnPlaceholder": "Enter section title in English",
-      "selectProducts": "Select Products",
-      "searchProducts": "Search for products...",
-      "noProductsSelected": "No products selected yet",
-      "imageAr": "Image (Arabic)",
-      "imageEn": "Image (English)",
-      "link": "Link",
-      "altAr": "Alt Text (Arabic)",
-      "altEn": "Alt Text (English)",
-      "ctaTextAr": "CTA Text (Arabic)",
-      "ctaTextEn": "CTA Text (English)",
-      "banners": "Banners",
-      "addOfferBannerSection": "Add Banner Section",
-      "noOfferBanners": "No banners found",
-      "noSliders": "No sliders found",
-      "noBanners": "No banners found",
-      "removeSlider": "Remove Slider",
-      "removeSection": "Remove Section",
-      "products": "Products",
-      "displayMode": "Display Mode",
-      "sectionSource": "Product Source",
-      "manual": "Manual Selection",
-      "newest": "Newest Products",
-      "random": "Random Products",
-      "slider": "Slider",
-      "grid": "Grid",
-      "maxProductsReached": "Maximum 20 products allowed",
-      "order": "Order",
-      "productSelection": "Product Selection",
-      "showFilters": "Show Filters",
-      "hideFilters": "Hide Filters",
-      "loadMore": "Load More",
-      "selectedInSlider": "Selected Products",
-      "selectAll": "Select All",
-      "save": "Save",
-      "cancel": "Cancel",
-      "actions": "Actions",
-      "heroTextCustomization": "Hero Text Customization",
-      "reorder": "Reorder Sections",
-      "sectionOrder": "Section Order",
-      "shopSettings": "Shop Settings",
-      "saveOrder": "Save Order",
-      "aboutUs": "About Us",
-      "heroTitleAr": "Hero Title (Arabic)",
-      "heroDescriptionAr": "Hero Description (Arabic)",
-      "heroTitleEn": "Hero Title (English)",
-      "heroDescriptionEn": "Hero Description (English)",
-      "aboutUsActionBtn": "About Us Action Button",
-      "aboutUsLink": "Button Link",
-      "aboutUsButtonTextAr": "Button Text (Arabic)",
-      "aboutUsButtonTextEn": "Button Text (English)",
-      "sectionOrderDesc": "Reorder sections appearance on the shop page",
-      "heroTitleArPlaceholder": "Enter Arabic hero title",
-      "heroTitleEnPlaceholder": "Enter English hero title",
-      "heroDescriptionArPlaceholder": "Enter Arabic hero description",
-      "heroDescriptionEnPlaceholder": "Enter English hero description",
-      "altArPlaceholder": "Arabic Alt Text",
-      "altEnPlaceholder": "English Alt Text",
-      "howItWorks": {
-        "title": "How it Works",
-        "description": "Section explaining how Estajer works with the shop and mutual benefits",
-        "sectionTitleAr": "Section Title (Arabic)",
-        "sectionTitleEn": "Section Title (English)",
-        "sectionTitlePlaceholder": "e.g: How does Estajer work with the Shop?",
-        "sectionTitlePlaceholderEn": "e.g: How does Estajer work with the Shop?",
-        "estajerSide": "From Estajer's Side",
-        "partnerSide": "From Shop's Side",
-        "sharedBenefits": "Shared Benefits",
-        "stepTitleAr": "Title (Arabic)",
-        "stepTitleEn": "Title (English)",
-        "stepTitlePlaceholder": "e.g: From Estajer's side",
-        "stepTitlePlaceholderEn": "e.g: From Estajer's side",
-        "itemsAr": "Points (Arabic)",
-        "itemsEn": "Points (English)",
-        "addItem": "Add Point",
-        "itemPlaceholder": "Write the point in Arabic...",
-        "itemPlaceholderEn": "Write the point in English..."
-      }
-    },
     "users": {
       "title": "User Management",
       "description": "Manage and monitor all users in the system",
@@ -2271,9 +2321,11 @@
         "banTitle": "Confirm user ban",
         "unbanTitle": "Confirm unban user",
         "deleteTitle": "Confirm delete user",
+        "impersonateTitle": "Log In as User",
         "banMessage": "Are you sure you want to ban this user?",
         "unbanMessage": "Are you sure you want to unban this user?",
         "deleteMessage": "Are you sure you want to delete this user? This action cannot be undone.",
+        "impersonateMessage": "Are you sure you want to log in as {name}?",
         "cancel": "Cancel",
         "confirm": "Confirm",
         "banSuccess": "User banned successfully",
@@ -2294,6 +2346,36 @@
       "refresh": "Refresh dashboard",
       "refreshProducts": "Refresh products"
     },
+    "premiumOrders": {
+      "title": "Store Subscriptions",
+      "subtitle": "Monitor store subscription orders, upgrades, invoices, and payment statuses",
+      "searchPlaceholder": "Search by name, email or phone...",
+      "allPlans": "All Plans",
+      "starterPlan": "Starter Plan",
+      "growthPlan": "Growth Plan",
+      "allStatuses": "All Statuses",
+      "paid": "Paid",
+      "notPaid": "Not Paid",
+      "noOrdersFound": "No premium orders found.",
+      "activePlanLabel": "Active Plan:",
+      "noPlan": "None",
+      "requestedPlan": "Requested Plan",
+      "orderType": "Order Type",
+      "amount": "Amount",
+      "paymentStatus": "Payment Status",
+      "waffyStatus": "Waffy Status",
+      "createdAt": "Created At",
+      "links": "Links",
+      "paymentLink": "Payment Link ↗",
+      "upgrade": "Upgrade",
+      "new": "New",
+      "currency": "SAR",
+      "coupon": "Coupon",
+      "activePlan": {
+        "starter": "Starter",
+        "growth": "Growth"
+      }
+    },
     "home": {
       "title": "Dashboard",
       "welcome": {
@@ -2307,18 +2389,26 @@
       },
       "cards": {
         "newPendingProducts": "New products pending approval",
-        "newPendingRequests": "New requests pending approval",
-        "acceptedRequests": "Accepted requests",
-        "allRequests": "All requests",
+        "acceptedProducts": "Accepted products",
+        "cancelledProducts": "Cancelled products",
+        "allProducts": "All products",
+        "newPendingEditedProducts": "New pending edited products",
+        "newNotPaidOrders": "New not paid orders",
+        "acceptedOrders": "Accepted orders",
+        "allOrders": "All orders",
         "activeProducts": "Active products",
         "outcome": "Income",
         "websiteViews": "Website views",
         "websiteMessages": "Website messages",
         "AllUsers": "All users",
-        "pendingPaidRequests": "Paid requests pending approval",
-        "completedRequests": "Completed requests",
-        "confirmedRequests": "Confirmed requests",
-        "cancelledRequests": "Cancelled requests",
+        "pendingPaidOrders": "Paid orders pending approval",
+        "completedOrders": "Completed orders",
+        "confirmedOrders": "Confirmed orders",
+        "cancelledOrders": "Cancelled orders",
+        "receivedOrders": "Received orders",
+        "rejectingOrders": "Rejecting orders",
+        "rejectionConfirmedOrders": "Rejection confirmed orders",
+        "notReturnedOrders": "Not returned orders",
         "averageRental": "Average rental value"
       },
       "orders": {
@@ -2462,6 +2552,41 @@
         "hidden": "Hidden",
         "showAll": "Show all"
       },
+      "editReviews": {
+        "title": "Product Edit Reviews",
+        "approve": "Approve Edit",
+        "reject": "Reject Edit",
+        "adminNote": "Admin Note",
+        "adminNotePlaceholder": "Add a note for the owner...",
+        "noChanges": "No pending edits",
+        "allReviewed": "All product edits have been reviewed",
+        "added": "Added",
+        "removed": "Removed",
+        "modified": "Modified",
+        "unchanged": "Unchanged",
+        "pendingReview": "Edit Pending Review",
+        "approveSuccess": "Edit approved successfully",
+        "rejectSuccess": "Edit rejected and product restored",
+        "approving": "Approving...",
+        "rejecting": "Rejecting...",
+        "changes": "changes",
+        "pending": "pending",
+        "backToList": "Back to reviews",
+        "notFound": "Edit request not found or already reviewed",
+        "basicInfo": "Basic Information",
+        "pricing": "Pricing & Rental",
+        "images": "Images",
+        "location": "Location & Address",
+        "details": "Details & Specifications",
+        "seo": "SEO Data",
+        "oldValue": "Old",
+        "newValue": "New",
+        "legend": {
+          "removed": "Removed / Old",
+          "added": "Added / New",
+          "modified": "Modified"
+        }
+      },
       "cards": {
         "allCategories": "All categories",
         "mostVisitedCategory": "Most visited categories",
@@ -2592,6 +2717,15 @@
       "cancel": "Cancel",
       "deleteSuccess": "Message deleted successfully",
       "deleteError": "Failed to delete message",
+      "banChat": "Ban from Chat",
+      "unbanChat": "Unban Chat",
+      "bannedStatus": "Banned from Chat",
+      "activeStatus": "Active in Chat",
+      "warningsCount": "Spam warnings",
+      "banSuccess": "User banned from chat successfully",
+      "unbanSuccess": "User unbanned from chat successfully",
+      "banError": "Failed to ban user from chat",
+      "unbanError": "Failed to unban user from chat",
       "noMessagesDescription": "No conversations found",
       "cards": {
         "unreadMessages": "Unread messages",
@@ -2706,6 +2840,7 @@
       "searchPlaceholder": "Search tasks by title or description...",
       "resetFilters": "Reset",
       "showCompleted": "Show Completed",
+      "showCancelled": "Show Cancelled",
       "assignedTo": "Assigned To",
       "unassigned": "Unassigned",
       "selectUser": "Select User",
@@ -2796,6 +2931,88 @@
       "profile": "Profile",
       "userSelection": "Select User",
       "userPlaceholder": "Search for user by name, email or phone"
+    },
+    "allShops": {
+      "title": "Shops Management",
+      "description": "Manage and monitor all shops on the platform",
+      "name": "Shop Name",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "addShop": "Add New Shop",
+      "logo": "Logo",
+      "owner": "Owner",
+      "createdDate": "Created Date",
+      "endDate": "Expiry Date",
+      "expired": "Expired",
+      "actions": "Actions",
+      "reorder": "Reorder Sections",
+      "aboutUs": "About Us",
+      "howItWorks": {
+        "title": "How It Works"
+      },
+      "shopCategories": "Shop Categories",
+      "reviews": "Reviews",
+      "productSliders": "Product Sliders",
+      "offerBanners": "Offer Banners",
+      "moveUp": "Move Up",
+      "moveDown": "Move Down",
+      "cancel": "Cancel",
+      "saveOrder": "Save Order",
+      "confirmDelete": "Are you sure you want to delete this shop?",
+      "deleteSuccess": "Shop deleted successfully",
+      "updateSuccess": "Shop updated successfully",
+      "view": "View Shop",
+      "edit": "Edit Shop",
+      "delete": "Delete Shop",
+      "noShops": "No shops found",
+      "shopCommission": "Estajer Commission",
+      "shopPlan": "Store Plan"
+    },
+    "coupons": {
+      "title": "Discount Coupons",
+      "subtitle": "Manage subscription discount coupons and shop free trial periods",
+      "totalCoupons": "Total Coupons ({count})",
+      "addNew": "Add New Coupon",
+      "emptyTitle": "No coupons found",
+      "emptyDesc": "Create your first discount coupon to offer free or discounted subscriptions to users",
+      "code": "Code",
+      "discount": "Discount",
+      "trialDuration": "Trial Duration",
+      "usage": "Usage",
+      "expiryDate": "Expiry Date",
+      "status": "Status",
+      "actions": "Actions",
+      "unlimited": "Unlimited",
+      "months": "{months} Months",
+      "fullYear": "1 Year",
+      "expired": "Expired",
+      "limitReached": "Limit Reached",
+      "active": "Active",
+      "inactive": "Inactive",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "delete": "Delete",
+      "confirmDelete": "Are you sure you want to delete this coupon?",
+      "createModal": {
+        "title": "New Discount Coupon",
+        "subtitle": "Enter coupon details to generate a new code",
+        "codeLabel": "Coupon Code *",
+        "discountLabel": "Discount Percent (1-100) % *",
+        "trialLabel": "Trial Duration (Months) - Optional",
+        "trialDesc": "Sets the shop subscription period in months instead of full year (12 months)",
+        "trialPlaceholder": "Default: 12 months",
+        "limitLabel": "Usage Limit - Leave empty for unlimited",
+        "expiryLabel": "Expiry Date - Optional",
+        "activeLabel": "Activate coupon immediately",
+        "submit": "Confirm and Create",
+        "cancel": "Cancel"
+      },
+      "successCreate": "Coupon created successfully!",
+      "successUpdate": "Coupon status updated",
+      "successDelete": "Coupon deleted successfully",
+      "errorFillRequired": "Please fill required fields",
+      "errorCouponExists": "Coupon code already exists"
     }
   },
   "login": {
@@ -2918,7 +3135,9 @@
     "support": "Technical Support Center",
     "tickets": "All Tickets",
     "categories": "Categories",
-    "about": "About Us"
+    "about": "About Us",
+    "ai": "Estajer AI",
+    "overview": "Overview"
   },
   "payment": {
     "paymentCompleted": {
@@ -3028,6 +3247,7 @@
     "type": "Type",
     "status": "Status",
     "showCompleted": "Show Completed",
+    "showCancelled": "Show Cancelled",
     "filter": "Filter",
     "totalCount": "Total",
     "tasks": "tasks",
@@ -3496,9 +3716,9 @@
       "badge": "Why Premium?",
       "title": "Four Advantages That Transform Your Business",
       "subtitle": "Every feature is designed to increase your profits and reduce your effort",
-      "card1Title": "Lower Commission = More Profit",
-      "card1Desc": "Instead of paying a high commission, pay less. Same sales — more money in your pocket. The small difference accumulates into thousands.",
-      "card1Tag": "Grow Your Profits with Lower Commission",
+      "card1Title": "Custom Domain for Your Store",
+      "card1Desc": "Link your store to your custom domain to enhance professionalism and build a strong, independent brand identity.",
+      "card1Tag": "Custom URL for your store",
       "card2Title": "A Complete Store with Your Brand Identity",
       "card2Desc": "Your logo, banners, colors. A professional page that reflects your business and builds customer trust from first glance.",
       "card2Tag": "Complete Visual Identity",
@@ -3510,9 +3730,7 @@
       "card4Tag": "Fully SEO Optimized"
     },
     "commissionBenefits": {
-      "title": "{titleHighlight} Commission More Profit",
-      "titleHighlight": "Lower",
-      "bullets": ["Real Savings .. Growing Profits"],
+      "title": "Launch your online store",
       "ctaBtn": "Grow Your Profits with Lower Commission",
       "commissionRate": "10%",
       "commissionSub": "Only — instead of 15%",
@@ -3538,8 +3756,8 @@
         {
           "label": "Growing?",
           "title": "Perfect for the growth phase",
-          "desc": "Lower commission and stronger tools — the smart choice for more profit.",
-          "features": ["Save more", "Grow faster", "Scale without limits"],
+          "desc": "The Smart Choice for More Profit.",
+          "features": ["Save More", "Grow Faster", "Scale Without Limits"],
           "badge": "Most Popular"
         },
         {
@@ -3561,46 +3779,54 @@
       "starterPlan": {
         "currentLabel": "Starter Plan",
         "name": "Starter",
-        "desc": "Everything you need to get started on Estajer",
+        "desc": "Start your online store easily without complexity",
         "price": "999 ",
         "currency": " SAR annually",
         "priceSub": " Tax not included",
-        "commissionNote": "Commission",
-        "commissionRate": "15%",
-        "commissionSuffix": "per order",
+        "discountNote": "Limited-time discount",
+        "discountRate": "38%",
+        "discountSuffix": "instead of",
+        "discountOld": "1600 SAR",
         "currentBtn": "Subscribe Now",
         "featuresLabel": "What you get",
         "features": [
           "National Access",
           "Digital Contract",
           "Secure Payment Methods",
-          "Receipt & Delivery Documentation"
+          "Receipt & Delivery Documentation",
+          "Your own online store",
+          "Default Classic theme",
+          "Upload unlimited products",
+          "Priority in search results",
+          "Trusted store badge for customers",
+          "Dedicated email support"
         ]
       },
       "premiumPlan": {
         "badge": "Most Valuable",
         "tierLabel": "Premium Plan",
         "name": "Growth",
-        "desc": "Full identity, guaranteed visibility, and higher profits",
-        "price": "2400",
+        "desc": "Full access to all features and lower commission for accelerated growth",
+        "price": "2399",
         "priceSuffix": "SAR annually",
-        "commissionNote": "Commission",
-        "commissionRate": "10%",
-        "commissionSuffix": "only - instead of",
-        "commissionOld": "15%",
+        "discountNote": "Limited-time discount",
+        "discountRate": "47%",
+        "discountSuffix": "instead of",
+        "discountOld": "4500 SAR",
         "subscribeBtn": "Subscribe Now",
-        "everythingPlus": "Everything in Free + Exclusive Additions",
+        "everythingPlus": "Everything in Starter Plan + Exclusive Additions",
         "features": [
-          { "text": "Reduced Commission" },
           { "text": "Full Store with Your Identity" },
-          { "text": "Appear Under Your Name" },
-          { "text": "Permanent Priority on Homepage" },
+          { "text": "Appear Under Your Full Name" },
+          { "text": "Permanent Priority on Homepage & search results" },
           { "text": "Fully SEO Optimized" },
           { "text": "Estajer Team Adds Your Products" },
           { "text": "Multiple Branch Support" },
-          { "text": "QR Code for Your Store" },
+          { "text": "Dedicated QR Code for Your Store" },
           { "text": "Real-Time Reports & Analytics" },
-          { "text": "Dedicated Account Manager" }
+          { "text": "Dedicated Account Manager & 24/7 support" },
+          { "text": "Custom Domain Name" },
+          { "text": "Google Tag Manager integration for sales" }
         ]
       },
       "enterprisePlan": {
@@ -3632,15 +3858,10 @@
       "title": "Regular Partner vs Premium Partner",
       "subtitle": "See the difference yourself — the table explains everything",
       "colFeature": "Feature",
-      "colRegular": "Regular Partner",
-      "colPremium": "Premium Partner",
+      "colRegular": "Starter Plan",
+      "colPremium": "Growth Plan",
       "footerNote": "The premium plan saves you from 500 to thousands of riyals monthly depending on your sales volume",
       "rows": [
-        {
-          "feature": "Commission",
-          "regular": "15% per order",
-          "premium": "10% only"
-        },
         {
           "feature": "Visibility",
           "regular": "Normal among others",
@@ -3760,11 +3981,11 @@
       "items": [
         {
           "question": "When do features start after subscribing to the premium package?",
-          "answer": "Activation is immediate upon completing the subscription. The reduced commission starts from the first new order, and your store moves to the homepage within one business day. You can start customization from the same moment. Your dedicated account manager will contact you as soon as possible to help you get started."
+          "answer": "Activation is immediate upon completing the subscription. Your store moves to the homepage within one business day, and you can start customization from the same moment. Your dedicated account manager will contact you as soon as possible to help you get started."
         },
         {
           "question": "What is the real difference between the growth package and a regular landlord?",
-          "answer": "The growth package provides a clearly lower commission, a complete store with your own identity, assistance from the Estajer team in adding products, a dedicated account manager, and a store fully optimized for search engines. In short: the growth package is for ambitious partners who want a strong brand and higher profits."
+          "answer": "The growth package provides a complete store with your own identity, assistance from the Estajer team in adding products, a dedicated account manager, and a store fully optimized for search engines. In short: the growth package is for ambitious partners who want a strong brand and higher profits."
         },
         {
           "question": "Do I need technical or design experience to create my store?",
@@ -3776,7 +3997,7 @@
         },
         {
           "question": "Can I cancel the subscription at any time? What happens after the period ends?",
-          "answer": "The subscription is non-cancelable and non-refundable. After the period ends, the commission will return to its previous rate, and your items will remain on the Estajer platform as a regular landlord, losing the premium features. However, your customers remain as they are, and ongoing orders complete normally."
+          "answer": "The subscription is non-cancelable and non-refundable. After the period ends, your items will remain on the Estajer platform as a regular landlord, losing the premium features. However, your customers remain as they are, and ongoing orders complete normally."
         },
         {
           "question": "How do you protect my customers' information and personal data?",
@@ -3855,5 +4076,147 @@
     "footer": "Estajer • Smart Rental Platform",
     "maxNote": "Max {count} images",
     "pasteNote": "You can also paste an image from clipboard (Ctrl+V)"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Create Account",
+    "email": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "loginAndContinue": "Login and Continue",
+    "registerAndContinue": "Create Account and Continue",
+    "forgotPassword": "Forgot Password?",
+    "fullName": "Full Name",
+    "phone": "Mobile Number",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "failedToRegister": "Failed to register",
+    "failedToLogin": "Login failed",
+    "placeholderFullName": "e.g., John Doe",
+    "doNotHaveAccount": "Don't have a partner account? ",
+    "createAccountNow": "Create one now",
+    "alreadyHaveAccount": "Already have a partner account? ",
+    "loginHere": "Log in here"
+  },
+  "shopCheckout": {
+    "badge": "Launch your business today",
+    "title": "Launch Your Online Store",
+    "desc": "Choose the plan that fits your goals and showcase your products to thousands on Estajer in minutes.",
+    "step1Title": "Choose the right subscription plan",
+    "step2TitlePay": "Review and complete order",
+    "step2TitleAuth": "Login to complete payment",
+    "verificationRequired": "Verification Required",
+    "verificationDesc": "You must link and verify your account via WhatsApp first to complete the payment and activate store features.",
+    "confirmMyAccount": "Verify my account now",
+    "accountInfo": "Account Info",
+    "verifiedAccount": "Verified Account",
+    "invoiceDetails": "Invoice Details",
+    "vat": "VAT (15%)",
+    "totalAmount": "Total Amount",
+    "confirmAndPay": "Confirm and Pay",
+    "terms": "Merchant Terms of Use",
+    "byPayingAgree": "By clicking the payment button, you agree to",
+    "verifyingPayment": "Confirming payment...",
+    "verifyingDesc": "Verifying your payment status, please wait a moment.",
+    "paymentSuccess": "Payment successful",
+    "welcomeStarter": "Welcome to Starter Plan! 🎉",
+    "welcomeGrowth": "Welcome to Growth Plan! 🎉",
+    "activatedStarter": "Your Starter Plan has been successfully activated. You can now create your online store and start selling.",
+    "activatedGrowth": "Your Growth Plan has been successfully activated. You can now launch your fully featured store and start selling.",
+    "unlockedFeatures": "What is unlocked:",
+    "createShopNow": "Create my store now",
+    "goToDashboard": "Go to Dashboard",
+    "paymentNotConfirmed": "Payment not confirmed",
+    "paymentNotCompleted": "It looks like the payment was not completed. You can try again.",
+    "retry": "Try Again",
+    "backToPlans": "Back to plans",
+    "unexpectedError": "An unexpected error occurred",
+    "planLabel": "PLAN",
+    "currentPlan": "Current Plan",
+    "currency": "SAR",
+    "perYear": "/ yr",
+    "inclVat": "Incl. VAT: ",
+    "commissionDesc": "{commission}% rental commission only",
+    "failedToCreatePayment": "Failed to create payment",
+    "preparingPayment": "Preparing payment...",
+    "fullYear": "Full Year",
+    "loadingPage": "Loading page...",
+    "couponCode": "Coupon Code",
+    "applyCoupon": "Apply",
+    "couponApplied": "Coupon applied successfully!",
+    "couponInvalid": "Invalid or expired coupon code",
+    "trialDuration": "Free Trial for {months} Months",
+    "discount": "Discount",
+    "freeActivation": "Free Activation",
+    "confirmAndActivate": "Confirm and Activate Subscription Free",
+    "activatingSubscription": "Activating subscription...",
+    "remove": "Remove",
+    "afterDiscount": "After Discount",
+    "vatAfterDiscount": "VAT After Discount",
+    "upgradeToGrowth": "Upgrade Plan to Growth",
+    "upgradeToGrowthDesc": "Get all exclusive features and a custom theme for your shop",
+    "growthPlanDetails": "Growth Plan Details",
+    "paymentAndUpgrade": "Payment & Upgrade",
+    "activatingStoreSubscription": "Activating Store Subscription",
+    "verifyingPaymentDesc": "We are confirming your payment status to automatically activate your shop subscription. This might take a few seconds.",
+    "loading": "Loading...",
+    "retryPayment": "Retry Payment",
+    "verificationError": "Verification Error",
+    "verificationFailed": "Failed to verify the payment status of your subscription.",
+    "errorDetails": "Error Details",
+    "retryVerification": "Retry Verification",
+    "subscriptionDuration": "Subscription Duration",
+    "oneYear": "1 Year (12 Months)",
+    "trialMonthsCount": "{months} Months (Free Trial)",
+    "trialDurationNotice": "You will get a free trial subscription for {months} months without any charge.",
+    "plans": {
+      "starter": {
+        "badge": "Best for starters",
+        "name": "Starter Plan",
+        "desc": "Start your online store easily without complexity",
+        "features": [
+          "Your own online store",
+          "Default Classic theme",
+          "Upload unlimited products",
+          "38% limited-time discount",
+          "Priority in search results",
+          "Trusted store badge for customers",
+          "Dedicated email support"
+        ],
+        "lockedFeatures": [
+          "Change store theme",
+          "Customize brand color",
+          "Custom domain name",
+          "Google Tag Manager integration"
+        ]
+      },
+      "growth": {
+        "badge": "Most Popular ⭐",
+        "name": "Growth Plan",
+        "desc": "Full access to all features for rapid growth",
+        "features": [
+          "Your own online store",
+          "All professional themes",
+          "Upload unlimited products",
+          "47% limited-time discount",
+          "Top priority in search results",
+          "Trusted store badge for customers",
+          "Dedicated 24/7 support",
+          "Full customization of brand color",
+          "Custom Domain name for your store",
+          "Google Tag Manager integration for sales"
+        ],
+        "lockedFeatures": []
+      }
+    }
+  },
+  "unit": {
+    "squareMeter": "Square Meter",
+    "meter": "Meter",
+    "piece": "Piece",
+    "service": "Service",
+    "trip": "Trip",
+    "subscription": "Subscription",
+    "kiloWatt": "Kilowatt",
+    "tnTabredy": "Refrigerated ton"
   }
 }

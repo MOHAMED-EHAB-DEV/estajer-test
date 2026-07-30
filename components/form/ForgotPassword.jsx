@@ -1,11 +1,10 @@
 "use client";
 import { useState } from "react";
-import { Input } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
-import { Email } from "../ui/svgs/icons/EmailSvg";;
+import { Email } from "../ui/svgs/icons/EmailSvg";
 import { useTranslations } from "@/hooks/useTranslations";
-import { sendGTMEvent } from "@next/third-parties/google";
 
 export default function ForgotPasswordForm({ lang, translate }) {
   const langPrefix = lang === "ar" ? "" : "en/";
@@ -34,13 +33,6 @@ export default function ForgotPasswordForm({ lang, translate }) {
       if (data?.error) throw new Error(data.error);
 
       setMessage({ type: "success", content: t("successMessage") });
-      // GTM event: forgot password request
-      const domain = (email.split("@")[1] || "").toLowerCase();
-      sendGTMEvent({
-        event: "reset_password_request",
-        email_domain: domain,
-        language: lang,
-      });
       setTimeout(() => router.push(`/${langPrefix}login`), 3000);
     } catch (err) {
       setMessage({ type: "error", content: err.message || t("genericError") });
@@ -52,12 +44,10 @@ export default function ForgotPasswordForm({ lang, translate }) {
   return (
     <div className="w-[650px] max-w-full">
       <div className="text-center mb-14">
-        <h1 className="lg:text-[2.2rem] md:text-[1.9rem] text-[1.6rem] font-semibold mb-2 text-darkNavy">
+        <h1 className="lg:text-[2.2rem] md:text-1.9 text-[1.6rem] font-semibold mb-2 text-darkNavy">
           {t("title")}
         </h1>
-        <p className="lg:text-[1.2rem] text-[1rem] text-darkNavy">
-          {t("subtitle")}
-        </p>
+        <p className="lg:text-1.2 text-[1rem] text-darkNavy">{t("subtitle")}</p>
       </div>
 
       {message.content && (

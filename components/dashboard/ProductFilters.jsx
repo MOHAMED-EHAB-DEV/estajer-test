@@ -1,11 +1,7 @@
 "use client";
-import {
-  Select,
-  SelectItem,
-  Input,
-  Autocomplete,
-  AutocompleteItem,
-} from "@heroui/react";
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Input } from "@/components/ui/Input";
+import { Autocomplete, AutocompleteItem } from "@/components/ui/Autocomplete";
 import { useTranslations } from "@/hooks/useTranslations";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -48,7 +44,7 @@ export default function ProductFilters({
   const [status, setStatus] = useState(nana ? "nana" : queryStatus || "all");
   const [category, setCategory] = useState(queryCategory || "all");
   const [subCategory, setSubCategory] = useState(querySubCategory || "all");
-  const [sortBy, setSortBy] = useState(querySortBy || "");
+  const [sortBy, setSortBy] = useState(querySortBy || "date-desc");
   const [selectedUser, setSelectedUser] = useState(queryUserId || "");
   const [userSearchTerm, setUserSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
@@ -63,7 +59,7 @@ export default function ProductFilters({
     setStatus(nana ? "nana" : queryStatus || "all");
     setCategory(queryCategory || "all");
     setSubCategory(querySubCategory || "all");
-    setSortBy(querySortBy || "");
+    setSortBy(querySortBy || "date-desc");
     setSelectedUser(queryUserId || "");
     if (!queryUserId) setUserSearchTerm("");
   }, [initialProducts, queryUserId]);
@@ -203,6 +199,7 @@ export default function ProductFilters({
     { key: "approved", label: t("approved") },
     { key: "rejected", label: t("rejected") },
     { key: "pending", label: t("pending") },
+    ...(admin ? [{ key: "pendingChanges", label: t("pendingChanges") }] : []),
     ...(admin ? [{ key: "main", label: t("main") }] : []),
     { key: "hidden", label: t("hidden") },
     { key: "deleted", label: t("deleted") },
@@ -232,13 +229,16 @@ export default function ProductFilters({
         placeholder={t("productNamePlaceholder")}
         variant={isShop ? "bordered" : "flat"}
         className={isShop ? "bg-white rounded-xl" : ""}
-        size="sm"
+        classNames={{
+          inputWrapper: "min-h-[3.5rem] rounded-xl",
+        }}
       />
       {admin && !isShop && (
         <div className="relative">
           <Autocomplete
-            label="اختيار المستخدم"
-            placeholder="ابحث عن مستخدم بالاسم أو الإيميل أو الهاتف"
+            label={t("userSelection")}
+            aria-label={t("userSelection")}
+            placeholder={t("userSearchPlaceholder")}
             inputValue={userSearchTerm}
             onInputChange={setUserSearchTerm}
             selectedKey={selectedUser}
@@ -247,8 +247,11 @@ export default function ProductFilters({
             isLoading={loadingUsers}
             allowsCustomValue={false}
             menuTrigger="input"
+            defaultFilter={() => true}
             items={users}
-            size="sm"
+            classNames={{
+              inputWrapper: "h-10 md:h-14 min-h-[2.5rem] md:min-h-[3.5rem] rounded-xl",
+            }}
             clearButtonProps={{
               onPress: () => {
                 handleUserSelect(null);
@@ -281,7 +284,9 @@ export default function ProductFilters({
             selectedKeys={[status]}
             variant={isShop ? "bordered" : "flat"}
             className={isShop ? "bg-white rounded-xl" : ""}
-            size="sm"
+            classNames={{
+              trigger: "h-10 md:h-14 min-h-[2.5rem] md:min-h-[3.5rem] rounded-xl",
+            }}
             onChange={({ target: { value } }) => {
               setStatus(value);
               changePrams({
@@ -303,10 +308,12 @@ export default function ProductFilters({
             selectedKeys={[sortBy]}
             variant={isShop ? "bordered" : "flat"}
             className={isShop ? "bg-white rounded-xl" : ""}
-            size="sm"
             onChange={({ target: { value } }) => {
               setSortBy(value);
               changePrams({ value: value, key: "sortBy", reset: value });
+            }}
+            classNames={{
+              trigger: "h-10 md:h-14 min-h-[2.5rem] md:min-h-[3.5rem] rounded-xl",
             }}
           >
             {sortOptions.map((option) => (
@@ -323,7 +330,9 @@ export default function ProductFilters({
           selectedKeys={[category]}
           variant={isShop ? "bordered" : "flat"}
           className={isShop ? "bg-white rounded-xl" : ""}
-          size="sm"
+          classNames={{
+            trigger: "h-10 md:h-14 min-h-[2.5rem] md:min-h-[3.5rem] rounded-xl",
+          }}
           onChange={({ target: { value } }) => {
             setCategory(value);
             setSubCategory("all");
@@ -343,7 +352,9 @@ export default function ProductFilters({
           selectedKeys={[subCategory]}
           variant={isShop ? "bordered" : "flat"}
           className={isShop ? "bg-white rounded-xl" : ""}
-          size="sm"
+          classNames={{
+            trigger: "h-10 md:h-14 min-h-[2.5rem] md:min-h-[3.5rem] rounded-xl",
+          }}
           onChange={({ target: { value } }) => {
             setSubCategory(value);
             changePrams({ value, key: "subCategory", reset: value !== "all" });

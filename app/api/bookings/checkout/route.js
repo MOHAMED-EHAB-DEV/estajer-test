@@ -89,7 +89,7 @@ export async function POST(req) {
       status: "pending",
     }).populate(
       "ownerData",
-      "fullName phone commission companyDetails.taxCode",
+      "fullName phone commission companyDetails.taxCode disableSameDayRent",
     );
 
     if (!preOrder)
@@ -97,6 +97,29 @@ export async function POST(req) {
         { error: "Pre-order not found or expired" },
         { status: 404 },
       );
+
+    // Validate same-day rent permissions and past dates
+    const preOrderStart = new Date(preOrder.startDate);
+    const today = new Date();
+    preOrderStart.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    if (preOrderStart < today) {
+      return NextResponse.json(
+        { error: "تاريخ بدء الحجز انتهى ولا يمكن إكمال الطلب" },
+        { status: 400 },
+      );
+    }
+
+    if (
+      preOrderStart.getTime() === today.getTime() &&
+      preOrder.ownerData?.disableSameDayRent
+    ) {
+      return NextResponse.json(
+        { error: "لا يسمح المؤجر بالحجز في نفس اليوم لهذا الطلب" },
+        { status: 400 },
+      );
+    }
 
     // Check if user has addressDetails, if not add default structure
     if (!user?.location?.lat) {
@@ -143,12 +166,30 @@ export async function POST(req) {
     const productNameAr = firstProduct?.nameAr;
     const productDescriptionAr = firstProduct?.descriptionAr;
     const productImage = firstProduct?.images?.[0]?.preview;
+    const isFromOwnerShop = preOrder.source?.type === "shop";
+    const referer = req.headers.get("referer");
+    const refererUrl = referer ? new URL(referer) : null;
+    const reqHost = refererUrl ? refererUrl.host.toLowerCase() : "";
+    const shopDomain = preOrder.source?.refId?.domain?.toLowerCase();
+
+    // Only redirect to custom domain if checking out directly from the custom domain
+    const isCheckoutFromCustomDomain = !!(
+      isFromOwnerShop &&
+      shopDomain &&
+      reqHost.includes(shopDomain)
+    );
+
+    const checkoutOrigin = isCheckoutFromCustomDomain
+      ? `${refererUrl.protocol}//${refererUrl.host}`
+      : process.env.NEXT_PUBLIC_APP_URL || "https://estajer.com";
 
     const paymentResult = await waffyPayment.createWaffyPayment({
       amount: +(preOrder.totalAmount + tax + totalDeliveryCost).toFixed(0),
       deliveryCost: +totalDeliveryCost.toFixed(0),
       tax: +tax.toFixed(0),
-      commission: preOrder.ownerData.commission,
+      commission: isFromOwnerShop
+        ? (preOrder.source?.refId?.shopCommission ?? 5)
+        : preOrder.ownerData.commission,
       customerId: user._id.toString(),
       customerName: user.fullName,
       customerPhone: user.phone,
@@ -161,6 +202,15 @@ export async function POST(req) {
       productNameAr,
       productDescriptionAr,
       productImage,
+      ...(isFromOwnerShop &&
+        preOrder.source?.refId?.slug && {
+          customRedirectPath: isCheckoutFromCustomDomain
+            ? ""
+            : `/shops/${preOrder.source.refId.slug}`,
+          customRedirectOrigin: isCheckoutFromCustomDomain
+            ? checkoutOrigin
+            : null,
+        }),
     });
     if (!paymentResult.success)
       throw new Error(paymentResult.message || "Failed to create payment page");
@@ -179,7 +229,8 @@ export async function POST(req) {
       insurance: preOrder.insurance,
       deliveryCost: +totalDeliveryCost.toFixed(0),
       totalAmount: +(preOrder.totalAmount + tax + totalDeliveryCost).toFixed(0),
-      providerId: preOrder.providerId,
+      source: preOrder.source || { type: "direct" },
+      checkoutOrigin,
     });
 
     // Mark pre-order as used

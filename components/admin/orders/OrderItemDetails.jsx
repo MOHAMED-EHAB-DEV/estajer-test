@@ -11,7 +11,7 @@ import {
 import { Location } from "@/components/ui/svgs/icons/LocationSvg";
 import { anyImgUrl } from "@/utils/ImageUrl";
 
-const OrderItemDetails = ({ item }) => {
+const OrderItemDetails = ({ item, trans }) => {
   return (
     <div className="flex gap-4 items-center flex-wrap sm:flex-nowrap justify-center sm:justify-normal">
       <div className="md:min-w-32 min-w-24 aspect-[1.1/1] md:rounded-3xl rounded-2xl overflow-hidden relative">
@@ -38,7 +38,7 @@ const OrderItemDetails = ({ item }) => {
         <div className="text-darkNavy font-IBMPlex font-semibold text-sm md:text-lg mb-2">
           {item.product?.nameAr}
         </div>
-        <div className="text-[11px] md:text-sm text-[#5B5656] mb-3 flex gap-2">
+        <div className="text-[11px] md:text-sm text-mutedGray mb-3 flex gap-2">
           <span>
             تاريخ الإنشاء:{" "}
             {new Date(item.createdAt).toLocaleString("ar", {
@@ -69,7 +69,12 @@ const OrderItemDetails = ({ item }) => {
           </div>
           <div className="flex items-center gap-2">
             <Products />
-            <span>{item.quantity} قطع</span>
+            <span>
+              {item.quantity}
+              {item.product?.saleUnit
+                ? ` ${trans(`unit.${item.product.saleUnit}`)}`
+                : " قطع"}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <Cash />
@@ -114,7 +119,8 @@ const OrderItemDetails = ({ item }) => {
                 <div className="flex items-center gap-1" key={idx}>
                   <CheckCircle color="#0D092B" />
                   <span className="text-darkNavy">
-                    {service.name} - عدد {service.quantity} - {service.price} ر.س
+                    {service.name} - عدد {service.quantity} - {service.price}{" "}
+                    ر.س
                   </span>
                 </div>
               ))}

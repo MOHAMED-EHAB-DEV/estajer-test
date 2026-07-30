@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Textarea } from "@heroui/input";
+import { Textarea } from "@/components/ui/Input";
 import Button from "../ui/Button";
 import { X } from "../ui/svgs/icons/XSvg";
 import { ProductsIcon } from "../ui/svgs/icons/ProductsIconSvg";
@@ -21,6 +21,7 @@ export default function ChatInput({
   t,
   isAdminChat,
   placeholder,
+  aiAssistant,
 }) {
   return (
     <div
@@ -95,7 +96,7 @@ export default function ChatInput({
           }}
         />
         <div className="flex items-center gap-1 shrink-0">
-          {!isAdminChat && (
+          {!isAdminChat && !aiAssistant && (
             <Button
               onClick={() => setShowProductSearch((prev) => !prev)}
               className={`bg-transparent p-2 h-10 px-3 min-w-0 shadow-none transition-all duration-200 ${

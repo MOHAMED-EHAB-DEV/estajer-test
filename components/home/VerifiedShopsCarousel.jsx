@@ -16,6 +16,7 @@ export default function VerifiedShopsCarousel({
   t_object,
   langPrefix,
   lang,
+  sm = false,
 }) {
   const trans = useTranslations(t_object);
 
@@ -98,7 +99,10 @@ export default function VerifiedShopsCarousel({
   return (
     <div className="relative max-w-screen-2xl mx-auto" ref={containerRef}>
       <div className="relative">
-        <div className="overflow-hidden pb-4" ref={shouldLoadCarousel ? emblaRef : null}>
+        <div
+          className="overflow-hidden pb-4"
+          ref={shouldLoadCarousel ? emblaRef : null}
+        >
           <div className="flex">
             {verifiedShops.map((shop, idx) => (
               <div
@@ -152,24 +156,33 @@ export default function VerifiedShopsCarousel({
             ? "التنقل في المتاجر الموثقة"
             : "Verified shops navigation"
         }
-        className="flex justify-center gap-2 mt-6 md:mt-8"
+        className="flex justify-center mt-6 md:mt-8"
       >
         {(verifiedShops || scrollSnaps).map((_, index) => (
           <button
             key={index}
             role="tab"
             onClick={() => scrollTo(index)}
-            className={`md:w-2 md:h-2 w-[0.4rem] h-[0.4rem] rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
-              index === selectedIndex
-                ? "bg-primary md:w-[1.8rem] w-[1.2rem]"
-                : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-            }`}
+            className={`${index === selectedIndex ? "w-10" : "w-6"} h-8 flex items-center justify-center focus:outline-none group relative`}
             aria-label={`${
               lang === "ar" ? "الانتقال إلى الشريحة" : "Go to slide"
             } ${index + 1}`}
             aria-selected={index === selectedIndex}
             tabIndex={index === selectedIndex ? 0 : -1}
-          />
+          >
+            <span className="absolute inset-y-0 -inset-x-1" />
+            <span
+              className={`rounded-full transition-all duration-200 group-focus:ring-2 group-focus:ring-primary group-focus:ring-offset-2 ${
+                sm
+                  ? index === selectedIndex
+                    ? "bg-primary w-[1.2rem] h-[0.4rem]"
+                    : "bg-muted-foreground/30 group-hover:bg-muted-foreground/50 w-[0.4rem] h-[0.4rem]"
+                  : index === selectedIndex
+                    ? "bg-primary md:w-[1.8rem] w-[1.2rem] md:h-2 h-[0.4rem]"
+                    : "bg-muted-foreground/30 group-hover:bg-muted-foreground/50 md:w-2 md:h-2 w-[0.4rem] h-[0.4rem]"
+              }`}
+            />
+          </button>
         ))}
       </div>
     </div>

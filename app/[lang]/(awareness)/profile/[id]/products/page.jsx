@@ -168,7 +168,7 @@ export default async function page({ params, searchParams }) {
       <ProductContainer
         sm={true}
         lang={lang}
-        userId={id}
+        userId={user._id}
         translate={translate()}
         initialProducts={initialProducts}
         isProfile={true}

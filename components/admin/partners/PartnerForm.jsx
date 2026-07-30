@@ -198,6 +198,7 @@ export default function PartnerForm({
             newBanners[bannerIndex] = {
               ...newBanners[bannerIndex],
               [subField]: base64,
+              ...(resized.gradientStyle ? { [`${subField}GradientStyle`]: resized.gradientStyle } : {}),
             };
             newArray[index] = { ...newArray[index], banners: newBanners };
             return { ...prev, [field]: newArray };
@@ -205,12 +206,20 @@ export default function PartnerForm({
         } else {
           setFormData((prev) => {
             const newArray = [...prev[field]];
-            newArray[index] = { ...newArray[index], [subField]: base64 };
+            newArray[index] = {
+              ...newArray[index],
+              [subField]: base64,
+              ...(resized.gradientStyle ? { [`${subField}GradientStyle`]: resized.gradientStyle } : {}),
+            };
             return { ...prev, [field]: newArray };
           });
         }
       } else {
-        setFormData((prev) => ({ ...prev, [field]: base64 }));
+        setFormData((prev) => ({
+          ...prev,
+          [field]: base64,
+          ...(resized.gradientStyle ? { [`${field}GradientStyle`]: resized.gradientStyle } : {}),
+        }));
       }
     } catch (error) {
       console.error("Image upload error:", error);
@@ -494,7 +503,6 @@ export default function PartnerForm({
       if (data.success) {
         if (isEditing) await revalidateWithTag(`partner-${formData.slug}`);
         toast.success(isEditing ? t("updateSuccess") : t("createSuccess"));
-        router.push(`/${lang}/admin/partners`);
         router.refresh();
       } else {
         toast.error(data.error || "Something went wrong");
@@ -626,6 +634,8 @@ export default function PartnerForm({
         return (
           <OfferBannersTab
             formData={formData}
+            branch={formData?.branch}
+            providerId={formData?._id || formData?.owner}
             addOfferBannerSection={addOfferBannerSection}
             removeOfferBannerSection={removeOfferBannerSection}
             handleOfferBannerSectionChange={handleOfferBannerSectionChange}
@@ -635,6 +645,7 @@ export default function PartnerForm({
             handleImageUpload={handleImageUpload}
             t={t}
             lang={lang}
+            translate={translate}
             onEditOffer={(idx) => {
               setFocusedOfferIdx(idx);
               const element = document.getElementById(
@@ -689,6 +700,8 @@ export default function PartnerForm({
       return (
         <OfferBannersTab
           formData={formData}
+          branch={formData?.branch}
+          providerId={formData?._id || formData?.owner}
           addOfferBannerSection={addOfferBannerSection}
           removeOfferBannerSection={removeOfferBannerSection}
           handleOfferBannerSectionChange={handleOfferBannerSectionChange}
@@ -698,6 +711,7 @@ export default function PartnerForm({
           handleImageUpload={handleImageUpload}
           t={t}
           lang={lang}
+          translate={translate}
           mode="edit"
           sectionIndex={focusedOfferIdx}
         />

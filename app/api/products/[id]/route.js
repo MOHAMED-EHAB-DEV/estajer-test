@@ -71,7 +71,7 @@ export async function GET(req, { params }) {
     ).populate({
       path: "owner",
       select:
-        "fullName email premium createdAt pathName avatar rating isOnline lastSeen accountType documentCode hasBranches branches companyDetails.taxCode hasShop holidayPeriods",
+        "fullName email premium createdAt pathName avatar rating isOnline lastSeen accountType documentCode hasBranches branches companyDetails.taxCode hasShop holidayPeriods disableSameDayRent",
     });
 
     if (!product) {
@@ -189,6 +189,35 @@ export async function PATCH(req, { params }) {
     const user = await authenticateUser();
     const data = await req.json();
 
+    if (data.addressAr || data.addressEn) {
+      const sanitizeCity = (city) => {
+        let result = city || "";
+        if (result) {
+          result = result
+            .replace(/^(إمارة منطقة|امارة منطقة|منطقة|إمارة|امارة)\s+/, "")
+            .replace(/\s+(Province|Region|Governorate)$/i, "")
+            .trim();
+        }
+        return result;
+      };
+
+      const cityAr = sanitizeCity(data.addressAr?.city);
+      const cityEn = sanitizeCity(data.addressEn?.city);
+
+      if (!cityAr || !cityEn) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Product city is required in both languages",
+          },
+          { status: 400 },
+        );
+      }
+
+      if (data.addressAr) data.addressAr.city = cityAr;
+      if (data.addressEn) data.addressEn.city = cityEn;
+    }
+
     if (data?.approved !== undefined || data?.rejected !== undefined)
       return NextResponse.json(
         { success: false, error: "not allowed" },
@@ -240,6 +269,115 @@ export async function PATCH(req, { params }) {
       return NextResponse.json({ success: true, data: updatedProduct });
     }
 
+    // ─── Sensitive fields that require admin review on approved products ───
+    const SENSITIVE_FIELDS = [
+      "nameAr",
+      "nameEn",
+      "descriptionAr",
+      "descriptionEn",
+      "category",
+      "subCategory",
+      "productImages",
+    ];
+
+    const hasSensitiveChanges = SENSITIVE_FIELDS.some((f) => f in data);
+
+    if (
+      product.approved &&
+      hasSensitiveChanges &&
+      user.accountType !== "admin"
+    ) {
+      // ── Build pendingChanges from the incoming sensitive fields ──
+      const pendingUpdate = {};
+
+      if ("nameAr" in data)
+        pendingUpdate["pendingChanges.nameAr"] = data.nameAr;
+      if ("nameEn" in data)
+        pendingUpdate["pendingChanges.nameEn"] = data.nameEn;
+      if ("descriptionAr" in data)
+        pendingUpdate["pendingChanges.descriptionAr"] = data.descriptionAr;
+      if ("descriptionEn" in data)
+        pendingUpdate["pendingChanges.descriptionEn"] = data.descriptionEn;
+      if ("category" in data)
+        pendingUpdate["pendingChanges.category"] = data.category;
+      if ("subCategory" in data)
+        pendingUpdate["pendingChanges.subCategory"] = data.subCategory;
+
+      // Handle image uploads for pending changes
+      if (data.productImages) {
+        const imageUrls = await Promise.all(
+          data.productImages.map(async (image) => {
+            if (image.preview.startsWith("http")) {
+              return {
+                preview: image.preview,
+                gradientColors: image.gradientColors,
+                gradientStyle: image.gradientStyle,
+              };
+            }
+            const result = await cloudinary.uploader.upload(image.preview, {
+              folder: "products/pending",
+              format: "webp",
+            });
+            return {
+              preview: result.secure_url,
+              gradientColors: image.gradientColors,
+              gradientStyle: image.gradientStyle,
+            };
+          }),
+        );
+        pendingUpdate["pendingChanges.images"] = imageUrls;
+      }
+
+      // Mark as needing review; keep any previous rejection reason for admin history
+      pendingUpdate["pendingChanges.needsReview"] = true;
+
+      // ── Strip sensitive fields from the immediate update ──
+      const nonSensitiveData = { ...data };
+      SENSITIVE_FIELDS.forEach((f) => delete nonSensitiveData[f]);
+      delete nonSensitiveData.productImages;
+
+      // Ensure packages have valid unit values
+      if (nonSensitiveData.rental?.packages) {
+        const validUnits = ["hours", "days", "weeks", "months"];
+        nonSensitiveData.rental.packages = nonSensitiveData.rental.packages.map(
+          (pkg) => ({
+            ...pkg,
+            unit: validUnits.includes(pkg.unit) ? pkg.unit : "days",
+          }),
+        );
+      }
+
+      const updatePayload = {
+        ...pendingUpdate,
+      };
+
+      // Apply non-sensitive changes immediately if any exist
+      const hasNonSensitiveChanges = Object.keys(nonSensitiveData).length > 0;
+      if (hasNonSensitiveChanges && nonSensitiveData.location) {
+        updatePayload.location = {
+          type: "Point",
+          coordinates: [
+            nonSensitiveData.location.lng,
+            nonSensitiveData.location.lat,
+          ],
+        };
+        delete nonSensitiveData.location;
+      }
+      if (hasNonSensitiveChanges) {
+        Object.assign(updatePayload, nonSensitiveData);
+      }
+
+      const updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        updatePayload,
+        { new: true, runValidators: false },
+      );
+
+      return NextResponse.json({ success: true, data: updatedProduct });
+    }
+
+    // ─── Standard update (unapproved products, or admin editing, or no sensitive fields) ───
+
     // Handle image updates if any
     if (data.productImages) {
       const imageUrls = await Promise.all(
@@ -275,6 +413,7 @@ export async function PATCH(req, { params }) {
     }
 
     if (
+      data.rental?.delivery?.type === "delivery" &&
       data.rental?.delivery?.pricingModel === "fixedCity" &&
       (!data.rental?.delivery?.fixedCityPricing ||
         data.rental.delivery.fixedCityPricing.length === 0)
@@ -289,23 +428,17 @@ export async function PATCH(req, { params }) {
     if (product.rejected) {
       updatedStatus.rejected = false;
       updatedStatus.approved = false;
-      updatedStatus.rejectMessage = undefined;
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
       {
         ...data,
-        addressAr: {
-          ...data.addressAr,
-          city: data.addressAr?.city?.replace("امارة منطقة الرياض", "الرياض"),
-        },
         ...updatedStatus,
         location: {
           type: "Point",
           coordinates: [data.location.lng, data.location.lat],
         },
-        $unset: product.rejected ? { rejectMessage: 1 } : {},
       },
       { new: true, runValidators: true },
     );

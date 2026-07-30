@@ -1,6 +1,7 @@
 "use client";
 import { Products, Cash, Person, Map } from "@/components/ui/svgs/Admin";
 import { Messages } from "@/components/ui/svgs/Dashboard";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Note } from "@/components/ui/svgs/icons/NoteSvg";
 import { Location } from "@/components/ui/svgs/icons/LocationSvg";
 import { Insurance } from "@/components/ui/svgs/icons/InsuranceSvg";
@@ -11,6 +12,7 @@ import { Delete } from "@/components/ui/svgs/icons/DeleteSvg";
 import { ImageSvg } from "@/components/ui/svgs/icons/ImageSvgSvg";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
+import { Eye } from "@/components/ui/svgs/icons/EyeSvg";
 import { statusData } from "@/static/statusData";
 import { Edit } from "@/components/ui/svgs/icons/EditSvg";
 import WaffyStatusModal from "./WaffyStatusModal";
@@ -24,7 +26,8 @@ import ConfirmModal from "@/components/dashboard/ConfirmModal";
 import OrderItemDetails from "./OrderItemDetails";
 import ImagePreviewModal from "@/components/shared/ImagePreviewModal";
 
-const OrderDetails = ({ order }) => {
+const OrderDetails = ({ order, translate }) => {
+  const trans = useTranslations(translate);
   const [isPending, startTransition] = useTransition();
   const [modalData, setModalData] = useState({ show: false });
   const [showWaffyModal, setShowWaffyModal] = useState(false);
@@ -146,7 +149,7 @@ const OrderDetails = ({ order }) => {
   return (
     <div className="bg-white md:rounded-3xl rounded-2xl mb-6 overflow-hidden shadow-md">
       {/* Header Section */}
-      <div className="flex flex-wrap justify-between items-center gap-4 md:px-8 md:py-6 px-4 py-3 bg-[#EAEEF3]">
+      <div className="flex flex-wrap justify-between items-center gap-4 md:px-8 md:py-6 px-4 py-3 bg-surfaceBlue">
         <div className="flex flex-col gap-1">
           <h2 className="flex flex-wrap items-center gap-4 text-darkNavy font-semibold text-sm md:text-lg font-NotoSansArabic">
             رقم الطلب: {order?._id}
@@ -162,7 +165,7 @@ const OrderDetails = ({ order }) => {
             حالة الطلب:{" "}
           </span>
           <span
-            className="md:px-5 md:py-2 px-3 py-1.5 text-white rounded-[5px] text-xs md:text-medium font-semibold font-IBMPlex"
+            className="md:px-5 md:py-2 px-3 py-1.5 text-white rounded-[5px] text-xs md:text-base font-semibold font-IBMPlex"
             style={{
               backgroundColor: statusData[order.status].color,
             }}
@@ -171,7 +174,7 @@ const OrderDetails = ({ order }) => {
           </span>
           <div className="flex items-center gap-2">
             <span
-              className="md:px-5 md:py-2 px-3 py-1.5 text-white rounded-[5px] text-xs md:text-medium font-semibold font-IBMPlex"
+              className="md:px-5 md:py-2 px-3 py-1.5 text-white rounded-[5px] text-xs md:text-base font-semibold font-IBMPlex"
               style={{
                 backgroundColor: statusData[order.status].color,
               }}
@@ -183,7 +186,7 @@ const OrderDetails = ({ order }) => {
               className="p-2 hover:bg-black/5 rounded-lg transition-colors"
               title="تعديل حالة وافي"
             >
-              <Edit className="md:w-[18px] md:h-[18px] w-3.5 h-3.5" />
+              <Edit className="md:w-4.5 md:h-4.5 w-3.5 h-3.5" />
             </button>
           </div>
         </div>
@@ -201,7 +204,7 @@ const OrderDetails = ({ order }) => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 gap-4 py-2">
             {order.items.map((item) => (
-              <OrderItemDetails key={item._id} item={item} />
+              <OrderItemDetails key={item._id} item={item} trans={trans} />
             ))}
           </div>
         </div>
@@ -228,13 +231,14 @@ const OrderDetails = ({ order }) => {
                     alt={order.userData.fullName}
                     fill
                     className="h-full w-full object-cover"
+                    unoptimized
                   />
                 </div>
                 <div>
                   <div className="text-darkNavy font-semibold text-base md:text-lg font-IBMPlex">
                     {order.userData.fullName}
                   </div>
-                  <div className="mt-1 text-xs md:text-sm text-[#5B5656]">
+                  <div className="mt-1 text-xs md:text-sm text-mutedGray">
                     انضم إلى استأجر{" "}
                     {new Date(order.userData.id.createdAt).getFullYear()}
                   </div>
@@ -249,7 +253,7 @@ const OrderDetails = ({ order }) => {
               <div>
                 <div className="flex gap-2 text-sm md:text-lg">
                   <div className="mt-1">
-                    <Location className="md:w-[18px] md:h-[22px] w-4 h-[18px]" />
+                    <Location className="md:w-4.5 md:h-[22px] w-4 h-4.5" />
                   </div>
                   <div>
                     <span className="font-semibold">العنوان: </span>
@@ -301,13 +305,14 @@ const OrderDetails = ({ order }) => {
                     alt={order.ownerData.fullName}
                     fill
                     className="h-full w-full object-cover"
+                    unoptimized
                   />
                 </div>
                 <div>
                   <div className="text-darkNavy font-semibold text-base md:text-lg font-IBMPlex">
                     {order.ownerData.fullName}
                   </div>
-                  <div className="mt-1 text-xs md:text-sm text-[#5B5656]">
+                  <div className="mt-1 text-xs md:text-sm text-mutedGray">
                     انضم إلى استأجر{" "}
                     {new Date(order.ownerData.createdAt).getFullYear()}
                   </div>
@@ -322,7 +327,7 @@ const OrderDetails = ({ order }) => {
               <div>
                 <div className="flex gap-2 text-sm md:text-lg">
                   <div className="mt-1">
-                    <Location className="md:w-[18px] md:h-[22px] w-4 h-[18px]" />
+                    <Location className="md:w-4.5 md:h-[22px] w-4 h-4.5" />
                   </div>
                   <div>
                     <span className="font-semibold">العنوان: </span>
@@ -338,6 +343,73 @@ const OrderDetails = ({ order }) => {
                   <span>عرض في الخريطة</span>
                 </Link>
               </div>
+
+              {/* National Address for tax-registered companies */}
+              {order.ownerData?.accountType === "company" &&
+                !!order.ownerData?.companyDetails?.taxCode && (
+                  <div className="mt-2 p-3.5 bg-white rounded-xl border border-gray-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-bold text-xs md:text-sm text-darkNavy">
+                        العنوان الوطني (الشركة)
+                      </span>
+                      {(() => {
+                        const b =
+                          order.ownerData?.companyDetails?.billingAddress;
+                        const hasFullAddress =
+                          !!b?.street &&
+                          !!b?.city &&
+                          !!b?.district &&
+                          !!b?.postalCode &&
+                          !!b?.buildingNumber;
+                        return hasFullAddress ? (
+                          <span className="text-[10px] md:text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-md font-semibold">
+                            مكتمل
+                          </span>
+                        ) : (
+                          <span className="text-[10px] md:text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-md font-semibold">
+                            غير مكتمل
+                          </span>
+                        );
+                      })()}
+                    </div>
+                    {order.ownerData?.companyDetails?.billingAddress?.street ? (
+                      <div className="text-xs text-gray-600 space-y-1">
+                        <div>
+                          <span className="font-semibold">الشارع: </span>
+                          {order.ownerData.companyDetails.billingAddress.street}
+                        </div>
+                        <div>
+                          <span className="font-semibold">
+                            المدينة / الحي:{" "}
+                          </span>
+                          {order.ownerData.companyDetails.billingAddress.city} -{" "}
+                          {
+                            order.ownerData.companyDetails.billingAddress
+                              .district
+                          }
+                        </div>
+                        <div>
+                          <span className="font-semibold">
+                            رقم المبنى / الرمز البريدي:{" "}
+                          </span>
+                          {
+                            order.ownerData.companyDetails.billingAddress
+                              .buildingNumber
+                          }{" "}
+                          /{" "}
+                          {
+                            order.ownerData.companyDetails.billingAddress
+                              .postalCode
+                          }
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-xs text-red-500 italic">
+                        لم يتم إضافة تفاصيل العنوان الوطني بعد
+                      </div>
+                    )}
+                  </div>
+                )}
             </div>
           </div>
         </div>
@@ -349,7 +421,7 @@ const OrderDetails = ({ order }) => {
           order.ownerConfirmedAt) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             {/* Renter Documentation */}
-            <div className="bg-[#F9FAFC] md:p-4 p-3 rounded-2xl border border-[#EAEEF3]">
+            <div className="bg-[#F9FAFC] md:p-4 p-3 rounded-2xl border border-surfaceBlue">
               <div className="flex items-center justify-between mb-5 pb-4 border-b border-[#d6d7d8] leading-6">
                 <div className="flex items-center gap-2">
                   <ImageSvg />
@@ -382,19 +454,20 @@ const OrderDetails = ({ order }) => {
                         alt={`renter-doc-${idx}`}
                         fill
                         className="object-cover"
+                        unoptimized
                       />
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-[#5B5656] text-sm text-center py-4 italic">
+                <div className="text-mutedGray text-sm text-center py-4 italic">
                   لم يتم رفع صور من قبل المستأجر
                 </div>
               )}
             </div>
 
             {/* Owner Documentation */}
-            <div className="bg-[#F9FAFC] md:p-4 p-3 rounded-2xl border border-[#EAEEF3]">
+            <div className="bg-[#F9FAFC] md:p-4 p-3 rounded-2xl border border-surfaceBlue">
               <div className="flex items-center justify-between mb-5 pb-4 border-b border-[#d6d7d8] leading-6">
                 <div className="flex items-center gap-2">
                   <ImageSvg />
@@ -427,12 +500,13 @@ const OrderDetails = ({ order }) => {
                         alt={`owner-doc-${idx}`}
                         fill
                         className="object-cover"
+                        unoptimized
                       />
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-[#5B5656] text-sm text-center py-4 italic">
+                <div className="text-mutedGray text-sm text-center py-4 italic">
                   لم يتم رفع صور من قبل المؤجر
                 </div>
               )}
@@ -442,7 +516,7 @@ const OrderDetails = ({ order }) => {
       </div>
 
       {/* Footer Section - Order Summary & Actions */}
-      <div className="flex flex-wrap justify-between gap-4 items-center md:px-8 md:py-6 px-4 py-3 bg-[#EAEEF3]">
+      <div className="flex flex-wrap justify-between gap-4 items-center md:px-8 md:py-6 px-4 py-3 bg-surfaceBlue">
         {/* Order Summary */}
         <div className="flex flex-col gap-3">
           <div className="text-base md:text-lg font-semibold text-darkNavy font-NotoSansArabic">
@@ -451,18 +525,25 @@ const OrderDetails = ({ order }) => {
           <div className="flex flex-wrap gap-4 items-center">
             <div className="flex md:gap-2 gap-1 items-center">
               <Products className="md:w-5 md:h-5 !w-3 !h-3" />
-              <span className="font-semibold">القطع:</span>
+              <span className="font-semibold">
+                {order.items.some((item) => item.product?.saleUnit)
+                  ? "الكمية"
+                  : "القطع"}
+                :
+              </span>
               <span>
-                {order.items.reduce(
-                  (total, { quantity }) => total + quantity,
-                  0,
-                )}
+                {order.items.length === 1 && order.items[0].product?.saleUnit
+                  ? `${order.items[0].quantity} ${trans(`unit.${order.items[0].product.saleUnit}`) || ""}`
+                  : order.items.reduce(
+                      (total, { quantity }) => total + quantity,
+                      0,
+                    )}
               </span>
             </div>
 
             <div className="flex md:gap-[10px] gap-1 items-center">
               <Cash />
-              <div className="flex gap-1 items-center text-xs md:text-medium text-darkNavy">
+              <div className="flex gap-1 items-center text-xs md:text-base text-darkNavy">
                 <span className="font-IBMPlex font-bold">السعر:</span>
                 <span className="font-semibold font-NotoSansArabic">
                   {order.price} ر.س
@@ -471,7 +552,7 @@ const OrderDetails = ({ order }) => {
             </div>
             <div className="flex md:gap-[10px] gap-1 items-center">
               <Insurance />
-              <div className="flex gap-1 items-center text-xs md:text-medium text-darkNavy">
+              <div className="flex gap-1 items-center text-xs md:text-base text-darkNavy">
                 <span className="font-IBMPlex font-bold">التأمين:</span>
                 <span className="font-semibold font-NotoSansArabic">
                   {order.insurance} ر.س
@@ -480,7 +561,7 @@ const OrderDetails = ({ order }) => {
             </div>
             <div className="flex md:gap-[10px] gap-1 items-center">
               <ReceiptTax />
-              <div className="flex gap-1 items-center text-xs md:text-medium text-darkNavy">
+              <div className="flex gap-1 items-center text-xs md:text-base text-darkNavy">
                 <span className="font-IBMPlex font-bold">الضريبة:</span>
                 <span className="font-semibold font-NotoSansArabic">
                   {order.tax} ر.س
@@ -490,7 +571,7 @@ const OrderDetails = ({ order }) => {
             {order.deliveryCost > 0 && (
               <div className="flex md:gap-[10px] gap-1 items-center">
                 <Cash />
-                <div className="flex gap-1 items-center text-xs md:text-medium text-darkNavy">
+                <div className="flex gap-1 items-center text-xs md:text-base text-darkNavy">
                   <span className="font-IBMPlex font-bold">التوصيل:</span>
                   <span className="font-semibold font-NotoSansArabic">
                     {order.deliveryCost} ر.س
@@ -500,7 +581,7 @@ const OrderDetails = ({ order }) => {
             )}
             <div className="flex md:gap-[10px] gap-1 items-center">
               <Cash isActive={true} activeColor="#F48A42" />
-              <span className="text-[#F48A42] font-NotoSansArabic font-semibold text-xs md:text-medium">
+              <span className="text-primary font-NotoSansArabic font-semibold text-xs md:text-base">
                 الاجمالي: {order.totalAmount} ر.س
               </span>
             </div>
@@ -515,7 +596,7 @@ const OrderDetails = ({ order }) => {
           <div className="flex gap-2 flex-wrap">
             {order.status === "not-paid" && (
               <Button
-                className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-[#F9D9D9] text-[#F44242] shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+                className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-[#F9D9D9] text-dangerRed shadow-none font-semibold text-xs md:text-base font-NotoSansArabic"
                 onPress={() => showModal(order._id, "delete")}
                 isDisabled={isPending}
               >
@@ -526,7 +607,7 @@ const OrderDetails = ({ order }) => {
             {order.status === "pending" && (
               <>
                 <Button
-                  className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-[#F9D9D9] text-[#F44242] shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+                  className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-[#F9D9D9] text-dangerRed shadow-none font-semibold text-xs md:text-base font-NotoSansArabic"
                   onPress={() => showModal(order._id, "cancel")}
                   isDisabled={isPending}
                 >
@@ -534,7 +615,7 @@ const OrderDetails = ({ order }) => {
                   رفض الطلب
                 </Button>
                 <Button
-                  className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-success text-white shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+                  className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-success text-white shadow-none font-semibold text-xs md:text-base font-NotoSansArabic"
                   onPress={() => showModal(order._id, "confirm")}
                   isDisabled={isPending}
                 >
@@ -546,7 +627,7 @@ const OrderDetails = ({ order }) => {
             {order.status === "confirmed" && (
               <>
                 <Button
-                  className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-[#F9D9D9] text-[#F44242] shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+                  className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-[#F9D9D9] text-dangerRed shadow-none font-semibold text-xs md:text-base font-NotoSansArabic"
                   onPress={() => showModal(order._id, "cancelConfirm")}
                   isDisabled={isPending}
                 >
@@ -554,7 +635,7 @@ const OrderDetails = ({ order }) => {
                   الغاء التأكيد
                 </Button>
                 <Button
-                  className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-success text-white shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+                  className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-success text-white shadow-none font-semibold text-xs md:text-base font-NotoSansArabic"
                   onPress={() => handleReceiveOrder(order)}
                   isDisabled={isPending}
                 >
@@ -563,12 +644,11 @@ const OrderDetails = ({ order }) => {
                 </Button>
               </>
             )}
-            {console.log("order: ", order.rejectionApproved)}
             {order.status === "rejecting" &&
               (!order.rejectionApproved ? (
                 <>
                   <Button
-                    className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-[#F9D9D9] text-[#F44242] shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+                    className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-[#F9D9D9] text-dangerRed shadow-none font-semibold text-xs md:text-base font-NotoSansArabic"
                     onPress={() => showModal(order._id, "confirmRejection")}
                     isDisabled={isPending}
                   >
@@ -576,7 +656,7 @@ const OrderDetails = ({ order }) => {
                     تأكيد الرفض
                   </Button>
                   <Button
-                    className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-success text-white shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+                    className="flex items-center justify-center rounded-full bg-success text-white shadow-none font-semibold"
                     onPress={() => showModal(order._id, "restoreOrder")}
                     isDisabled={isPending}
                   >
@@ -587,14 +667,14 @@ const OrderDetails = ({ order }) => {
               ) : (
                 <Button
                   isDisabled
-                  className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-[#F9D9D9] text-[#F44242] shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+                  className="flex items-center justify-center rounded-full bg-[#F9D9D9] text-dangerRed shadow-none font-semibold"
                 >
                   تم رفض الطلب
                 </Button>
               ))}
             {order.status === "completed" && (
               <Button
-                className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-[#F9D9D9] text-[#E74C3C] shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+                className="flex items-center justify-center rounded-full bg-[#F9D9D9] text-[#E74C3C] shadow-none font-semibold"
                 onPress={() => showModal(order._id, "markNotReturned")}
                 isDisabled={isPending}
               >
@@ -604,7 +684,7 @@ const OrderDetails = ({ order }) => {
             )}
             {order.status === "not-returned" && (
               <Button
-                className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 gap-2 bg-[#2ECC71] text-white shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+                className="flex items-center justify-center rounded-full bg-[#2ECC71] text-white shadow-none font-semibold"
                 onPress={() => showModal(order._id, "markReturned")}
                 isDisabled={isPending}
               >
@@ -612,11 +692,23 @@ const OrderDetails = ({ order }) => {
                 تم ارجاعه
               </Button>
             )}
-            <Button className="flex items-center justify-center rounded-full md:px-6 h-auto md:py-4 px-4 py-2 bg-white text-darkNavy shadow-none font-semibold font-NotoSansArabic text-xs md:text-medium">
+            {order.taxInvoice && (
+              <Button
+                as="a"
+                href={`/api/orders/${order._id}/tax-invoice/${order.taxInvoice}`}
+                target="_blank"
+                radius="full"
+                className="flex items-center justify-center rounded-full bg-[#EAFBEB] text-[#137333] hover:bg-[#DCEFDC] shadow-none font-semibold"
+              >
+                <Eye className="md:w-5 md:h-5 w-4 h-4" color="currentColor" />
+                عرض الفاتورة الضريبية
+              </Button>
+            )}
+            <Button className="flex items-center justify-center bg-white text-darkNavy shadow-none font-semibold">
               <Messages className="md:w-5 md:h-5 w-4 h-4" />
               عرض المحادثة
             </Button>
-            {/* <Button className="flex items-center justify-center rounded-full px-6 py-3 bg-white text-darkNavy shadow-none font-semibold font-NotoSansArabic text-medium">
+            {/* <Button className="flex items-center justify-center rounded-full px-6 py-3 bg-white text-darkNavy shadow-none font-semibold font-NotoSansArabic text-base">
               <File />
               تصدير
               <ChevronDown />

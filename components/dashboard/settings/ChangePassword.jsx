@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Input } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
 import Button from "../../ui/Button";
 import { toast } from "@/utils/toast";
 import ToastMessage from "../../ui/ToastMessage";
@@ -14,7 +14,7 @@ function FormInput({ ...props }) {
       labelPlacement="outside"
       classNames={{
         mainWrapper: "mt-14",
-        label: "md:text-lg text-base -mt-2 flex items-center",
+        label: "md:text-lg text-base flex items-center",
         base: "max-w-full !mt-0",
         input: "md:text-base text-sm",
         inputWrapper: "bg-gray-100 h-12",
@@ -87,7 +87,7 @@ export default function ChangePassword({ t }) {
       <h2 className="lg:text-[1.8rem] md:text-[1.6rem] text-[1.05rem] font-semibold text-darkNavy font-IBMPlex mb-1 1 md:mt-0 mt-2">
         {t("changePassword.title")}
       </h2>
-      <form onSubmit={updatePassword}>
+      <form onSubmit={updatePassword} className="flex flex-col gap-5 mt-5">
         <div className="w-full">
           <FormInput
             label={t("changePassword.currentPassword")}

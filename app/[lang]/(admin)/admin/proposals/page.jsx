@@ -1,14 +1,14 @@
 "use client";
+import Button from "@/components/ui/Button";
 import {
-  Button,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Textarea,
-  Chip,
-} from "@heroui/react";
+} from "@/components/ui/CustomModal";
+import { Textarea } from "@/components/ui/Input";
+import { Chip } from "@/components/ui/Chip";
 import { useEffect, useState, useTransition } from "react";
 import { toast } from "@/utils/toast";
 import ToastMessage from "@/components/ui/ToastMessage";
@@ -153,6 +153,8 @@ export default function AdminProposals() {
         <div className="flex flex-wrap gap-2">
           <Button
             color="primary"
+            radius="xl"
+            size="md"
             onPress={() => fetchProposals(1, "")}
             isDisabled={isPending}
           >
@@ -160,6 +162,8 @@ export default function AdminProposals() {
           </Button>
           <Button
             color="warning"
+            radius="xl"
+            size="md"
             onPress={() => fetchProposals(1, "new")}
             isDisabled={isPending}
           >
@@ -167,6 +171,8 @@ export default function AdminProposals() {
           </Button>
           <Button
             color="success"
+            radius="xl"
+            size="md"
             onPress={() => fetchProposals(1, "read")}
             isDisabled={isPending}
           >
@@ -259,6 +265,8 @@ export default function AdminProposals() {
                 {proposal.status === "new" && (
                   <Button
                     color="primary"
+                    radius="xl"
+                    size="md"
                     onPress={() => handleMarkAsRead(proposal._id)}
                     isDisabled={isPending}
                   >
@@ -268,6 +276,8 @@ export default function AdminProposals() {
                 {!proposal.replay ? (
                   <Button
                     color="success"
+                    radius="xl"
+                    size="md"
                     onPress={() => handleReplyModalOpen(proposal)}
                     isDisabled={isPending}
                   >
@@ -350,8 +360,11 @@ export default function AdminProposals() {
         onClose={handleReplyModalClose}
         placement="center"
         size="2xl"
+        classNames={{
+          base: "overflow-hidden max-h-[90vh] flex flex-col",
+        }}
       >
-        <ModalContent>
+        <ModalContent className="flex flex-col h-full overflow-hidden">
           <ModalHeader className="flex flex-wrap items-center justify-between gap-4 pl-16">
             <span className="font-semibold">الرد على العرض</span>
 
@@ -362,6 +375,7 @@ export default function AdminProposals() {
                 <Button
                   size="sm"
                   color="warning"
+                  radius="md"
                   variant={emailLang === "ar" ? "solid" : "ghost"}
                   onPress={() => setEmailLang("ar")}
                   aria-pressed={emailLang === "ar"}
@@ -372,6 +386,7 @@ export default function AdminProposals() {
                 <Button
                   size="sm"
                   color="primary"
+                  radius="md"
                   variant={emailLang === "en" ? "solid" : "ghost"}
                   onPress={() => setEmailLang("en")}
                   aria-pressed={emailLang === "en"}
@@ -398,7 +413,8 @@ export default function AdminProposals() {
                 </div>
               </div>
             )}
-
+          </ModalBody>
+          <ModalFooter className="flex flex-col">
             <Textarea
               label="رسالة الرد"
               placeholder="اكتب رسالة الرد هنا..."
@@ -407,22 +423,26 @@ export default function AdminProposals() {
               minRows={5}
               isRequired
             />
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="danger"
-              variant="light"
-              onPress={handleReplyModalClose}
-            >
-              إلغاء
-            </Button>
-            <Button
-              color="success"
-              onPress={handleReply}
-              isDisabled={!replyMessage || isPending}
-            >
-              إرسال الرد
-            </Button>
+            <div className="flex justify-end gap-3">
+              <Button
+                color="danger"
+                variant="light"
+                size="md"
+                radius="xl"
+                onPress={handleReplyModalClose}
+              >
+                إلغاء
+              </Button>
+              <Button
+                color="success"
+                size="md"
+                radius="xl"
+                onPress={handleReply}
+                isDisabled={!replyMessage || isPending}
+              >
+                إرسال الرد
+              </Button>
+            </div>
           </ModalFooter>
         </ModalContent>
       </Modal>

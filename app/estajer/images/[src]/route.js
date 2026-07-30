@@ -59,15 +59,10 @@ export async function GET(request, { params }) {
     } catch (error) {
       console.error("Error parsing parameters:", error);
     }
-    console.log("request.url: ", request.url);
-    console.log("newSrc: ", newSrc);
 
     try {
       const checkRes = await fetch(newSrc, { method: "HEAD" });
       if (!checkRes.ok) {
-        console.log(
-          `Image gone at ${newSrc} (${checkRes.status}), returning 410`,
-        );
         return new Response(null, {
           status: 410,
           headers: { "Cache-Control": "public, max-age=31536000, immutable" },
@@ -121,11 +116,19 @@ export async function GET(request, { params }) {
     // Check if cached file exists
     try {
       const cachedImage = await fs.readFile(cachePath);
-      process.env.NODE_ENV === "production" &&
-        console.log(
-          "⚠️ Served from Node.js (Nginx should have caught this):",
-          cacheFilename,
-        );
+      if (process.env.NODE_ENV === "production") {
+        const stats = await fs.stat(cachePath).catch(() => null);
+        const isOlderThan5Min = stats
+          ? Date.now() - stats.mtimeMs > 5 * 60 * 1000
+          : true;
+        if (isOlderThan5Min) {
+          console.log(
+            "⚠️ Served from Node.js (Nginx should have caught this):",
+            cacheFilename,
+            `- URL: ${request.url}`,
+          );
+        }
+      }
       return new Response(cachedImage, {
         headers: {
           "Content-Type": "image/webp",
@@ -221,10 +224,11 @@ async function downloadAndProcessImage({
     try {
       await fs.writeFile(originalPath, buffer);
       await fs.chmod(originalPath, 0o644);
-      process.env.NODE_ENV === "production" &&
-        uploadOriginalToDrive(buffer, originalFilename).catch((err) =>
-          console.error("Background Drive upload error:", err),
-        );
+      if (process.env.NODE_ENV === "production") {
+        Promise.resolve()
+          .then(() => uploadOriginalToDrive(buffer, originalFilename))
+          .catch((err) => console.error("Background Drive upload error:", err));
+      }
     } catch (saveError) {
       console.error("Failed to save original image cache:", saveError);
     }
@@ -232,12 +236,13 @@ async function downloadAndProcessImage({
 
   // Get metadata
   const metadata = await sharp(buffer).metadata();
+  const srcWidth = metadata.width || width;
+  const srcHeight = metadata.height || width;
 
   if (aspectRatio) {
     const [ratioW, ratioH] = aspectRatio.split(":").map(Number);
 
-    // Calculate dimensions based on aspect ratio
-    const targetWidth = Math.min(width, metadata.width);
+    const targetWidth = Math.min(width, srcWidth);
     const targetHeight = Math.round(targetWidth * (ratioH / ratioW));
 
     if (crop) {
@@ -259,35 +264,33 @@ async function downloadAndProcessImage({
       .toBuffer();
 
     const resizedMetadata = await sharp(resizedImage).metadata();
+    const rW = resizedMetadata.width || 0;
+    const rH = resizedMetadata.height || 0;
 
-    // Create transparent background with specified aspect ratio
-    const finalImage = await sharp({
-      create: {
-        width: targetWidth,
-        height: targetHeight,
-        channels: 4,
+    const padTop = Math.max(0, Math.floor((targetHeight - rH) / 2));
+    const padBottom = Math.max(0, targetHeight - rH - padTop);
+    const padLeft = Math.max(0, Math.floor((targetWidth - rW) / 2));
+    const padRight = Math.max(0, targetWidth - rW - padLeft);
+
+    return await sharp(resizedImage)
+      .ensureAlpha()
+      .extend({
+        top: padTop,
+        bottom: padBottom,
+        left: padLeft,
+        right: padRight,
         background: { r: 0, g: 0, b: 0, alpha: 0 },
-      },
-    })
-      .composite([
-        {
-          input: resizedImage,
-          top: Math.floor((targetHeight - resizedMetadata.height) / 2),
-          left: Math.floor((targetWidth - resizedMetadata.width) / 2),
-        },
-      ])
+      })
       .webp({ quality })
       .toBuffer();
-
-    return finalImage;
   }
 
-  const targetWidth = Math.min(width, metadata.width);
+  const targetWidth = Math.min(width, srcWidth);
 
   const resizedImageBuffer = await sharp(buffer)
     .resize(targetWidth, null, {
-      withoutEnlargement: true,
       fit: "inside",
+      withoutEnlargement: true,
     })
     .webp({ quality })
     .toBuffer();
@@ -301,6 +304,14 @@ function generateETag(buffer) {
 
 // Helper for Background Upload
 async function uploadOriginalToDrive(buffer, fileName) {
+  if (
+    !process.env.GDRIVE_CLIENT_ID ||
+    !process.env.GDRIVE_CLIENT_SECRET ||
+    !process.env.GDRIVE_REFRESH_TOKEN ||
+    !process.env.GDRIVE_IMAGES_FOLDER_ID
+  ) {
+    return;
+  }
   try {
     const oauth2Client = new auth.OAuth2(
       process.env.GDRIVE_CLIENT_ID,

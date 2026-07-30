@@ -57,7 +57,11 @@ const TopRightGlowBlob = () => (
 );
 
 const ScrollDownIcon = () => (
-  <svg className="w-10 h-10 md:w-[50px] md:h-[50px]" fill="none" viewBox="0 0 56 56">
+  <svg
+    className="w-10 h-10 md:w-[50px] md:h-[50px]"
+    fill="none"
+    viewBox="0 0 56 56"
+  >
     <rect width="55" height="55" x="0.5" y="0.5" stroke="#F48A42" rx="27.5" />
     <path
       stroke="#F48A42"
@@ -236,8 +240,8 @@ export default function Hero({ translate, lang = "ar" }) {
       <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center mt-6">
         {/* Top Badge */}
         <div className="inline-flex items-center gap-2 border-2 border-[#F48A42]/40 bg-white/90 px-5 md:px-6 py-2 rounded-full mb-8 shadow-sm">
-          <div className="w-1.5 h-1.5 bg-[#F48A42] rounded-full"></div>
-          <span className="font-IBMPlex font-bold text-xs md:text-sm text-[#F48A42]">
+          <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+          <span className="font-IBMPlex font-bold text-xs md:text-sm text-primary">
             {t("badge")}
           </span>
         </div>
@@ -245,14 +249,14 @@ export default function Hero({ translate, lang = "ar" }) {
         {/* Hero Title */}
         <h1 className="font-IBMPlex font-bold text-[1.6rem] md:text-[2.6rem] lg:text-[3rem] text-darkNavy mb-5 max-w-3xl">
           {t("titlePart1")}
-          <span className="text-[#F48A42]">{t("titleHighlight")}</span>
+          <span className="text-primary">{t("titleHighlight")}</span>
           {t("titlePart2")}
           <br className="hidden md:block" />
           {t("titleSuffix")}
         </h1>
 
         {/* Hero Subtitle */}
-        <p className="font-IBMPlex text-[#F48A42] text-sm md:text-[1.2rem] font-bold mb-10 max-w-2xl opacity-90">
+        <p className="font-IBMPlex text-primary text-sm md:text-1.2 font-bold mb-10 max-w-2xl opacity-90">
           {t("subtitle")}
         </p>
 
@@ -260,7 +264,7 @@ export default function Hero({ translate, lang = "ar" }) {
         <Button
           as={Link}
           href={`/${lang}/pricing`}
-          className="md:text-[1.1rem] text-sm py-4 px-8 md:py-7 md:px-12 flex items-center gap-3 font-IBMPlex font-bold shadow-[0_15px_30px_-8px_rgba(244,138,66,0.35)] hover:-translate-y-1 transition-all duration-300 rounded-full mb-8 md:mb-20 group"
+          className="md:text-1.1 text-sm py-4 px-8 md:py-7 md:px-12 flex items-center gap-3 font-IBMPlex font-bold shadow-[0_15px_30px_-8px_rgba(244,138,66,0.35)] hover:-translate-y-1 transition-all duration-300 rounded-full mb-8 md:mb-20 group"
         >
           <span>{t("action")}</span>
           <span className="font-black text-xl leading-none transition-transform duration-300 group-hover:-translate-x-1">
@@ -269,7 +273,7 @@ export default function Hero({ translate, lang = "ar" }) {
         </Button>
 
         {/* Features Row */}
-        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 mt-4 text-[#F48A42] opacity-85">
+        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 mt-4 text-primary opacity-85">
           <div className="flex items-center gap-2.5">
             <BankIcon />
             <span className="font-IBMPlex font-bold text-xs md:text-base">

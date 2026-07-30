@@ -1,4 +1,4 @@
-import { GoogleTagManager } from "@next/third-parties/google";
+import InteractionGTM from "@/components/seo/InteractionGTM";
 import Link from "next/link";
 
 export const metadata = {
@@ -95,7 +95,7 @@ export function NotFoundContent({ lang }) {
 
               <Link
                 href="/"
-                className="inline-flex items-center gap-[0.625rem] px-8 py-4 bg-[#f48a42] text-white rounded-2xl font-semibold shadow-[0_10px_20px_rgba(244,138,66,0.25)] transition-all duration-400 hover:bg-[#ff7d2d]  hover:scale-[1.02] hover:shadow-[0_15px_30px_rgba(244,138,66,0.35)] w-full sm:w-auto justify-center"
+                className="inline-flex items-center gap-[0.625rem] px-8 py-4 bg-primary text-white rounded-2xl font-semibold shadow-[0_10px_20px_rgba(244,138,66,0.25)] transition-all duration-400 hover:bg-[#ff7d2d]  hover:scale-[1.02] hover:shadow-[0_15px_30px_rgba(244,138,66,0.35)] w-full sm:w-auto justify-center"
               >
                 <svg
                   fill="none"
@@ -126,7 +126,7 @@ export function NotFoundContent({ lang }) {
           <div className="flex justify-center gap-6 md:gap-10 flex-wrap">
             <Link
               href="/search/products"
-              className="flex flex-col items-center gap-3 transition-all duration-300 hover:text-[#f48a42] hover:-translate-y-[6px] group text-[#64748b]"
+              className="flex flex-col items-center gap-3 transition-all duration-300 hover:text-primary hover:-translate-y-[6px] group text-[#64748b]"
             >
               <div className="w-14 h-14 rounded-[18px] bg-white border border-[#e2e8f0] flex items-center justify-center shadow-sm transition-all duration-300 group-hover:bg-[#fff7ed] group-hover:border-[#ffedd5] group-hover:shadow-[0_10px_15px_rgba(244,138,66,0.1)]">
                 <svg
@@ -149,7 +149,7 @@ export function NotFoundContent({ lang }) {
             </Link>
             <Link
               href="/search/products"
-              className="flex flex-col items-center gap-3 transition-all duration-300 hover:text-[#f48a42] hover:-translate-y-[6px] group text-[#64748b]"
+              className="flex flex-col items-center gap-3 transition-all duration-300 hover:text-primary hover:-translate-y-[6px] group text-[#64748b]"
             >
               <div className="w-14 h-14 rounded-[18px] bg-white border border-[#e2e8f0] flex items-center justify-center shadow-sm transition-all duration-300 group-hover:bg-[#fff7ed] group-hover:border-[#ffedd5] group-hover:shadow-[0_10px_15px_rgba(244,138,66,0.1)]">
                 <svg
@@ -172,7 +172,7 @@ export function NotFoundContent({ lang }) {
             </Link>
             <Link
               href="/contact"
-              className="flex flex-col items-center gap-3 transition-all duration-300 hover:text-[#f48a42] hover:-translate-y-[6px] group text-[#64748b]"
+              className="flex flex-col items-center gap-3 transition-all duration-300 hover:text-primary hover:-translate-y-[6px] group text-[#64748b]"
             >
               <div className="w-14 h-14 rounded-[18px] bg-white border border-[#e2e8f0] flex items-center justify-center shadow-sm transition-all duration-300 group-hover:bg-[#fff7ed] group-hover:border-[#ffedd5] group-hover:shadow-[0_10px_15px_rgba(244,138,66,0.1)]">
                 <svg
@@ -206,7 +206,7 @@ export default async function NotFound() {
   return (
     <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
       <head>
-        <GoogleTagManager gtmId="GTM-W7PNC244" />
+        <InteractionGTM gtmId="GTM-W7PNC244" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

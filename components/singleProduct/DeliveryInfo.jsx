@@ -27,7 +27,7 @@ export default function DeliveryInfo({
   }, {});
 
   const hasSpecificCities = Object.values(groupedByGovernorate).some((cities) =>
-    cities.some((city) => !city.isGovernorate)
+    cities.some((city) => !city.isGovernorate),
   );
 
   const trans = useTranslations(translate);
@@ -37,17 +37,17 @@ export default function DeliveryInfo({
   if (deliveryType === "receive") {
     return (
       <div id="delivery-info">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#f48a42] to-[#ff6b35] flex items-center justify-center shadow-lg shadow-[#f48a42]/25">
+        <div className="flex items-center md:gap-3 gap-1.5 md:mb-4 mb-2">
+          <div className="md:w-10 w-8 md:h-10 h-8 md:rounded-xl rounded-lg bg-gradient-to-br from-[#f48a42] to-[#ff6b35] flex items-center justify-center shadow-lg shadow-[#f48a42]/25">
             <svg
-              className="w-5 h-5 text-white"
+              className="md:w-5 w-4 md:h-5 h-4 text-white"
               fill="currentColor"
               viewBox="0 0 24 24"
             >
               <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
             </svg>
           </div>
-          <div className="text-darkNavy font-semibold text-lg md:text-2xl">
+          <div className="text-darkNavy font-semibold text-sm md:text-2xl">
             {t("pickupLocation")}
           </div>
         </div>
@@ -56,7 +56,7 @@ export default function DeliveryInfo({
             translate={translate}
             lang={lang}
             initialProducts={[{ ...product, location: displayLocation }]}
-            className="md:h-[30.9rem] h-[26rem]"
+            className="md:h-[30.9rem] h-[20rem]"
             zoom={12}
             center={{
               lat: displayLocation.coordinates[1],
@@ -73,16 +73,16 @@ export default function DeliveryInfo({
   if (deliveryType === "free") {
     return (
       <div id="delivery-info">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#f48a42]/10 via-[#f48a42]/5 to-transparent border border-[#f48a42]/20 p-6">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#f48a42]/10 via-[#f48a42]/5 to-transparent border border-[#f48a42]/20 md:p-6 p-3.5">
           {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#f48a42]/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#f48a42]/5 rounded-full blur-2xl" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl" />
 
-          <div className="relative flex flex-col md:flex-row items-center gap-4">
+          <div className="relative flex flex-col md:flex-row items-center md:gap-4 gap-2.5">
             <div className="flex-shrink-0">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#f48a42] to-[#ff6b35] flex items-center justify-center shadow-lg shadow-[#f48a42]/30">
+              <div className="md:w-16 w-11 md:h-16 h-11 md:rounded-2xl rounded-xl bg-gradient-to-br from-[#f48a42] to-[#ff6b35] flex items-center justify-center shadow-lg shadow-[#f48a42]/30">
                 <svg
-                  className="w-8 h-8 text-white"
+                  className="md:w-8 w-5 md:h-8 h-5 text-white"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -100,23 +100,23 @@ export default function DeliveryInfo({
 
                 const badge = t("freeDeliveryBadge").replace(
                   "{governorate}",
-                  gov || ""
+                  gov || "",
                 );
                 const description = t("freeDeliveryDescription").replace(
                   "{governorate}",
-                  gov || ""
+                  gov || "",
                 );
 
                 return (
                   <>
-                    <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <h3 className="text-darkNavy font-bold text-xl md:text-2xl">
+                    <div className="flex flex-wrap items-center md:gap-2 gap-1 md:mb-2 mb-1">
+                      <h2 className="text-darkNavy font-bold text-sm md:text-2xl">
                         {t("freeDeliveryTitle")}
-                      </h3>
+                      </h2>
                       {gov && (
-                        <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-[#f48a42] to-[#ff6b35] text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm">
+                        <span className="inline-flex items-center md:gap-1.5 gap-1 bg-gradient-to-r from-[#f48a42] to-[#ff6b35] text-white text-[10px] md:text-xs font-semibold px-2 py-1 md:px-3 md:py-1.5 rounded-full shadow-sm">
                           <svg
-                            className="w-3.5 h-3.5"
+                            className="md:w-3.5 w-2.5 md:h-3.5 h-2.5"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -130,7 +130,7 @@ export default function DeliveryInfo({
                         </span>
                       )}
                     </div>
-                    <p className="text-gray-600 text-base md:text-lg">
+                    <p className="text-gray-600 text-xs md:text-lg">
                       {gov
                         ? description
                         : t("freeDeliveryDescription")
@@ -144,7 +144,7 @@ export default function DeliveryInfo({
             {/* Saudi Arabia Icon */}
             <div className="hidden md:block flex-shrink-0">
               <svg
-                className="w-20 h-20 text-[#f48a42]/20"
+                className="w-20 h-20 text-primary/20"
                 viewBox="0 0 100 100"
                 fill="currentColor"
               >
@@ -163,14 +163,14 @@ export default function DeliveryInfo({
     if (pricingModel === "perKm") {
       return (
         <div id="delivery-info">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 via-blue-50/50 to-transparent border border-blue-100 p-6">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 via-blue-50/50 to-transparent border border-blue-100 md:p-6 p-3.5">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100/50 rounded-full blur-3xl" />
 
-            <div className="relative flex flex-col md:flex-row items-center gap-4">
+            <div className="relative flex flex-col md:flex-row items-center md:gap-4 gap-2.5">
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#f48a42] to-[#ff6b35] flex items-center justify-center shadow-lg shadow-[#f48a42]/30">
+                <div className="md:w-16 w-11 md:h-16 h-11 md:rounded-2xl rounded-xl bg-gradient-to-br from-[#f48a42] to-[#ff6b35] flex items-center justify-center shadow-lg shadow-[#f48a42]/30">
                   <svg
-                    className="w-8 h-8 text-white"
+                    className="md:w-8 w-5 md:h-8 h-5 text-white"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -179,15 +179,15 @@ export default function DeliveryInfo({
                 </div>
               </div>
               <div className="flex-1 text-center md:text-start">
-                <h3 className="text-darkNavy font-bold text-xl md:text-2xl mb-2">
+                <h2 className="text-darkNavy font-bold text-sm md:text-2xl md:mb-2 mb-1">
                   {t("deliveryAvailableTitle")}
-                </h3>
-                <p className="text-gray-600 text-base md:text-lg mb-2">
+                </h2>
+                <p className="text-gray-600 text-xs md:text-lg md:mb-2 mb-1">
                   {t("perKmDescription")}
                 </p>
-                <div className="flex items-center gap-2 text-sm text-[#f48a42] justify-center md:justify-start">
+                <div className="flex items-center md:gap-2 gap-1 text-xs md:text-sm text-primary justify-center md:justify-start">
                   <svg
-                    className="w-4 h-4"
+                    className="md:w-4 w-3 md:h-4 h-3"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -214,11 +214,11 @@ export default function DeliveryInfo({
         <div id="delivery-info">
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50 via-gray-50/50 to-transparent border border-gray-200">
             {/* Header */}
-            <div className="bg-gradient-to-r from-[#f48a42] to-[#ff6b35] p-5">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
+            <div className="bg-gradient-to-r from-[#f48a42] to-[#ff6b35] md:p-5 p-3.5">
+              <div className="flex items-center md:gap-3 gap-2">
+                <div className="md:w-12 w-9 md:h-12 h-9 md:rounded-xl rounded-lg bg-white/20 backdrop-blur flex items-center justify-center">
                   <svg
-                    className="w-6 h-6 text-white"
+                    className="md:w-6 w-4 md:h-6 h-4 text-white"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -226,11 +226,11 @@ export default function DeliveryInfo({
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-white font-bold text-xl">
+                  <h2 className="text-white font-bold text-sm md:text-xl">
                     {t("fixedCityTitle")}
-                  </h3>
+                  </h2>
                   {!hasAnyPricing && (
-                    <p className="text-white/80 text-sm mt-1">
+                    <p className="text-white/80 text-xs md:text-sm md:mt-1 mt-0.5">
                       {t("allGovernoratesAvailable")}
                     </p>
                   )}
@@ -240,9 +240,9 @@ export default function DeliveryInfo({
 
             {/* Content */}
             {hasAnyPricing && (
-              <div className="p-5">
+              <div className="md:p-5 p-3.5">
                 <div
-                  className={`space-y-4 ${
+                  className={`md:space-y-4 space-y-2 ${
                     !isExpanded && Object.keys(groupedByGovernorate).length > 3
                       ? "max-h-[280px] overflow-hidden relative"
                       : ""
@@ -255,10 +255,10 @@ export default function DeliveryInfo({
                         className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden"
                       >
                         {/* Governorate Header */}
-                        <div className="bg-gradient-to-r from-[#f48a42]/10 to-transparent px-4 py-3 flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-lg bg-[#f48a42]/20 flex items-center justify-center">
+                        <div className="bg-gradient-to-r from-[#f48a42]/10 to-transparent md:px-4 md:py-3 px-3 py-2 flex items-center md:gap-2 gap-1.5">
+                          <div className="md:w-8 w-6 md:h-8 h-6 md:rounded-lg rounded bg-primary/20 flex items-center justify-center">
                             <svg
-                              className="w-4 h-4 text-[#f48a42]"
+                              className="md:w-4 w-3 md:h-4 h-3 text-primary"
                               fill="currentColor"
                               viewBox="0 0 24 24"
                             >
@@ -266,21 +266,21 @@ export default function DeliveryInfo({
                               <circle cx="12" cy="12" r="3" />
                             </svg>
                           </div>
-                          <span className="font-semibold text-darkNavy">
+                          <span className="text-xs md:text-base font-semibold text-darkNavy">
                             {governorate}
                           </span>
                         </div>
 
                         {/* Cities */}
-                        <div className="px-4 py-3">
+                        <div className="md:px-4 md:py-3 px-3 py-2">
                           {hasSpecificCities ? (
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap md:gap-2 gap-1.5">
                               {cities.map((city) => {
                                 const isFreeDelivery = city.price === 0;
                                 return (
                                   <div
                                     key={city.id || city.cityAr || city.cityEn}
-                                    className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm ${
+                                    className={`inline-flex items-center md:gap-2 gap-1 rounded-lg md:px-3 md:py-2 px-2.5 py-1 text-xs md:text-sm ${
                                       isFreeDelivery
                                         ? "bg-green-50 border border-green-100"
                                         : "bg-gray-50"
@@ -296,13 +296,13 @@ export default function DeliveryInfo({
                                       {city.isGovernorate
                                         ? t("allCities")
                                         : lang === "ar"
-                                        ? city.cityAr
-                                        : city.cityEn}
+                                          ? city.cityAr
+                                          : city.cityEn}
                                     </span>
                                     {isFreeDelivery ? (
-                                      <span className="inline-flex items-center gap-1 font-semibold text-green-600">
+                                      <span className="inline-flex items-center md:gap-1 gap-0.5 font-semibold text-green-600">
                                         <svg
-                                          className="w-3.5 h-3.5"
+                                          className="md:w-3.5 w-2.5 md:h-3.5 h-2.5"
                                           fill="currentColor"
                                           viewBox="0 0 20 20"
                                         >
@@ -315,7 +315,7 @@ export default function DeliveryInfo({
                                         {t("free")}
                                       </span>
                                     ) : (
-                                      <span className="font-semibold text-[#f48a42]">
+                                      <span className="font-semibold text-primary">
                                         {city.price} {t("sar")}
                                       </span>
                                     )}
@@ -324,9 +324,9 @@ export default function DeliveryInfo({
                               })}
                             </div>
                           ) : (
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <div className="flex items-center md:gap-2 gap-1 text-xs md:text-sm text-gray-600">
                               <svg
-                                className="w-4 h-4 text-green-500"
+                                className="md:w-4 w-3 md:h-4 h-3 text-green-500"
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
                               >
@@ -341,7 +341,7 @@ export default function DeliveryInfo({
                           )}
                         </div>
                       </div>
-                    )
+                    ),
                   )}
 
                   {/* Gradient overlay when collapsed */}
@@ -355,11 +355,11 @@ export default function DeliveryInfo({
                 {Object.keys(groupedByGovernorate).length > 3 && (
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="mt-4 w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#f48a42]/10 hover:bg-[#f48a42]/20 text-[#f48a42] font-semibold transition-all duration-200"
+                    className="md:mt-4 mt-2.5 w-full flex items-center justify-center md:gap-2 gap-1 md:py-3 md:px-4 py-2 px-3 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary font-semibold text-xs md:text-sm transition-all duration-200"
                   >
                     {isExpanded ? t("showLess") : t("showMore")}
                     <svg
-                      className={`w-4 h-4 transition-transform duration-200 ${
+                      className={`md:w-4 w-3 md:h-4 h-3 transition-transform duration-200 ${
                         isExpanded ? "rotate-180" : ""
                       }`}
                       fill="currentColor"
@@ -378,11 +378,11 @@ export default function DeliveryInfo({
 
             {/* No specific pricing - all governorates available */}
             {!hasAnyPricing && (
-              <div className="p-5">
-                <div className="flex items-center gap-3 p-4 bg-green-50 rounded-xl border border-green-100">
-                  <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
+              <div className="md:p-5 p-3.5">
+                <div className="flex items-center md:gap-3 gap-1.5 md:p-4 p-2.5 bg-green-50 rounded-xl border border-green-100">
+                  <div className="md:w-10 w-8 md:h-10 h-8 md:rounded-lg rounded bg-green-100 flex items-center justify-center">
                     <svg
-                      className="w-5 h-5 text-green-600"
+                      className="md:w-5 w-4 md:h-5 h-4 text-green-600"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -393,7 +393,7 @@ export default function DeliveryInfo({
                       />
                     </svg>
                   </div>
-                  <span className="text-green-700 font-medium">
+                  <span className="text-xs md:text-base text-green-700 font-medium">
                     {t("allGovernoratesAvailable")}
                   </span>
                 </div>
@@ -409,14 +409,14 @@ export default function DeliveryInfo({
   if (deliveryType === "deliveryCompany") {
     return (
       <div id="delivery-info">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-50 via-purple-50/50 to-transparent border border-purple-100 p-6">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-50 via-purple-50/50 to-transparent border border-purple-100 md:p-6 p-3.5">
           <div className="absolute top-0 right-0 w-32 h-32 bg-purple-100/50 rounded-full blur-3xl" />
 
-          <div className="relative flex flex-col md:flex-row items-center gap-4">
+          <div className="relative flex flex-col md:flex-row items-center md:gap-4 gap-2.5">
             <div className="flex-shrink-0">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#f48a42] to-[#ff6b35] flex items-center justify-center shadow-lg shadow-[#f48a42]/30">
+              <div className="md:w-16 w-11 md:h-16 h-11 md:rounded-2xl rounded-xl bg-gradient-to-br from-[#f48a42] to-[#ff6b35] flex items-center justify-center shadow-lg shadow-[#f48a42]/30">
                 <svg
-                  className="w-8 h-8 text-white"
+                  className="md:w-8 w-5 md:h-8 h-5 text-white"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -425,10 +425,10 @@ export default function DeliveryInfo({
               </div>
             </div>
             <div className="flex-1">
-              <h3 className="text-darkNavy font-bold text-xl md:text-2xl mb-2">
+              <h2 className="text-darkNavy font-bold text-sm md:text-2xl md:mb-2 mb-1">
                 {t("deliveryCompanyTitle")}
-              </h3>
-              <p className="text-gray-600 text-base md:text-lg">
+              </h2>
+              <p className="text-gray-600 text-xs md:text-lg">
                 {t("deliveryCompanyDescription")}
               </p>
             </div>

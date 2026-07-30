@@ -5,8 +5,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-} from "@heroui/react";
+} from "@/components/ui/CustomModal";
+import Button from "@/components/ui/Button";
 
 export default function ProfileImageRejectionModal({
   isOpen,

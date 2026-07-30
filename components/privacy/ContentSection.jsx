@@ -6,7 +6,7 @@ const ContentSection = ({ translate, lang }) => {
   return (
     <>
       <PageTitle lang={lang} title={t1("title")} description={t1("subtitle")} />
-      <div className="max-w-screen-2xl mx-auto px-10 text-gray-800 font-sans text-lg">
+      <div className="max-w-screen-2xl mx-auto px-10 text-gray-800 text-lg">
         <h2 className="text-3xl font-bold mb-6 border-t-2 border-[#00000033]/20 pt-8">
           1. المقدمة
         </h2>

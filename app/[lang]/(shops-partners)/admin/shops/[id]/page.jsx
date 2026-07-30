@@ -15,7 +15,7 @@ async function getShop(id) {
 
 export default async function EditShopPage({ params }) {
   const { lang, id } = await params;
-  const t = await getTranslations(lang, ["all", "home"]);
+  const t = await getTranslations(lang, ["all", "home", "shop"]);
   const [categoriesData, subCategoriesData] = await Promise.all([
     categories({ lang }),
     subCategories({ lang }),

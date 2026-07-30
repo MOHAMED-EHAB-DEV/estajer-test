@@ -21,10 +21,37 @@ const FlagIcon = ({ className, ...props }) => (
 
 /* ── CTA icon ── */
 const ExternalIcon = ({ className, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={className} {...props}>
-    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <polyline points="15 3 21 3 21 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    className={className}
+    {...props}
+  >
+    <path
+      d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <polyline
+      points="15 3 21 3 21 9"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <line
+      x1="10"
+      y1="14"
+      x2="21"
+      y2="3"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
@@ -73,10 +100,41 @@ const CityIcon3 = ({ className, ...props }) => (
     className={className}
     {...props}
   >
-    <path d="M12 2 L5 20 L19 20 Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-    <line x1="12" y1="2" x2="12" y2="20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    <line x1="7.5" y1="10" x2="16.5" y2="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    <line x1="9.5" y1="15" x2="14.5" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <path
+      d="M12 2 L5 20 L19 20 Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+    <line
+      x1="12"
+      y1="2"
+      x2="12"
+      y2="20"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <line
+      x1="7.5"
+      y1="10"
+      x2="16.5"
+      y2="10"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <line
+      x1="9.5"
+      y1="15"
+      x2="14.5"
+      y2="15"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
     <rect x="10" y="20" width="4" height="2.5" rx="0.5" fill="currentColor" />
     <circle cx="12" cy="5.5" r="1" fill="currentColor" />
   </svg>
@@ -101,10 +159,34 @@ const CityIcon4 = ({ className, ...props }) => (
 );
 
 const cities = [
-  { name: "الرياض", nameEn: "Riyadh", desc: "العاصمة وقلب الاقتصاد السعودي", descEn: "Capital & heart of Saudi economy", Icon: CityIcon1 },
-  { name: "جدة", nameEn: "Jeddah", desc: "بوابة التجارة والابتكار", descEn: "Gateway of trade and innovation", Icon: CityIcon2 },
-  { name: "الدمام", nameEn: "Dammam", desc: "عاصمة النفط والطاقة", descEn: "Capital of oil and energy", Icon: CityIcon3 },
-  { name: "جميع المناطق", nameEn: "All Regions", desc: "التغطية الشاملة قريباً", descEn: "Full coverage coming soon", Icon: CityIcon4 },
+  {
+    name: "الرياض",
+    nameEn: "Riyadh",
+    desc: "العاصمة وقلب الاقتصاد السعودي",
+    descEn: "Capital & heart of Saudi economy",
+    Icon: CityIcon1,
+  },
+  {
+    name: "جدة",
+    nameEn: "Jeddah",
+    desc: "بوابة التجارة والابتكار",
+    descEn: "Gateway of trade and innovation",
+    Icon: CityIcon2,
+  },
+  {
+    name: "الدمام",
+    nameEn: "Dammam",
+    desc: "عاصمة النفط والطاقة",
+    descEn: "Capital of oil and energy",
+    Icon: CityIcon3,
+  },
+  {
+    name: "جميع المناطق",
+    nameEn: "All Regions",
+    desc: "التغطية الشاملة قريباً",
+    descEn: "Full coverage coming soon",
+    Icon: CityIcon4,
+  },
 ];
 
 const Vision2030 = ({ translate, lang = "ar" }) => {
@@ -112,27 +194,36 @@ const Vision2030 = ({ translate, lang = "ar" }) => {
   const t = (text) => trans(`about.vision2030.${text}`);
 
   const titleRaw = t("title") || "نغطي المملكة.. بروح رؤية 2030";
-  const [titlePart1, titlePart2] = titleRaw.includes("..") ? titleRaw.split("..") : [titleRaw, ""];
+  const [titlePart1, titlePart2] = titleRaw.includes("..")
+    ? titleRaw.split("..")
+    : [titleRaw, ""];
 
   return (
-    <section id="vision-2030" className="bg-[#F9FAFB] pt-12 pb-10 md:pt-32 md:pb-24 relative overflow-hidden">
+    <section
+      id="vision-2030"
+      className="bg-[#F9FAFB] pt-12 pb-10 md:pt-32 md:pb-24 relative overflow-hidden"
+    >
       {/* Big ellipse curve at top */}
-      <div className="absolute top-0 start-0 end-0 h-[30px] sm:h-[60px] md:h-[110px] bg-white" style={{ clipPath: 'ellipse(65% 100% at 50% 0%)' }} />
+      <div
+        className="absolute top-0 start-0 end-0 h-[30px] sm:h-[60px] md:h-[110px] bg-white"
+        style={{ clipPath: "ellipse(65% 100% at 50% 0%)" }}
+      />
       {/* Decorative blobs */}
       <div className="absolute -top-24 -end-24 w-[350px] h-[350px] bg-[radial-gradient(circle,rgba(255,140,66,0.04)_0%,transparent_70%)] rounded-full pointer-events-none" />
       <div className="absolute -bottom-24 -start-24 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(255,140,66,0.03)_0%,transparent_70%)] rounded-full pointer-events-none" />
 
       <div className="max-w-screen-xl mx-auto px-4 md:px-6 relative z-10">
-
         {/* ── Header ── */}
         <div className="text-center mb-10 md:mb-14">
-          <div className="inline-flex items-center gap-2.5 text-[#FF8C42] font-bold text-xs md:text-sm mb-3 md:mb-5 before:content-[''] before:w-[15px] md:before:w-[30px] before:h-[2px] before:bg-[#FF8C42] after:content-[''] after:w-[15px] md:after:w-[30px] after:h-[2px] after:bg-[#FF8C42]">
+          <div className="inline-flex items-center gap-2.5 text-brandOrangeAlt font-bold text-xs md:text-sm mb-3 md:mb-5 before:content-[''] before:w-3.75 md:before:w-7.5 before:h-[2px] before:bg-brandOrangeAlt after:content-[''] after:w-3.75 md:after:w-7.5 after:h-[2px] after:bg-brandOrangeAlt">
             <FlagIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
             {lang === "ar" ? "رؤيتنا المستقبلية" : "Our Future Vision"}
           </div>
           <h2 className="text-[28px] sm:text-3xl md:text-[46px] font-black text-[#1A1A2E] mb-3 md:mb-4 leading-[1.4] md:leading-[1.25]">
             {titlePart1}..{" "}
-            {titlePart2 && <span className="text-[#FF8C42]">{titlePart2.trim()}</span>}
+            {titlePart2 && (
+              <span className="text-brandOrangeAlt">{titlePart2.trim()}</span>
+            )}
           </h2>
           <p className="text-sm md:text-lg text-gray-500 max-w-[560px] mx-auto leading-[1.8]">
             {lang === "ar"
@@ -152,7 +243,7 @@ const Vision2030 = ({ translate, lang = "ar" }) => {
               <div className="absolute top-0 start-0 end-0 h-[3px] bg-gradient-to-r from-[#FF8C42] to-[#FF6B35] scale-x-0 transition-transform duration-300 origin-center group-hover:scale-x-100" />
 
               {/* Icon container */}
-              <div className="relative w-14 h-14 md:w-16 md:h-16 bg-[#FFF0E6] rounded-[16px] md:rounded-[22px] flex items-center justify-center mx-auto mb-4 md:mb-5 text-[#FF8C42] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-[#FF8C42] group-hover:to-[#FF6B35] group-hover:text-white group-hover:scale-110 group-hover:-rotate-[5deg]">
+              <div className="relative w-14 h-14 md:w-16 md:h-16 bg-[#FFF0E6] rounded-[16px] md:rounded-[22px] flex items-center justify-center mx-auto mb-4 md:mb-5 text-brandOrangeAlt transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-[#FF8C42] group-hover:to-[#FF6B35] group-hover:text-white group-hover:scale-110 group-hover:-rotate-[5deg]">
                 <div className="absolute -inset-1.5 rounded-[20px] md:-inset-2 md:rounded-[28px] border-2 border-dashed border-[rgba(255,140,66,0.18)] animate-[spin_20s_linear_infinite] group-hover:border-[rgba(255,140,66,0.4)] group-hover:animate-[spin_10s_linear_infinite]" />
                 <Icon className="w-6 h-6 md:w-7 md:h-7 relative z-10" />
               </div>
@@ -172,21 +263,30 @@ const Vision2030 = ({ translate, lang = "ar" }) => {
           <div className="bg-[#FFF8F3] border border-[#FFE4CC] rounded-[24px] md:rounded-2xl px-6 py-8 md:px-10 md:py-9 relative overflow-hidden shadow-[0_4px_24px_rgba(255,140,66,0.04)]">
             {/* Decorative quote mark */}
             <span
-              className="absolute top-0 end-3 text-[60px] md:text-[110px] font-black text-[#FF8C42]/10 leading-none select-none pointer-events-none"
+              className="absolute top-0 end-3 text-[60px] md:text-[110px] font-black text-brandOrangeAlt/10 leading-none select-none pointer-events-none"
               aria-hidden="true"
-            >"</span>
+            >
+              "
+            </span>
             <p className="text-sm md:text-[17px] text-gray-600 leading-[1.8] md:leading-[1.9] relative z-10 text-start">
               {lang === "ar" ? (
                 <>
                   نسعى لترسيخ مكانتنا كـ{" "}
-                  <strong className="text-[#FF8C42] font-bold">أفضل منصة للإيجار في السعودية</strong>{" "}
-                  تقود مستقبلاً اقتصادياً مشرقاً. فخورون بكوننا نموذجاً وطنياً يترجم &quot;رؤية السعودية 2030&quot; في التحول الرقمي.
+                  <strong className="text-brandOrangeAlt font-bold">
+                    أفضل منصة للإيجار في السعودية
+                  </strong>{" "}
+                  تقود مستقبلاً اقتصادياً مشرقاً. فخورون بكوننا نموذجاً وطنياً
+                  يترجم &quot;رؤية السعودية 2030&quot; في التحول الرقمي.
                 </>
               ) : (
                 <>
                   We strive to establish ourselves as the{" "}
-                  <strong className="text-[#FF8C42] font-bold">best rental platform in Saudi Arabia</strong>{" "}
-                  leading a bright economic future. Proud to be a national model translating &quot;Saudi Vision 2030&quot; in digital transformation.
+                  <strong className="text-brandOrangeAlt font-bold">
+                    best rental platform in Saudi Arabia
+                  </strong>{" "}
+                  leading a bright economic future. Proud to be a national model
+                  translating &quot;Saudi Vision 2030&quot; in digital
+                  transformation.
                 </>
               )}
             </p>
@@ -208,7 +308,6 @@ const Vision2030 = ({ translate, lang = "ar" }) => {
             <div className="absolute top-0 -start-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-all duration-500 group-hover:start-[100%]"></div>
           </Link>
         </div>
-
       </div>
     </section>
   );

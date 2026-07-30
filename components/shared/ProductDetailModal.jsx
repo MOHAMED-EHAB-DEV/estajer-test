@@ -1,7 +1,7 @@
 "use client";
 
 import CustomModal from "../ui/CustomModal";
-import { Spinner } from "@heroui/spinner";
+import { Spinner } from "@/components/ui/Spinner";
 import Button from "../ui/Button";
 import Link from "next/link";
 import ImagesContainer from "../singleProduct/ImagesContainer";
@@ -66,6 +66,7 @@ export default function ProductDetailModal({
     <CustomModal
       isOpen={isOpen}
       onClose={onClose}
+      hideCloseButton
       size="4xl"
       className="bg-white dark:bg-gray-900 text-black dark:text-white rounded-3xl max-h-[90vh] overflow-hidden flex flex-col"
       backdropClass="bg-black/40 backdrop-blur-sm"
@@ -75,7 +76,7 @@ export default function ProductDetailModal({
         <div className="border-b border-gray-200 dark:border-gray-800 md:px-6 px-4 md:py-4 py-2 flex items-center justify-between relative flex-shrink-0">
           <div className="w-full">
             <div className="flex gap-2 items-center py-1">
-              <Order className="md:w-[18px] md:h-[18px] w-4 h-4" />
+              <Order className="md:w-4.5 md:h-4.5 w-4 h-4" />
               <div className="flex flex-col gap-0.5">
                 <span className="font-IBMPlex md:text-xl text-base font-semibold">
                   {t("productDetails")}
@@ -115,7 +116,7 @@ export default function ProductDetailModal({
               <ImagesContainer product={product} isModel={true} />
               <div className="p-2">
                 <div className="flex justify-between items-center mt-4">
-                  <h1 className="font-IBMPlex md:text-[1.8rem] text-[1.2rem] font-semibold">
+                  <h1 className="font-IBMPlex md:text-[1.8rem] text-1.2 font-semibold">
                     {product.name}
                   </h1>
                   {averageRating > 0 && (
@@ -123,7 +124,7 @@ export default function ProductDetailModal({
                       {[...Array(5)].map((_, idx) => (
                         <Star2 key={idx} filled={idx < averageRating} />
                       ))}
-                      <span className="text-darkNavy text-[0.85rem] md:text-[1.5rem] opacity-65 font-semibold">
+                      <span className="text-darkNavy text-0.85 md:text-[1.5rem] opacity-65 font-semibold">
                         {averageRating.toFixed(1)}
                       </span>
                     </div>
@@ -145,7 +146,7 @@ export default function ProductDetailModal({
                     </span>
                   )}
                 </div>
-                <p className="text-[#5B5656] md:text-[1.1rem] text-[0.95rem] whitespace-pre-line mt-4">
+                <p className="text-mutedGray md:text-1.1 text-0.95 whitespace-pre-line mt-4">
                   {product.description}
                 </p>
               </div>

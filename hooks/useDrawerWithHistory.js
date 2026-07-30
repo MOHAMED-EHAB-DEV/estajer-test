@@ -1,6 +1,6 @@
 "use client";
 
-import { useDisclosure } from "@heroui/react";
+import { useDisclosure } from "@/components/ui/CustomModal";
 import { useEffect, useRef } from "react";
 
 export function useDrawerWithHistory() {

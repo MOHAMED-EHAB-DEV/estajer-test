@@ -38,7 +38,7 @@ export default async function page({ params }) {
         lang={lang}
       />
 
-      <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-[1.2rem] font-semibold md:mb-6 mb-2">
+      <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-1.2 font-semibold md:mb-6 mb-2">
         {t("title")}
       </h1>
       <div className="grid  md:gap-8 gap-4 grid-cols-1 md:grid-cols-2 mt-20">

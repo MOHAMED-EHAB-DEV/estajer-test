@@ -8,10 +8,12 @@ import {
   FaEye,
   MdBlock,
   BsPersonX,
+  FaUserCheck,
 } from "@/components/ui/svgs/AdminIcons";
 import { ChevronLeft } from "@/components/ui/svgs/icons/ChevronLeftSvg";
 import { ChevronRight } from "@/components/ui/svgs/icons/ChevronRightSvg";
 import EditUserModal from "@/components/admin/EditUserModal";
+import UserNotesModal from "@/components/admin/UserNotesModal";
 import { toast } from "@/utils/toast";
 import ConfirmModal from "../dashboard/ConfirmModal";
 import { useTranslations } from "@/hooks/useTranslations";
@@ -19,6 +21,7 @@ import ToastMessage from "../ui/ToastMessage";
 import { format } from "date-fns";
 
 import UserFilters from "@/components/admin/UserFilters";
+import { Note } from "../ui/svgs/icons/NoteSvg";
 
 const UserContainer = ({ initialData, translate, lang, queryParams }) => {
   const trans = useTranslations(translate);
@@ -39,6 +42,7 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showNotesModal, setShowNotesModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [confirmType, setConfirmType] = useState("");
   const [confirmAction, setConfirmAction] = useState(null);
@@ -76,6 +80,11 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
     setShowEditModal(true);
   };
 
+  const handleOpenNotes = (user) => {
+    setSelectedUser(user);
+    setShowNotesModal(true);
+  };
+
   const handleBanUser = (user) => {
     setSelectedUser(user);
     setConfirmType(user.isBanned ? "unban" : "ban");
@@ -88,6 +97,35 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
     setConfirmType("delete");
     setConfirmAction(() => () => deleteUser(user._id));
     setShowConfirmModal(true);
+  };
+
+  const handleImpersonateUser = (user) => {
+    setSelectedUser(user);
+    setConfirmType("impersonate");
+    setConfirmAction(() => () => impersonateUser(user._id));
+    setShowConfirmModal(true);
+  };
+
+  const impersonateUser = async (userId) => {
+    try {
+      const response = await fetch("/api/admin/impersonate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Failed to impersonate");
+      toast.success(
+        ToastMessage(
+          lang === "ar"
+            ? "تم تسجيل الدخول كالمستخدم بنجاح"
+            : "Successfully logged in as user",
+        ),
+      );
+      window.location.href = "/";
+    } catch (error) {
+      toast.error(ToastMessage(error.message));
+    }
   };
 
   const handleViewUser = (user) => {
@@ -207,7 +245,7 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
     const order = getSearchParam("sortOrder");
     return (
       <span
-        className={`text-xs transition-colors ${active ? "text-[#f48a42]" : "text-gray-300 group-hover/col:text-gray-400"}`}
+        className={`text-xs transition-colors ${active ? "text-primary" : "text-gray-300 group-hover/col:text-gray-400"}`}
       >
         {active ? (order === "asc" ? "↑" : "↓") : "↕"}
       </span>
@@ -228,11 +266,11 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
         {/* Table Header Bar */}
         <div className="flex justify-between items-center md:px-6 md:py-5 px-4 py-3 border-b border-black/8">
           <div className="flex items-center gap-3">
-            <div className="md:w-1 md:h-6 w-0.5 h-5 rounded-full bg-[#f48a42]" />
+            <div className="md:w-1 md:h-6 w-0.5 h-5 rounded-full bg-primary" />
             <h2 className="font-semibold font-IBMPlex text-darkNavy text-sm md:text-base">
               {trans("admin.users.totalUsers")}
             </h2>
-            <span className="text-[10px] md:text-xs font-bold bg-[#FDF5EE] text-[#f48a42] border border-[#f48a42]/20 px-2.5 py-1 rounded-full">
+            <span className="text-[10px] md:text-xs font-bold bg-brandCream text-primary border border-[#f48a42]/20 px-2.5 py-1 rounded-full">
               {totalUsers}
             </span>
           </div>
@@ -247,18 +285,18 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
         ) : (
           <>
             <div className="w-full overflow-x-auto">
-              <div className="min-w-[1040px] text-sm">
+              <div className="min-w-[1440px] md:text-sm text-xs">
                 {/* Header Row */}
-                <div className="grid grid-cols-[1.5fr_2fr_1fr_0.8fr_0.8fr_0.7fr_0.8fr_1fr_140px] gap-2 bg-[#FAFAFA] border-b border-black/5 px-2">
+                <div className="grid grid-cols-[1.5fr_2fr_1fr_0.8fr_0.8fr_0.7fr_0.8fr_1fr_175px] gap-2 bg-[#FAFAFA] border-b border-black/5 px-2">
                   <div
-                    className="group/col px-3 md:py-4 py-2 font-semibold text-xs text-gray-500 uppercase tracking-wide flex gap-2 items-center cursor-pointer hover:text-[#f48a42] transition-colors select-none"
+                    className="group/col px-3 md:py-4 py-2 font-semibold text-xs text-gray-500 uppercase tracking-wide flex gap-2 items-center cursor-pointer hover:text-primary transition-colors select-none"
                     onClick={() => handleSort("fullName")}
                   >
                     {trans("admin.users.name")}
                     <SortIndicator field="fullName" />
                   </div>
                   <div
-                    className="group/col px-3 md:py-4 py-2 font-semibold text-xs text-gray-500 uppercase tracking-wide flex gap-2 items-center cursor-pointer hover:text-[#f48a42] transition-colors select-none"
+                    className="group/col px-3 md:py-4 py-2 font-semibold text-xs text-gray-500 uppercase tracking-wide flex gap-2 items-center cursor-pointer hover:text-primary transition-colors select-none"
                     onClick={() => handleSort("email")}
                   >
                     {trans("admin.users.email")}
@@ -277,14 +315,14 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
                     عمولة
                   </div>
                   <div
-                    className="group/col px-3 md:py-4 py-2 font-semibold text-xs text-gray-500 uppercase tracking-wide flex gap-2 items-center cursor-pointer hover:text-[#f48a42] transition-colors select-none"
+                    className="group/col px-3 md:py-4 py-2 font-semibold text-xs text-gray-500 uppercase tracking-wide flex gap-2 items-center cursor-pointer hover:text-primary transition-colors select-none"
                     onClick={() => handleSort("productsCount")}
                   >
                     {trans("admin.users.productsCount") || "المنتجات"}
                     <SortIndicator field="productsCount" />
                   </div>
                   <div
-                    className="group/col px-3 md:py-4 py-2 font-semibold text-xs text-gray-500 uppercase tracking-wide flex gap-2 items-center cursor-pointer hover:text-[#f48a42] transition-colors select-none"
+                    className="group/col px-3 md:py-4 py-2 font-semibold text-xs text-gray-500 uppercase tracking-wide flex gap-2 items-center cursor-pointer hover:text-primary transition-colors select-none"
                     onClick={() => handleSort("createdAt")}
                   >
                     {trans("admin.users.joined")}
@@ -298,7 +336,7 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
                 {/* Data Rows */}
                 {users.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 gap-4">
-                    <div className="w-16 h-16 rounded-2xl bg-[#FDF5EE] flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-2xl bg-brandCream flex items-center justify-center">
                       <svg
                         width="28"
                         height="28"
@@ -329,7 +367,7 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
                     return (
                       <div
                         key={user._id}
-                        className="grid grid-cols-[1.5fr_2fr_1fr_0.8fr_0.8fr_0.7fr_0.8fr_1fr_140px] gap-2 w-full items-center transition-colors py-1 hover:bg-[#FDF5EE]/60 border-b border-black/4 last:border-0 group px-2"
+                        className="grid grid-cols-[1.5fr_2fr_1fr_0.8fr_0.8fr_0.7fr_0.8fr_1fr_175px] gap-2 w-full items-center transition-colors py-1 hover:bg-brandCream/60 border-b border-black/4 last:border-0 group px-2"
                       >
                         {/* Name + Avatar */}
                         <div className="px-3 py-3 flex items-center gap-3 overflow-hidden">
@@ -365,7 +403,10 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
                         </div>
 
                         {/* Email */}
-                        <div className="px-3 py-3 text-xs md:text-sm text-gray-600 font-medium">
+                        <div
+                          className="px-3 py-3 text-xs md:text-sm text-gray-600 font-medium truncate"
+                          title={user.email}
+                        >
                           {user.email}
                         </div>
 
@@ -395,7 +436,7 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
                             {getStatusText(user)}
                           </span>
                           {user.premium && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-bold rounded-lg bg-[#FDF5EE] text-[#f48a42] border border-[#f48a42]/25 uppercase">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-bold rounded-lg bg-brandCream text-primary border border-[#f48a42]/25 uppercase">
                               ★ PREMIUM
                             </span>
                           )}
@@ -415,7 +456,7 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
 
                         {/* Commission */}
                         <div className="px-3 py-3">
-                          <span className="inline-flex items-center px-2.5 py-1 text-[10px] md:text-xs font-bold bg-[#FDF5EE] text-[#f48a42] rounded-lg border border-[#f48a42]/20">
+                          <span className="inline-flex items-center px-2.5 py-1 text-[10px] md:text-xs font-bold bg-brandCream text-primary rounded-lg border border-[#f48a42]/20">
                             {user.commission || 15}%
                           </span>
                         </div>
@@ -432,6 +473,17 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
 
                         {/* Actions */}
                         <div className="px-3 py-3 flex gap-1.5 items-center justify-end">
+                          {user.accountType !== "admin" && (
+                            <button
+                              onClick={() => handleImpersonateUser(user)}
+                              className="md:p-2 p-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-gray-500 transition-all"
+                              title={trans(
+                                "admin.users.confirmModal.impersonateTitle",
+                              )}
+                            >
+                              <FaUserCheck className="md:w-3.5 md:h-3.5 w-3 h-3" />
+                            </button>
+                          )}
                           <button
                             onClick={() => handleViewUser(user)}
                             className="md:p-2 p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-gray-500 hover:text-darkNavy transition-all"
@@ -440,8 +492,20 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
                             <FaEye className="md:w-3.5 md:h-3.5 w-3 h-3" />
                           </button>
                           <button
+                            onClick={() => handleOpenNotes(user)}
+                            className="relative md:p-2 p-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 transition-all"
+                            title="ملاحظات الإدارة"
+                          >
+                            <Note className="md:w-4 md:h-4 w-3.5 h-3.5" />
+                            {user.adminNotes?.length > 0 && (
+                              <span className="absolute -top-1 -end-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-white ring-2 ring-white">
+                                {user.adminNotes.length}
+                              </span>
+                            )}
+                          </button>
+                          <button
                             onClick={() => handleEditUser(user)}
-                            className="md:p-2 p-1.5 rounded-lg bg-[#FDF5EE] hover:bg-[#f48a42]/15 text-[#f48a42] transition-all"
+                            className="md:p-2 p-1.5 rounded-lg bg-brandCream hover:bg-primary/15 text-primary transition-all"
                             title={trans("admin.users.editUser")}
                           >
                             <FaEdit className="md:w-3.5 md:h-3.5 w-3 h-3" />
@@ -488,7 +552,7 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
                 <button
                   onClick={() => updatePage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
-                  className="md:p-2 p-1.5 rounded-xl bg-[#FDF5EE] disabled:opacity-30 hover:bg-[#f48a42]/15 text-[#f48a42] transition-colors"
+                  className="md:p-2 p-1.5 rounded-xl bg-brandCream disabled:opacity-30 hover:bg-primary/15 text-primary transition-colors"
                 >
                   {lang === "en" ? (
                     <ChevronLeft size={18} />
@@ -516,8 +580,8 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
                           onClick={() => updatePage(p)}
                           className={`md:w-9 md:h-9 w-8 h-8 rounded-lg md:text-sm text-xs font-semibold transition-all ${
                             p === currentPage
-                              ? "bg-[#f48a42] text-white shadow-sm shadow-[#f48a42]/30"
-                              : "bg-[#FAFAFA] text-gray-600 hover:bg-[#FDF5EE] hover:text-[#f48a42]"
+                              ? "bg-primary text-white shadow-sm shadow-[#f48a42]/30"
+                              : "bg-[#FAFAFA] text-gray-600 hover:bg-brandCream hover:text-primary"
                           }`}
                         >
                           {p}
@@ -531,7 +595,7 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
                     updatePage(Math.min(totalPages, currentPage + 1))
                   }
                   disabled={currentPage === totalPages}
-                  className="md:p-2 p-1.5 rounded-xl bg-[#FDF5EE] disabled:opacity-30 hover:bg-[#f48a42]/15 text-[#f48a42] transition-colors"
+                  className="md:p-2 p-1.5 rounded-xl bg-brandCream disabled:opacity-30 hover:bg-primary/15 text-primary transition-colors"
                 >
                   {lang === "en" ? (
                     <ChevronRight size={18} />
@@ -562,6 +626,17 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
         />
       )}
 
+      {showNotesModal && selectedUser && (
+        <UserNotesModal
+          user={selectedUser}
+          onClose={() => {
+            setShowNotesModal(false);
+            setSelectedUser(null);
+            router.refresh();
+          }}
+        />
+      )}
+
       {showConfirmModal && selectedUser && (
         <ConfirmModal
           t={trans}
@@ -582,14 +657,23 @@ const UserContainer = ({ initialData, translate, lang, queryParams }) => {
               ? trans("admin.users.confirmModal.deleteTitle")
               : confirmType === "ban"
                 ? trans("admin.users.confirmModal.banTitle")
-                : trans("admin.users.confirmModal.unbanTitle")
+                : confirmType === "unban"
+                  ? trans("admin.users.confirmModal.unbanTitle")
+                  : trans("admin.users.confirmModal.impersonateTitle")
           }
           message={
             confirmType === "delete"
               ? trans("admin.users.confirmModal.deleteMessage")
               : confirmType === "ban"
                 ? trans("admin.users.confirmModal.banMessage")
-                : trans("admin.users.confirmModal.unbanMessage")
+                : confirmType === "unban"
+                  ? trans("admin.users.confirmModal.unbanMessage")
+                  : trans(
+                      "admin.users.confirmModal.impersonateMessage",
+                    )?.replace(
+                      "{name}",
+                      selectedUser?.fullName || selectedUser?.name || "",
+                    )
           }
           type={confirmType}
           cancelText={trans("admin.users.confirmModal.cancel")}

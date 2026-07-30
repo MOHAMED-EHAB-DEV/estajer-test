@@ -35,6 +35,8 @@ export async function generateMetadata({ params }) {
 
   if (!partner) return {};
 
+  const siteURL = process.env.NEXT_PUBLIC_APP_URL;
+
   const title =
     lang === "ar"
       ? partner.seoTitleAr || partner.nameAr
@@ -48,6 +50,14 @@ export async function generateMetadata({ params }) {
     title: `${title} | Estajer`,
     description,
     keywords: lang === "ar" ? partner.seoKeywordsAr : partner.seoKeywordsEn,
+    metadataBase: new URL(siteURL),
+    alternates: {
+      canonical: `${siteURL}/${lang === "ar" ? "" : `${lang}/`}partners/${slug}`,
+      languages: {
+        ar: `/partners/${slug}`,
+        en: `/en/partners/${slug}`,
+      },
+    },
     openGraph: {
       title,
       description,

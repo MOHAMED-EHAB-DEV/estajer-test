@@ -7,25 +7,10 @@ import { AxisBottom, AxisRight } from "@visx/axis";
 import { useTooltip, useTooltipInPortal, defaultStyles } from "@visx/tooltip";
 import { localPoint } from "@visx/event";
 import { formatNumeric } from "@/lib/utils";
-import { ChevronLeft } from "@/components/ui/svgs/icons/ChevronLeftSvg";;
+import { ChevronLeft } from "@/components/ui/svgs/icons/ChevronLeftSvg";
+import { Select, SelectItem } from "@/components/ui/Select";
 
 const PIE_COLORS = ["#4ade80", "#f97316", "#ef4444"];
-
-const pieData = [
-  { name: "منتجات تم استئجارها", value: 319000, color: "#4ade80" },
-  { name: "منتجات لم تستأجر بعد", value: 105000, color: "#f97316" },
-  { name: "منتجات مرفوضة", value: 124500, color: "#ef4444" },
-];
-
-const barData = [
-  { category: "خيام", value: 55 },
-  { category: "ألعاب", value: 10 },
-  { category: "كاميرات", value: 45 },
-  { category: "مطابخ", value: 25 },
-  { category: "أثاث", value: 125 },
-  { category: "ملابس", value: 20 },
-  { category: "إلكترونيات", value: 65 },
-];
 
 const tooltipStyles = {
   ...defaultStyles,
@@ -36,9 +21,9 @@ const tooltipStyles = {
   padding: "6px 10px",
 };
 
-const margin = { top: 20, right: 20, bottom: 40, left: 40 };
+const margin = { top: 20, right: 20, bottom: 60, left: 40 };
 
-const PieChart = () => {
+const PieChart = ({ pieData }) => {
   const width = 450;
   const height = 450;
   const radius = Math.min(width, height) / 2;
@@ -74,7 +59,7 @@ const PieChart = () => {
     <div className="bg-white flex flex-col gap-2 p-6 rounded-xl shadow-sm w-full max-w-full">
       <div className="flex flex-col gap-8">
         <div className="flex justify-between items-center pb-6 border-b border-b-black/10">
-          <h2 className="text-lg md:text-xl font-bold">ملخص المستخدمين</h2>
+          <h2 className="text-lg md:text-xl font-bold">ملخص المنتجات</h2>
           <button className="text-darkNavy font-NotoSansArabic text-sm font-semibold flex gap-1 items-center justify-center">
             عرض الكل
             <ChevronLeft />
@@ -145,7 +130,7 @@ const PieChart = () => {
                 {item.name}
               </span>
             </div>
-            <span className="font-bold text-sm md:text-medium text-darkNavy">
+            <span className="font-bold text-sm md:text-base text-darkNavy">
               {formatNumeric(item.value)}
             </span>
           </div>
@@ -155,7 +140,7 @@ const PieChart = () => {
   );
 };
 
-function BarChart() {
+function BarChart({ barData }) {
   const width = 600;
   const height = 450;
   const xMax = width - margin.left - margin.right;
@@ -183,18 +168,36 @@ function BarChart() {
   } = useTooltip();
   const { containerRef, TooltipInPortal } = useTooltipInPortal();
 
-  const maxCategory = barData.reduce((a, b) => (a.value > b.value ? a : b));
-  // const minCategory = barData.reduce((a, b) => (a.value < b.value ? a : b));
+  const maxCategory =
+    barData && barData.length > 0
+      ? barData.reduce((a, b) => (a.value > b.value ? a : b))
+      : null;
+  const minCategory =
+    barData && barData.length > 0
+      ? barData.reduce((a, b) => (a.value < b.value ? a : b))
+      : null;
 
   return (
     <div className="bg-white rounded-xl w-full min-h-[300px] shadow-sm p-4 flex flex-col">
       <div className="flex items-center justify-between pb-4 border-b border-b-black/10">
         <h2 className="text-lg text-darkNavy font-IBMPlex font-semibold">
-          ملخص التصنيفات بالنسبة لعدد الطلبات
+          ملخص التصنيفات بالنسبة لعدد الزيارات
         </h2>
-        <select className="bg-transparent rounded-md px-3 py-1 text-sm">
-          <option>اليوم</option>
-        </select>
+        <Select
+          defaultSelectedKeys={["today"]}
+          disallowEmptySelection
+          aria-label="Filter"
+          className="w-32"
+          classNames={{
+            trigger: "bg-transparent shadow-none border-none min-h-8 h-8",
+            value: "text-sm text-darkNavy font-medium",
+            selectorIcon: "text-darkNavy",
+          }}
+        >
+          <SelectItem key="today" value="today">
+            اليوم
+          </SelectItem>
+        </Select>
       </div>
 
       <div className="grid grid-rows-2 grid-cols-none md:grid-cols-[77%_1fr] md:grid-rows-none gap-6 mt-4">
@@ -216,44 +219,49 @@ function BarChart() {
               />
             ))}
 
-            {barData.map((d) => {
-              const barHeight = yMax - yScale(d.value);
-              return (
-                <Bar
-                  key={d.category}
-                  x={xScale(d.category)}
-                  y={yScale(d.value)}
-                  width={xScale.bandwidth()}
-                  height={barHeight}
-                  fill={
-                    d.category === maxCategory.category ? "#f97316" : "#fde7d4"
-                  }
-                  rx={4}
-                  onMouseMove={(e) => {
-                    const coords = localPoint(e);
-                    showTooltip({
-                      tooltipData: d,
-                      tooltipLeft: coords.x,
-                      tooltipTop: coords.y,
-                    });
-                  }}
-                  onMouseLeave={hideTooltip}
-                />
-              );
-            })}
+            {barData &&
+              barData.map((d) => {
+                const barHeight = yMax - yScale(d.value);
+                return (
+                  <Bar
+                    key={d.category}
+                    x={xScale(d.category)}
+                    y={yScale(d.value)}
+                    width={xScale.bandwidth()}
+                    height={barHeight}
+                    fill={
+                      maxCategory && d.category === maxCategory.category
+                        ? "#f97316"
+                        : "#fde7d4"
+                    }
+                    rx={4}
+                    onMouseMove={(e) => {
+                      const coords = localPoint(e);
+                      showTooltip({
+                        tooltipData: d,
+                        tooltipLeft: coords.x,
+                        tooltipTop: coords.y,
+                      });
+                    }}
+                    onMouseLeave={hideTooltip}
+                  />
+                );
+              })}
 
             <AxisBottom
               top={yMax}
               scale={xScale}
               stroke="transparent"
               tickStroke="transparent"
-              tickLabelProps={{
-                fontSize: "14px",
+              tickLabelProps={() => ({
+                fontSize: 12,
                 fill: "#000",
                 textAnchor: "middle",
                 fontFamily: "var(--noto-sans-arabic)",
                 fontWeight: "medium",
-              }}
+                width: xScale.bandwidth(),
+                dy: 12,
+              })}
             />
 
             <AxisRight
@@ -280,10 +288,12 @@ function BarChart() {
                 <p className="text-darkNavy text-sm font-normal">
                   أكثر تصنيف زيارة
                 </p>
-                <p className="text-success font-bold text-sm">أثاث</p>
+                <p className="text-success font-bold text-sm">
+                  {maxCategory?.category || "-"}
+                </p>
               </div>
               <p className="text-xl font-bold text-darkNavy flex items-center gap-2">
-                <span className="text-3xl">145</span>
+                <span className="text-3xl">{maxCategory?.value || 0}</span>
                 زيارة
               </p>
             </div>
@@ -293,10 +303,12 @@ function BarChart() {
                 <p className="text-gray-500 text-sm font-normal">
                   أقل تصنيف زيارة
                 </p>
-                <p className="text-[#F44242] font-bold text-sm">ألعاب</p>
+                <p className="text-dangerRed font-bold text-sm">
+                  {minCategory?.category || "-"}
+                </p>
               </div>
               <p className="text-xl font-bold text-darkNavy flex items-center gap-1">
-                <span className="text-3xl">52</span>
+                <span className="text-3xl">{minCategory?.value || 0}</span>
                 زيارة
               </p>
             </div>
@@ -312,7 +324,7 @@ function BarChart() {
         >
           <div className="text-center">
             <div>{tooltipData.category}</div>
-            <div className="font-bold">{tooltipData.value} منتج</div>
+            <div className="font-bold">{tooltipData.value} زيارة</div>
           </div>
         </TooltipInPortal>
       )}
@@ -320,11 +332,31 @@ function BarChart() {
   );
 }
 
-export default function ProductsCharts() {
+export default function ProductsCharts({ stats }) {
+  const pieData = [
+    {
+      name: "منتجات مقبولة",
+      value: stats?.acceptedProducts || 0,
+      color: "#4ade80",
+    },
+    {
+      name: "منتجات قيد الانتظار",
+      value: stats?.newPendingProducts || 0,
+      color: "#f97316",
+    },
+    {
+      name: "منتجات ملغية",
+      value: stats?.cancelledProducts || 0,
+      color: "#ef4444",
+    },
+  ];
+
+  const barData = stats?.barData || [];
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-[40%_1fr] gap-4 w-full">
-      <PieChart />
-      <BarChart />
+      <PieChart pieData={pieData} />
+      <BarChart barData={barData} />
     </div>
   );
 }

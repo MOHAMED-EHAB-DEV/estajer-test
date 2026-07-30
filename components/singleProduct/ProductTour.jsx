@@ -7,7 +7,7 @@ import { useTranslations } from "@/hooks/useTranslations";
 export default function ProductTour({ lang, translate, product }) {
   useEffect(() => {
     const trans = useTranslations(translate);
-    const t = (key) => trans(`productTour.${key}`);
+    const t = (key) => trans(key);
 
     const steps = [
       // Introduction step (no element = center of screen)

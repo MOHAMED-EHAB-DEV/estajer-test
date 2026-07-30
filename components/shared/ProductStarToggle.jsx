@@ -40,14 +40,14 @@ export default function ProductStarToggle({ product }) {
     <div className="absolute top-0 end-0 z-10 md:p-4 p-2">
       <Button
         color="transparent"
-        className="min-w-0 md:w-12 md:h-12 w-10 h-10 md:p-3 p-2 bg-[#EAEEF3] rounded-full"
+        className="min-w-0 md:w-12 md:h-12 w-10 h-10 md:p-3 p-2 bg-surfaceBlue rounded-full"
         onPress={() => handleToggleMain(product._id, product.isMain)}
         title={product.isMain ? "إلغاء المنتج الرئيسي" : "تعيين كمنتج رئيسي"}
       >
         <Star
           size={18}
           filled={product.isMain}
-          className="md:w-[18px] w-4 h-auto"
+          className="md:w-4.5 w-4 h-auto"
         />
       </Button>
     </div>

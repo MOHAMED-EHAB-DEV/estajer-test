@@ -59,6 +59,11 @@ export default function LocalSEO({ lang, city = "الرياض", region = "الر
 
   const data = businessData[lang] || businessData.ar;
 
+  const areaServedCities = data.areaServed.map((area) => ({
+    "@type": "City",
+    name: area,
+  }));
+
   // Main LocalBusiness Schema
   const localBusinessSchema = {
     "@context": "https://schema.org",
@@ -77,10 +82,6 @@ export default function LocalSEO({ lang, city = "الرياض", region = "الر
     },
     image: [
       "https://res.cloudinary.com/dhfzkadm2/image/upload/v1751550047/Screenshot_2025-07-03_163831_wiwtv4.webp",
-      // "https://estajer.com/screenshots/2.png",
-      // "https://estajer.com/screenshots/3.png",
-      // "https://estajer.com/screenshots/4.png",
-      // "https://estajer.com/screenshots/5.png",
     ],
     telephone: "+966530636879",
     email: "service@estajer.com",
@@ -106,11 +107,7 @@ export default function LocalSEO({ lang, city = "الرياض", region = "الر
       latitude: "24.7136",
       longitude: "46.6753",
     },
-    areaServed: data.areaServed.map((area) => ({
-      "@type": "City",
-      name: area,
-      addressCountry: "SA",
-    })),
+    areaServed: areaServedCities,
     serviceType: data.serviceType,
     priceRange: "$$",
     currenciesAccepted: "SAR",
@@ -138,28 +135,28 @@ export default function LocalSEO({ lang, city = "الرياض", region = "الر
     name: data.serviceType,
     description: data.description,
     provider: {
-      "@type": "Organization",
+      "@type": "LocalBusiness",
+      "@id": "https://estajer.com/#business",
       name: data.name,
       url: "https://estajer.com",
     },
-    areaServed: data.areaServed.map((area) => ({
-      "@type": "City",
-      name: area,
+    areaServed: {
+      "@type": "Country",
+      name: lang === "en" ? "Saudi Arabia" : "المملكة العربية السعودية",
       addressCountry: "SA",
-    })),
+    },
     serviceType: "Rental Services",
     category: "Product Rental",
   };
 
   // Combine all schemas
   const allSchemas = [localBusinessSchema, serviceSchema];
+  const schemaString = JSON.stringify(allSchemas);
 
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(allSchemas) }}
-      />
-    </>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: schemaString }}
+    />
   );
 }

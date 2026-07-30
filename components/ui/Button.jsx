@@ -43,6 +43,9 @@ export default function Button({
   onPress,
   onClick,
   type = "button",
+  inputProps,
+  inputValue,
+  onOpenChange,
   ...props
 }) {
   const Component = as || "button";
@@ -58,17 +61,21 @@ export default function Button({
 
   // ALL HeroUI Sizes
   const sizes = {
-    sm: "px-3 min-w-16 h-8 text-small gap-2 text-[13px]",
-    md: "px-4 min-w-20 h-10 text-medium gap-2 text-sm",
-    lg: "px-6 min-w-24 h-12 text-medium gap-3 text-base",
+    xs: "px-2 min-w-12 h-6 text-[11px] gap-1",
+    sm: "px-3 min-w-16 h-8 text-xs gap-2",
+    md: "px-4 min-w-20 h-10 text-sm gap-2",
+    lg: "px-6 min-w-24 h-12 text-base gap-3",
+    xl: "px-8 min-w-28 h-14 text-lg gap-4",
   };
 
   // ALL HeroUI Radiuses
   const radiuses = {
     none: "rounded-none",
-    sm: "rounded-small",
-    md: "rounded-medium",
-    lg: "rounded-large",
+    sm: "rounded-sm",
+    md: "rounded-md",
+    lg: "rounded-lg",
+    xl: "rounded-xl",
+    "2xl": "rounded-2xl",
     full: "rounded-full",
   };
 

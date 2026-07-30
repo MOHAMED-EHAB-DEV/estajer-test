@@ -1,5 +1,6 @@
 "use client";
-import { Button, Chip } from "@heroui/react";
+import Button from "@/components/ui/Button";
+import { Chip } from "@/components/ui/Chip";
 import { useState, useTransition } from "react";
 import { toast } from "@/utils/toast";
 import ToastMessage from "@/components/ui/ToastMessage";
@@ -276,7 +277,7 @@ const ImageGallery = ({
           onClick={() =>
             onImageClick(isDocumentation ? images[0] : images[0].preview)
           }
-          className="mt-3 text-xs text-[#f48a42] hover:text-[#e6762d] font-medium flex items-center gap-1 transition-colors"
+          className="mt-3 text-xs text-primary hover:text-[#e6762d] font-medium flex items-center gap-1 transition-colors"
         >
           <span>+{images.length - 3} صور أخرى</span>
           <svg
@@ -555,7 +556,7 @@ export default function DamageReportsContainer({
                           <DocumentIcon />
                         </div>
                         <div>
-                          <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-[#f48a42] transition-colors">
+                          <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">
                             تقرير ضرر - {report.product?.nameAr}
                           </h2>
                           <div className="flex items-center gap-3">

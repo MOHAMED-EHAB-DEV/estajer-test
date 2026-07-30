@@ -3,19 +3,17 @@ import OrdersContainer from "@/components/admin/orders/OrdersContainer";
 import { cookies } from "next/headers";
 import TitleWithSegments from "@/components/shared/TitleWithSegments";
 
-const getOrdersData = async () => {
+const getOrdersData = async (searchParams) => {
   try {
-    const apiParams = new URLSearchParams();
+    const apiParams = new URLSearchParams(searchParams);
 
-    apiParams.set("requests", "true");
-    apiParams.set("showAll", "true");
-    apiParams.set("limit", "4");
+    if (!apiParams.has("limit")) apiParams.set("limit", "4");
 
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/orders?${apiParams}`,
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/admin/orders?${apiParams}`,
       { headers: { Authorization: token } }
     );
     if (!response.ok) throw new Error("Failed to fetch orders");
@@ -23,15 +21,16 @@ const getOrdersData = async () => {
     return data;
   } catch (error) {
     console.error("Error fetching orders:", error);
-    return { orders: [] };
+    return { orders: [], stats: null };
   }
 };
 
-export default async function Page({ params }) {
+export default async function Page({ params, searchParams }) {
   const { lang } = await params;
+  const sParams = await searchParams;
   const translate = await getTranslations(lang);
   const langPrefix = lang === "ar" ? "" : "en/";
-  const ordersData = await getOrdersData();
+  const ordersData = await getOrdersData(sParams);
   return (
     <div className="flex flex-col gap-5 px-1 md:px-4 pt-8">
       <TitleWithSegments
@@ -40,7 +39,8 @@ export default async function Page({ params }) {
       />
 
       <OrdersContainer
-        orders={ordersData.orders}
+        initialOrders={ordersData.orders}
+        initialStats={ordersData.stats}
         translate={translate()}
         langPrefix={langPrefix}
         lang={lang}

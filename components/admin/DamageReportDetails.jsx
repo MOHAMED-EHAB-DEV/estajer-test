@@ -1,7 +1,10 @@
 "use client";
 import { useState, useTransition } from "react";
 import { toast } from "@/utils/toast";
-import { Button, Chip, Textarea, Select, SelectItem } from "@heroui/react";
+import Button from "@/components/ui/Button";
+import { Chip } from "@/components/ui/Chip";
+import { Textarea } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
 import Image from "next/image";
 import { anyImgUrl } from "@/utils/ImageUrl";
 import ToastMessage from "@/components/ui/ToastMessage";
@@ -170,9 +173,7 @@ const DetailImageGallery = ({ images, title, icon, onImageClick }) => {
   return (
     <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
-        <div className="p-2 bg-[#f48a42]/10 rounded-lg text-[#f48a42]">
-          {icon}
-        </div>
+        <div className="p-2 bg-primary/10 rounded-lg text-primary">{icon}</div>
         <h3 className="font-bold text-gray-800 text-lg">{title}</h3>
         <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
           {images.length}
@@ -617,7 +618,7 @@ export default function DamageReportDetails({
               </div>
               <div className="flex justify-between items-center py-2 border-b border-gray-50">
                 <span className="text-sm text-gray-500">قيمة الحجز</span>
-                <span className="text-sm font-bold text-[#f48a42]">
+                <span className="text-sm font-bold text-primary">
                   {report.order?.totalAmount} ريال
                 </span>
               </div>

@@ -5,7 +5,9 @@ import { toast } from "@/utils/toast";
 import { useTranslations } from "@/hooks/useTranslations";
 import ImageUploader from "@/components/addProduct/ImageUploader";
 import DocumentationImages from "@/components/productDocumentation/DocumentationImages";
-import { Button, Textarea, Chip } from "@heroui/react";
+import Button from "@/components/ui/Button";
+import { Textarea } from "@/components/ui/Input";
+import { Chip } from "@/components/ui/Chip";
 import ToastMessage from "@/components/ui/ToastMessage";
 import Image from "next/image";
 import { anyImgUrl } from "@/utils/ImageUrl";
@@ -213,7 +215,7 @@ export default function DamageReportForm({
             {/* Damage Description */}
             <div>
               <div className="flex items-center gap-2 mb-6">
-                <div className="p-1.5 bg-[#f48a42]/10 text-[#f48a42] rounded-lg">
+                <div className="p-1.5 bg-primary/10 text-primary rounded-lg">
                   <AlertIcon />
                 </div>
                 <h2 className="text-xl font-bold text-gray-800">
@@ -401,11 +403,22 @@ export default function DamageReportForm({
                     <p className="font-bold text-gray-800 text-sm line-clamp-1">
                       {item.product?.[`name${lang === "ar" ? "Ar" : "En"}`]}
                     </p>
-                    <p className="text-xs text-gray-500 mt-0.5">
-                      {t("quantity")}:{" "}
-                      <span className="text-[#f48a42] font-bold">
-                        {item.quantity}
-                      </span>
+                    <p className="text-gray-500 text-sm mt-1">
+                      {item.product?.saleUnit ? (
+                        <>
+                          <span className="text-primary font-bold">
+                            {item.quantity}
+                          </span>{" "}
+                          {trans(`unit.${item.product.saleUnit}`)}
+                        </>
+                      ) : (
+                        <>
+                          {t("quantity")}:{" "}
+                          <span className="text-primary font-bold">
+                            {item.quantity}
+                          </span>
+                        </>
+                      )}
                     </p>
                   </div>
                 </div>

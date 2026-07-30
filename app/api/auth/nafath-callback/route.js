@@ -29,7 +29,6 @@ async function verifyNafathToken(token) {
 
 async function processAuthenticationResult(decoded) {
   await connectDB();
-  console.log("decoded: ", decoded);
   const nationalId = decoded.nin || decoded.iqamaNumber || decoded.sub;
   const user = await User.findOne({
     $or: [{ nationalId: nationalId }, { nafathTempId: nationalId }],

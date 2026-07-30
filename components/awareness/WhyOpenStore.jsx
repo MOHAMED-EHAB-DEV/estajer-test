@@ -61,7 +61,7 @@ const WhyOpenStore = ({ translate, lang }) => {
           <h2 className="font-IBMPlex font-bold lg:text-[2.2rem] md:text-[1.8rem] text-[1.3rem] text-darkNavy mb-4 leading-tight">
             {t("title")}
           </h2>
-          <p className="text-[#5B5656] text-xs md:text-base font-IBMPlex">
+          <p className="text-mutedGray text-xs md:text-base font-IBMPlex">
             {t("subtitle")}
           </p>
         </div>
@@ -146,7 +146,7 @@ const WhyOpenStore = ({ translate, lang }) => {
             </>
           )}
         </div>
-        
+
         {/* CTA Button */}
         <div className="flex justify-center mt-8 md:mt-20">
           <Button

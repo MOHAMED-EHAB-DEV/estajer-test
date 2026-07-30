@@ -2,7 +2,8 @@
 
 import { useTranslations } from "@/hooks/useTranslations";
 import { useState, useEffect } from "react";
-import { Input, Select, SelectItem } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
 import Button from "../ui/Button";
 import { Line } from "../ui/svgs/icons/LineSvg";
 import { Minus } from "../ui/svgs/icons/MinusSvg";
@@ -23,32 +24,36 @@ import { Chevron } from "../ui/svgs/icons/ChevronSvg";
 function CollapsiblePanel({ open, onToggle, icon, title, subtitle, children }) {
   return (
     <div
-      className={`rounded-2xl border transition-all duration-200 overflow-hidden ${open ? "border-orange-200 shadow-sm" : "border-gray-100"}`}
+      className={`rounded-xl md:rounded-2xl border transition-all duration-200 overflow-hidden ${open ? "border-orange-200 shadow-sm" : "border-gray-100"}`}
     >
       <button
         type="button"
         onClick={onToggle}
-        className={`w-full flex items-center justify-between px-5 py-4 transition-colors text-right ${open ? "bg-orange-50" : "bg-gray-50 hover:bg-gray-100"}`}
+        className={`w-full flex items-center justify-between px-3 md:px-5 py-3 md:py-4 transition-colors text-right ${open ? "bg-orange-50" : "bg-gray-50 hover:bg-gray-100"}`}
       >
-        <div className="flex items-center gap-3">
-          <span className="w-9 h-9 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+        <div className="flex items-center gap-2 md:gap-3">
+          <span className="w-7 h-7 md:w-9 md:h-9 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-lg md:rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
             {icon}
           </span>
           <div className="text-start">
-            <p className="font-semibold text-gray-800 text-sm">{title}</p>
-            <p className="text-xs text-gray-400 mt-0.5">{subtitle}</p>
+            <p className="font-semibold text-gray-800 text-xs md:text-sm">
+              {title}
+            </p>
+            <p className="text-[10px] md:text-xs text-gray-400 mt-0.5">
+              {subtitle}
+            </p>
           </div>
         </div>
         <div
-          className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${open ? "bg-orange-200" : "bg-gray-200"}`}
+          className={`w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${open ? "bg-orange-200" : "bg-gray-200"}`}
         >
           <Chevron
-            className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+            className={`w-3.5 h-3.5 md:w-4 md:h-4 text-gray-400 flex-shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
           />
         </div>
       </button>
       {open && (
-        <div className="px-5 pb-5 pt-4 border-t border-gray-100 bg-white">
+        <div className="px-3 md:px-5 pb-3 md:pb-5 pt-3 md:pt-4 border-t border-gray-100 bg-white">
           {children}
         </div>
       )}
@@ -57,25 +62,25 @@ function CollapsiblePanel({ open, onToggle, icon, title, subtitle, children }) {
 }
 
 const Counter = ({ increment, decrement }) => (
-  <div className="flex bg-[#c5c5c5] rounded-lg  min-w-28 h-12 items-center">
+  <div className="flex bg-[#c5c5c5] rounded-lg min-w-20 md:min-w-28 md:h-12 h-10 items-center">
     <Button
       type="button"
-      className="min-w-14 rounded-none px-2 h-full flex items-center justify-center"
+      className="min-w-10 md:min-w-14 rounded-none px-1 md:px-2 h-full flex items-center justify-center"
       onPress={increment}
       color="transparent"
       aria-label="Increment"
     >
-      <Plus color="#0D092B" size={20} />
+      <Plus color="#0D092B" className="w-4 h-4 md:w-5 md:h-5" />
     </Button>
-    <Line />
+    <Line className="min-w-0.5 md:h-[30px] h-[20px]" />
     <Button
       color="transparent"
       type="button"
-      className="min-w-14 rounded-none px-2 h-full flex items-center justify-center"
+      className="min-w-10 md:min-w-14 rounded-none px-1 md:px-2 h-full flex items-center justify-center"
       onPress={decrement}
       aria-label="Decrement"
     >
-      <Minus color="#0D092B" size={20} />
+      <Minus color="#0D092B" className="w-5 h-5 md:w-7 md:h-7" />
     </Button>
   </div>
 );
@@ -88,13 +93,13 @@ export const FormInput = ({ ...props }) => {
       radius="sm"
       step="0.01"
       classNames={{
-        mainWrapper: "mt-10",
-        label: "text-lg -mt-2 flex items-center min-w-max",
-        base: "max-w-full !mt-0",
-        input: "text-base",
-        inputWrapper: "h-12 !rounded-e-none",
+        mainWrapper: "md:mt-10 mt-3",
+        label: "md:text-lg text-xs md:-mt-2 -mt-1 flex items-center",
+        base: "max-w-full !mt-0 relative",
+        input: "md:text-base text-sm",
+        inputWrapper: "md:h-12 h-10 !rounded-e-none",
         helperWrapper: "p-0",
-        errorMessage: "absolute -bottom-5",
+        errorMessage: "absolute -bottom-5 start-0 whitespace-nowrap",
       }}
       {...props}
     />
@@ -118,10 +123,13 @@ export default function RentalDetailsForm({
   setPricingModel,
   commission,
   quantity,
+  saleUnit,
+  setProductData,
 }) {
   const trans = useTranslations(translate);
   const t = (key) => trans(`addProductPage.form.rentDetails.${key}`);
-
+  const tSteps = (key) =>
+    trans(`addProductPage.formSteps.generalInformation.${key}`);
   // Original state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentService, setCurrentService] = useState(null);
@@ -196,8 +204,8 @@ export default function RentalDetailsForm({
         {/* --- MODEL 1: PER DAY PRICING (Conditional) --- */}
 
         {pricingModel === "perDay" && (
-          <div className="flex flex-col gap-6">
-            <div className="grid md:grid-cols-2 gap-x-4 gap-y-8">
+          <div className="flex flex-col gap-4 md:gap-6">
+            <div className="grid md:grid-cols-2 gap-x-4 gap-y-4 md:gap-y-8">
               <div className="flex items-end">
                 <FormInput
                   label={t("rentalValue")}
@@ -212,20 +220,23 @@ export default function RentalDetailsForm({
                     }))
                   }
                 />
-                <div className="bg-[rgba(244,138,66,0.5)] h-12 min-w-16 flex items-center justify-center rounded-e-lg">
-                  <span className="text-black">{t("sar")}</span>
+                <div className="bg-[rgba(244,138,66,0.5)] md:h-12 h-10 min-w-12 md:min-w-16 flex items-center justify-center rounded-e-lg">
+                  <span className="text-black text-xs md:text-base">
+                    {t("sar")}
+                  </span>
                 </div>
               </div>
               <div className="flex items-end">
                 <FormInput
                   label={t("yourEarnings").replace("{commission}", commission)}
                   classNames={{
-                    mainWrapper: "mt-10",
-                    label: "text-lg -mt-2 flex items-center min-w-max",
+                    mainWrapper: "md:mt-10 mt-3",
+                    label:
+                      "md:text-lg text-xs md:-mt-2 -mt-1 flex items-center min-w-max",
                     base: "max-w-full !mt-0",
-                    input: "text-base",
+                    input: "md:text-base text-sm",
                     inputWrapper:
-                      "h-12 !rounded-e-none !bg-[rgba(253,220,166,0.5)]",
+                      "md:h-12 h-10 !rounded-e-none !bg-[rgba(253,220,166,0.5)]",
                     helperWrapper: "p-0",
                     errorMessage: "absolute -bottom-5",
                   }}
@@ -242,8 +253,10 @@ export default function RentalDetailsForm({
                   }
                   disabled
                 />
-                <div className="bg-[rgba(244,138,66,0.5)] h-12 min-w-16 flex items-center justify-center rounded-e-lg">
-                  <span className="text-black">{t("sar")}</span>
+                <div className="bg-[rgba(244,138,66,0.5)] md:h-12 h-10 min-w-12 md:min-w-16 flex items-center justify-center rounded-e-lg">
+                  <span className="text-black text-xs md:text-base">
+                    {t("sar")}
+                  </span>
                 </div>
               </div>
               <div className="flex items-end">
@@ -260,8 +273,10 @@ export default function RentalDetailsForm({
                     }))
                   }
                 />
-                <div className="bg-[rgba(244,138,66,0.5)] h-12 min-w-16 flex items-center justify-center rounded-e-lg">
-                  <span className="text-black">{t("sar")}</span>
+                <div className="bg-[rgba(244,138,66,0.5)] md:h-12 h-10 min-w-12 md:min-w-16 flex items-center justify-center rounded-e-lg">
+                  <span className="text-black text-xs md:text-base">
+                    {t("sar")}
+                  </span>
                 </div>
               </div>
               <div className="flex items-end">
@@ -294,11 +309,11 @@ export default function RentalDetailsForm({
           />
         )}
         {/* --- MODEL 3: CITY PRICING (Conditional) --- */}
-        <div className="py-4">
+        <div className="py-2 md:py-4">
           <div
             className={`grid ${
               pricingModel === "perDay" ? "md:grid-cols-2" : "lg:grid-cols-3"
-            } gap-x-4 gap-y-8 items-start mb-8`}
+            } gap-x-4 gap-y-4 md:gap-y-8 items-start mb-4 md:mb-8`}
           >
             {pricingModel === "packages" && (
               <div className="flex items-end">
@@ -315,19 +330,28 @@ export default function RentalDetailsForm({
                     }))
                   }
                 />
-                <div className="bg-[rgba(244,138,66,0.5)] h-12 min-w-16 flex items-center justify-center rounded-e-lg">
-                  <span className="text-black">{t("sar")}</span>
+                <div className="bg-[rgba(244,138,66,0.5)] md:h-12 h-10 min-w-12 md:min-w-16 flex items-center justify-center rounded-e-lg">
+                  <span className="text-black text-xs md:text-base">
+                    {t("sar")}
+                  </span>
                 </div>
               </div>
             )}
             <Select
               disallowEmptySelection
-              label={<span className="text-lg">{t("deliveryOptions")}</span>}
+              label={
+                <span className="text-xs md:text-lg">
+                  {t("deliveryOptions")}
+                </span>
+              }
               isRequired
               labelPlacement="outside"
               size="lg"
               radius="sm"
-              classNames={{ base: "!mt-10" }}
+              classNames={{
+                value: "text-xs md:text-sm",
+                trigger: "h-10 md:h-12",
+              }}
               aria-label={t("deliveryOptions")}
               selectedKeys={[rentData.delivery.type]}
               onChange={({ target }) =>
@@ -345,16 +369,57 @@ export default function RentalDetailsForm({
                 <SelectItem key={option.key}>{option.label}</SelectItem>
               ))}
             </Select>
+            <Select
+              scrollShadowProps={{ hideScrollBar: false }}
+              label={
+                <span className="text-xs md:text-lg">
+                  {tSteps("saleUnitLabel")}
+                </span>
+              }
+              size="lg"
+              radius="sm"
+              name="saleUnit"
+              classNames={{
+                value: "text-xs md:text-sm",
+                trigger: "h-10 md:h-12",
+              }}
+              onChange={(e) => {
+                setProductData((prev) => ({
+                  ...prev,
+                  saleUnit: e.target.value,
+                }));
+              }}
+              selectedKeys={saleUnit ? [saleUnit] : []}
+              labelPlacement="outside"
+              placeholder={tSteps("saleUnitPlaceholder")}
+            >
+              <SelectItem key="squareMeter">
+                {tSteps("saleUnitSquareMeter")}
+              </SelectItem>
+              <SelectItem key="meter">{tSteps("saleUnitMeter")}</SelectItem>
+              <SelectItem key="piece">{tSteps("saleUnitPiece")}</SelectItem>
+              <SelectItem key="service">{tSteps("saleUnitService")}</SelectItem>
+              <SelectItem key="trip">{tSteps("saleUnitTrip")}</SelectItem>
+              <SelectItem key="subscription">
+                {tSteps("saleUnitSubscription")}
+              </SelectItem>
+              <SelectItem key="kiloWatt">
+                {tSteps("saleUnitKiloWatt")}
+              </SelectItem>
+              <SelectItem key="tnTabredy">
+                {tSteps("saleUnitTnTabredy")}
+              </SelectItem>
+            </Select>
           </div>
 
           {/* Free Delivery Info Box */}
           {rentData.delivery.type === "free" && (
-            <div className="mb-8 p-6 bg-gradient-to-r from-[#f48a42]/10 via-[#f48a42]/5 to-transparent border border-[#f48a42]/20 rounded-2xl flex items-start gap-5 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#f48a42]/5 rounded-full blur-3xl -mr-16 -mt-16" />
+            <div className="mb-4 md:mb-8 p-3 md:p-6 bg-gradient-to-r from-[#f48a42]/10 via-[#f48a42]/5 to-transparent border border-[#f48a42]/20 rounded-xl md:rounded-2xl flex items-start gap-3 md:gap-5 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16" />
 
-              <div className="w-14 h-14 bg-gradient-to-br from-[#f48a42] to-[#ff9c5a] rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#f48a42]/20 relative z-10">
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-gradient-to-br from-[#f48a42] to-[#ff9c5a] rounded-xl md:rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#f48a42]/20 relative z-10">
                 <svg
-                  className="w-7 h-7 text-white"
+                  className="w-5 h-5 md:w-7 md:h-7 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -368,20 +433,20 @@ export default function RentalDetailsForm({
                 </svg>
               </div>
 
-              <div className="space-y-2 relative z-10">
-                <h4 className="font-bold text-darkNavy text-xl">
+              <div className="space-y-1 md:space-y-2 relative z-10">
+                <h4 className="font-bold text-darkNavy text-base md:text-xl">
                   {t("freeDeliveryNote.title")}
                 </h4>
-                <p className="text-gray-700 leading-relaxed text-[15px] md:text-base font-medium">
+                <p className="text-gray-700 leading-relaxed text-xs md:text-base font-medium">
                   {t("freeDeliveryNote.description").replace(
                     "{governorate}",
                     address?.governorate ||
                       t("freeDeliveryNote.fallbackGovernorate"),
                   )}
                 </p>
-                <div className="flex items-start gap-2 bg-white/40 backdrop-blur-sm p-3 rounded-xl border border-[#f48a42]/10 mt-2">
+                <div className="flex items-start gap-1.5 md:gap-2 bg-white/40 backdrop-blur-sm p-2 md:p-3 rounded-lg md:rounded-xl border border-[#f48a42]/10 mt-1 md:mt-2">
                   <svg
-                    className="w-5 h-5 text-[#f48a42] mt-0.5 flex-shrink-0"
+                    className="w-4 h-4 md:w-5 md:h-5 text-primary mt-0.5 flex-shrink-0"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -391,7 +456,7 @@ export default function RentalDetailsForm({
                       clipRule="evenodd"
                     />
                   </svg>
-                  <p className="text-[#f48a42] text-sm font-semibold">
+                  <p className="text-primary text-xs md:text-sm font-semibold">
                     {t("freeDeliveryNote.tip")}
                   </p>
                 </div>
@@ -401,18 +466,19 @@ export default function RentalDetailsForm({
 
           {/* Delivery Pricing Options */}
           {rentData.delivery.type === "delivery" && (
-            <div className="space-y-8">
+            <div className="space-y-4 md:space-y-8">
               {/* Pricing Model Selector */}
-              <div className="bg-gradient-to-r from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-100">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              <div className="bg-gradient-to-r from-orange-50 to-amber-50 p-3 md:p-5 rounded-xl border border-orange-100">
+                <h3 className="text-xs md:text-base font-semibold text-gray-800 mb-2 md:mb-3">
                   {t("cityPricing.deliveryPricingModel")}
                 </h3>
-                <div className="flex gap-4 flex-wrap">
+                <div className="flex gap-2 md:gap-3">
                   <Button
-                    className={`flex-1 py-4 px-6 rounded-lg transition-all duration-300 ${
+                    size="sm"
+                    className={`flex-1 py-1.5 md:py-2 px-2.5 md:px-4 rounded-lg transition-all duration-300 text-xs md:text-sm !h-9 md:!h-11 ${
                       rentData.delivery.pricingModel === "fixedCity"
-                        ? "bg-[#f48a42] text-white shadow-lg"
-                        : "bg-white text-gray-600 border border-gray-200 hover:border-orange-300"
+                        ? "bg-primary text-white shadow-md font-semibold"
+                        : "bg-white text-gray-600 border border-gray-200 hover:border-orange-300 font-medium"
                     }`}
                     onPress={() =>
                       setRentData((prev) => ({
@@ -427,9 +493,9 @@ export default function RentalDetailsForm({
                       }))
                     }
                   >
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center gap-1 md:gap-1.5">
                       <svg
-                        className="w-5 h-5"
+                        className="w-3.5 h-3.5 md:w-4 md:h-4"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -443,11 +509,12 @@ export default function RentalDetailsForm({
                     </div>
                   </Button>
                   <Button
-                    className={`flex-1 py-4 px-6 rounded-lg transition-all duration-300 ${
+                    size="sm"
+                    className={`flex-1 py-1.5 md:py-2 px-2.5 md:px-4 rounded-lg transition-all duration-300 text-xs md:text-sm !h-9 md:!h-11 ${
                       rentData.delivery.pricingModel === "perKm" ||
                       !rentData.delivery.pricingModel
-                        ? "bg-[#f48a42] text-white shadow-lg"
-                        : "bg-white text-gray-600 border border-gray-200 hover:border-orange-300"
+                        ? "bg-primary text-white shadow-md font-semibold"
+                        : "bg-white text-gray-600 border border-gray-200 hover:border-orange-300 font-medium"
                     }`}
                     onPress={() =>
                       setRentData((prev) => ({
@@ -461,9 +528,9 @@ export default function RentalDetailsForm({
                       }))
                     }
                   >
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center gap-1 md:gap-1.5">
                       <svg
-                        className="w-5 h-5"
+                        className="w-3.5 h-3.5 md:w-4 md:h-4"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -479,11 +546,11 @@ export default function RentalDetailsForm({
               {/* Per-Km Pricing */}
               {(rentData.delivery.pricingModel === "perKm" ||
                 !rentData.delivery.pricingModel) && (
-                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                <div className="bg-white p-3 md:p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-4">
+                    <div className="w-8 h-8 md:w-10 md:h-10 bg-orange-100 rounded-full flex items-center justify-center">
                       <svg
-                        className="w-5 h-5 text-[#f48a42]"
+                        className="w-4 h-4 md:w-5 md:h-5 text-primary"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -491,7 +558,7 @@ export default function RentalDetailsForm({
                         <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1V8a1 1 0 00-1-1h-3z" />
                       </svg>
                     </div>
-                    <h4 className="text-lg font-semibold text-gray-800">
+                    <h4 className="text-sm md:text-lg font-semibold text-gray-800">
                       {t("deliveryCostPerKm")}
                     </h4>
                   </div>
@@ -514,13 +581,15 @@ export default function RentalDetailsForm({
                         }
                         isRequired
                       />
-                      <div className="bg-[rgba(244,138,66,0.5)] me-2 h-12 min-w-16 flex items-center justify-center rounded-e-lg">
-                        <span className="text-black">{t("sar")}</span>
+                      <div className="bg-[rgba(244,138,66,0.5)] me-2 md:h-12 h-10 min-w-12 md:min-w-16 flex items-center justify-center rounded-e-lg">
+                        <span className="text-black text-xs md:text-base">
+                          {t("sar")}
+                        </span>
                       </div>
                     </div>
                     <div
                       onClick={openDeliveryModal}
-                      className="text-[#f48a42]/80 hover:text-[#f48a42] underline cursor-pointer mt-2 font-semibold"
+                      className="text-primary/80 hover:text-primary underline cursor-pointer mt-1 md:mt-2 font-semibold text-xs md:text-sm"
                     >
                       {t("deliveryCostExample")}
                     </div>

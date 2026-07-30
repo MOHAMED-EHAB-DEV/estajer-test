@@ -1,12 +1,13 @@
 "use client";
 import { format } from "date-fns";
-import { Alert } from "@heroui/react";
+
 import MessageItem from "./MessageItem";
 
 export default function MessageList({
   messages,
   currentUserId,
   aiAssistant,
+  supportMode,
   messagesEndRef,
   t,
   translate,
@@ -22,11 +23,13 @@ export default function MessageList({
   textareaRef,
   isAdminChat,
   handleDeleteClick,
+  firstMessageSenderId: propFirstMessageSenderId,
 }) {
-  const firstMessageSenderId = messages?.[0]?.sender?._id;
+  const firstMessageSenderId =
+    propFirstMessageSenderId || messages?.[0]?.sender?._id;
 
   return (
-    <div className="overflow-y-auto bg-[#EAEEF3] relative h-full">
+    <div className="overflow-y-auto bg-surfaceBlue relative h-full">
       <div className="absolute bottom-0 right-0 w-full h-full mix-blend-darken opacity-15 bg-[url('/estajer/images/https%3A%2F%2Fres.cloudinary.com%2Fdhfzkadm2%2Fimage%2Fupload%2Fv1743810725%2Fsocial-networks-dating-apps-vector-seamless-pattern_341076-469_hxu7zh.webp?w=600&q=50')]"></div>
       <div
         className={`h-full overflow-y-auto px-4 relative pt-8 ${
@@ -39,13 +42,33 @@ export default function MessageList({
           textareaRef.current?.focus();
         }}
       >
-        {!aiAssistant && messages.length === 0 && (
-          <Alert
-            variant="warning"
-            className="text-sm mb-4 !bg-red-200/50 text-red-900 border-none shadow-sm"
+        {!aiAssistant && !supportMode && messages.length === 0 && (
+          <div
+            role="alert"
+            className="-mt-4 relative w-full flex flex-row items-start gap-3 p-4 box-border rounded-md bg-default-100 text-sm mb-4 !bg-red-200/50 text-red-900 border-none shadow-sm"
           >
-            {t("chat.warning")}
-          </Alert>
+            <div className="flex items-center justify-center mt-0.5">
+              <svg
+                className="w-6 h-6 shrink-0"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4" />
+                <path d="M12 8h.01" />
+              </svg>
+            </div>
+            <div className="flex flex-col flex-1 gap-1">
+              <div className="text-sm">{t("chat.warning")}</div>
+            </div>
+          </div>
         )}
         {messages?.map((msg, i) => {
           const formatMessageDate = (timestamp) => {
@@ -63,6 +86,7 @@ export default function MessageList({
               i={i}
               currentUserId={currentUserId}
               aiAssistant={aiAssistant}
+              supportMode={supportMode}
               t={t}
               translate={translate}
               lang={lang}

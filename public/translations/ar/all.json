@@ -6,6 +6,7 @@
     "addFavoritesHint": "يمكنك إضافة المنتجات إلى المفضلة بالضغط على أيقونة القلب",
     "loginRequired": "يرجى تسجيل الدخول لعرض المفضلة"
   },
+  "saleUnit": "الوحده",
   "product": {
     "safety": {
       "title": "تعليمات الاستلام والإرجاع",
@@ -59,6 +60,7 @@
       "useCasesTitle": "حالات الاستخدام المثالية",
       "statusLabel": "حالة المنتج",
       "quantityLabel": "الكمية المتاحة",
+      "saleUnitLabel": "الوحده",
       "specsNote": "نضمن جاهزية المنتج الكاملة قبل كل عملية تأجير."
     },
     "page": {
@@ -197,6 +199,7 @@
     "price": "السعر",
     "pieces": "قطعه",
     "piecesCount": "عدد القطع",
+    "saleUnit": "الوحده",
     "subtotal": "الاجمالي",
     "tax": "ضريبة ق م ( 15% )",
     "insurance": "التأمين",
@@ -288,7 +291,23 @@
     "companyNote": "الرقم الموحد مطلوب للشركات (10 أرقام) ويبدأ بـ 700",
     "loading": "جاري الإضافة...",
     "cancel": "إلغاء",
-    "addData": "إضافة البيانات"
+    "addData": "إضافة البيانات",
+    "billingAddress": "العنوان الوطني",
+    "street": "اسم الشارع",
+    "city": "المدينة",
+    "district": "المنطقة / الحي",
+    "postalCode": "الرمز البريدي",
+    "buildingNumber": "رقم المبنى",
+    "country": "اختر دولة",
+    "saudiArabia": "المملكة العربية السعودية",
+    "billingAddressCompanyRequired": "جميع حقول العنوان الوطني مطلوبة للشركات",
+    "invalidIban": "رقم الحساب يجب أن يبدأ بـ SA متبوعاً بـ 22 رقم",
+    "invalidUnifiedNumber": "الرقم الموحد يجب أن يكون 10 أرقام ويبدأ بـ 7",
+    "next": "التالي",
+    "back": "السابق",
+    "step1Title": "بيانات الحساب",
+    "step2Title": "العنوان الوطني",
+    "billingInfoDesc": "يرجى إدخال تفاصيل العنوان الوطني الخاص بالشركة لإصدار الفواتير الضريبية"
   },
   "checkout": {
     "completePayment": "استكمال الدفع",
@@ -299,6 +318,7 @@
     "success": "تم إنشاء الحجز بنجاح",
     "address": "العنوان",
     "addressPlaceholder": "اضف العنوان",
+    "saleUnit": "الوحده",
     "city": "المدينة",
     "cityPlaceholder": "اضف المدينة",
     "area": "المنطقة",
@@ -316,7 +336,15 @@
     "deliveryNotAvailable": "التوصيل غير متاح لهذا الموقع",
     "discount": "الخصم",
     "locationRequired": "الموقع مطلوب",
-    "notesHint": "يمكنك تحديد وقت الاستلام الطلب هنا، او التنسيق مع المؤجر عن طريق الرسائل."
+    "notesHint": "يمكنك تحديد وقت الاستلام الطلب هنا، او التنسيق مع المؤجر عن طريق الرسائل.",
+    "trustIndicators": {
+      "secureEscrowTitle": "دفع آمن بالضمان",
+      "secureEscrowDesc": "أموالك محفوظة لدى المنصة حتى تستلم المنتج",
+      "refundGuaranteeTitle": "ضمان الاسترداد",
+      "refundGuaranteeDesc": "استرداد كامل في حال عدم مطابقة المنتج",
+      "supportTitle": "دعم فني مستمر",
+      "supportDesc": "فريقنا متواجد دائماً لمساعدتك في أي وقت"
+    }
   },
   "bookings": {
     "title": "حجوزاتي",
@@ -420,6 +448,8 @@
       "feedback": "اقتراحات",
       "subscription": "طلب اشتراك",
       "upgrade": "ترقية الحساب",
+      "problemWithTaxInvoice": "مشكلة في الفاتورة الضريبية",
+      "delayedTaxInvoiceUpload": "تأخر رفع الفاتورة الضريبية",
       "other": "أخرى"
     },
     "success": "تم إرسال رسالتك بنجاح. سنرد عليك قريبًا!",
@@ -527,6 +557,7 @@
       "notes": "ملاحظات",
       "pieces": "قطعة",
       "piecesCount": "القطع",
+      "saleUnit": "الوحده",
       "price": "السعر",
       "tax": "الضريبة",
       "insurance": "التأمين",
@@ -542,6 +573,23 @@
       "noRequests": "لا توجد طلبات بعد",
       "noRequestsDescription": "ابدأ بإضافة المنتجات الآن!",
       "addProduct": "إضافة منتج",
+      "invalidFileType": "يسمح فقط بملفات PDF والصور",
+      "taxInvoiceUploaded": "تم رفع الفاتورة الضريبية بنجاح",
+      "reuploadTaxInvoice": "إعادة رفع الفاتورة الضريبية",
+      "uploadTaxInvoice": "رفع الفاتورة الضريبية",
+      "downloadTaxInvoice": "تحميل الفاتورة الضريبية",
+      "openTicket": "التواصل مع الدعم",
+      "requestTaxInvoice": "طلب الفاتورة الضريبية",
+      "taxInvoiceRequestSent": "تم إرسال الطلب للمؤجر",
+      "openSupportTicket": "فتح تذكرة دعم فني",
+      "taxInvoiceModalNote": "ملاحظة: عادةً ما يستغرق رفع الفاتورة الضريبية من يوم إلى 3 أيام عمل.",
+      "ticketSubject": "موضوع التذكرة",
+      "delayedTaxInvoiceUpload": "تأخر رفع الفاتورة الضريبية",
+      "problemWithTaxInvoice": "مشكلة في الفاتورة الضريبية",
+      "ticketMessage": "الرسالة",
+      "submitTicket": "إرسال",
+      "pleaseEnterMessage": "يرجى إدخال رسالة",
+      "ticketOpenedSuccessfully": "تم فتح التذكرة بنجاح",
       "confirmReject": {
         "title": "تأكيد رفض الطلب",
         "message": "هل أنت متأكد من أنك تريد رفض هذا الطلب؟",
@@ -552,6 +600,11 @@
         "cancel": "إلغاء",
         "confirm": "تأكيد",
         "delete": "حذف"
+      },
+      "editModal": {
+        "companyName": "اسم الشركة",
+        "registerNumber": "رقم التسجيل",
+        "taxCode": "الرقم الضريبي"
       },
       "confirmAccept": {
         "title": "تأكيد قبول الطلب",
@@ -570,6 +623,7 @@
     "ordersList": {
       "products": "المنتجات",
       "orderCreationDate": "تاريخ إنشاء الطلب:",
+      "orderFromYourShop": "طلب من متجرك",
       "additionalServices": "خدمات اضافية:",
       "reviewProduct": "تقييم المنتج",
       "requesterData": "بيانات صاحب الطلب",
@@ -595,7 +649,8 @@
       "noOrdersDescription": "سلة التسوق فارغة.\u2028 ابدأ بإضافة المنتجات واستمتع بالتسوق!",
       "searchProducts": "تسوق الآن!",
       "viewReceipt": "عرض الفاتورة",
-      "viewInvoice": "عرض فاتورة العمولة"
+      "viewInvoice": "عرض فاتورة العمولة",
+      "viewTaxInvoice": "عرض الفاتورة الضريبية"
     },
     "settings": {
       "title": "الإعدادات",
@@ -679,6 +734,24 @@
         "contactAdminNote": "لتغيير البريد الإلكتروني أو رقم الجوال، يرجى التواصل مع الإدارة عبر",
         "contactForm": "صفحة التواصل"
       },
+      "sameDayRentManager": {
+        "title": "الطلب في نفس اليوم",
+        "subtitle": "تحكّم في إمكانية طلب المنتجات في اليوم نفسه",
+        "enabledDesc": "الطلب في نفس اليوم مفعّل. يمكن للعملاء اختيار اليوم الحالي كبداية لفترة الإيجار.",
+        "disabledDesc": "الطلب في نفس اليوم معطّل. سيُجبر العملاء على اختيار يوم غدٍ أو لاحق كأول يوم للإيجار.",
+        "enabledBadge": "مفعّل",
+        "disabledBadge": "معطّل",
+        "whenEnabled": "عند التفعيل",
+        "whenDisabled": "عند التعطيل",
+        "benefit1": "يظهر اليوم الحالي ضمن أيام الإيجار المتاحة للعميل",
+        "benefit2": "زيادة فرص الحجز العاجل وتحسين تجربة العملاء",
+        "benefit3": "مناسب للمنتجات التي يمكن تسليمها فوريًا",
+        "restriction1": "لن يتمكن العملاء من اختيار اليوم الحالي",
+        "restriction2": "يجب على العميل تحديد يوم غدٍ على الأقل كبداية للإيجار",
+        "restriction3": "يمنحك وقتًا إضافيًا للتحضير قبل الاستلام",
+        "toggleLabel": "السماح بالطلب في نفس اليوم",
+        "success": "تم تحديث الإعدادات بنجاح"
+      },
       "branches": {
         "title": "إدارة الفروع",
         "addBranch": "إضافة فرع",
@@ -730,10 +803,13 @@
       "verifyNow": "تحقق الآن",
       "nafathSuccess": "تم إكمال توثيق نفاذ بنجاح",
       "nafathError": "فشل في توثيق نفاذ",
-      "bankAccount": "الحساب البنكي (IBAN)",
-      "ibanAdded": "تم إضافة معلومات الحساب البنكي",
-      "ibanNotAdded": "مطلوب معلومات الحساب البنكي",
-      "addIban": "إضافة IBAN",
+      "bankAccount": "الحساب البنكي والعنوان الوطني",
+      "ibanAdded": "تم إضافة معلومات الحساب البنكي والعنوان الوطني",
+      "ibanNotAdded": "مطلوب معلومات الحساب البنكي والعنوان الوطني",
+      "addIban": "إضافة البيانات",
+      "nationalAddressNotAdded": "مطلوب العنوان الوطني",
+      "addNationalAddress": "إضافة العنوان الوطني",
+      "addIbanAndNationalAddress": "إضافة IBAN والعنوان الوطني",
       "nafathRequiredForIban": "مطلوب توثيق نفاذ قبل إضافة IBAN",
       "location": "الموقع",
       "locationAdded": "تم إضافة معلومات الموقع",
@@ -804,6 +880,7 @@
       "payNow": "ادفع الآن",
       "waitingForAcceptance": "بإنتظار قبول الطلب",
       "receiveOrder": "إستلام الطلب",
+      "deliveryOrder": "تسليم الطلب",
       "processingRejection": "جاري معالجة الرفض...",
       "received": "تم الإستلام",
       "paymentProcessing": "جاري معالجة عملية الدفع",
@@ -820,6 +897,7 @@
       "endDate": "تاريخ النهاية",
       "productInformation": "معلومات المنتج",
       "quantity": "الكمية",
+      "saleUnit": "الوحده",
       "beforeImages": {
         "title": "صور المنتج قبل التأجير",
         "description": "قم برفع صور المنتج كما كان قبل التأجير (اختياري)"
@@ -898,6 +976,7 @@
       "approved": "موافق عليه",
       "rejected": "مرفوض",
       "pending": "قيد الانتظار",
+      "pendingChanges": "بحاجة لمراجعة التعديل",
       "hidden": "مخفي",
       "nana": "نعناع",
       "deleted": "محذوف",
@@ -908,6 +987,8 @@
       "subcategory": "التصنيف الفرعية",
       "apply": "تطبيق المرشحات",
       "clear": "مسح المرشحات",
+      "userSelection": "اختيار المستخدم",
+      "userSearchPlaceholder": "ابحث عن مستخدم بالاسم أو الإيميل أو الهاتف",
       "sortBy": {
         "title": "ترتيب حسب",
         "dateAdded": "تاريخ الإضافة",
@@ -1098,6 +1179,9 @@
   },
   "singleProduct": {
     "order": {
+      "securePaymentTitle": "دفع آمن:",
+      "securePaymentDesc": "أموالك محفوظة لدى استأجر حتى تستلم المنتج بنجاح. في حال واجهتك أي مشكلة، يمكنك التواصل مع {support} لاسترداد المبلغ كاملاً.",
+      "saleUnit": "الوحده",
       "clearCartModal": {
         "title": "تنبيه",
         "message": "استأجر منتجات من نفس المؤجر او احذف السلة السابقة لإضافة هذا المنتج",
@@ -1183,7 +1267,8 @@
       "cart": "سلة المشتريات",
       "after": "بعد",
       "seconds": "ثواني",
-      "cancel": "إلغاء"
+      "cancel": "إلغاء",
+      "close": "إغلاق"
     },
     "reviews": {
       "addReviewBtn": "أضف تقييم",
@@ -1231,13 +1316,15 @@
       "title": "منتجات متاحة في نفس المنطقة",
       "description": "قائمة منتجات متاحة للايجار بالقرب من منطقتك",
       "noProducts": "لا توجد منتجات متاحة في هذه المنطقة",
-      "showMore": "عرض المزيد"
+      "showMore": "عرض المزيد",
+      "showMoreAriaLabel": "عرض المزيد من المنتجات المتاحة في نفس المنطقة"
     },
     "similarProducts": {
       "title": "منتجات مشابهة",
       "description": "قائمة منتجات مشابهة لهذا المنتج",
       "noProducts": "لا توجد منتجات مشابهة لهذا المنتج",
-      "showMore": "عرض المزيد"
+      "showMore": "عرض المزيد",
+      "showMoreAriaLabel": "عرض المزيد من المنتجات المشابهة"
     },
     "deliveryInfo": {
       "title": "معلومات التوصيل",
@@ -1258,6 +1345,36 @@
       "deliveryCompanyDescription": "يتم التوصيل عن طريق شركة شحن معتمدة",
       "allCities": "جميع المدن",
       "free": "مجاني"
+    },
+    "trustSection": {
+      "ariaLabel": "خطوات نظام الدفع الآمن",
+      "badge": "الدفع مضمون",
+      "titlePart1": "رحلة آمنة من البداية",
+      "titlePart2": "حتى النهاية",
+      "description": "أموالك لا تصل إلى المؤجر إلا بعد أن تستلم المنتج وتتأكد من مطابقته — وإن واجهتك أي مشكلة قبل الاستلام، نضمن لك استرداد المبلغ كاملاً دون تعقيد.",
+      "cta": "استرداد فوري وكامل بدون شروط معقدة",
+      "steps": {
+        "step1": {
+          "title": "تدفع بأمان",
+          "desc": "يُودَع مبلغك في حساب ضمان مؤمَّن داخل المنصة فور إتمام الدفع.",
+          "status": "أول خطوة"
+        },
+        "step2": {
+          "title": "أموالك محفوظة",
+          "desc": "لا يمكن للمؤجر الوصول لمبلغك طوال فترة الإيجار.",
+          "status": "طوال الإيجار"
+        },
+        "step3": {
+          "title": "استلم وتحقق",
+          "desc": "استلم المنتج وتأكد أنه كما وُصف. أي مشكلة؟ أبلغنا فوراً.",
+          "status": "عند الاستلام"
+        },
+        "step4": {
+          "title": "أنهِ وأكّد",
+          "desc": "بعد إعادة المنتج وانتهاء المدة، يتم تحويل المبلغ للمؤجر.",
+          "status": "نهاية الإيجار"
+        }
+      }
     }
   },
   "privacy": {
@@ -1279,6 +1396,13 @@
     "title": "تعديل المنتج"
   },
   "addProductPage": {
+    "leaveModal": {
+      "title": "هل تريد مغادرة الصفحة؟",
+      "subtitle": "التغييرات التي أجريتها قد لا يتم حفظها",
+      "description": "لم تكمل بياناتك بعد. هل تريد المغادرة قبل الانتهاء؟",
+      "stay": "البقاء في الصفحة",
+      "leave": "مغادرة الصفحة"
+    },
     "mcpBanner": {
       "fabText": "أضف بالذكاء الاصطناعي",
       "choiceTitle": "أضف منتجاتك بشكل أسرع",
@@ -1335,13 +1459,35 @@
       "imageLimitNote": "سيقوم الذكاء الاصطناعي بتحليل أول 3 صور فقط لاستخراج التفاصيل. يمكنك سحب الصور لإعادة ترتيبها.",
       "initialUserMessage": "تم رفع صور المنتج للتحليل.",
       "chatTab": "المحادثة مع المساعد",
-      "suggestionTab": "البيانات المقترحة"
+      "suggestionTab": "البيانات المقترحة",
+      "nafathTitle": "التحقق من الهوية عبر نفاذ",
+      "nafathSubtitle": "مطلوب لإدراج المنتجات",
+      "nafathDesc": "لإدراج المنتجات على استاجر، يتطلب الأمر التحقق من الهوية عبر نفاذ.",
+      "nafathNationalIdLabel": "رقم الهوية / الإقامة",
+      "nafathErrorIdLength": "رقم الهوية يجب أن يكون 10 أرقام بالضبط.",
+      "nafathVerifyBtn": "التحقق عبر نفاذ",
+      "nafathPrivacyNote": "بياناتك تُرسل مباشرة إلى خوادم نفاذ ولا يتم تخزينها لدينا.",
+      "nafathErrorGeneral": "حدث خطأ، يرجى المحاولة مرة أخرى.",
+      "nafathErrorNetwork": "خطأ في الشبكة. يرجى المحاولة مرة أخرى.",
+      "nafathWaitingTitle": "جاري انتظار التحقق من نفاذ",
+      "nafathWaitingSubtitle": "افتح التطبيق وأكّد الطلب",
+      "nafathRandomNumLabel": "رقم عشوائي — أكّد في التطبيق",
+      "nafathStep1": "افتح تطبيق نفاذ على هاتفك",
+      "nafathStep2": "ابحث عن الطلب المعلق وأكّد الرقم {random}",
+      "nafathStep3": "سيتم التحقق تلقائياً",
+      "nafathOpenAppBtn": "افتح تطبيق نفاذ",
+      "nafathVerifiedSuccess": "✅ تم التحقق من الهوية! جاري تحليل الصورة...",
+      "nafathErrorRejected": "❌ تم رفض الطلب. يرجى المحاولة مرة أخرى.",
+      "nafathErrorExpired": "❌ انتهت صلاحية الطلب. يرجى المحاولة مرة أخرى.",
+      "nafathErrorPolling": "❌ حدث خطأ أثناء التحقق. يرجى المحاولة مرة أخرى.",
+      "nafathErrorTimeout": "⏱️ انتهت مهلة التحقق. يرجى المحاولة مرة أخرى."
     },
     "promo": {
       "title": "أضف منتجك فوراً بالذكاء الاصطناعي!",
       "new": "جديد",
       "description": "وفر وقتك! ارفع صور المنتج وسيتولى الذكاء الاصطناعي تعبئة جميع المواصفات، الوصف، الأسعار والخصومات في ثوانٍ معدودة.",
-      "btn": "✦ ابدأ الإضافة الذكية"
+      "btn": "✦ ابدأ الإضافة الذكية",
+      "howTo": "كيفية الاضافة"
     },
     "formSteps": {
       "step1": {
@@ -1350,6 +1496,7 @@
       },
       "generalInformation": {
         "categoryLabel": "الفئة",
+        "categoryPlaceholder": "اختر الفئة",
         "subCategoryLabel": "الفئة الفرعية",
         "nameArLabel": "اسم المنتج (بالعربية)",
         "nameEnLabel": "اسم المنتج (بالإنجليزية)",
@@ -1365,11 +1512,21 @@
         "statusOptionGood": "جيدة",
         "quantityLabel": "عدد القطع المتوفرة",
         "quantityPlaceholder": "0",
-        "minQuantityLabel": "أقل كمية للإيجار",
+        "minQuantityLabel": "اقل كمية للايجار والتوصيل",
         "minQuantityPlaceholder": "1",
         "noSubCategoriesText": "لا يوجد تصنيفات فرعية",
         "descriptionArInputPlaceholder": "اضف وصف المنتج بالعربي",
-        "descriptionEnInputPlaceholder": "اضف وصف المنتج بالإنجليزية"
+        "descriptionEnInputPlaceholder": "اضف وصف المنتج بالإنجليزية",
+        "saleUnitLabel": "الوحده",
+        "saleUnitPlaceholder": "اختر الوحده (اختياري)",
+        "saleUnitSquareMeter": "متر مربع",
+        "saleUnitMeter": "متر",
+        "saleUnitPiece": "حبة",
+        "saleUnitService": "خدمة",
+        "saleUnitTrip": "رحلة",
+        "saleUnitSubscription": "اشتراك",
+        "saleUnitKiloWatt": "كيلو واط",
+        "saleUnitTnTabredy": "طن تبريدي"
       },
       "step2": {
         "title": "صور المنتج",
@@ -1425,6 +1582,10 @@
         }
       }
     },
+    "pendingChanges": {
+      "pendingReviewNote": "التعديلات الجديدة على هذا المنتج قيد المراجعة حالياً من قبل الإدارة. المنتج العام ما زال يظهر بالبيانات السابقة.",
+      "rejectedTitle": "تم رفض التعديلات الأخيرة من قبل الإدارة:"
+    },
     "buttons": {
       "addProduct": "اضافة المنتج",
       "updateProduct": "تحديث المنتج"
@@ -1434,6 +1595,7 @@
       "imagesRequired": "يرجى رفع صور المنتج",
       "productAddedSuccess": "تم اضافة المنتج بنجاح و سيتم مراجعته",
       "productUpdatedSuccess": "تم تعديل المنتج بنجاح",
+      "productUpdatedPendingReviewSuccess": "تم تعديل المنتج وبانتظار المراجعة",
       "discountDateRequired": "يرجى تحديد تاريخ الخصم",
       "packagesRequired": "يرجى إضافة الباقات",
       "cityRequired": "يرجى إضافة المدن المتاحة للتوصيل"
@@ -1452,7 +1614,8 @@
         "mainImageTip": "الصورة الأولى ستكون صورة مميزة لهذا المنتج",
         "dragTip": "اسحب الصور لإعادة ترتيبها",
         "maxFilesTip": "لا يمكنك تحميل أكثر من\u00a0{count} صور",
-        "resizeTip": "يتم تصغير حجم الصور تلقائياً"
+        "resizeTip": "يتم تصغير حجم الصور تلقائياً",
+        "sizeTip": "ابعاد الصورة لا تقل عن {width} عرض في {height} ارتفاع"
       }
     },
     "common": {
@@ -1460,6 +1623,7 @@
       "errorSomethingWentWrong": "حدث خطأ ما، يرجى المحاولة مرة أخرى."
     },
     "location": {
+      "mapTip": "يمكنك تحديد موقع المنتج بدقة بالضغط مباشرة على الخريطة.",
       "addressLabel": "عنوان المنتج",
       "addressPlaceholder": "ابحث عن عنوان...",
       "country": "الدولة",
@@ -1595,7 +1759,7 @@
           "setDeliveryPrices": "حدد أسعار التوصيل لمدن محددة",
           "title": "تسعير المدن الثابت",
           "subtitle": "تحديد أسعار التوصيل للمدن أو الإمارات المحددة",
-          "cityOrGovernorate": "المدينة/الإمارة",
+          "cityOrGovernorate": "المدينة / الإمارة",
           "searchCityOrGovernorate": "ابحث عن مدينة أو إمارة...",
           "addCity": "إضافة مدينة/إمارة",
           "noCitiesAdded": "لم يتم إضافة مدن أو إمارات بعد",
@@ -1735,6 +1899,14 @@
       "cameraConstraints": "لا يمكن للكاميرا تلبية الطلبات المحددة (مثل الدقة).",
       "cameraInUse": "لا يمكن الوصول إلى الكاميرا. قد تكون قيد الاستخدام من قبل تطبيق آخر.",
       "technicalError": "حدث خطأ فني أثناء محاولة التقاط الصورة."
+    },
+    "viewFullContract": "عرض العقد بالكامل",
+    "contractSnippetTitle": "نبذة عن العقد الإلكتروني",
+    "warnModal": {
+      "title": "تحذير: مغادرة الصفحة",
+      "message": "ستفقد الصور التي قمت برفعها إذا غادرت هذه الصفحة الآن. هل تريد الاستمرار؟",
+      "confirm": "نعم، استمر",
+      "cancel": "إلغاء"
     }
   },
   "confirmAccountPage": {
@@ -1775,12 +1947,16 @@
       "tabs": {
         "pages": "أكثر الصفحات زيارة",
         "products": "أكثر المنتجات زيارة",
-        "owners": "أكثر الملاك"
+        "owners": "أكثر الملاك",
+        "mainCategories": "الأقسام الرئيسية",
+        "subCategories": "الأقسام الفرعية"
       },
       "filters": {
         "pageSearch": "بحث بمسار الصفحة",
         "productSearch": "بحث بمسار المنتج",
         "ownerSearch": "تصفية حسب مستخدم/مالك",
+        "categorySearch": "القسم الرئيسي",
+        "allCategories": "جميع الأقسام الرئيسية",
         "userPlaceholder": "اسم المستخدم، البريد، الجوال",
         "pagePlaceholder": "مثال: /product/",
         "productPlaceholder": "ابحث بالاسم بالمسار..."
@@ -1790,6 +1966,9 @@
         "pageAndPath": "الصفحة والمسار",
         "productAndOwner": "المنتج والمالك",
         "ownerInfo": "معلومات المالك",
+        "categoryInfo": "معلومات القسم",
+        "parentCategory": "القسم الرئيسي",
+        "unknownCategory": "قسم غير معروف",
         "searchDensity": "كثافة البحث",
         "visitsCount": "عدد الزيارات",
         "generalPage": "صفحة عامة",
@@ -2019,142 +2198,6 @@
         "itemPlaceholderEn": "Write the point in English..."
       }
     },
-    "shops": {
-      "name": "اسم المتجر",
-      "title": "إدارة المتاجر",
-      "description": "إدارة محتوى المتاجر والمنتجات المرتبطة بها",
-      "addShop": "إضافة متجر جديد",
-      "editShop": "تعديل بيانات المتجر",
-      "deleteShop": "حذف المتجر",
-      "basicInfo": "المعلومات الأساسية",
-      "basicInfoDesc": "المعلومات الأساسية وبيانات الاتصال للمتجر",
-      "owner": "مالك المتجر",
-      "selectOwner": "اختر مالك المتجر",
-      "searchOwner": "البحث عن مستخدم بالاسم أو البريد أو الهاتف...",
-      "ownerDesc": "اختر المستخدم الذي يمتلك هذا المتجر",
-      "view": "عرض",
-      "edit": "تعديل",
-      "delete": "حذف",
-      "noShops": "لا يوجد متاجر مضافة حالياً",
-      "confirmDelete": "هل أنت متأكد من حذف هذا المتجر؟",
-      "createSuccess": "تم إضافة المتجر بنجاح",
-      "updateSuccess": "تم تحديث بيانات المتجر بنجاح",
-      "deleteSuccess": "تم حذف المتجر بنجاح",
-      "assignedSearchProducts": "منتجات المتجر",
-      "assignedSearchProductsDesc": "المنتجات التي ستظهر في هذا المتجر",
-      "heroBanners": "بانرات الهيرو",
-      "heroBannersDesc": "البانرات الرئيسية التي تظهر في أعلى الصفحة",
-      "productSliders": "سلايدرات المنتجات",
-      "productSlidersDesc": "مجموعات المنتجات المعروضة في صفحة المتجر",
-      "offerBanners": "بانرات العروض",
-      "offerBannersDesc": "بانرات العروض والخصومات الجانبية",
-      "shopCategories": "أقسام المتجر",
-      "shopCategoriesDesc": "قم بإنشاء أقسام مخصصة لمتجرك واربط المنتجات بها",
-      "showReviews": "إظهار التقييمات",
-      "reviews": "التقييمات",
-      "showReviewsDesc": "إظهار تقييمات العملاء في صفحة المتجر",
-      "addCategory": "إضافة قسم",
-      "categoryProducts": "اختر المنتجات لهذا القسم",
-      "image": "صورة القسم",
-      "nameAr": "الاسم (بالعربي)",
-      "nameEn": "الاسم (بالإنجليزي)",
-      "slug": "الرابط (Slug)",
-      "logo": "الشعار",
-      "logoDesc": "رفع شعار المتجر",
-      "logoHint": "الحجم الموصى به: 400x400 بكسل. صيغة PNG أو SVG.",
-      "chooseFile": "اختر ملف",
-      "descriptionAr": "الوصف (بالعربي)",
-      "descriptionEn": "الوصف (بالإنجليزي)",
-      "status": "الحالة",
-      "active": "نشط",
-      "inactive": "غير نشط",
-      "seoData": "بيانات SEO",
-      "seoDataDesc": "إعدادات تحسين محركات البحث لصفحة المتجر",
-      "addHeroBanner": "إضافة بانر هيرو",
-      "addOfferBanner": "إضافة بانر عرض",
-      "addSlider": "إضافة سلايدر منتجات",
-      "sliderTitleAr": "عنوان السلايدر (بالعربي)",
-      "sliderTitleEn": "عنوان السلايدر (بالإنجليزي)",
-      "sectionTitleArPlaceholder": "أدخل عنوان القسم بالعربية",
-      "sectionTitleEnPlaceholder": "أدخل عنوان القسم بالإنجليزية",
-      "selectProducts": "اختر المنتجات",
-      "searchProducts": "ابحث عن منتجات...",
-      "noProductsSelected": "لم يتم اختيار منتجات بعد",
-      "imageAr": "الصورة (بالعربي)",
-      "imageEn": "الصورة (بالإنجليزي)",
-      "link": "الرابط",
-      "altAr": "النص البديل (بالعربي)",
-      "altEn": "النص البديل (بالإنجليزي)",
-      "ctaTextAr": "نص الزر (بالعربي)",
-      "ctaTextEn": "نص الزر (بالإنجليزي)",
-      "banners": "بانر",
-      "addOfferBannerSection": "إضافة قسم بانرات",
-      "noOfferBanners": "لا يوجد بانرات",
-      "noSliders": "لم يتم إضافة سلايدرات بعد",
-      "noBanners": "لم يتم إضافة بانرات بعد",
-      "removeSlider": "حذف السلايدر",
-      "removeSection": "حذف القسم",
-      "products": "منتج",
-      "displayMode": "طريقة العرض",
-      "sectionSource": "مصدر المنتجات",
-      "manual": "اختيار يدوي",
-      "newest": "أحدث المنتجات",
-      "random": "منتجات عشوائية",
-      "slider": "سلايدر",
-      "grid": "شبكة",
-      "maxProductsReached": "الحد الأقصى 20 منتجاً مسموح به",
-      "order": "الترتيب",
-      "productSelection": "تحديد المنتجات",
-      "showFilters": "إظهار الفلاتر",
-      "hideFilters": "إخفاء الفلاتر",
-      "loadMore": "تحميل المزيد",
-      "selectedInSlider": "المنتجات المختارة",
-      "selectAll": "تحديد الكل",
-      "save": "حفظ",
-      "cancel": "إلغاء",
-      "actions": "الإجراءات",
-      "heroTextCustomization": "تخصيص نص الهيرو",
-      "reorder": "إعادة ترتيب الأقسام",
-      "sectionOrder": "ترتيب الأقسام",
-      "shopSettings": "إعدادات المتجر",
-      "saveOrder": "حفظ الترتيب",
-      "aboutUs": "من نحن",
-      "heroTitleAr": "عنوان الهيرو (بالعربي)",
-      "heroDescriptionAr": "وصف الهيرو (بالعربي)",
-      "heroTitleEn": "عنوان الهيرو (بالإنجليزي)",
-      "heroDescriptionEn": "وصف الهيرو (بالإنجليزي)",
-      "aboutUsActionBtn": "زر إجراء من نحن",
-      "aboutUsLink": "رابط الزر",
-      "aboutUsButtonTextAr": "نص الزر (بالعربي)",
-      "aboutUsButtonTextEn": "نص الزر (بالإنجليزي)",
-      "sectionOrderDesc": "ترتيب ظهور الأقسام في صفحة المتجر",
-      "heroTitleArPlaceholder": "أدخل عنوان الهيرو بالعربي",
-      "heroTitleEnPlaceholder": "Enter English hero title",
-      "heroDescriptionArPlaceholder": "أدخل وصف الهيرو بالعربي",
-      "heroDescriptionEnPlaceholder": "Enter English hero description",
-      "altArPlaceholder": "النص البديل بالعربي",
-      "altEnPlaceholder": "English Alt Text",
-      "howItWorks": {
-        "title": "كيف يعمل",
-        "description": "قسم يوضح آلية العمل بين استأجر والمتجر والفوائد المشتركة",
-        "sectionTitleAr": "عنوان القسم (بالعربي)",
-        "sectionTitleEn": "عنوان القسم (بالإنجليزي)",
-        "sectionTitlePlaceholder": "مثال: كيف يعمل استأجر مع المتجر؟",
-        "sectionTitlePlaceholderEn": "e.g: How does Estajer work with the Shop?",
-        "estajerSide": "من جانب استأجر",
-        "partnerSide": "من جانب المتجر",
-        "sharedBenefits": "فوائد مشتركة",
-        "stepTitleAr": "العنوان (بالعربي)",
-        "stepTitleEn": "العنوان (بالإنجليزي)",
-        "stepTitlePlaceholder": "مثال: من جانب استأجر",
-        "stepTitlePlaceholderEn": "e.g: From Estajer's side",
-        "itemsAr": "النقاط (بالعربي)",
-        "itemsEn": "النقاط (بالإنجليزي)",
-        "addItem": "إضافة نقطة",
-        "itemPlaceholder": "اكتب النقطة بالعربية...",
-        "itemPlaceholderEn": "Write the point in English..."
-      }
-    },
     "users": {
       "title": "إدارة المستخدمين",
       "description": "إدارة ومراقبة جميع المستخدمين في النظام",
@@ -2271,9 +2314,11 @@
         "banTitle": "تأكيد حظر المستخدم",
         "unbanTitle": "تأكيد إلغاء حظر المستخدم",
         "deleteTitle": "تأكيد حذف المستخدم",
+        "impersonateTitle": "تسجيل الدخول كالمستخدم",
         "banMessage": "هل أنت متأكد من حظر هذا المستخدم؟",
         "unbanMessage": "هل أنت متأكد من إلغاء حظر هذا المستخدم؟",
         "deleteMessage": "هل أنت متأكد من حذف هذا المستخدم؟ لا يمكن التراجع عن هذا الإجراء.",
+        "impersonateMessage": "هل أنت متأكد من رغبتك في تسجيل الدخول كـ {name}؟",
         "cancel": "إلغاء",
         "confirm": "تأكيد",
         "banSuccess": "تم حظر المستخدم بنجاح",
@@ -2294,6 +2339,36 @@
       "refresh": "تحديث الرئيسية",
       "refreshProducts": "تحديث المنتجات"
     },
+    "premiumOrders": {
+      "title": "اشتراكات المتاجر",
+      "subtitle": "متابعة طلبات ترقية واشتراك المتاجر ومراجعة الفواتير والدفع",
+      "searchPlaceholder": "البحث باسم المستخدم أو البريد أو الهاتف...",
+      "allPlans": "جميع الباقات",
+      "starterPlan": "باقة البداية (Starter)",
+      "growthPlan": "باقة النمو (Growth)",
+      "allStatuses": "جميع حالات الدفع",
+      "paid": "مدفوعة",
+      "notPaid": "غير مدفوعة",
+      "noOrdersFound": "لا توجد طلبات اشتراك مطابقة للبحث.",
+      "activePlanLabel": "الباقة الحالية:",
+      "noPlan": "بدون باقة",
+      "requestedPlan": "الباقة المطلوبة",
+      "orderType": "نوع الطلب",
+      "amount": "المبلغ",
+      "paymentStatus": "حالة الدفع",
+      "waffyStatus": "حالة وافي",
+      "createdAt": "تاريخ الطلب",
+      "links": "الروابط",
+      "paymentLink": "رابط الدفع ↗",
+      "upgrade": "ترقية",
+      "new": "جديد",
+      "currency": "ر.س",
+      "coupon": "الكوبون",
+      "activePlan": {
+        "starter": "باقة البداية",
+        "growth": "باقة النمو"
+      }
+    },
     "home": {
       "title": "لوحة التحكم",
       "welcome": {
@@ -2307,18 +2382,31 @@
       },
       "cards": {
         "newPendingProducts": "منتجات جديدة بانتظار الموافقة",
-        "newPendingRequests": "طلبات جديدة بانتظار الموافقة",
-        "acceptedRequests": "طلبات مقبولة",
-        "allRequests": "كل الطلبات",
+        "acceptedProducts": "منتجات مقبولة",
+        "cancelledProducts": "منتجات ملغية",
+        "newPendingEditedProducts": "منتجات معدلة بانتظار الموافقة",
+        "allProducts": "كل المنتجات",
+        "pendingPaidRequests": "طلبات مدفوعة بانتظار الموافقة",
+        "completedRequests": "طلبات مكتملة",
+        "confirmedRequests": "طلبات مؤكدة",
+        "cancelledRequests": "طلبات ملغية",
+
+        "newNotPaidOrders": "طلبات جديدة غير مدفوعة",
+        "acceptedOrders": "طلبات مقبولة",
+        "allOrders": "كل الطلبات",
         "activeProducts": "منتجات نشطة",
         "outcome": "الدخل",
         "websiteViews": "زيارات الموقع",
         "websiteMessages": "رسائل الموقع",
         "AllUsers": "كل مستخدمين",
-        "pendingPaidRequests": "طلبات مدفوعة بانتظار الموافقة",
-        "completedRequests": "طلبات مكتملة",
-        "confirmedRequests": "طلبات مؤكدة",
-        "cancelledRequests": "طلبات ملغية",
+        "pendingPaidOrders": "طلبات مدفوعة قيد الانتظار",
+        "completedOrders": "طلبات مكتملة",
+        "confirmedOrders": "طلبات مؤكدة",
+        "cancelledOrders": "طلبات ملغية",
+        "receivedOrders": "طلبات مستلمة",
+        "rejectingOrders": "طلبات جاري الالغاء",
+        "rejectionConfirmedOrders": "طلبات الغاء مؤكدة",
+        "notReturnedOrders": "طلبات غير مرتجعة",
         "averageRental": "متوسط قيمة الاستئجارات"
       },
       "orders": {
@@ -2429,7 +2517,7 @@
       "week": "الأسبوع",
       "month": "الشهر",
       "date": "التاريخ",
-      "searchPlaceholder": "أبحث برقم الطلب",
+      "searchPlaceholder": "أبحث عن",
       "print": "تصدير Excel",
       "addNewProduct": "منتج جديد",
       "addNewNotification": "اضافة تنبيه جديد",
@@ -2595,6 +2683,15 @@
       "cancel": "إلغاء",
       "deleteSuccess": "تم حذف الرسالة بنجاح",
       "deleteError": "فشل في حذف الرسالة",
+      "banChat": "حظر من المحادثة",
+      "unbanChat": "إلغاء حظر المحادثة",
+      "bannedStatus": "محظور من المحادثة",
+      "activeStatus": "نشط في المحادثة",
+      "warningsCount": "تحذيرات السبام",
+      "banSuccess": "تم حظر المستخدم من المحادثة بنجاح",
+      "unbanSuccess": "تم إلغاء حظر المحادثة للمستخدم بنجاح",
+      "banError": "حدث خطأ أثناء حظر المحادثة",
+      "unbanError": "حدث خطأ أثناء إلغاء حظر المحادثة",
       "cards": {
         "unreadMessages": "رسائل غير مقروءة",
         "deletedMessages": "رسائل محذوفة",
@@ -2708,6 +2805,7 @@
       "searchPlaceholder": "البحث في المهام...",
       "resetFilters": "إعادة تعيين",
       "showCompleted": "عرض المكتملة",
+      "showCancelled": "عرض الملغاة",
       "assignedTo": "مُسند إلى",
       "unassigned": "غير مُسند",
       "selectUser": "اختر مستخدم",
@@ -2801,6 +2899,86 @@
       "profile": "الملف الشخصي",
       "userSelection": "اختيار المستخدم",
       "userPlaceholder": "ابحث عن مستخدم بالاسم أو الإيميل أو الهاتف"
+    },
+    "allShops": {
+      "title": "إدارة المتاجر",
+      "description": "إدارة ومراقبة جميع المتاجر على المنصة",
+      "name": "اسم المتجر",
+      "status": "الحالة",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "addShop": "إضافة متجر جديد",
+      "logo": "الشعار",
+      "owner": "المالك",
+      "createdDate": "تاريخ الإنشاء",
+      "endDate": "تاريخ الانتهاء",
+      "expired": "منتهي",
+      "actions": "الإجراءات",
+      "reorder": "إعادة ترتيب الأقسام",
+      "aboutUs": "من نحن",
+      "howItWorks": { "title": "كيف يعمل" },
+      "shopCategories": "تصنيفات المتجر",
+      "reviews": "التقييمات",
+      "productSliders": "سلايدرات المنتجات",
+      "offerBanners": "بانرات العروض",
+      "moveUp": "تحريك للأعلى",
+      "moveDown": "تحريك للأسفل",
+      "cancel": "إلغاء",
+      "saveOrder": "حفظ الترتيب",
+      "confirmDelete": "هل أنت متأكد من حذف هذا المتجر؟",
+      "deleteSuccess": "تم حذف المتجر بنجاح",
+      "updateSuccess": "تم تحديث المتجر بنجاح",
+      "view": "عرض المتجر",
+      "edit": "تعديل المتجر",
+      "delete": "حذف المتجر",
+      "noShops": "لا يوجد متاجر",
+      "shopCommission": "عمولة استأجر",
+      "shopPlan": "باقة المتجر"
+    },
+    "coupons": {
+      "title": "كوبونات الخصم",
+      "subtitle": "إدارة كوبونات خصم الاشتراكات وفترات التجربة المجانية للمتاجر",
+      "totalCoupons": "إجمالي الكوبونات ({count})",
+      "addNew": "إضافة كوبون جديد",
+      "emptyTitle": "لا توجد كوبونات بعد",
+      "emptyDesc": "أنشئ أول كوبون خصم لتوفير اشتراكات مجانية أو مخفضة للمستخدمين",
+      "code": "الكود",
+      "discount": "نسبة الخصم",
+      "trialDuration": "فترة التجربة",
+      "usage": "الاستخدام",
+      "expiryDate": "تاريخ الانتهاء",
+      "status": "الحالة",
+      "actions": "إجراءات",
+      "unlimited": "غير محدود",
+      "months": "{months} أشهر",
+      "fullYear": "سنة كاملة",
+      "expired": "منتهي الصلاحية",
+      "limitReached": "نفذت الاستخدامات",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "deactivate": "تعطيل",
+      "activate": "تفعيل",
+      "delete": "حذف",
+      "confirmDelete": "هل أنت متأكد من حذف هذا الكوبون؟",
+      "createModal": {
+        "title": "كوبون خصم جديد",
+        "subtitle": "أدخل تفاصيل الكوبون لتوليد كود خصم جديد",
+        "codeLabel": "كود الكوبون *",
+        "discountLabel": "نسبة الخصم (1-100) % *",
+        "trialLabel": "مدة الفترة التجريبية (بالأشهر) - اختياري",
+        "trialDesc": "يحدد فترة اشتراك المتجر بالأشهر بدلاً من السنة الكاملة (12 شهر)",
+        "trialPlaceholder": "افتراضي: 12 شهر",
+        "limitLabel": "عدد مرات الاستخدام الأقصى - فارغ لغير محدود",
+        "expiryLabel": "تاريخ الانتهاء - اختياري",
+        "activeLabel": "تفعيل الكوبون فوراً",
+        "submit": "تأكيد وإنشاء",
+        "cancel": "إلغاء"
+      },
+      "successCreate": "تم إنشاء الكوبون بنجاح!",
+      "successUpdate": "تم تحديث حالة الكوبون",
+      "successDelete": "تم حذف الكوبون بنجاح",
+      "errorFillRequired": "يرجى ملء الحقول المطلوبة",
+      "errorCouponExists": "كود الكوبون موجود بالفعل"
     }
   },
   "login": {
@@ -2924,7 +3102,9 @@
     "support": "مركز الدعم الفني",
     "tickets": "كل التذاكر",
     "categories": "التصنيفات",
-    "about": "من نحن"
+    "about": "من نحن",
+    "ai": "مساعد استأجر",
+    "overview": "نظرة عامة"
   },
   "payment": {
     "paymentCompleted": {
@@ -3034,6 +3214,7 @@
     "type": "النوع",
     "status": "الحالة",
     "showCompleted": "عرض المكتملة",
+    "showCancelled": "عرض الملغاة",
     "filter": "تصفية",
     "totalCount": "المجموع",
     "tasks": "مهام",
@@ -3501,9 +3682,9 @@
       "badge": "لماذا باقة نمو؟",
       "title": "أربع مزايا تحوّل تجارتك",
       "subtitle": "كل ميزة مصمّمة لزيادة أرباحك وتقليل جهدك",
-      "card1Title": "توفير حقيقي .. أرباح تزيد",
-      "card1Desc": "بدل ما تدفع عمولة عالية.. ادفع أقل نفس المبيعات.. فلوس أكثر في جيبك، الفرق البسيط يتراكم ويصير آلاف",
-      "card1Tag": "خل أرباحك تكبر... مع العمولات",
+      "card1Title": "نطاق (Domain) مخصص لمتجرك",
+      "card1Desc": "اربط متجرك بنطاقك الخاص لتعزيز احترافيتك وبناء هوية تجارية قوية ومستقلة.",
+      "card1Tag": "رابط مخصص لمتجرك",
       "card2Title": "متجر كامل بهويتك التجارية",
       "card2Desc": "شعارك، بناراتك، ألوانك. صفحة احترافية تعكس مشروعك وتبني ثقة العميل من أول نظرة.",
       "card2Tag": "هوية بصرية متكاملة",
@@ -3515,9 +3696,7 @@
       "card4Tag": "محسّن بالكامل SEO"
     },
     "commissionBenefits": {
-      "title": "عمولة {titleHighlight} ربح اكثر",
-      "titleHighlight": "اقل",
-      "bullets": ["توفير حقيقي .. أرباح تزيد"],
+      "title": "اطلق متجرك الالكتروني",
       "ctaBtn": "اشترك الآن",
       "commissionRate": "10%",
       "commissionSub": "فقط — بدل 15%",
@@ -3543,7 +3722,7 @@
         {
           "label": "تنمو؟",
           "title": "مناسبة لمرحلة النمو",
-          "desc": "عمولة أقل وأدوات أقوى — الخيار الذكي للربح الأكثر.",
+          "desc": "الخيار الذكي للربح الأكثر.",
           "features": ["توفير أكثر", "نمو أسرع", "توسع"],
           "badge": "الأكثر شيوعاً"
         },
@@ -3561,46 +3740,54 @@
       "starterPlan": {
         "currentLabel": "باقة البداية",
         "name": "البداية",
-        "desc": "كل شيء في الباقة المجانية + إضافات حصرية",
+        "desc": "ابدأ متجرك الإلكتروني بسهولة وبدون تعقيد",
         "price": "999 ",
         "currency": " ريال سنويا",
         "priceSub": " غير شامل الضريبة",
-        "commissionNote": "العمولة",
-        "commissionRate": "15%",
-        "commissionSuffix": "من كل طلب",
+        "discountNote": "خصم لفترة محدودة",
+        "discountRate": "38%",
+        "discountSuffix": "بدل",
+        "discountOld": "1600 ريال",
         "currentBtn": "اشترك الآن",
         "featuresLabel": "ما تحصل عليه",
         "features": [
           "النفاذ الوطني",
           "العقد الإلكتروني",
           "طرق دفع آمنة",
-          "توثيق الاستلام والتسليم"
+          "توثيق الاستلام والتسليم",
+          "متجر إلكتروني خاص بك",
+          "الثيم الكلاسيكي الافتراضي",
+          "رفع منتجات غير محدودة",
+          "أولوية في نتائج البحث",
+          "شارة متجر موثوق للعملاء",
+          "دعم فني عبر البريد"
         ]
       },
       "premiumPlan": {
         "badge": "الأكثر قيمة",
         "tierLabel": "الباقة المميزة",
         "name": "نمو",
-        "desc": "هوية كاملة، ظهور مضمون، وأرباح أعلى",
-        "price": "2400",
+        "desc": "وصول كامل لكل الميزات وعمولة أقل لنمو متسارع",
+        "price": "2399",
         "priceSuffix": "ريال سنوياً",
-        "commissionNote": "العمولة",
-        "commissionRate": "10%",
-        "commissionSuffix": "بس - بدل",
-        "commissionOld": "15%",
+        "discountNote": "خصم لفترة محدودة",
+        "discountRate": "47%",
+        "discountSuffix": "بدل",
+        "discountOld": "4500 ريال",
         "subscribeBtn": "اشترك الآن",
-        "everythingPlus": "كل شيء في الباقة المجانية + إضافات حصرية",
+        "everythingPlus": "كل شيء في باقة البداية + إضافات حصرية",
         "features": [
-          { "text": "عمولة مخفضة" },
           { "text": "متجر كامل بهويتك" },
           { "text": "الظهور باسمك بالكامل" },
-          { "text": "أولوية دائمة في الصفحة الرئيسية" },
+          { "text": "أولوية دائمة في الصفحة الرئيسية ونتائج البحث" },
           { "text": "محسّن بالكامل SEO" },
           { "text": "فريق إستأجر يضيف منتجاتك" },
           { "text": "ربط فروع متعددة" },
           { "text": "باركود مخصص لمتجرك" },
           { "text": "تقارير وإحصائيات لحظية" },
-          { "text": "مدير حساب مخصص" }
+          { "text": "مدير حساب مخصص ودعم 24/7" },
+          { "text": "نطاق (Domain) مخصص لمتجرك" },
+          { "text": "ربط Google Tag Manager للمبيعات" }
         ]
       },
       "enterprisePlan": {
@@ -3636,11 +3823,6 @@
       "colPremium": "باقة نمو",
       "footerNote": "الباقة المميزة توفّر لك من 500 إلى آلاف الريالات شهرياً اعتماداً على حجم مبيعاتك",
       "rows": [
-        {
-          "feature": "العمولة",
-          "regular": "15% من كل طلب",
-          "premium": "10% بس"
-        },
         {
           "feature": "الظهور",
           "regular": "محدود",
@@ -3756,11 +3938,11 @@
       "items": [
         {
           "question": "متى تبدأ المميزات بعد الاشتراك في الباقة المميزة؟",
-          "answer": "التفعيل فوري بمجرد إتمام الاشتراك. العمولة المخفضة تبدأ من أول طلب جديد، ومتجرك ينتقل للصفحة الرئيسية خلال يوم عمل، وتقدر تبدأ التخصيص من نفس اللحظة. مدير حسابك المخصص يتواصل معك في أقرب وقت لمساعدتك في البداية."
+          "answer": "التفعيل فوري بمجرد إتمام الاشتراك، ومتجرك ينتقل للصفحة الرئيسية خلال يوم عمل، وتقدر تبدأ التخصيص من نفس اللحظة. مدير حسابك المخصص يتواصل معك في أقرب وقت لمساعدتك في البداية."
         },
         {
           "question": "ما الفرق الحقيقي بين باقة النمو والمؤجر العادي؟",
-          "answer": "باقة النمو توفر عمولة أقل بفارق واضح، ومتجر متكامل بهويتك الخاصة، ومساعدة فريق استأجر في إضافة المنتجات، ومدير حساب مخصص، ومتجر محسّن بالكامل لمحركات البحث. باختصار: باقة النمو مخصصة للشركاء الطامحين اللي يبون علامة تجارية قوية وأرباح أعلى."
+          "answer": "باقة النمو توفر متجراً متكاملاً بهويتك الخاصة، ومساعدة فريق استأجر في إضافة المنتجات، ومدير حساب مخصص، ومتجر محسّن بالكامل لمحركات البحث. باختصار: باقة النمو مخصصة للشركاء الطامحين اللي يبون علامة تجارية قوية وأرباح أعلى."
         },
         {
           "question": "هل أحتاج خبرة تقنية أو تصميم لإنشاء متجري؟",
@@ -3772,7 +3954,7 @@
         },
         {
           "question": "هل يمكنني إلغاء الاشتراك في أي وقت؟ وماذا يحدث بعد انتهاء المدة؟",
-          "answer": "الاشتراك غير قابل للإلغاء أو الاسترجاع. بعد انتهاء المدة ستعود العمولة كما كانت وأغراضك تكون موجودة على منصة استأجر كمؤجر عادي وتفقد المميزات، لكن عملاؤك يبقون كما هم والطلبات الجارية تكتمل بشكل طبيعي."
+          "answer": "الاشتراك غير قابل للإلغاء أو الاسترجاع. بعد انتهاء المدة تكون أغراضك موجودة على منصة استأجر كمؤجر عادي وتفقد المميزات، لكن عملاؤك يبقون كما هم والطلبات الجارية تكتمل بشكل طبيعي."
         },
         {
           "question": "كيف تحمون معلومات عملائي وبياناتهم الشخصية؟",
@@ -3851,5 +4033,147 @@
     "footer": "استأجر • منصة التأجير الذكية",
     "maxNote": "الحد الأقصى {count} صور",
     "pasteNote": "يمكنك أيضاً لصق صورة من الحافظة (Ctrl+V)"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب جديد",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "loginAndContinue": "تسجيل الدخول والمتابعة",
+    "registerAndContinue": "إنشاء الحساب والمتابعة",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "fullName": "الاسم الكامل",
+    "phone": "رقم الجوال",
+    "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
+    "failedToRegister": "فشل إنشاء الحساب",
+    "failedToLogin": "فشل تسجيل الدخول",
+    "placeholderFullName": "مثال: محمد علي",
+    "doNotHaveAccount": "ليس لديك حساب شريك؟ ",
+    "createAccountNow": "أنشئ حساباً الآن",
+    "alreadyHaveAccount": "لديك حساب شريك بالفعل؟ ",
+    "loginHere": "سجل دخولك من هنا"
+  },
+  "shopCheckout": {
+    "badge": "انطلق بتجارتك اليوم",
+    "title": "أطلق متجرك الإلكتروني",
+    "desc": "اختر الخطة المناسبة لأهدافك وابدأ بعرض منتجاتك للآلاف على منصة استأجر خلال دقائق معدودة.",
+    "step1Title": "اختر باقة الاشتراك المناسبة",
+    "step2TitlePay": "مراجعة وإتمام الطلب",
+    "step2TitleAuth": "تسجيل الدخول لإتمام الدفع",
+    "verificationRequired": "تأكيد حسابك مطلوب",
+    "verificationDesc": "يجب ربط وتأكيد حسابك عبر تطبيق واتساب أولاً لتتمكن من إتمام الدفع وتفعيل مميزات المتجر.",
+    "confirmMyAccount": "تأكيد حسابي الآن",
+    "accountInfo": "معلومات الحساب",
+    "verifiedAccount": "حساب موثق",
+    "invoiceDetails": "تفاصيل الفاتورة",
+    "vat": "ضريبة القيمة المضافة (15%)",
+    "totalAmount": "المبلغ الإجمالي",
+    "confirmAndPay": "تأكيد ودفع",
+    "terms": "اتفاقية شروط الاستخدام للمتاجر",
+    "byPayingAgree": "بالنقر على زر الدفع، فإنك توافق على",
+    "verifyingPayment": "جاري تأكيد الدفع...",
+    "verifyingDesc": "نتحقق من حالة دفعتك، يرجى الانتظار لحظة.",
+    "paymentSuccess": "تم الدفع بنجاح",
+    "welcomeStarter": "مرحباً بك في باقة البداية! 🎉",
+    "welcomeGrowth": "مرحباً بك في باقة النمو! 🎉",
+    "activatedStarter": "تم تفعيل باقة البداية بنجاح. الآن يمكنك إنشاء متجرك الإلكتروني وبدء البيع.",
+    "activatedGrowth": "تم تفعيل باقة النمو بنجاح. الآن يمكنك إطلاق متجرك بكامل الميزات وبدء البيع.",
+    "unlockedFeatures": "ما تم تفعيله:",
+    "createShopNow": "إنشاء متجري الآن",
+    "goToDashboard": "الذهاب إلى لوحة التحكم",
+    "paymentNotConfirmed": "لم يتم تأكيد الدفع",
+    "paymentNotCompleted": "يبدو أن عملية الدفع لم تكتمل. يمكنك المحاولة مرة أخرى.",
+    "retry": "أعد المحاولة",
+    "backToPlans": "العودة إلى الباقات",
+    "unexpectedError": "حدث خطأ غير متوقع",
+    "planLabel": "الباقة",
+    "currentPlan": "الباقة الحالية",
+    "currency": "ر.س",
+    "perYear": "/ سنوياً",
+    "inclVat": "شامل الضريبة: ",
+    "commissionDesc": "عمولة {commission}% فقط على الإيجار",
+    "failedToCreatePayment": "حدث خطأ أثناء إنشاء الدفعة",
+    "preparingPayment": "جاري تحضير الدفع...",
+    "fullYear": "سنة كاملة",
+    "loadingPage": "جاري تحميل الصفحة...",
+    "couponCode": "كود الخصم",
+    "applyCoupon": "تطبيق",
+    "couponApplied": "تم تطبيق الكود بنجاح!",
+    "couponInvalid": "كود الخصم غير صالح أو منتهي الصلاحية",
+    "trialDuration": "فترة تجريبية لمدة {months} أشهر",
+    "discount": "الخصم",
+    "freeActivation": "تفعيل مجاني",
+    "confirmAndActivate": "تأكيد وتفعيل الاشتراك مجاناً",
+    "activatingSubscription": "جاري تفعيل الاشتراك...",
+    "remove": "إزالة",
+    "afterDiscount": "بعد الخصم",
+    "vatAfterDiscount": "الضريبة بعد الخصم",
+    "upgradeToGrowth": "ترقية الباقة إلى باقة النمو",
+    "upgradeToGrowthDesc": "احصل على جميع الميزات الحصرية ومظهر مخصص لمتجرك",
+    "growthPlanDetails": "تفاصيل باقة النمو",
+    "paymentAndUpgrade": "الدفع والترقية",
+    "activatingStoreSubscription": "جاري تفعيل باقة المتجر",
+    "verifyingPaymentDesc": "نتحقق من حالة دفعتك لتفعيل باقة الاشتراك تلقائياً. قد يستغرق هذا بضع ثوانٍ.",
+    "loading": "جاري التحميل...",
+    "retryPayment": "إعادة محاولة الدفع",
+    "verificationError": "حدث خطأ أثناء التحقق",
+    "verificationFailed": "فشل التحقق من حالة الدفع الخاصة باشتراكك.",
+    "errorDetails": "تفاصيل الخطأ",
+    "retryVerification": "إعادة المحاولة",
+    "subscriptionDuration": "مدة الاشتراك",
+    "oneYear": "سنة كاملة (12 شهر)",
+    "trialMonthsCount": "{months} أشهر (فترة تجريبية)",
+    "trialDurationNotice": "ستحصل على فترة تجريبية مجانية لمدة {months} أشهر بدون أي رسوم.",
+    "plans": {
+      "starter": {
+        "badge": "الأفضل للبداية",
+        "name": "باقة البداية",
+        "desc": "ابدأ متجرك الإلكتروني بسهولة وبدون تعقيد",
+        "features": [
+          "متجر إلكتروني خاص بك",
+          "الثيم الكلاسيكي الافتراضي",
+          "رفع منتجات غير محدودة",
+          "خصم 38% لفترة محدودة",
+          "أولوية في نتائج البحث",
+          "شارة متجر موثوق للعملاء",
+          "دعم فني مخصص عبر البريد"
+        ],
+        "lockedFeatures": [
+          "تغيير ثيم المتجر",
+          "تخصيص لون العلامة التجارية",
+          "نطاق (Domain) مخصص",
+          "ربط Google Tag Manager"
+        ]
+      },
+      "growth": {
+        "badge": "الأكثر شيوعاً ⭐",
+        "name": "باقة النمو",
+        "desc": "وصول كامل لكل الميزات لنمو متسارع",
+        "features": [
+          "متجر إلكتروني خاص بك",
+          "جميع الثيمات الاحترافية",
+          "رفع منتجات غير محدودة",
+          "خصم 47% لفترة محدودة",
+          "أولوية قصوى في نتائج البحث",
+          "شارة متجر موثوق للعملاء",
+          "دعم فني مخصص 24/7",
+          "تخصيص كامل للون العلامة التجارية",
+          "نطاق (Domain) مخصص لمتجرك",
+          "ربط Google Tag Manager للمبيعات"
+        ],
+        "lockedFeatures": []
+      }
+    }
+  },
+  "unit": {
+    "squareMeter": "متر مربع",
+    "meter": "متر",
+    "piece": "حبة",
+    "service": "خدمة",
+    "trip": "رحلة",
+    "subscription": "اشتراك",
+    "kiloWatt": "كيلو واط",
+    "tnTabredy": "طن تبريدي"
   }
 }

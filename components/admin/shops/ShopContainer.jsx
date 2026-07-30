@@ -9,12 +9,14 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ShopTable from "./ShopTable";
 import { revalidateWithTag } from "@/actions/revalidateTag";
 import SectionOrderModal from "../partners/modal/SectionOrderModal";
-import { Input, Select, SelectItem, Pagination } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Pagination } from "@/components/ui/Pagination";
 import { useDebounce } from "use-debounce";
 
 export default function ShopContainer({ lang, translate }) {
   const trans = useTranslations(translate);
-  const t = (key) => trans(`admin.shops.${key}`);
+  const t = (key) => trans(`admin.allShops.${key}`);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -148,6 +150,50 @@ export default function ShopContainer({ lang, translate }) {
     }
   };
 
+  const handleUpdateCommission = async (shop, newCommission) => {
+    try {
+      const res = await fetch(`/api/shops/${shop._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ shopCommission: newCommission }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        toast.success(t("updateSuccess"));
+        await revalidateWithTag(`shop-${shop.slug}`);
+        fetchShops();
+      } else {
+        toast.error(data.error || "Failed to update commission");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred");
+    }
+  };
+
+  const handleUpdatePlan = async (shop, newPlan) => {
+    try {
+      const res = await fetch(`/api/shops/${shop._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: newPlan }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        toast.success(t("updateSuccess"));
+        await revalidateWithTag(`shop-${shop.slug}`);
+        fetchShops();
+      } else {
+        toast.error(data.error || "Failed to update plan");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred");
+    }
+  };
+
   const handleReorder = (shop) => {
     setReorderShop(shop);
     setIsReorderModalOpen(true);
@@ -189,6 +235,7 @@ export default function ShopContainer({ lang, translate }) {
         <div className="flex flex-1 items-center gap-4 min-w-[300px]">
           <Input
             isClearable
+            aria-label={t("name")}
             className="w-full sm:max-w-[44%]"
             placeholder={t("name")}
             startContent={<FaSearch className="text-neutral-400 w-4 h-4" />}
@@ -201,6 +248,7 @@ export default function ShopContainer({ lang, translate }) {
 
           <Select
             className="max-w-xs"
+            aria-label={t("status")}
             placeholder={t("status")}
             selectedKeys={[statusFilter]}
             onChange={handleStatusChange}
@@ -238,6 +286,8 @@ export default function ShopContainer({ lang, translate }) {
           onDelete={handleDeleteShop}
           onToggleStatus={handleToggleStatus}
           onReorder={handleReorder}
+          onUpdateCommission={handleUpdateCommission}
+          onUpdatePlan={handleUpdatePlan}
           lang={lang}
           translate={translate}
         />
@@ -265,7 +315,7 @@ export default function ShopContainer({ lang, translate }) {
         partner={reorderShop}
         lang={lang}
         translate={translate}
-        translatePath="admin.shops"
+        translatePath="admin.allShops"
         shop={true}
       />
     </div>

@@ -20,6 +20,8 @@ const getInitialData = async (searchParams) => {
     if (searchParams?.dateTo) apiParams.set("dateTo", searchParams.dateTo);
     if (searchParams?.showCompleted)
       apiParams.set("showCompleted", searchParams.showCompleted);
+    if (searchParams?.showCancelled)
+      apiParams.set("showCancelled", searchParams.showCancelled);
 
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
@@ -71,8 +73,8 @@ const AdminTasksPage = async ({ params, searchParams }) => {
   const initialData = await getInitialData(queryParams || {});
 
   return (
-    <div className="min-h-screen bg-gray-50 px-1 md:px-4 pt-8">
-      <div className="max-w-8xl mx-auto">
+    <div className="min-h-screen bg-gray-50 px-4 md:px-6 lg:px-8 pt-8 pb-12">
+      <div className="w-full mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 bg-gradient-to-r from-white to-[#f48a42]/5">

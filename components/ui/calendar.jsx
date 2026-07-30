@@ -21,35 +21,34 @@ function Calendar({
       {...(lang === "ar" ? { locale: ar } : {})}
       showOutsideDays={showOutsideDays}
       className={cn(
-        "w-full bg-white rounded-3xl xl:p-8 md:p-6 p-4 border-[#EAEEF3] border",
+        "w-full bg-white rounded-2xl md:rounded-3xl xl:p-8 md:p-6 p-2 border-surfaceBlue border",
         className,
       )}
       classNames={{
         months: "w-full",
-        month: "w-full md:space-y-6 space-y-4",
+        month: "w-full md:space-y-6 space-y-2",
         caption: "flex justify-center pt-1 relative items-center",
-        caption_label:
-          "text-[0.85rem] md:text-[1.1rem] lg:text-[1.2rem] font-semibold",
+        caption_label: "text-xs md:text-1.1 lg:text-1.2 font-semibold",
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
-          "lg:h-10 lg:w-10 h-6 w-6 bg-[#EAEEF3] p-0 opacity-50 hover:opacity-100",
+          "lg:h-10 lg:w-10 h-5 w-5 bg-surfaceBlue p-0 opacity-50 hover:opacity-100",
         ),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
         table: "w-full border-collapse space-y-1",
-        head_row: "flex w-full mb-2",
+        head_row: "flex w-full mb-1 md:mb-2",
         head_cell:
-          "rounded-md w-full font-medium text-[0.75rem] md:text-[1rem] lg:text-[1.2rem] text-darkNavy",
-        row: "flex w-full md:mt-2 mt-1 lg:gap-4 gap-1",
-        cell: `text-center text-[0.8rem] md:text-[1rem] lg:text-[1.2rem] p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 w-full`,
+          "rounded-md w-full font-medium text-[0.65rem] md:text-[1rem] lg:text-1.2 text-darkNavy",
+        row: "flex w-full md:mt-2 mt-0.5 lg:gap-4 gap-0.5",
+        cell: `text-center text-[0.7rem] md:text-[1rem] lg:text-1.2 p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 w-full`,
         day: cn(
           buttonVariants({
             variant: "ghost",
             className:
-              "text-[0.75rem] md:text-[1rem] lg:text-[1.2rem] md:!h-12 !h-8",
+              "text-[0.65rem] md:text-[1rem] lg:text-1.2 md:!h-12 !h-7",
           }),
-          "md:h-12 h-10 w-full p-0 font-normal aria-selected:opacity-100",
+          "md:h-12 h-7 w-full p-0 font-normal aria-selected:opacity-100",
         ),
         day_range_end: "day-range-end",
         day_selected:

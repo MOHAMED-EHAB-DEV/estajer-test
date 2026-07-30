@@ -1,4 +1,8 @@
 import AiChatContainer from "@/components/chat/AiChatContainer";
+import InteractionGTM from "@/components/seo/InteractionGTM";
+import GTMPageView from "@/hooks/GTMPageView";
+import { Suspense } from "react";
+import RevertImpersonation from "@/components/admin/RevertImpersonation";
 
 export const viewport = {
   width: "device-width",
@@ -15,8 +19,13 @@ export default async function RootLayout({ children, params }) {
 
   return (
     <>
+      <Suspense fallback={null}>
+        <GTMPageView />
+      </Suspense>
       {children}
       <AiChatContainer lang={lang} />
+      <RevertImpersonation lang={lang} />
+      <InteractionGTM gtmId="GTM-W7PNC244" />
     </>
   );
 }

@@ -20,8 +20,8 @@ export async function GET(req, { params }) {
           : []),
       ],
     })
-      .populate("ownerData", "email fullName phone lang")
-      .populate("userData.id", "email fullName phone lang")
+      .populate("ownerData", "email fullName phone lang nationalId address unifiedNumber companyDetails")
+      .populate("userData.id", "email fullName phone lang nationalId address unifiedNumber companyDetails")
       .populate({
         path: "items",
         populate: {

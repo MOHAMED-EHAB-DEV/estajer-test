@@ -35,7 +35,7 @@ export default function LoginRequired({ langPrefix, redirectPath, t }) {
 
         {/* Content */}
         <div className="relative z-10">
-          <h1 className="text-2xl sm:text-[1.75rem] font-bold text-gray-800 mb-3 tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-1.75 font-bold text-gray-800 mb-3 tracking-tight leading-tight">
             {t.productDocumentation.loginTitle}
           </h1>
           <p className="text-base text-gray-500 mb-8 leading-relaxed">

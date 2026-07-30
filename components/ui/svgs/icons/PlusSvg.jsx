@@ -8,7 +8,7 @@ export const Plus = ({ className, size = 16, color = "currentColor", ...rest }) 
     strokeLinejoin="round"
     width={size}
     height={size}
-    className={className}
+    className={className || "w-4 h-4"}
     {...rest}
   >
     <line x1="12" y1="5" x2="12" y2="19" />

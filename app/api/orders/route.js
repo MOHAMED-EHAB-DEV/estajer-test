@@ -127,14 +127,11 @@ export async function GET(req) {
 
     if (provider) {
       if (provider === "nana") {
-        query.paymentGateway = "nana";
+        query["source.type"] = "nana";
       } else if (provider === "estajer") {
-        query.paymentGateway = { $ne: "nana" };
-        query.providerId = {
-          $ne: new mongoose.Types.ObjectId("699ccc057fa956a3b96d93d8"),
-        };
+        query["source.type"] = "direct";
       } else if (mongoose.Types.ObjectId.isValid(provider)) {
-        query.providerId = provider;
+        query["source.refId"] = new mongoose.Types.ObjectId(provider);
       }
     }
 
@@ -142,16 +139,15 @@ export async function GET(req) {
     const totalPages = Math.ceil(totalOrders / limit);
 
     const orders = await Order.find(query)
-
       .limit(limit)
       .skip((page - 1) * limit)
       .sort({ createdAt: -1 })
-      .populate("userData.id", "createdAt avatar fullName isOnline lastSeen")
+      .populate("userData.id", "createdAt avatar fullName isOnline lastSeen companyDetails")
       .populate(
         "ownerData",
-        "createdAt avatar fullName phone email address location isOnline lastSeen branches",
+        "createdAt avatar fullName phone email address location isOnline lastSeen branches companyDetails accountType",
       )
-      .populate("providerId", "nameAr nameEn slug")
+      .populate("source.refId", "nameAr nameEn slug")
       .lean();
 
     return NextResponse.json({

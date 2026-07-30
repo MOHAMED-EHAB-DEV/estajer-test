@@ -1,6 +1,10 @@
 "use client";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
 import { useState } from "react";
 import Button from "../ui/Button";
 import { CalendarIcon } from "../ui/svgs/icons/CalendarIconSvg";
@@ -54,7 +58,7 @@ export default function DateRangePicker({
         <PopoverTrigger>
           <Button
             variant="solid"
-            className={`${orange ? "bg-[#FDF5EE] border w-full border-[#f48a42]/20 hover:border-[#f48a42]/50 rounded-xl shadow-none md:h-12 h-10" : dark ? "bg-[#EAEEF3] rounded-full" : admin ? "bg-[#f4f4f5] rounded-xl w-full md:h-14 h-10" : "bg-white border-1 border-gray-200 rounded-xl h-auto"} min-w-[200px] justify-start md:p-4 p-2 text-start`}
+            className={`${orange ? "bg-brandCream border w-full border-[#f48a42]/20 hover:border-[#f48a42]/50 rounded-xl shadow-none md:h-12 h-10" : dark ? "bg-surfaceBlue border border-gray-200 rounded-full" : admin ? "bg-[#f4f4f5] border border-gray-200 rounded-xl w-full md:h-14 h-10" : "bg-white border border-gray-200 rounded-xl h-auto"} min-w-[200px] justify-start md:p-4 p-2 text-start`}
           >
             <div className="flex items-center md:gap-4 gap-2 w-full">
               <CalendarIcon

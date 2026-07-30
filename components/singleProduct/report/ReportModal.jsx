@@ -1,14 +1,13 @@
 "use client";
 import CustomModal from "../../ui/CustomModal";
-import { Textarea } from "@heroui/input";
-import { RadioGroup, Radio } from "@heroui/radio";
+import { Textarea } from "@/components/ui/Input";
+
 import { useState } from "react";
 import { toast } from "@/utils/toast";
 import Button from "../../ui/Button";
 import { Dangers } from "@/components/ui/svgs/icons/DangersSvg";
 import ToastMessage from "@/components/ui/ToastMessage";
 import { useTranslations } from "@/hooks/useTranslations";
-import { sendGTMEvent } from "@next/third-parties/google";
 
 export default function ReportModal({
   isOpen,
@@ -43,15 +42,6 @@ export default function ReportModal({
       const data = await res.json();
       if (data.success) {
         toast.success(ToastMessage(trans("report.toast.success")));
-        // GTM event for successful product report submission
-        sendGTMEvent({
-          event: "report_submit",
-          product_id: productId,
-          reason,
-          has_description: !!description,
-          description_length: description?.length || 0,
-          language: lang,
-        });
         onClose();
       } else {
         toast.error(ToastMessage(data.error || trans("report.toast.error")));
@@ -73,7 +63,7 @@ export default function ReportModal({
     >
       <div className="flex flex-col h-full overflow-hidden relative">
         {/* Header */}
-        <div className="flex gap-2 items-center text-[#F44242] font-semibold text-lg border-b border-gray-200 dark:border-gray-800 pb-3 mb-4 flex-shrink-0">
+        <div className="flex gap-2 items-center text-dangerRed font-semibold text-lg border-b border-gray-200 dark:border-gray-800 pb-3 mb-4 flex-shrink-0">
           <Dangers />
           <span>{t("reportTitle")}</span>
         </div>
@@ -98,16 +88,49 @@ export default function ReportModal({
 
         {/* Body */}
         <div className="flex-1 overflow-y-auto space-y-6 py-2">
-          <RadioGroup
-            label={t("reportReason")}
-            value={reason}
-            onValueChange={setReason}
-          >
-            <Radio value="fake">{t("fakeProduct")}</Radio>
-            <Radio value="inappropriate">{t("inappropriateContent")}</Radio>
-            <Radio value="scam">{t("scam")}</Radio>
-            <Radio value="other">{t("otherReason")}</Radio>
-          </RadioGroup>
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium">{t("reportReason")}</label>
+            <div className="flex flex-col gap-2">
+              {[
+                { value: "fake", label: t("fakeProduct") },
+                { value: "inappropriate", label: t("inappropriateContent") },
+                { value: "scam", label: t("scam") },
+                { value: "other", label: t("otherReason") },
+              ].map((item) => {
+                const isSelected = reason === item.value;
+                return (
+                  <label
+                    key={item.value}
+                    className="group relative flex items-center gap-2 cursor-pointer"
+                  >
+                    <div className="relative inline-flex items-center">
+                      <input
+                        type="radio"
+                        className="peer absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        checked={isSelected}
+                        onChange={() => setReason(item.value)}
+                        value={item.value}
+                      />
+                      <div
+                        className={`flex items-center justify-center rounded-full border-2 transition-all w-5 h-5 ${
+                          isSelected
+                            ? "border-primary text-primary"
+                            : "border-default-300"
+                        } peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2`}
+                      >
+                        {isSelected && (
+                          <span className="rounded-full bg-current w-2 h-2" />
+                        )}
+                      </div>
+                    </div>
+                    <span className="select-none text-foreground text-base">
+                      {item.label}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
 
           <Textarea
             label={t("additionalDetails")}
@@ -122,7 +145,7 @@ export default function ReportModal({
         <div className="flex justify-between border-t border-gray-200 dark:border-gray-800 pt-4 mt-4 flex-shrink-0">
           <Button
             isDisabled={loading}
-            className="bg-[#F44242] text-white"
+            className="bg-dangerRed text-white"
             onPress={handleSubmit}
           >
             {loading ? t("sending") : t("send")}

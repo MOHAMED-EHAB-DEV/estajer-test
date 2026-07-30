@@ -107,7 +107,7 @@ export default function LatestActivities({
                     </div>
                   )}
                 </div>
-                <p className="text-[10px] md:text-xs text-[#5B5656] font-normal font-NotoSansArabic">
+                <p className="text-[10px] md:text-xs text-mutedGray font-normal font-NotoSansArabic">
                   {formatDate(notification.createdAt)} |{" "}
                   {formatTime(notification.createdAt)}
                 </p>

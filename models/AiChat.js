@@ -12,7 +12,7 @@ const aiMessageSchema = new mongoose.Schema(
     state: { type: String, enum: ["sent", "read"], default: "sent" },
     isAdmin: Boolean,
   },
-  { _id: true }
+  { _id: true },
 );
 
 const aiChatSchema = new mongoose.Schema(
@@ -21,8 +21,10 @@ const aiChatSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     visitor: { type: mongoose.Schema.Types.ObjectId, ref: "Visitor" },
     visitorName: { type: String },
+    visitorContact: { type: String },
     messages: [aiMessageSchema],
     lastMessageAt: { type: Date, default: Date.now },
+    spamCount: { type: Number, default: 0 },
     metadata: {
       ip: String,
       userAgent: String,
@@ -31,7 +33,7 @@ const aiChatSchema = new mongoose.Schema(
       path: String,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.models.AiChat || mongoose.model("AiChat", aiChatSchema);

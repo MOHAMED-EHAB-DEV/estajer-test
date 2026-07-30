@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import ContractForm from "@/components/contract/ContractForm";
-// import { getTranslations } from "@/hooks/getTranslations";
+import { getTranslations } from "@/hooks/getTranslations";
 import { cookies } from "next/headers";
+
+export const metadata = { robots: { index: false, follow: false } };
 
 async function orderData({ id }) {
   try {
@@ -30,7 +32,7 @@ export default async function Page({ params }) {
   const { lang, id } = await params;
   const langPrefix = lang === "ar" ? "" : "en/";
   const order = await orderData({ id });
-  // const translate = await getTranslations(lang);
+  const translate = await getTranslations(lang);
   if (!order || (order.status === "pending" && order.status === "not-paid"))
     notFound();
   return (
@@ -39,6 +41,7 @@ export default async function Page({ params }) {
       ownerData={order.ownerData}
       order={order}
       items={order.items}
+      translate={translate()}
     />
   );
 }

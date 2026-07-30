@@ -1,4 +1,4 @@
-import { Cloud } from "../ui/svgs/icons/CloudSvg";;
+import { Cloud } from "../ui/svgs/icons/CloudSvg";
 
 export default function PageTitle({ lang, title, description }) {
   return (
@@ -11,7 +11,7 @@ export default function PageTitle({ lang, title, description }) {
         </div>
       </div>
       <div className="max-w-screen-2xl mx-auto px-4 relative">
-        <h1 className="lg:text-[2.6rem] md:text-[2.4rem] text-[1.9rem] mb-1 font-semibold text-primary font-IBMPlex">
+        <h1 className="lg:text-[2.6rem] md:text-[2.4rem] text-1.9 mb-1 font-semibold text-primary font-IBMPlex">
           {title}
         </h1>
         <p className="lg:text-[1.7rem] md:text-[1.5rem] text-[1rem] text-darkNavy ">

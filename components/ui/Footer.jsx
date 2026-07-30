@@ -1,28 +1,9 @@
 import { anyImgUrl } from "@/utils/ImageUrl";
 import Image from "next/image";
 import React from "react";
-import { Instagram } from "./svgs/icons/InstagramSvg";
-import { Facebook } from "./svgs/icons/FacebookSvg";
-import { Twitter } from "./svgs/icons/TwitterSvg";
-import { Whatsapp } from "./svgs/icons/WhatsappSvg";
-import { Nafath } from "./svgs/icons/NafathSvg";
-import { Linkedin } from "./svgs/icons/LinkedinSvg";
-import { Snapchat } from "./svgs/icons/SnapchatSvg";
-import { Tiktok } from "./svgs/icons/TiktokSvg";
 import Link from "next/link";
 import Button from "./Button";
-import {
-  ApplePay,
-  Visa,
-  MasterCard,
-  Mada,
-  Tabby,
-  Bank,
-} from "./svgs/PaymentIcons";
 import { getTranslations } from "@/hooks/getTranslations";
-import Freelance from "./svgs/icons/Freelance";
-import FutureWork from "./svgs/icons/Futurework";
-import { Plus } from "./svgs/icons/PlusSvg";
 import ScrollToTop from "./ScrollToTop";
 
 export default async function Footer({ lang }) {
@@ -33,8 +14,11 @@ export default async function Footer({ lang }) {
   return (
     <footer
       role="contentinfo"
-      className="relative overflow-hidden pb-28 md:pb-0"
-      style={{ backgroundColor: "#0d092b" }}
+      className="relative overflow-hidden pb-28 md:!pb-0"
+      style={{
+        backgroundColor: "#0d092b",
+        paddingBottom: "calc(7rem + env(safe-area-inset-bottom, 0px))",
+      }}
       aria-label="Site footer"
     >
       {/* Subtle background glow accents */}
@@ -81,41 +65,47 @@ export default async function Footer({ lang }) {
                 {[
                   {
                     href: "https://www.facebook.com/estajer",
-                    icon: <Facebook />,
+                    src: "/svgs/footer/facebook.svg",
                     label: t("social.facebook.ariaLabel"),
                     title: t("social.facebook.title"),
                   },
                   {
                     href: "https://www.tiktok.com/@estajer.com",
-                    icon: <Tiktok />,
+                    src: "/svgs/footer/tiktok.svg",
                     label: t("social.tiktok.ariaLabel"),
                     title: t("social.tiktok.title"),
                   },
                   {
                     href: "https://www.snapchat.com/add/estajercom",
-                    icon: <Snapchat />,
+                    src: "/svgs/footer/snapchat.svg",
                     label: t("social.snapchat.ariaLabel"),
                     title: t("social.snapchat.title"),
                   },
                   {
                     href: "https://www.linkedin.com/company/estajer/",
-                    icon: <Linkedin />,
+                    src: "/svgs/footer/linkedin.svg",
                     label: t("social.linkedin.ariaLabel"),
                     title: t("social.linkedin.title"),
                   },
                   {
                     href: "https://x.com/estajercom",
-                    icon: <Twitter />,
+                    src: "/svgs/footer/twitter.svg",
                     label: t("social.twitter.ariaLabel"),
                     title: t("social.twitter.title"),
                   },
                   {
                     href: "https://www.instagram.com/estajercom/",
-                    icon: <Instagram />,
+                    src: "/svgs/footer/instagram.svg",
                     label: t("social.instagram.ariaLabel"),
                     title: t("social.instagram.title"),
                   },
-                ].map(({ href, icon, label, title }) => (
+                  {
+                    href: "https://www.youtube.com/@Estajer",
+                    src: "/svgs/footer/youtube.svg",
+                    label: t("social.youtube.ariaLabel"),
+                    title: t("social.youtube.title"),
+                  },
+                ].map(({ href, src, label, title }) => (
                   <Link
                     key={href}
                     href={href}
@@ -125,7 +115,12 @@ export default async function Footer({ lang }) {
                     title={title}
                     className="p-2 bg-white/10 hover:bg-primary/20 rounded-lg transition-all duration-300 hover:scale-110 hover:shadow-lg"
                   >
-                    {icon}
+                    <img
+                      src={src}
+                      alt={title || label}
+                      className="w-8 h-8"
+                      loading="lazy"
+                    />
                   </Link>
                 ))}
               </nav>
@@ -171,12 +166,12 @@ export default async function Footer({ lang }) {
                       titleKey: "navigation.mainSite.support",
                     },
                   ].map(({ href, label, titleKey }) => (
-                    <li key={href}>
+                    <li key={href} className="group">
                       <Link
                         href={href}
                         title={t(`${titleKey}.title`)}
                         aria-label={t(`${titleKey}.ariaLabel`)}
-                        className="text-gray-400 hover:text-primary text-sm transition-colors duration-300 hover:translate-x-1 inline-block"
+                        className="text-gray-400 group-hover:text-primary text-sm transition-colors duration-300 group-hover:translate-x-1 inline-block"
                       >
                         {label}
                       </Link>
@@ -221,12 +216,12 @@ export default async function Footer({ lang }) {
                       titleKey: "navigation.mainSite.blog",
                     },
                   ].map(({ href, label, titleKey }) => (
-                    <li key={href}>
+                    <li key={href} className="group">
                       <Link
                         href={href}
                         title={t(`${titleKey}.title`)}
                         aria-label={t(`${titleKey}.ariaLabel`)}
-                        className="text-gray-400 hover:text-primary text-sm transition-colors duration-300 hover:translate-x-1 inline-block"
+                        className="text-gray-400 group-hover:text-primary text-sm transition-colors duration-300 group-hover:translate-x-1 inline-block"
                       >
                         {label}
                       </Link>
@@ -266,12 +261,12 @@ export default async function Footer({ lang }) {
                       titleKey: "navigation.myProducts.myFavorites",
                     },
                   ].map(({ href, label, titleKey }) => (
-                    <li key={`${href}-${label}`}>
+                    <li key={`${href}-${label}`} className="group">
                       <Link
                         href={href}
                         title={t(`${titleKey}.title`)}
                         aria-label={t(`${titleKey}.ariaLabel`)}
-                        className="text-gray-400 hover:text-primary text-sm transition-colors duration-300 hover:translate-x-1 inline-block"
+                        className="text-gray-400 group-hover:text-primary text-sm transition-colors duration-300 group-hover:translate-x-1 inline-block"
                       >
                         {label}
                       </Link>
@@ -297,18 +292,21 @@ export default async function Footer({ lang }) {
                     src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
                     alt="Download on the App Store"
                     className="h-10 w-auto transition-transform group-hover:scale-105"
+                    loading="lazy"
                   />
                 </a>
                 <a
-                  href="#"
+                  href="https://play.google.com/store/apps/details?id=com.estajer.app"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Get it on Google Play (Coming Soon)"
+                  aria-label="Get it on Google Play"
                   className="group inline-block transition-all duration-300 hover:shadow-lg"
                 >
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
                     alt="Get it on Google Play"
                     className="h-10 w-auto transition-transform group-hover:scale-105"
+                    loading="lazy"
                   />
                 </a>
               </div>
@@ -322,9 +320,11 @@ export default async function Footer({ lang }) {
               href={`${langPrefix}/add-product`}
               className="w-full font-semibold gap-2 text-sm md:text-base px-6 py-4 bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg hover:scale-105"
             >
-              <Plus
-                className="md:w-[18px] w-4 md:h-[18px] h-4"
-                color="#ffffff"
+              <img
+                src="/svgs/footer/plus.svg"
+                alt="Add"
+                className="md:w-4.5 w-4 md:h-4.5 h-4"
+                loading="lazy"
               />{" "}
               {translate("ui.button.addAd")}
             </Button>
@@ -342,7 +342,13 @@ export default async function Footer({ lang }) {
                 variant="bordered"
                 className="w-full font-semibold gap-2 text-sm px-6 py-4 border-2 border-green-500 hover:bg-green-500/10 transition-all duration-300 hover:shadow-lg hover:scale-105"
               >
-                <Whatsapp />
+                <img
+                  src="/svgs/footer/whatsapp.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className="md:w-5 md:h-5 w-4 h-4"
+                  loading="lazy"
+                />
                 {t("whatsapp")}
               </Button>
             </Link>
@@ -354,21 +360,84 @@ export default async function Footer({ lang }) {
               </p>
 
               {/* Three logos side-by-side with subtle dividers */}
-              <div className="flex items-center justify-around gap-1.5">
+              <div className="flex items-center flex-wrap justify-around gap-1.5">
                 <div className="flex-1 flex items-center justify-center bg-white/5 hover:bg-white/10 transition-colors duration-300 rounded-lg px-2 py-2.5">
-                  <Freelance className="h-7 w-auto max-w-[76px]" />
+                  <img
+                    src="/svgs/footer/freelance.svg"
+                    alt="Freelance"
+                    className="h-7 w-auto max-w-[76px]"
+                    loading="lazy"
+                  />
                 </div>
 
                 <div className="w-px h-8 bg-white/10 shrink-0" />
 
                 <div className="flex-1 flex items-center justify-center bg-white/5 hover:bg-white/10 transition-colors duration-300 rounded-lg px-2 py-2.5">
-                  <FutureWork className="h-7 w-auto max-w-[76px]" />
+                  <img
+                    src="/svgs/footer/futurework.svg"
+                    alt="Future Work"
+                    className="h-7 w-auto max-w-[76px]"
+                    loading="lazy"
+                  />
                 </div>
 
                 <div className="w-px h-8 bg-white/10 shrink-0" />
 
                 <div className="flex-1 flex items-center justify-center bg-white/5 hover:bg-white/10 transition-colors duration-300 rounded-lg px-2 py-2.5">
-                  <Nafath className="h-7 w-auto max-w-[76px]" />
+                  <img
+                    src="/svgs/footer/nafath.svg"
+                    alt="Nafath"
+                    className="h-7 w-auto max-w-[76px]"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </div>
+            {/* CR & Tax ID Info */}
+            <div className="flex flex-col min-[360px]:flex-row gap-[5px] w-full">
+              {/* CR Block */}
+              <div className="flex-1 flex items-center gap-[5px] bg-white/[0.03] border border-white/10 rounded-xl p-3 hover:bg-white/[0.06] transition-all duration-300">
+                <div>
+                  <Image
+                    unoptimized
+                    src={anyImgUrl({
+                      src: "products/ymp6qicy3kfpybelldhq",
+                      size: 250,
+                    })}
+                    width={32}
+                    height={32}
+                    alt="Commercial Register"
+                    title="Commercial Register"
+                    className="object-contain drop-shadow-lg"
+                  />
+                </div>
+                <div className="text-start">
+                  <span className="block text-[9px] uppercase tracking-wider text-gray-500 font-semibold">
+                    {t("cr")}
+                  </span>
+                  <span className="block text-[11px] font-semibold text-white/90 font-mono">
+                    1010916873
+                  </span>
+                </div>
+              </div>
+
+              {/* Tax ID Block */}
+              <div className="flex-1 flex items-center gap-[6px] bg-white/[0.03] border border-white/10 rounded-xl p-3 hover:bg-white/[0.06] transition-all duration-300">
+                <div>
+                  <img
+                    src="/svgs/footer/tax.svg"
+                    alt="Tax"
+                    className="w-10 h-8 object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="text-start">
+                  <span className="block text-[9px] uppercase tracking-wider text-gray-500 font-semibold">
+                    {t("tax")}
+                  </span>
+                  <span className="block text-[11px] font-semibold text-white/90 font-mono">
+                    311791334800003
+                  </span>
                 </div>
               </div>
             </div>
@@ -380,26 +449,61 @@ export default async function Footer({ lang }) {
 
         {/* ── Bottom bar ── */}
         <div className="border-t border-white/[0.08] pt-6 pb-8 flex flex-col md:flex-row md:justify-between items-center gap-5">
-          {/* Copyright */}
-          <p className="text-gray-500 text-xs md:text-sm order-2 md:order-1">
-            {t("copyRight").replace("{year}", new Date().getFullYear())}
-          </p>
+          {/* Copyright & Company Name */}
+          <div className="order-2 md:order-1 flex flex-col items-center md:items-start gap-1">
+            <p className="text-gray-500 text-xs md:text-sm">
+              {t("copyRight").replace("{year}", new Date().getFullYear())}
+            </p>
+            <p className="text-gray-600 text-[10px] md:text-xs">
+              {t("company")}
+            </p>
+          </div>
 
           {/* Payment icons */}
           <div className="order-1 md:order-2 flex items-center gap-3 flex-wrap justify-center bg-white/[0.04] border border-white/[0.08] rounded-xl px-5 py-3">
             {[
-              <Tabby key="tabby" />,
-              <Bank key="bank" />,
-              <Mada key="mada" />,
-              <MasterCard key="mc" />,
-              <Visa key="visa" />,
-              <ApplePay key="apple" />,
-            ].map((icon) => (
+              {
+                src: "/svgs/footer/tabby.svg",
+                alt: "Tabby",
+                key: "tabby",
+                className: "h-6 w-auto",
+              },
+              {
+                src: "/svgs/footer/bank.svg",
+                alt: "Bank",
+                key: "bank",
+                className: "h-6 w-auto",
+              },
+              {
+                src: "/svgs/footer/mada.svg",
+                alt: "Mada",
+                key: "mada",
+                className: "h-6 w-auto",
+              },
+              {
+                src: "/svgs/footer/mastercard.svg",
+                alt: "MasterCard",
+                key: "mc",
+                className: "h-6 w-auto",
+              },
+              {
+                src: "/svgs/footer/visa.svg",
+                alt: "Visa",
+                key: "visa",
+                className: "h-6 w-auto",
+              },
+              {
+                src: "/svgs/footer/apple-pay.svg",
+                alt: "Apple Pay",
+                key: "apple",
+                className: "h-6 w-auto",
+              },
+            ].map(({ src, alt, key, className }) => (
               <div
-                key={icon.key}
+                key={key}
                 className="hover:scale-110 transition-transform duration-300"
               >
-                {icon}
+                <img src={src} alt={alt} className={className} loading="lazy" />
               </div>
             ))}
           </div>

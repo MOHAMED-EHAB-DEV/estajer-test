@@ -25,11 +25,7 @@ const LargeArcBg = () => (
 );
 
 const ScrollDownIcon = () => (
-  <svg
-    className="w-6 h-6 md:w-8 md:h-8"
-    fill="none"
-    viewBox="0 0 24 24"
-  >
+  <svg className="w-6 h-6 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24">
     <path
       stroke="#F97316"
       strokeLinecap="round"
@@ -52,10 +48,9 @@ const PricingHero = ({ translate, lang }) => {
   };
 
   const title = t("title");
-  const isAr = lang === "ar";
 
   let coloredTitle;
-  if (isAr && title.includes("جميع احتياجاتك")) {
+  if (lang === "ar" && title.includes("جميع احتياجاتك")) {
     const parts = title.split("جميع احتياجاتك");
     coloredTitle = (
       <>
@@ -71,14 +66,14 @@ const PricingHero = ({ translate, lang }) => {
   }
 
   return (
-    <section
-      className="relative overflow-hidden bg-[#FEF6EE] font-IBMPlex"
-      dir={isAr ? "rtl" : "ltr"}
-    >
+    <section className="relative overflow-hidden bg-[#FEF6EE] font-IBMPlex">
       {/* ──── Background Decoration ──── */}
       <div className="absolute top-0 right-0 w-full h-full pointer-events-none overflow-hidden z-0">
         <div className="absolute -top-20 -right-20 md:opacity-30 opacity-40 blur-3xl w-[400px] h-[400px] md:w-[600px] md:h-[600px] bg-orange-200 rounded-full animate-pulse-slow"></div>
-        <div className="absolute top-40 -left-20 md:opacity-20 opacity-30 blur-3xl w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-orange-300 rounded-full animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+        <div
+          className="absolute top-40 -left-20 md:opacity-20 opacity-30 blur-3xl w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-orange-300 rounded-full animate-pulse-slow"
+          style={{ animationDelay: "2s" }}
+        ></div>
 
         {/* Mobile floating accents - Enhanced */}
         <div className="absolute top-[18%] left-[12%] w-4 h-4 rounded-full bg-orange-400 opacity-20 md:hidden animate-float blur-[1px]"></div>
@@ -170,7 +165,7 @@ const PricingHero = ({ translate, lang }) => {
 
         {/* Subtitle */}
         <p
-          className="mx-auto text-[#6B7280] font-IBMPlex font-bold leading-relaxed mb-10 md:mb-12 text-sm md:text-[1.2rem] opacity-90 animate-fade-in-up [animation-delay:400ms]"
+          className="mx-auto text-[#6B7280] font-IBMPlex font-bold leading-relaxed mb-10 md:mb-12 text-sm md:text-1.2 opacity-90 animate-fade-in-up [animation-delay:400ms]"
           style={{
             maxWidth: "42rem",
           }}

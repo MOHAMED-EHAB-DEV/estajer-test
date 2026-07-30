@@ -5,13 +5,11 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const nextConfig = {
   distDir: process.env.BUILD_DIR || ".next",
-  // assetPrefix: isProduction ? "https://assets.estajer.com" : "",
   compress: false,
   // Disable X-Powered-By header for security
   poweredByHeader: false,
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
-  serverExternalPackages: ['sharp'],
   // PERFORMANCE: Enable production optimizations
   reactStrictMode: true,
   experimental: {
@@ -27,9 +25,6 @@ const nextConfig = {
 
     // PERFORMANCE: Optimize package imports to reduce bundle size
     optimizePackageImports: [
-      // UI Component Libraries
-      "@heroui/react",
-
       // Visualization Libraries
       "@visx/axis",
       "@visx/event",
@@ -38,9 +33,6 @@ const nextConfig = {
       "@visx/scale",
       "@visx/shape",
       "@visx/tooltip",
-
-      // Animation
-      "framer-motion",
 
       // Date utilities
       "date-fns",
@@ -60,10 +52,10 @@ const nextConfig = {
     const cspDirectives = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https: https://*.clarity.ms https://c.bing.com https://assets.estajer.com",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.estajer.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.estajer.com https://www.googletagmanager.com",
       "img-src 'self' data: blob: https: http: https://*.clarity.ms https://c.bing.com https://z.clarity.ms",
       "font-src 'self' data: https://fonts.gstatic.com https://assets.estajer.com",
-      "connect-src 'self' data: https: wss: ws: https://*.clarity.ms https://c.bing.com https://*.bing.com https://z.clarity.ms https://t.clarity.ms https://assets.estajer.com",
+      `connect-src 'self' data: https: wss: ws: https://*.clarity.ms https://c.bing.com https://*.bing.com https://z.clarity.ms https://t.clarity.ms https://assets.estajer.com ${process.env.NODE_ENV === "production" ? `https://estajer.com` : "http://localhost:3000"}`,
       "frame-src 'self' https:",
       "form-action 'self' https:",
       "base-uri 'self'",
@@ -136,7 +128,11 @@ const nextConfig = {
           },
           {
             key: "Access-Control-Allow-Methods",
-            value: "GET, OPTIONS",
+            value: "GET, POST, PUT, DELETE, OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "Content-Type, Authorization, X-Requested-With",
           },
           // Permissions Policy (replaces Feature-Policy)
           {

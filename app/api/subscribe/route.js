@@ -62,7 +62,6 @@ export async function DELETE(req) {
   await connectDB();
   const user = await authenticateUser();
   const { endpoint } = await req.json();
-  console.log("endpoint: ", endpoint);
 
   if (!endpoint) {
     return NextResponse.json({ message: "Missing endpoint" }, { status: 400 });

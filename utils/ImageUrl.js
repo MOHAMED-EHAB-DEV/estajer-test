@@ -1,4 +1,3 @@
-const isProduction = process.env.NODE_ENV === "production";
 export const anyImgUrl = ({
   src,
   size = 512,
@@ -6,6 +5,7 @@ export const anyImgUrl = ({
   aspectRatio,
   crop,
 }) => {
+  if (src?.startsWith("data:")) return src;
   // Extract image ID from Cloudinary URL (e.g., products/xej9lxfadq58blaskx98)
   const getImageId = (previewUrl) => {
     const match = previewUrl.match(/\/upload\/v\d+\/(.+)\.\w+$/);
@@ -18,7 +18,5 @@ export const anyImgUrl = ({
   if (aspectRatio) params.set("ar", aspectRatio);
   if (crop) params.set("crop", "true");
 
-  return `${
-    isProduction ? "https://assets.estajer.com" : ""
-  }/estajer/images/${encodeURIComponent(processedSrc)}?${params.toString()}`;
+  return `https://estajer.com/estajer/images/${encodeURIComponent(processedSrc)}?${params.toString()}`;
 };

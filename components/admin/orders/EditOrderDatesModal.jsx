@@ -120,7 +120,9 @@ const EditOrderDatesModal = ({ order, onClose, onSuccess, translate }) => {
                 </svg>
               </div>
               <div>
-                <h3 className="text-lg md:text-xl font-bold">تعديل تواريخ الطلب</h3>
+                <h3 className="text-lg md:text-xl font-bold">
+                  تعديل تواريخ الطلب
+                </h3>
                 <p className="text-orange-100 text-xs md:text-sm">
                   طلب رقم: {order?.contractId}
                 </p>
@@ -206,7 +208,7 @@ const EditOrderDatesModal = ({ order, onClose, onSuccess, translate }) => {
                 </div>
                 <div className="flex justify-between border-t border-gray-200 pt-2 mt-2">
                   <span className="text-gray-500">مدة الإيجار:</span>
-                  <span className="font-semibold text-[#f48a42]">
+                  <span className="font-semibold text-primary">
                     {duration} أيام
                   </span>
                 </div>

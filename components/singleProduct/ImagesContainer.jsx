@@ -1,6 +1,6 @@
 "use client";
 import { anyImgUrl } from "@/utils/ImageUrl";
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import { useState, memo } from "react";
 import dynamic from "next/dynamic";
 import { Eye } from "../ui/svgs/icons/EyeSvg";
@@ -37,6 +37,12 @@ function ImagesContainer({ product, requested, isModel, lang }) {
       ? `${productName} - صورة ${imageIndex + 1} للإيجار | استأجر`
       : `${productName} - Image ${imageIndex + 1} for rent | Estajer`;
   };
+
+  const mainImgSrc = requested ? product.images[0] : product.images[0]?.preview;
+  const imgSmallMobile = anyImgUrl({ src: mainImgSrc, size: 400, quality: 60 });
+  const imgMobile = anyImgUrl({ src: mainImgSrc, size: 500, quality: 60 });
+  const imgLargeMobile = anyImgUrl({ src: mainImgSrc, size: 768, quality: 60 });
+  const imgDesktop = anyImgUrl({ src: mainImgSrc, size: 900, quality: 60 });
 
   return (
     <figure
@@ -80,31 +86,54 @@ function ImagesContainer({ product, requested, isModel, lang }) {
         <link
           rel="preload"
           as="image"
-          href={anyImgUrl({
-            src: requested ? product.images[0] : product.images[0].preview,
-            size: 900,
-            quality: 60,
-          })}
+          href={imgSmallMobile}
+          media="(max-width: 400px)"
           fetchPriority="high"
         />
-        <Image
-          src={anyImgUrl({
-            src: requested ? product.images[0] : product.images[0].preview,
-            size: 900,
-            quality: 60,
-          })}
-          fill
-          alt={generateAltText(0)}
-          title={generateAltText(0)}
-          priority
+        <link
+          rel="preload"
+          as="image"
+          href={imgMobile}
+          media="(min-width: 401px) and (max-width: 500px)"
           fetchPriority="high"
-          loading="eager"
-          unoptimized
-          className={`h-full w-full ${
-            requested ? "object-cover" : "object-contain"
-          }`}
-          itemProp="image"
         />
+        <link
+          rel="preload"
+          as="image"
+          href={imgLargeMobile}
+          media="(min-width: 501px) and (max-width: 768px)"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href={imgDesktop}
+          media="(min-width: 769px)"
+          fetchPriority="high"
+        />
+        <picture className="absolute inset-0 w-full h-full">
+          <source media="(max-width: 400px)" srcSet={imgSmallMobile} />
+          <source
+            media="(min-width: 401px) and (max-width: 500px)"
+            srcSet={imgMobile}
+          />
+          <source
+            media="(min-width: 501px) and (max-width: 768px)"
+            srcSet={imgLargeMobile}
+          />
+          <source media="(min-width: 769px)" srcSet={imgDesktop} />
+          <img
+            src={imgDesktop}
+            alt={generateAltText(0)}
+            title={generateAltText(0)}
+            fetchPriority="high"
+            loading="eager"
+            className={`h-full w-full ${
+              requested ? "object-cover" : "object-contain"
+            }`}
+            itemProp="image"
+          />
+        </picture>
 
         {/* Hover overlay for main image */}
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -122,6 +151,18 @@ function ImagesContainer({ product, requested, isModel, lang }) {
           const imageIndex = idx + 1;
           const isLastImage =
             idx === displayedImages.length - 1 && hasMoreThan5Images;
+
+          const thumbImgSrc = requested ? image : image.preview;
+          const thumbMobileUrl = anyImgUrl({
+            src: thumbImgSrc,
+            size: 250,
+            quality: 60,
+          });
+          const thumbDesktopUrl = anyImgUrl({
+            src: thumbImgSrc,
+            size: 500,
+            quality: 60,
+          });
 
           return (
             <div
@@ -152,21 +193,20 @@ function ImagesContainer({ product, requested, isModel, lang }) {
                     "linear-gradient(135deg, rgb(255 255 255), rgb(255 255 255))",
                 }}
               />
-              <Image
-                src={anyImgUrl({
-                  src: requested ? image : image.preview,
-                  size: 500,
-                  quality: 60,
-                })}
-                priority={imageIndex === 0}
-                fill
-                alt={generateAltText(imageIndex)}
-                title={generateAltText(imageIndex)}
-                unoptimized
-                className={`h-full w-full ${
-                  requested ? "object-cover" : "object-contain"
-                }`}
-              />
+              <picture className="absolute inset-0 w-full h-full">
+                <source media="(max-width: 500px)" srcSet={thumbMobileUrl} />
+                <source media="(min-width: 501px)" srcSet={thumbDesktopUrl} />
+                <img
+                  src={thumbDesktopUrl}
+                  alt={generateAltText(imageIndex)}
+                  title={generateAltText(imageIndex)}
+                  loading="lazy"
+                  fetchPriority="low"
+                  className={`h-full w-full ${
+                    requested ? "object-cover" : "object-contain"
+                  }`}
+                />
+              </picture>
 
               {/* Hover overlay */}
               <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -213,6 +253,7 @@ function ImagesContainer({ product, requested, isModel, lang }) {
           initialIndex={selectedImageIndex}
           productName={product.name}
           requested={requested}
+          lang={lang}
         />
       )}
     </figure>

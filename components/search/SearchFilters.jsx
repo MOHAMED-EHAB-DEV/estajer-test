@@ -8,7 +8,6 @@ import Location from "@/components/search/Location";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { useTranslations } from "@/hooks/useTranslations";
-import { sendGTMEvent } from "@next/third-parties/google";
 import { Locations } from "../ui/svgs/Dashboard";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
@@ -24,6 +23,7 @@ export default function SearchFilters({
   map = false,
   categoryPage = null,
   subCategoryPage = null,
+  shopSlug,
 }) {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const router = useRouter();
@@ -33,14 +33,6 @@ export default function SearchFilters({
   const toggleCollapse = () => {
     const nextState = !isCollapsed;
     setIsCollapsed(nextState);
-    try {
-      sendGTMEvent({
-        event: "filters_toggle",
-        collapsed: nextState,
-        location: "search_filters",
-        view: currentPage,
-      });
-    } catch (_) {}
   };
 
   // Helper function to get current filters
@@ -132,7 +124,9 @@ export default function SearchFilters({
 
     // Specific base URL for category/subcategory page
     let baseUrl;
-    if (activeCategory && activeSubCategory) {
+    if (shopSlug) {
+      baseUrl = `/${langPrefix}shops/${shopSlug}/search/${currentPage}`;
+    } else if (activeCategory && activeSubCategory) {
       baseUrl = `/${langPrefix}${activeCategory}/${activeSubCategory}/${currentPage}`;
     } else if (activeCategory) {
       baseUrl = `/${langPrefix}${activeCategory}/${currentPage}`;
@@ -142,37 +136,23 @@ export default function SearchFilters({
 
     const newUrl = newQueryString ? `${baseUrl}?${newQueryString}` : baseUrl;
 
-    try {
-      sendGTMEvent({
-        event: "filter_remove",
-        filter_param: paramToRemove,
-        location: "search_filters",
-        view: currentPage,
-      });
-    } catch (_) {}
-
     router.push(newUrl, { scroll: false });
   };
 
   // Helper function to clear all filters
   const clearAllFilters = () => {
-    try {
-      sendGTMEvent({
-        event: "filters_clear",
-        location: "search_filters",
-        view: currentPage,
-      });
-    } catch (_) {}
-
     const params = new URLSearchParams();
     if (queryParams.providerId) {
       params.set("providerId", queryParams.providerId);
     }
     const qs = params.toString();
 
-    router.push(`/${langPrefix}search/${currentPage}${qs ? "?" + qs : ""}`, {
-      scroll: false,
-    });
+    router.push(
+      `/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}search/${currentPage}${qs ? "?" + qs : ""}`,
+      {
+        scroll: false,
+      },
+    );
   };
 
   const currentFilters = getCurrentFilters();
@@ -295,62 +275,66 @@ export default function SearchFilters({
             />
           </div>
         </div>
-        <div className="hidden md:flex flex-wrap gap-1 mx-auto w-full md:w-auto md:mx-0 bg-[#F6F6F6] rounded-full md:p-2 p-[6px] ms-auto">
-          <Button
-            as={Link}
-            href={`${(() => {
-              const p = new URLSearchParams(queryString.toString());
-              const cat = categoryPage || p.get("category");
-              const subCat = subCategoryPage || p.get("subCategory");
-              if (cat) p.delete("category");
-              if (subCat) p.delete("subCategory");
-              const qs = p.toString();
-              let path;
-              if (cat && subCat) path = `${cat}/${subCat}/products`;
-              else if (cat) path = `${cat}/products`;
-              else path = "search/products";
-              return `/${langPrefix}${path}${qs ? "?" + qs : ""}`;
-            })()}`}
-            className="gap-1 flex-1 h-11 md:h-12 text-[15px] md:text-base"
-            variant={currentPage === "products" ? "shadow" : ""}
-            scroll={false}
-            startContent={
-              <svg
-                className="w-5 h-5 md:w-6 md:h-6"
-                fill="currentColor"
-                viewBox="0 0 20 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                />
-              </svg>
-            }
-          >
-            {t("showList")}
-          </Button>
-          <Button
-            as={Link}
-            href={`${(() => {
-              const p = new URLSearchParams(queryString.toString());
-              if (categoryPage && !p.has("category")) {
-                p.set("category", categoryPage);
+        {!shopSlug && (
+          <div className="hidden md:flex flex-wrap gap-1 mx-auto w-full md:w-auto md:mx-0 bg-lightBg rounded-full md:p-2 p-[6px] ms-auto">
+            <Button
+              as={Link}
+              href={`${(() => {
+                const p = new URLSearchParams(queryString.toString());
+                const cat = categoryPage || p.get("category");
+                const subCat = subCategoryPage || p.get("subCategory");
+                if (cat) p.delete("category");
+                if (subCat) p.delete("subCategory");
+                const qs = p.toString();
+                let path;
+                if (cat && subCat) path = `${cat}/${subCat}/products`;
+                else if (cat) path = `${cat}/products`;
+                else path = "search/products";
+                return `/${langPrefix}${path}${qs ? "?" + qs : ""}`;
+              })()}`}
+              className="gap-1 flex-1 h-11 md:h-12 text-[15px] md:text-base"
+              variant={currentPage === "products" ? "shadow" : ""}
+              scroll={false}
+              startContent={
+                <svg
+                  className="w-5 h-5 md:w-6 md:h-6"
+                  fill="currentColor"
+                  viewBox="0 0 20 16"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  />
+                </svg>
               }
-              const qs = p.toString();
-              return `/${langPrefix}search/map${qs ? "?" + qs : ""}`;
-            })()}`}
-            variant={currentPage === "map" ? "shadow" : ""}
-            color="transparent"
-            scroll={false}
-            startContent={
-              <Locations color={currentPage === "map" ? "white" : "#f48a42"} />
-            }
-            className="gap-2 flex-1 h-11 md:h-12 text-[15px] md:text-base"
-          >
-            {t("showMap")}
-          </Button>
-        </div>
+            >
+              {t("showList")}
+            </Button>
+            <Button
+              as={Link}
+              href={`${(() => {
+                const p = new URLSearchParams(queryString.toString());
+                if (categoryPage && !p.has("category")) {
+                  p.set("category", categoryPage);
+                }
+                const qs = p.toString();
+                return `/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}search/map${qs ? "?" + qs : ""}`;
+              })()}`}
+              variant={currentPage === "map" ? "shadow" : ""}
+              color="transparent"
+              scroll={false}
+              startContent={
+                <Locations
+                  color={currentPage === "map" ? "white" : "#f48a42"}
+                />
+              }
+              className="gap-2 flex-1 h-11 md:h-12 text-[15px] md:text-base"
+            >
+              {t("showMap")}
+            </Button>
+          </div>
+        )}
       </header>
       {/* Enhanced Filter Section */}
       <div
@@ -373,6 +357,7 @@ export default function SearchFilters({
                 map={map}
                 categoryPage={categoryPage}
                 subCategoryPage={subCategoryPage}
+                shopSlug={shopSlug}
                 endContent={
                   <button
                     type="button"
@@ -394,7 +379,7 @@ export default function SearchFilters({
             </div>
             <h2 className="hidden md:flex text-lg sm:text-xl font-semibold text-gray-800 items-center gap-2">
               <svg
-                className="w-5 h-5 text-[#f48a42]"
+                className="w-5 h-5 text-primary"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -427,6 +412,7 @@ export default function SearchFilters({
                   map={map}
                   categoryPage={categoryPage}
                   subCategoryPage={subCategoryPage}
+                  shopSlug={shopSlug}
                 />
               </div>
               <div className="w-full mb-4 md:mb-0">
@@ -437,6 +423,7 @@ export default function SearchFilters({
                   map={map}
                   categoryPage={categoryPage}
                   subCategoryPage={subCategoryPage}
+                  shopSlug={shopSlug}
                 />
               </div>
               <div className="w-full lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -449,6 +436,7 @@ export default function SearchFilters({
                   map={map}
                   categoryPage={categoryPage}
                   subCategoryPage={subCategoryPage}
+                  shopSlug={shopSlug}
                 />
               </div>
             </div>

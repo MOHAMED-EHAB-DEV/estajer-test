@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from "use-debounce";
-import { Select, SelectItem } from "@heroui/react";
+import { Select, SelectItem } from "@/components/ui/Select";
 import { Search } from "@/components/ui/svgs/icons/SearchSvg";
 import { useTranslations } from "@/hooks/useTranslations";
 import DateRangePicker from "@/components/admin/DateRangePicker";
@@ -144,8 +144,8 @@ const UserFilters = ({
           <span className="text-darkNavy font-NotoSansArabic text-xs md:text-sm font-semibold px-1">
             {trans("admin.users.searchUsersLabel")}
           </span>
-          <div className="relative flex items-center bg-[#FDF5EE] rounded-xl border border-[#f48a42]/20 focus-within:border-[#f48a42] focus-within:ring-2 focus-within:ring-[#f48a42]/10 transition-all md:h-12 h-10">
-            <div className="absolute start-4 text-[#f48a42]">
+          <div className="relative flex items-center bg-brandCream rounded-xl border border-[#f48a42]/20 focus-within:border-[#f48a42] focus-within:ring-2 focus-within:ring-[#f48a42]/10 transition-all md:h-12 h-10">
+            <div className="absolute start-4 text-primary">
               <Search className="md:w-5 md:h-5 w-4 h-4" />
             </div>
             <input
@@ -229,7 +229,7 @@ const UserFilters = ({
               disallowEmptySelection
               classNames={{
                 trigger:
-                  "md:h-12 h-10 bg-[#FDF5EE] border border-[#f48a42]/20 hover:border-[#f48a42]/50 rounded-xl shadow-none",
+                  "md:h-12 h-10 bg-brandCream border border-[#f48a42]/20 hover:border-[#f48a42]/50 rounded-xl shadow-none",
                 value: "text-darkNavy text-xs md:text-sm font-medium",
               }}
             >
@@ -255,7 +255,7 @@ const UserFilters = ({
               disallowEmptySelection
               classNames={{
                 trigger:
-                  "md:h-12 h-10 bg-[#FDF5EE] border border-[#f48a42]/20 hover:border-[#f48a42]/50 rounded-xl shadow-none",
+                  "md:h-12 h-10 bg-brandCream border border-[#f48a42]/20 hover:border-[#f48a42]/50 rounded-xl shadow-none",
                 value: "text-darkNavy text-xs md:text-sm font-medium",
               }}
             >
@@ -281,7 +281,7 @@ const UserFilters = ({
               disallowEmptySelection
               classNames={{
                 trigger:
-                  "md:h-12 h-10 bg-[#FDF5EE] border border-[#f48a42]/20 hover:border-[#f48a42]/50 rounded-xl shadow-none",
+                  "md:h-12 h-10 bg-brandCream border border-[#f48a42]/20 hover:border-[#f48a42]/50 rounded-xl shadow-none",
                 value: "text-darkNavy text-xs md:text-sm font-medium",
               }}
             >
@@ -307,7 +307,7 @@ const UserFilters = ({
               disallowEmptySelection
               classNames={{
                 trigger:
-                  "md:h-12 h-10 bg-[#FDF5EE] border border-[#f48a42]/20 hover:border-[#f48a42]/50 rounded-xl shadow-none",
+                  "md:h-12 h-10 bg-brandCream border border-[#f48a42]/20 hover:border-[#f48a42]/50 rounded-xl shadow-none",
                 value: "text-darkNavy text-xs md:text-sm font-medium",
               }}
             >

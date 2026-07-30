@@ -160,7 +160,7 @@ export default function SectionOrderModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-200">
         <div className="p-5 border-b border-neutral-100 flex items-center justify-between">
           <h2 className="text-base font-bold text-darkNavy">

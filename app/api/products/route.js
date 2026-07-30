@@ -4,6 +4,7 @@ import cloudinary from "@/lib/cloudinary";
 import Product from "@/models/Product";
 import { NextResponse } from "next/server";
 import User from "@/models/User";
+import Shop from "@/models/Shop";
 import mongoose from "mongoose";
 import { handleApiError } from "@/lib/errorHandler";
 
@@ -19,6 +20,10 @@ export async function POST(req) {
     await connectDB();
     const user = await authenticateUser();
     const data = await req.json();
+
+    if (data.saleUnit === "" || data.saleUnit === null) {
+      data.saleUnit = undefined;
+    }
 
     if (!data.productImages || !Array.isArray(data.productImages))
       return NextResponse.json(
@@ -47,6 +52,27 @@ export async function POST(req) {
         { error: "Product address in both languages is required" },
         { status: 400 },
       );
+
+    const sanitizeCity = (city) => {
+      let result = city || "";
+      if (result) {
+        result = result
+          .replace(/^(إمارة منطقة|امارة منطقة|منطقة|إمارة|امارة)\s+/, "")
+          .replace(/\s+(Province|Region|Governorate)$/i, "")
+          .trim();
+      }
+      return result;
+    };
+
+    const cityAr = sanitizeCity(data.addressAr?.city);
+    const cityEn = sanitizeCity(data.addressEn?.city);
+
+    if (!cityAr || !cityEn) {
+      return NextResponse.json(
+        { error: "Product city is required in both languages" },
+        { status: 400 },
+      );
+    }
     if (!data.rental?.value && data.pricingModel !== "packages")
       return NextResponse.json(
         { error: "Rental value is required" },
@@ -62,8 +88,8 @@ export async function POST(req) {
         { status: 400 },
       );
     }
-
     if (
+      data.rental?.delivery?.type === "delivery" &&
       data.rental?.delivery?.pricingModel === "fixedCity" &&
       (!data.rental?.delivery?.fixedCityPricing ||
         data.rental.delivery.fixedCityPricing.length === 0)
@@ -131,10 +157,8 @@ export async function POST(req) {
 
     const product = await Product.create({
       ...data,
-      addressAr: {
-        ...data.addressAr,
-        city: data.addressAr?.city?.replace("امارة منطقة الرياض", "الرياض"),
-      },
+      addressAr: { ...data.addressAr, city: cityAr },
+      addressEn: { ...data.addressEn, city: cityEn },
       images,
       location: {
         type: "Point",
@@ -147,7 +171,7 @@ export async function POST(req) {
       user.location = { lat: data.location.lat, lng: data.location.lng };
       user.address = [
         data.addressAr?.neighborhood,
-        data.addressAr?.city,
+        cityAr,
         data.addressAr?.governorate,
         data.addressAr?.country,
       ]
@@ -198,9 +222,11 @@ export async function GET(req) {
     const status = searchParams.get("status");
     const sortBy = searchParams.get("sortBy");
     const random = searchParams.get("random") === "true";
+    const isAdminPage = searchParams.get("isAdminPage") === "true";
     const startDate = searchParams.get("startDate");
     const endDate = searchParams.get("endDate");
     const providerId = searchParams.get("providerId");
+    const shopSlug = searchParams.get("shopSlug");
     const langSuffix = lang ? (lang === "en" ? "En" : "Ar") : "";
     const pipeline = [];
 
@@ -266,9 +292,11 @@ export async function GET(req) {
         },
       });
     }
-    let matchQuery = showAll
-      ? {}
-      : { approved: true, rejected: false, hidden: false };
+    // userId or shopSlug bypasses approval filter — shop sub-pages show unapproved products too
+    let matchQuery =
+      shopSlug || userId || showAll
+        ? {}
+        : { approved: true, rejected: false, hidden: false };
 
     if (!showDeleted && status !== "deleted") {
       matchQuery.deleted = { $ne: true };
@@ -294,10 +322,18 @@ export async function GET(req) {
           rejected: false,
           deleted: { $ne: true },
         };
+      } else if (status === "pendingChanges") {
+        matchQuery = {
+          approved: true,
+          "pendingChanges.needsReview": true,
+          deleted: { $ne: true },
+        };
       } else if (status === "hidden") {
         matchQuery = { hidden: true, deleted: { $ne: true } };
       } else if (status === "deleted") {
         matchQuery = { deleted: true };
+      } else if (status === "edited") {
+        matchQuery = { edited: true, rejected: false, deleted: { $ne: true } };
       } else if (status === "main") {
         matchQuery = {
           isMain: true,
@@ -311,7 +347,13 @@ export async function GET(req) {
       }
     }
 
-    if (userId) {
+    if (shopSlug) {
+      const shop = await Shop.findOne(
+        { slug: shopSlug.toLowerCase() },
+        { owner: 1 },
+      ).lean();
+      if (shop) matchQuery.owner = new mongoose.Types.ObjectId(shop.owner);
+    } else if (userId) {
       const user =
         userId.length === 24
           ? { _id: userId }
@@ -390,8 +432,55 @@ export async function GET(req) {
       sort = { _id: -1 };
     } else if (sortBy === "date-asc") {
       sort = { _id: 1 };
+    } else if (sortBy === "status-asc" || sortBy === "status-desc") {
+      pipeline.push({
+        $addFields: {
+          statusWeight: {
+            $switch: {
+              branches: [
+                { case: "$deleted", then: 6 },
+                { case: "$hidden", then: 5 },
+                { case: "$rejected", then: 4 },
+                { case: "$approved", then: 3 },
+                { case: "$edited", then: 2 },
+              ],
+              default: 1, // pending
+            },
+          },
+        },
+      });
+      sort = { statusWeight: sortBy === "status-asc" ? 1 : -1, _id: -1 };
     } else if (sortBy) {
       sort = { [sortBy]: -1, _id: -1 };
+    } else if (isAdminPage) {
+      pipeline.push({
+        $addFields: {
+          adminSortWeight: {
+            $cond: {
+              if: {
+                $and: [
+                  { $eq: ["$approved", true] },
+                  { $eq: ["$pendingChanges.needsReview", true] },
+                ],
+              },
+              then: 1,
+              else: {
+                $cond: {
+                  if: {
+                    $and: [
+                      { $eq: ["$approved", false] },
+                      { $eq: ["$rejected", false] },
+                    ],
+                  },
+                  then: 2,
+                  else: 3,
+                },
+              },
+            },
+          },
+        },
+      });
+      sort = { adminSortWeight: 1, _id: -1 };
     } else {
       sort = { _id: -1 };
     }
@@ -417,8 +506,13 @@ export async function GET(req) {
                 },
               },
               packages: { $slice: ["$rental.packages", 1] },
+              delivery: {
+                type: "$rental.delivery.type",
+                cost: "$rental.delivery.cost",
+                pricingModel: "$rental.delivery.pricingModel",
+                fixedCityPricing: "$rental.delivery.fixedCityPricing",
+              },
             };
-            projection.rental.delivery = 1;
           } else {
             projection[field] = 1;
           }

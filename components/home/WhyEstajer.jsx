@@ -5,5 +5,10 @@ import WhyEstajerContent from "./WhyEstajerContent";
 export default async function WhyEstajer({ lang }) {
   const t = await getTranslations(lang, ["home"]);
 
-  return <WhyEstajerContent translate={t()} lang={lang} />;
+  return (
+    <WhyEstajerContent
+      translate={{ home: { whyEstajerSection: t("home.whyEstajerSection") } }}
+      lang={lang}
+    />
+  );
 }

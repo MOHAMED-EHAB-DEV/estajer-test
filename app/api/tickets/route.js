@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import connectDB from "@/lib/db";
 import Ticket from "@/models/Ticket";
-import { authHeaders } from "@/middleware/authHeaders";
 import { handleApiError } from "@/lib/errorHandler";
 import { authenticateUser } from "@/middleware/auth";
 import cloudinary from "@/lib/cloudinary";
@@ -135,6 +134,17 @@ export async function POST(request) {
       lang,
       visitorId,
     } = await request.json();
+
+    // console.log({
+    //   name,
+    //   email,
+    //   subject,
+    //   message,
+    //   phone,
+    //   ticketImages,
+    //   lang,
+    //   visitorId,
+    // })
 
     // Validate required fields
     if (!name || !email || !subject || !message || !phone) {

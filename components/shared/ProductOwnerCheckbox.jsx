@@ -1,5 +1,5 @@
 "use client";
-import { Checkbox } from "@heroui/checkbox";
+import { Checkbox } from "@/components/ui/Checkbox";
 
 export default function ProductOwnerCheckbox({
   product,
@@ -18,7 +18,7 @@ export default function ProductOwnerCheckbox({
             isSelected ? "ring-1 md:ring-2 ring-[#f48a42]" : ""
           }`,
           wrapper: isSelected
-            ? "ring-1 md:ring-2 ring-[#f48a42] bg-[#f48a42] !mx-0"
+            ? "ring-1 md:ring-2 ring-[#f48a42] bg-primary !mx-0"
             : "!mx-0",
         }}
       />

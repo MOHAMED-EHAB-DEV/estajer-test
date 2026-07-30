@@ -33,7 +33,7 @@ export default async function page({ params, searchParams }) {
 
   return (
     <div>
-      <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-[1.2rem] font-semibold md:mb-6 mb-2">
+      <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-1.2 font-semibold md:mb-6 mb-2">
         {t("dashboard.requests.title")}
       </h1>
       <OrdersList

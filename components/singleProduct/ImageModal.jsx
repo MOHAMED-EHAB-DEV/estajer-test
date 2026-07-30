@@ -16,15 +16,20 @@ export default function ImageModal({
   initialIndex = 0,
   productName,
   requested,
+  lang = "ar",
 }) {
+  const isRtl = lang === "ar";
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     startIndex: initialIndex,
+    direction: isRtl ? "rtl" : "ltr",
   });
 
   const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
     containScroll: "keepSnaps",
     dragFree: true,
+    direction: isRtl ? "rtl" : "ltr",
   });
 
   const [selectedIndex, setSelectedIndex] = useState(initialIndex);
@@ -89,6 +94,34 @@ export default function ImageModal({
   const scrollNext = useCallback(() => {
     if (emblaApi && !isZoomed) emblaApi.scrollNext();
   }, [emblaApi, isZoomed]);
+
+  // Arrow keys keyboard navigation with RTL direction support
+  useEffect(() => {
+    if (!isOpen || !emblaApi) return;
+
+    const handleKeyDown = (e) => {
+      if (["INPUT", "TEXTAREA", "SELECT"].includes(e.target?.tagName)) return;
+
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (isRtl) {
+          emblaApi.scrollPrev();
+        } else {
+          emblaApi.scrollNext();
+        }
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        if (isRtl) {
+          emblaApi.scrollNext();
+        } else {
+          emblaApi.scrollPrev();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, emblaApi, isRtl]);
 
   const onThumbClick = useCallback(
     (index) => {
@@ -319,6 +352,7 @@ export default function ImageModal({
     <CustomModal
       isOpen={isOpen}
       onClose={handleClose}
+      hideCloseButton={true}
       size="full"
       backdropClass="bg-black/90 backdrop-blur-sm"
       className="bg-transparent shadow-none w-full h-full flex flex-col pointer-events-none"
@@ -353,19 +387,29 @@ export default function ImageModal({
               <button
                 onClick={scrollPrev}
                 disabled={prevBtnDisabled}
-                className="group flex items-center md:top-0 md:bottom-0 pointer-events-auto absolute left-0 z-40 px-8"
+                aria-label="Previous image"
+                className="outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 border-none"
               >
-                <div className="bg-white/20 group-hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                  <ChevronLeft className="w-6 h-6 text-white" />
+                <div className="bg-white/20 group-hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed border-none outline-none">
+                  {isRtl ? (
+                    <ChevronRight className="w-6 h-6 text-white" />
+                  ) : (
+                    <ChevronLeft className="w-6 h-6 text-white" />
+                  )}
                 </div>
               </button>
               <button
                 onClick={scrollNext}
                 disabled={nextBtnDisabled}
-                className="group flex items-center md:top-0 md:bottom-0 pointer-events-auto absolute right-0 z-40 px-8"
+                aria-label="Next image"
+                className="group flex items-center md:top-0 md:bottom-0 pointer-events-auto absolute end-0 z-40 px-4 md:px-8"
               >
                 <div className="bg-white/20 group-hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                  <ChevronRight className="w-6 h-6 text-white" />
+                  {isRtl ? (
+                    <ChevronLeft className="w-6 h-6 text-white" />
+                  ) : (
+                    <ChevronRight className="w-6 h-6 text-white" />
+                  )}
                 </div>
               </button>
             </>
@@ -374,7 +418,7 @@ export default function ImageModal({
           {/* Embla Carousel for main images */}
           <div
             className="w-full h-full max-w-8xl max-h-[80vh] mx-4 mb-4"
-            dir="ltr"
+            dir={isRtl ? "rtl" : "ltr"}
           >
             <div
               className="embla__viewport h-full pointer-events-auto"
@@ -464,7 +508,10 @@ export default function ImageModal({
         {images.length > 1 && !isZoomed && (
           <div className="pointer-events-auto absolute md:bottom-2 bottom-4 left-1/2 transform -translate-x-1/2 z-40">
             <div className="bg-white/10 md:bg-white/15 backdrop-blur-sm rounded-lg px-2 py-1">
-              <div className="embla-thumbs md:max-w-md max-w-xs" dir="ltr">
+              <div
+                className="embla-thumbs md:max-w-md max-w-xs"
+                dir={isRtl ? "rtl" : "ltr"}
+              >
                 <div className="embla-thumbs__viewport" ref={emblaThumbsRef}>
                   <div className="embla-thumbs__container gap-2">
                     {images.map((image, index) => (

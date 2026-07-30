@@ -57,6 +57,7 @@ const Shops = ({ isActive, className, ...rest }) => (
 export default function Sidebar({ lang, open, setOpen, translate }) {
   const router = useRouter();
   const [pendingPath, setPendingPath] = useState(null);
+  const [openMenus, setOpenMenus] = useState({});
   const trans = useTranslations(translate);
   const t = (text) => trans(`admin.sidebar.${text}`);
   const [showCover, setShowCover] = useState(false);
@@ -80,13 +81,14 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
     });
   };
   const links = [
-    { text: t("home"), Icon: Home, href: "/" },
-    { text: t("dashboard"), Icon: Home, href: "" },
+    { text: t("home"), Icon: Home, href: "/", type: "link" },
+    { text: t("dashboard"), Icon: Home, href: "", type: "link" },
     {
       text: t("rentalRequests"),
       Icon: Requests,
       href: `/orders/all`,
       alertType: "order",
+      type: "list",
       subLinks: [
         { text: t("overview"), link: "/orders/overview" },
         {
@@ -103,6 +105,7 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
       Icon: Products,
       href: `/products/all`,
       alertType: "product",
+      type: "list",
       subLinks: [
         { text: t("overview"), link: "/products/overview" },
         { text: t("allProducts"), link: "/products/all", alertType: "product" },
@@ -114,8 +117,14 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
       text: t("users"),
       Icon: Users,
       href: `/users`,
+      type: "list",
       subLinks: [
         { text: t("users"), link: "/users" },
+        {
+          text:
+            lang === "ar" ? "مستخدمين مساعد استأجر" : "Users of AI Assistant",
+          link: "/messages/ai/overview",
+        },
         {
           text: lang === "ar" ? "جلسات المستخدمين" : "User Sessions",
           link: "/sessions",
@@ -127,6 +136,7 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
       Icon: Messages,
       href: `/messages/all`,
       alertType: "message",
+      type: "list",
       subLinks: [
         { text: t("overview"), link: "/messages/overview" },
         {
@@ -135,7 +145,11 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
           alertType: "message",
         },
         { text: t("aiChat"), link: "/messages/ai" },
-        { text: t("tickets"), link: "/messages/tickets", disabled: true },
+        {
+          text:
+            lang === "ar" ? "دردشة الدعم والآراء" : "Support & Feedback Chat",
+          link: "/messages/support",
+        },
       ],
     },
     {
@@ -143,6 +157,7 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
       Icon: Headset,
       href: "/support/tickets",
       alertType: "ticket",
+      type: "list",
       subLinks: [
         { text: t("overview"), link: "/support/overview" },
         {
@@ -160,11 +175,28 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
       ],
       dynamicPages: true,
     },
-    { text: t("shops"), Icon: Shops, href: `/shops` },
+    {
+      text: t("shops"),
+      Icon: Shops,
+      href: `/shops`,
+      type: "list",
+      subLinks: [
+        { text: lang === "ar" ? "كل المتاجر" : "All Shops", link: "/shops" },
+        {
+          text: lang === "ar" ? "اشتراكات المتاجر" : "Premium Orders",
+          link: "/premium-orders",
+        },
+        {
+          text: lang === "ar" ? "الكوبونات" : "Coupons",
+          link: "/coupons",
+        },
+      ],
+    },
     {
       text: t("staticPages"),
       Icon: StaticPages,
       href: `/blogs`,
+      type: "list",
       // disabled: true,
       subLinks: [
         { text: t("blogs"), link: "/blogs" },
@@ -189,6 +221,7 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
       text: t("reports"),
       Icon: Reports,
       href: `/visits`,
+      type: "list",
       subLinks: [
         { text: t("visits"), link: "/visits" },
         {
@@ -200,6 +233,10 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
           link: "/damage-reports",
           alertType: "damageReport",
         },
+        {
+          text: lang === "ar" ? "تحليلات الدعم والآراء" : "Feedback Analytics",
+          link: "/messages/support-analytics",
+        },
         { text: t("earnings"), link: "/earnings", disabled: true },
       ],
     },
@@ -207,14 +244,14 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
       text: lang === "ar" ? "التطويرات" : "Developments",
       Icon: Tasks,
       href: `/tasks`,
-      subLinks: [{ text: t("tasks"), link: "/tasks" }],
+      type: "link",
     },
     // {
     //   text: lang === "ar" ? "سجل الأخطاء" : "Error Logs",
     //   Icon: ErrorLogs,
     //   href: `/error-logs`,
     // },
-    { text: t("settings"), Icon: Settings, href: `/settings` },
+    { text: t("settings"), Icon: Settings, href: `/settings`, type: "link" },
   ];
   useEffect(() => {
     if (open) setShowCover(true);
@@ -240,7 +277,7 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
       }
     };
     fetchAlerts();
-    const interval = setInterval(fetchAlerts, 60000);
+    const interval = setInterval(fetchAlerts, 300000);
     return () => clearInterval(interval);
   }, []);
 
@@ -268,7 +305,7 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
   };
 
   const Badge = () => (
-    <div className="w-2 h-2 ms-auto bg-red-500 rounded-full animate-pulse shadow-sm" />
+    <div className="w-2 h-2 shrink-0 ms-auto bg-red-500 rounded-full animate-pulse shadow-sm" />
   );
   useEffect(() => {
     if (open) document.body.classList.add("overflow-hidden");
@@ -286,6 +323,9 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
         ></div>
       )}
       <div
+        style={{
+          paddingBottom: "calc(1.5rem + env(safe-area-inset-bottom, 0px))",
+        }}
         className={`lg:start-0 z-50 md:w-[21rem] w-[18.5rem] bg-white h-dvh md:p-8 p-3 pt-4 fixed top-0 overflow-auto transition-[inset-inline-start] duration-300 ${
           open ? "start-0" : "-start-[21rem]"
         } `}
@@ -318,7 +358,16 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
         <div className="flex flex-col lg:gap-4 gap-1 md:mt-14 mt-8">
           {links.map(
             (
-              { text, Icon, href, subLinks, disabled, dynamicPages, alertType },
+              {
+                text,
+                Icon,
+                href,
+                subLinks,
+                disabled,
+                dynamicPages,
+                alertType,
+                type,
+              },
               idx,
             ) => {
               const fullHref =
@@ -332,23 +381,38 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
                       (subLink && pathname.includes(subLink)) ||
                       (dynamicPages && pathname.includes(link)),
                   ));
+
+              const isMenuOpen =
+                openMenus[idx] !== undefined ? openMenus[idx] : isActive;
+
               return (
                 <div
                   key={idx}
-                  className={`flex flex-col ${
-                    isActive && subLinks ? "bg-[#F6F6F6] rounded-t-[21px]" : ""
+                  className={`flex flex-col transition-colors duration-300 ${
+                    isMenuOpen && subLinks ? "bg-lightBg rounded-t-[21px]" : ""
                   } ${disabled ? "opacity-50 pointer-events-none" : ""}`}
                 >
                   <Button
                     onPress={(e) => {
                       if (disabled) return;
                       e?.preventDefault();
-                      setPendingPath(fullHref);
-                      startTransition(() => {
-                        router.push(fullHref);
-                        setOpen(false);
-                        if (alertType) handleAlertAction(alertType);
-                      });
+
+                      const isListWithSublinks =
+                        type === "list" && subLinks && subLinks.length > 0;
+
+                      if (isListWithSublinks) {
+                        setOpenMenus((prev) => ({
+                          ...prev,
+                          [idx]: !isMenuOpen,
+                        }));
+                      } else {
+                        setPendingPath(fullHref);
+                        startTransition(() => {
+                          router.push(fullHref);
+                          setOpen(false);
+                          if (alertType) handleAlertAction(alertType);
+                        });
+                      }
                     }}
                     variant="solid"
                     className={`md:text-xl text-sm justify-start md:py-7 py-3 md:px-6 px-3 ${
@@ -359,22 +423,31 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
                     startContent={
                       <Icon
                         isActive={isActive}
-                        className="md:w-5 md:h-5 w-4 h-4"
+                        className="md:w-5 md:h-5 w-4 h-4 shrink-0"
                       />
                     }
                   >
                     {text}
                     {hasNewAlert(alertType) && <Badge />}
-                    {isActive && (
-                      <div className={lang === "en" ? "rotate-180" : ""}>
+                    {(isActive ||
+                      (type === "list" && subLinks && subLinks.length > 0)) && (
+                      <div
+                        className={`shrink-0 transition-transform duration-300 ${lang === "en" && !isMenuOpen ? "rotate-180" : ""} ${lang === "ar" && isMenuOpen ? "-rotate-90" : ""} ${lang === "en" && isMenuOpen ? "rotate-90" : ""}`}
+                      >
                         <Arrow className="md:size-8 size-5" />
                       </div>
                     )}
                   </Button>
-                  {isActive && (
-                    <div className="flex flex-col gap-1.5 mt-2">
-                      {subLinks &&
-                        subLinks.map(
+                  {subLinks && subLinks.length > 0 && (
+                    <div
+                      className={`grid transition-all duration-300 ease-in-out ${
+                        isMenuOpen
+                          ? "grid-rows-[1fr] opacity-100 mt-2"
+                          : "grid-rows-[0fr] opacity-0 mt-0"
+                      }`}
+                    >
+                      <div className="overflow-hidden flex flex-col gap-1.5">
+                        {subLinks.map(
                           (
                             {
                               link,
@@ -384,16 +457,16 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
                               dynamicPages,
                               alertType: subAlertType,
                             },
-                            idx,
+                            subIdx,
                           ) => {
-                            const fullHref = `/${langPrefix}admin${link}`;
-                            const isActive =
-                              pathname === fullHref ||
+                            const subFullHref = `/${langPrefix}admin${link}`;
+                            const isSubActive =
+                              pathname === subFullHref ||
                               (subLink && pathname.includes(subLink)) ||
                               (dynamicPages && pathname.includes(link));
                             return (
                               <button
-                                key={idx}
+                                key={subIdx}
                                 className={clsx(
                                   "md:px-5 md:py-[10px] px-4 py-2 flex gap-3 items-center w-full text-start",
                                   disabled && "opacity-50 pointer-events-none",
@@ -401,28 +474,31 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
                                 onClick={(e) => {
                                   if (disabled) return;
                                   e?.preventDefault();
-                                  setPendingPath(fullHref);
+                                  setPendingPath(subFullHref);
                                   startTransition(() => {
-                                    router.push(fullHref);
+                                    router.push(subFullHref);
                                     setOpen(false);
+                                    if (alertType) handleAlertAction(alertType);
                                     if (subAlertType)
                                       handleAlertAction(subAlertType);
                                   });
                                 }}
                               >
-                                {isPending && pendingPath === fullHref ? (
+                                {isPending && pendingPath === subFullHref ? (
                                   <div className="w-2 h-2 border border-orange-500 border-t-transparent rounded-full animate-spin shrink-0" />
                                 ) : (
                                   <div
                                     className={`${
-                                      isActive ? "bg-primary" : "bg-darkNavy"
+                                      isSubActive ? "bg-primary" : "bg-darkNavy"
                                     } rounded-full md:w-3 md:h-3 w-2 h-2 shrink-0`}
                                   />
                                 )}
                                 <span
                                   className={clsx(
                                     "font-NotoSansArabic w-full flex items-center gap-2 md:text-sm text-[11px]",
-                                    isActive ? "text-primary" : "text-darkNavy",
+                                    isSubActive
+                                      ? "text-primary"
+                                      : "text-darkNavy",
                                   )}
                                 >
                                   {text}
@@ -432,6 +508,7 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
                             );
                           },
                         )}
+                      </div>
                     </div>
                   )}
                 </div>

@@ -5,6 +5,8 @@ import DocumentationSvg from "@/components/ui/svgs/DocumentationSvg";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 
+export const metadata = { robots: { index: false, follow: false } };
+
 async function orderStatus({ id }) {
   try {
     const cookieStore = await cookies();

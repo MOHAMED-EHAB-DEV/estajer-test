@@ -9,7 +9,9 @@ import PartnerTable from "./PartnerTable";
 import { revalidateWithTag } from "@/actions/revalidateTag";
 import SectionOrderModal from "./modal/SectionOrderModal";
 import Button from "@/components/ui/Button";
-import { Input, Select, SelectItem, Pagination } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Pagination } from "@/components/ui/Pagination";
 import { useDebounce } from "use-debounce";
 
 export default function PartnerContainer({ lang, translate }) {

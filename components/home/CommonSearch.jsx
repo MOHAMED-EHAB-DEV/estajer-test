@@ -7,7 +7,10 @@ export default async function CommonSearch({ lang }) {
   return (
     <div className="hidden md:block bg-darkNavy md:py-0 py-6">
       <div className="max-w-screen-2xl mx-auto lg:px-10 md:px-8 px-4 gap-[3%] gap-y-5 items-center">
-        <CommonSearchCarousel translate={translate()} lang={lang} />
+        <CommonSearchCarousel
+          translate={{ home: { commonSearch: translate("home.commonSearch") } }}
+          lang={lang}
+        />
       </div>
     </div>
   );

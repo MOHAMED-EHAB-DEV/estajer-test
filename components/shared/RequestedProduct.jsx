@@ -9,7 +9,7 @@ import { useTranslations } from "@/hooks/useTranslations";
 import { useRouter } from "next/navigation";
 import revalidate, { revalidateWithTag } from "@/actions/revalidateTag";
 import { Delete } from "@/components/ui/svgs/icons/DeleteSvg";
-import { Edit } from "@/components/ui/svgs/icons/EditSvg";;
+import { Edit } from "@/components/ui/svgs/icons/EditSvg";
 import ConfirmModal from "@/components/dashboard/ConfirmModal";
 
 const RequestedProduct = ({ lang, translate, owner, buttonsText, request }) => {
@@ -28,7 +28,7 @@ const RequestedProduct = ({ lang, translate, owner, buttonsText, request }) => {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.15, rootMargin: "-100px 0px" }
+      { threshold: 0.15, rootMargin: "-100px 0px" },
     );
 
     if (itemRef.current) observer.observe(itemRef.current);
@@ -99,7 +99,7 @@ const RequestedProduct = ({ lang, translate, owner, buttonsText, request }) => {
         <div className="md:p-6 md:pl-3 p-4 flex-1 flex flex-col justify-around h-full">
           {request.approved && owner && (
             <div
-              className="bg-[#4FD658] text-white py-1 px-4 rounded-md w-max text-[13px] mb-2 font-IBMPlex"
+              className="bg-successGreen text-white py-1 px-4 rounded-md w-max text-[13px] mb-2 font-IBMPlex"
               role="status"
               aria-label="Request approved"
             >
@@ -108,7 +108,7 @@ const RequestedProduct = ({ lang, translate, owner, buttonsText, request }) => {
           )}
           {request.rejected && owner && (
             <div
-              className="bg-[#F44242] py-1 px-4 text-white rounded-md w-max text-[13px] mb-2 font-IBMPlex"
+              className="bg-dangerRed py-1 px-4 text-white rounded-md w-max text-[13px] mb-2 font-IBMPlex"
               role="status"
               aria-label="Request rejected"
             >
@@ -119,7 +119,7 @@ const RequestedProduct = ({ lang, translate, owner, buttonsText, request }) => {
             request.approved === false &&
             owner && (
               <div
-                className="bg-[#F48A42] py-1 px-4 rounded-md text-white w-max text-[13px] mb-2 font-IBMPlex"
+                className="bg-primary py-1 px-4 rounded-md text-white w-max text-[13px] mb-2 font-IBMPlex"
                 role="status"
                 aria-label="Request pending approval"
               >
@@ -128,7 +128,7 @@ const RequestedProduct = ({ lang, translate, owner, buttonsText, request }) => {
             )}
           <header>
             <h3
-              className="text-darkNavy lg:text-[1.35rem] md:text-[1.25rem] text-[1.1rem] font-semibold line-clamp-2 capitalize"
+              className="text-darkNavy lg:text-1.35 md:text-[1.25rem] text-1.1 font-semibold line-clamp-2 capitalize"
               itemProp="name"
             >
               {request?.name}
@@ -162,7 +162,7 @@ const RequestedProduct = ({ lang, translate, owner, buttonsText, request }) => {
                 <Button
                   as={Link}
                   href={`/edit-request-product/${request?._id}`}
-                  className="min-w-0 w-fit p-4 bg-[#EAEEF3] rounded-full"
+                  className="min-w-0 w-fit p-4 bg-surfaceBlue rounded-full"
                   color="transparent"
                   aria-label={`Edit request: ${request?.name}`}
                   title={`Edit request: ${request?.name}`}
@@ -170,7 +170,7 @@ const RequestedProduct = ({ lang, translate, owner, buttonsText, request }) => {
                   <Edit size={18} aria-hidden="true" />
                 </Button>
                 <Button
-                  className="min-w-0 w-fit p-4 bg-[#EAEEF3] rounded-full"
+                  className="min-w-0 w-fit p-4 bg-surfaceBlue rounded-full"
                   color="transparent"
                   onClick={() => handleDelete(request?._id)}
                   aria-label={`Delete request: ${request?.name}`}

@@ -6,7 +6,7 @@ import { anyImgUrl } from "@/utils/ImageUrl";
 import { toast } from "@/utils/toast";
 import ImagePreviewModal from "@/components/admin/ImagePreviewModal";
 import { useTranslations } from "@/hooks/useTranslations";
-import { Textarea } from "@heroui/react";
+import { Textarea } from "@/components/ui/Input";
 import { Send } from "@/components/ui/svgs/icons/SendSvg";
 import { resizeImage } from "@/utils/ImageResizer";
 
@@ -131,7 +131,7 @@ const UserTicketDetail = ({ initialTicket, lang, translate }) => {
       </div>
 
       {/* Chat History */}
-      <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 bg-[#FDF5EE]/30 relative">
+      <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 bg-brandCream/30 relative">
         {/* Background Pattern */}
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none mix-blend-darken bg-[url('/estajer/images/https%3A%2F%2Fres.cloudinary.com%2Fdhfzkadm2%2Fimage%2Fupload%2Fv1743810725%2Fsocial-networks-dating-apps-vector-seamless-pattern_341076-469_hxu7zh.webp?w=600&q=50')]"></div>
 
@@ -161,6 +161,7 @@ const UserTicketDetail = ({ initialTicket, lang, translate }) => {
                           width={40}
                           height={40}
                           className="w-full h-full object-cover"
+                          unoptimized
                         />
                       ) : (
                         <span className="font-bold text-gray-400">
@@ -203,6 +204,7 @@ const UserTicketDetail = ({ initialTicket, lang, translate }) => {
                               width={96}
                               height={96}
                               className="w-full h-full object-cover hover:scale-110 transition-transform"
+                              unoptimized
                             />
                           </div>
                         ))}

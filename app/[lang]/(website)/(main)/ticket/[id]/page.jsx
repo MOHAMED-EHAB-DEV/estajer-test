@@ -3,6 +3,7 @@ import VisitorTicketDetail from "@/components/support/VisitorTicketDetail";
 
 export const metadata = {
   title: "تفاصيل التذكرة | إستأجر",
+  robots: { index: false, follow: false },
 };
 
 export default async function page({ params, searchParams }) {
@@ -18,7 +19,7 @@ export default async function page({ params, searchParams }) {
         <h1 className="text-2xl font-bold font-IBMPlex">{t("title")}</h1>
       </div>
       <VisitorTicketDetail
-        lang={lang} 
+        lang={lang}
         translate={translate()}
         id={id}
         vid={vid}

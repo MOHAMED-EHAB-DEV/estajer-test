@@ -45,6 +45,8 @@ export default function MainChatBox({
   lang,
   visitorName,
   setVisitorName,
+  visitorContact,
+  setVisitorContact,
   initialProduct,
 }) {
   const { socket } = useUser();
@@ -238,9 +240,10 @@ export default function MainChatBox({
           setMessages([
             {
               sender: { _id: otherUserId, fullName: otherUserName },
-              content: t("chat.hello", {
-                name: visitorName?.split(" ")[0] || "",
-              }),
+              content: t("chat.hello").replace(
+                "{name}",
+                visitorName?.split(" ")[0] || "",
+              ),
               timestamp: Date.now(),
               state: "read",
             },
@@ -251,11 +254,9 @@ export default function MainChatBox({
       return;
     }
 
-    if (!socket) return;
     const participants = [currentUserId, otherUserId].sort();
     const generatedChatId = participants.join("_");
     setChatId(generatedChatId);
-    socket.emit("join-room", generatedChatId);
 
     fetch(`/api/chat?chatId=${generatedChatId}`)
       .then(async (chatRes) => {
@@ -270,13 +271,14 @@ export default function MainChatBox({
         });
       });
 
+    if (!socket) return;
+    socket.emit("join-room", generatedChatId);
     socket.on(
       "new-message",
       ({ message }) =>
         message?.sender._id !== currentUserId &&
         setMessages((prev) => [...prev, message]),
     );
-
     return () => {
       if (generatedChatId) socket.emit("leave-chat", generatedChatId);
       socket.off("new-message");
@@ -533,6 +535,7 @@ export default function MainChatBox({
 
     try {
       if (aiAssistant) {
+        setIsTyping(true);
         const historySeed = messages.slice(-4);
         const historyText = [
           ...historySeed,
@@ -551,10 +554,12 @@ export default function MainChatBox({
             prompt: historyText,
             userMessage: newMessage,
             name: visitorName,
+            contact: visitorContact,
             lang,
           }),
         });
         const data = await res.json();
+        setIsTyping(false);
         if (data.error) throw new Error(data.error);
         if (!res.ok) throw new Error("Failed to send AI message");
 
@@ -599,6 +604,7 @@ export default function MainChatBox({
         });
       }
     } catch (error) {
+      setIsTyping(false);
       toast.error(ToastMessage(error.message || "Failed to send message"), {
         toastId: "send-error",
       });
@@ -609,7 +615,10 @@ export default function MainChatBox({
   const formatLastSeen = (date) => {
     if (!date) return "";
     try {
-      return formatDistanceToNow(new Date(date), {
+      const lastSeenDate = new Date(date);
+      const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      if (lastSeenDate.getTime() < oneWeekAgo) return "";
+      return formatDistanceToNow(lastSeenDate, {
         addSuffix: true,
         locale: ar,
       });
@@ -641,11 +650,12 @@ export default function MainChatBox({
 
   return (
     <div
+      style={small ? { paddingBottom: "env(safe-area-inset-bottom, 0px)" } : undefined}
       className={`${
         small
-          ? "fixed bottom-0 md:start-2 start-0 md:px-0 w-[440px] h-[670px] max-w-full max-h-dvh shadow-2xl"
+          ? "fixed bottom-0 md:start-2 start-0 end-0 md:end-auto w-full md:w-[440px] h-full md:h-[670px] max-h-[100dvh] md:max-h-[85vh] bg-white shadow-2xl md:rounded-t-2xl rounded-t-xl"
           : "md:relative absolute h-full w-full bg-white"
-      } rounded-t-xl flex flex-col flex-1 z-[99] border border-gray-200/50`}
+      } flex flex-col flex-1 z-overlay`}
     >
       <ChatHeader
         small={small}
@@ -661,10 +671,11 @@ export default function MainChatBox({
         contactInfo={contactInfo}
       />
 
-      {!visitorName && aiAssistant ? (
+      {(!visitorName || !visitorContact) && aiAssistant ? (
         <WelcomeCover
           visitorName={visitorName}
           setVisitorName={setVisitorName}
+          setVisitorContact={setVisitorContact}
           translate={translate}
         />
       ) : (
@@ -712,6 +723,7 @@ export default function MainChatBox({
             newMessage={newMessage}
             setNewMessage={setNewMessage}
             sendMessage={sendMessage}
+            aiAssistant={aiAssistant}
             textareaRef={textareaRef}
             showProductSearch={showProductSearch}
             setShowProductSearch={setShowProductSearch}

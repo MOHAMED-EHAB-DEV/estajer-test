@@ -4,7 +4,7 @@ import { categories, subCategories } from "@/static/categoriesOptions";
 
 export default async function AddShopPage({ params }) {
   const { lang } = await params;
-  const t = await getTranslations(lang, ["all", "home"]);
+  const t = await getTranslations(lang, ["all", "home", "shop"]);
 
   const [categoriesData, subCategoriesData] = await Promise.all([
     categories({ lang }),

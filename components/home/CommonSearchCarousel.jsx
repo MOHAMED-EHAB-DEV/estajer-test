@@ -105,7 +105,7 @@ export default function CommonSearchCarousel({
         <header>
           <h2
             id="popular-searches-heading"
-            className="flex font-IBMPlex text-primary text-[1.2rem] font-semibold flex-wrap gap-1"
+            className="flex font-IBMPlex text-primary text-1.2 font-semibold flex-wrap gap-1"
           >
             <span className="min-w-max">{t("title1")}</span>
             <span className="min-w-max">{t("title2")}</span>

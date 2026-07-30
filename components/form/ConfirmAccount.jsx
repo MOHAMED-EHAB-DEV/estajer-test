@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { useTranslations } from "@/hooks/useTranslations";
 import { toast } from "@/utils/toast";
 import ToastMessage from "@/components/ui/ToastMessage";
-import { sendGTMEvent } from "@next/third-parties/google";
 
 export default function ConfirmAccount({ translate, lang, queryPage }) {
   const langPrefix = lang === "ar" ? "" : "en/";
@@ -39,13 +38,7 @@ export default function ConfirmAccount({ translate, lang, queryPage }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || t("errorGeneral"));
-      // GTM event: verify email via code submission
-      sendGTMEvent({
-        event: "verify_email_submit",
-        code_length: code?.length || 0,
-        language: lang,
-        redirect_to: queryPage || `/${langPrefix}`,
-      });
+
       // Redirect to home page or dashboard
       if (queryPage) return (window.location.href = queryPage);
 
@@ -73,12 +66,6 @@ export default function ConfirmAccount({ translate, lang, queryPage }) {
       }
 
       setResendState({ success: true, message: data.message });
-      // GTM event: resend verification code
-      sendGTMEvent({
-        event: "verify_email_resend",
-        language: lang,
-      });
-
       // Start countdown for 60 seconds
       setCountdown(60);
       const timer = setInterval(() => {
@@ -105,12 +92,6 @@ export default function ConfirmAccount({ translate, lang, queryPage }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || t("errorGeneral"));
       toast.success(ToastMessage(t("logoutSuccess")));
-      // GTM event: logout from confirm email page
-      sendGTMEvent({
-        event: "logout",
-        source: "confirm_email_page",
-        language: lang,
-      });
       window.location.href = `/${langPrefix}`;
     } catch (err) {
       toast.error(ToastMessage(err.message));

@@ -14,7 +14,7 @@ async function getInitialData({ lang, queryParams }) {
         lang === "ar" ? "nameAr" : "nameEn"
       },rental,rating,pricingModel,location,${
         lang === "ar" ? "addressAr" : "addressEn"
-      },rejected,approved,deleted,hidden,rejectMessage,category,createdAt,updatedAt,owner,nana`,
+      },rejected,approved,deleted,hidden,rejectMessage,category,createdAt,updatedAt,owner,nana,pendingChanges`,
       owner: true,
       ...queryParams,
     });
@@ -44,7 +44,9 @@ export default async function AdminProducts({ params, searchParams }) {
   return (
     <div className="relative max-w-screen-2xl mx-auto px-1 md:px-4 pt-8">
       <div className="flex justify-between items-center md:mb-8 mb-2">
-        <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-[1.2rem] font-IBMPlex font-bold">المنتجات</h1>
+        <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-1.2 font-IBMPlex font-bold">
+          المنتجات
+        </h1>
       </div>
       <AdminProductContainer
         lang={lang}

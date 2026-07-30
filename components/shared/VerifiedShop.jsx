@@ -183,7 +183,7 @@ const VerifiedShop = ({
           as={Link}
           href={`/${langPrefix}profile/${pathName}/products`}
           variant="light"
-          className="md:py-7 bg-primary/5 border border-primary/10 px-6 mx-auto md:mx-0 text-[0.8rem] gap-1 md:gap-3 md:text-[1.1rem] text-darkNavy font-semibold md:text-lg"
+          className="md:py-7 bg-primary/5 border border-primary/10 px-6 mx-auto md:mx-0 text-0.8 gap-1 md:gap-3 md:text-1.1 text-darkNavy font-semibold md:text-lg"
           endContent={
             <Send
               className="-rotate-45 md:w-6 md:h-6 w-4 h-4"

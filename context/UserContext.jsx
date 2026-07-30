@@ -6,15 +6,20 @@ import {
   useEffect,
   useRef,
   startTransition,
+  useMemo,
+  useCallback,
 } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { sendGTMEvent } from "@next/third-parties/google";
 
+// Returns a cancel function — fixes the runWhenIdle timeout-ignored-in-fallback bug
 const runWhenIdle = (callback, timeout = 2000) => {
   if (typeof window !== "undefined" && window.requestIdleCallback) {
-    window.requestIdleCallback(callback, { timeout });
+    const id = window.requestIdleCallback(callback, { timeout });
+    return () => window.cancelIdleCallback(id);
   } else {
-    setTimeout(callback, 300);
+    const id = setTimeout(callback, timeout); // uses actual timeout, not hardcoded 300
+    return () => clearTimeout(id);
   }
 };
 
@@ -31,272 +36,342 @@ export function UserProvider({ children }) {
   const [favoriteProducts, setFavoriteProducts] = useState([]);
   const [visitorId, setVisitorId] = useState("");
 
-  const getFavoritesLocation = () => {
+  const socketRef = useRef(null);
+  const socketIdleRef = useRef(null);
+  const visitorIdRef = useRef("");
+  const isMounted = useRef(true);
+  const favoriteProductsRef = useRef([]);
+  const userRef = useRef(null);
+
+  // Sync ref with state to prevent stale closures
+  useEffect(() => {
+    userRef.current = user;
+    if (user) {
+      sendGTMEvent({
+        event: "user_data_update",
+        customer: {
+          id: user._id,
+          email: user.email,
+          phone: user.phone,
+          name: user.fullName,
+        },
+      });
+    }
+  }, [user]);
+
+  const updateFavoriteProducts = useCallback((newFavorites) => {
+    // Handle both array injection and functional state updates
+    const updatedFavorites =
+      typeof newFavorites === "function"
+        ? newFavorites(favoriteProductsRef.current)
+        : newFavorites;
+
+    favoriteProductsRef.current = updatedFavorites;
+    setFavoriteProducts(updatedFavorites);
+  }, []);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  const updateVisitorId = useCallback((id) => {
+    visitorIdRef.current = id;
+    setVisitorId(id);
+  }, []);
+
+  const getFavoritesLocation = useCallback(() => {
     const path = typeof window !== "undefined" ? window.location.pathname : "";
     if (path.includes("/search/products")) return "search_results";
     if (path.includes("/favorites")) return "favorites_page";
     if (path.includes("/product/")) return "product_page";
     if (path.includes("/dashboard")) return "dashboard";
     return "listing";
-  };
+  }, []);
 
-  const fetchUser = () => {
-    startTransition(async () => {
-      try {
-        const res = await fetch("/api/auth/user");
-        const data = await res.json();
-        setLoading(false);
-        setUser(data.user);
-        if (!data.user) {
-          const id = localStorage.getItem("visitorId");
-          if (id) setVisitorId(id);
-        }
-        if (data.user) {
-          runWhenIdle(() => {
-            // Mark user as online (non-critical)
-            fetch("/api/auth/user/online", { method: "POST" }).catch(() => {});
-          }, 100);
+  const getPageInfo = useCallback(() => {
+    if (typeof window === "undefined") return { page: "/" };
+    let currentPath = window.location.pathname;
+    try {
+      currentPath = decodeURIComponent(currentPath);
+    } catch (e) {}
+    const productMatch =
+      currentPath.match(/\/products\/.*_ref_([a-f0-9]{24})/i) ||
+      currentPath.match(/\/product\/([a-f0-9]{24})/i);
+    if (productMatch) return { page: currentPath, productId: productMatch[1] };
+    return { page: currentPath };
+  }, []);
 
-          // Fetch favorites concurrently in the background
-          fetchFavorites();
-          fetchVisitorCount(data.user);
-          // PERFORMANCE: Defer socket connection even further (3 seconds)
-          // Socket is not needed for initial page interaction
-          runWhenIdle(async () => {
-            const socketUrl =
-              process.env.NEXT_PUBLIC_SOCKET_URL ||
-              (process.env.NODE_ENV === "production"
-                ? window.location.origin
-                : null);
-            if (!socketUrl) return;
-
-            // Dynamically import IO only when the timeout hits
-            const { default: io } = await import("socket.io-client");
-
-            const socketConnection = io(socketUrl, {
-              path: "/socket/socket.io",
-              transports: ["polling", "websocket"],
-            });
-            // State updates inside async idle callbacks should also be transitions
-            startTransition(() => setSocket(socketConnection));
-            // Add connection event listeners
-            socketConnection.on("connect", () => {
-              socketConnection.emit("join-user", data.user._id);
-            });
-            socketConnection.on("reconnect", () =>
-              socketConnection.emit("join-user", data.user._id),
-            );
-            socketConnection.on("connect_error", (error) =>
-              console.error("Socket connection error:", error),
-            );
-          }, 3000); // Delay socket by 3 seconds
-        }
-        return data.user;
-      } catch (error) {
-        console.error("Failed to fetch user:", error);
-        const id = localStorage.getItem("visitorId");
-        if (id) setVisitorId(id);
-        fetchVisitorCount(null);
-      }
-    });
-  };
-
-  const fetchFavorites = () => {
+  const fetchFavorites = useCallback(() => {
     startTransition(async () => {
       try {
         const res = await fetch("/api/favorites");
         const data = await res.json();
         if (data.success) {
-          setFavoriteProducts(data.favorites.map((product) => product._id));
+          const ids = data.favorites.map((product) => product._id);
+          favoriteProductsRef.current = ids;
+          setFavoriteProducts(ids);
         }
       } catch (error) {
         console.error("Failed to fetch favorites:", error);
       }
     });
-  };
+  }, []);
 
-  // Detect product page and extract productId from URL
-  const getPageInfo = () => {
-    if (typeof window === "undefined") return { page: "/" };
-    let pathname = window.location.pathname;
+  const fetchVisitorCount = useCallback(
+    (currentUser) => {
+      const { page, productId } = getPageInfo();
+
+      runWhenIdle(async () => {
+        if (!isMounted.current) return;
+        try {
+          const body = { page };
+          if (productId) {
+            body.productId = productId;
+            if (currentUser?._id) body.visitorUserId = currentUser._id;
+          }
+
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const todayStr = today.toISOString().split("T")[0];
+          const lastVisitDate = localStorage.getItem("lastVisitDate");
+
+          const res = await fetch("/api/visitors", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
+          const data = await res.json();
+          if (data?.success && lastVisitDate !== todayStr) {
+            localStorage.setItem("lastVisitDate", todayStr);
+          }
+
+          if (!visitorIdRef.current) {
+            const res2 = await fetch("/api/visitor");
+            const data2 = await res2.json();
+            if (data2?.success && data2?.id) {
+              updateVisitorId(data2.id);
+              localStorage.setItem("visitorId", data2.id);
+            }
+          }
+        } catch {
+          return;
+        }
+      }, 1000);
+    },
+    [getPageInfo, updateVisitorId],
+  );
+
+  const fetchUser = useCallback(async () => {
     try {
-      pathname = decodeURIComponent(pathname);
-    } catch (e) {}
-    const productMatch =
-      pathname.match(/\/products\/.*_ref_([a-f0-9]{24})/i) ||
-      pathname.match(/\/product\/([a-f0-9]{24})/i);
+      const res = await fetch("/api/auth/user");
+      const data = await res.json();
 
-    if (productMatch) return { page: pathname, productId: productMatch[1] };
-    return { page: pathname };
-  };
+      if (!isMounted.current) return;
 
-  // Fetch visitor count and increment it (non-blocking)
-  const fetchVisitorCount = (currentUser) => {
-    // Analytics have no impact on UI, strictly defer them to idle time
-    runWhenIdle(async () => {
-      try {
-        const { page, productId } = getPageInfo();
+      // Urgent — must not be deferred
+      setLoading(false);
+      setUser(data.user);
 
-        // Build POST body – always include the page
-        const body = { page };
-        if (productId) {
-          body.productId = productId;
-          if (currentUser?._id) body.visitorUserId = currentUser._id;
+      if (!data.user) {
+        const id = localStorage.getItem("visitorId");
+        if (id) updateVisitorId(id);
+      }
+
+      if (data.user) {
+        fetchFavorites();
+
+        if (socketIdleRef.current) {
+          socketIdleRef.current();
+          socketIdleRef.current = null;
         }
 
-        // Track overall unique daily visit via localStorage gate
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const todayStr = today.toISOString().split("T")[0];
-        const lastVisitDate = localStorage.getItem("lastVisitDate");
+        socketIdleRef.current = runWhenIdle(async () => {
+          socketIdleRef.current = null;
 
-        // Always POST (server rate-limits per IP+page), but mark overall visit
-        const res = await fetch("/api/visitors", {
+          // Abort if unmounted — fixes ghost socket memory leak on early unmount
+          if (!isMounted.current) return;
+
+          // Guard against duplicate connections (rapid reload or Strict Mode)
+          if (socketRef.current?.connected) return;
+
+          const socketUrl = "https://estajer.com";
+          if (!socketUrl) return;
+
+          const { default: io } = await import("socket.io-client");
+
+          // Re-check after async import in case component unmounted during await
+          if (!isMounted.current) return;
+          if (socketRef.current?.connected) return;
+
+          const socketConnection = io(socketUrl, {
+            path: "/socket/socket.io",
+            transports: ["polling", "websocket"],
+          });
+
+          socketRef.current = socketConnection;
+          startTransition(() => setSocket(socketConnection));
+
+          socketConnection.on("connect", () => {
+            socketConnection.emit("join-user", data.user._id);
+          });
+          socketConnection.on("reconnect", () => {
+            socketConnection.emit("join-user", data.user._id);
+          });
+          socketConnection.on("connect_error", (error) => {
+            console.error("Socket connection error:", error);
+          });
+        }, 3000);
+      }
+
+      fetchVisitorCount(data.user ?? null);
+      return data.user;
+    } catch (error) {
+      console.error("Failed to fetch user:", error);
+      // Prevents infinite loading state if the auth request fails
+      if (!isMounted.current) return;
+      setLoading(false);
+      const id = localStorage.getItem("visitorId");
+      if (id) updateVisitorId(id);
+      fetchVisitorCount(null);
+    }
+  }, [fetchFavorites, fetchVisitorCount, updateVisitorId]);
+
+  const addToFavorites = useCallback(
+    async (productId) => {
+      try {
+        // Use ref for synchronous optimistic update — avoids race on rapid clicks
+        if (!favoriteProductsRef.current.includes(productId)) {
+          favoriteProductsRef.current = [
+            ...favoriteProductsRef.current,
+            productId,
+          ];
+        }
+        setFavoriteProducts([...favoriteProductsRef.current]);
+
+        const res = await fetch("/api/favorites", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
+          body: JSON.stringify({ productId }),
         });
         const data = await res.json();
-        if (data?.success && lastVisitDate !== todayStr) {
-          localStorage.setItem("lastVisitDate", todayStr);
-        }
-
-        if (!visitorId) {
-          const res2 = await fetch("/api/visitor");
-          const data2 = await res2.json();
-          if (data2?.success && data2?.id) {
-            setVisitorId(data2.id);
-            localStorage.setItem("visitorId", data2.id);
-          }
+        if (!data.success) {
+          favoriteProductsRef.current = favoriteProductsRef.current.filter(
+            (id) => id !== productId,
+          );
+          setFavoriteProducts([...favoriteProductsRef.current]);
+          console.error("Failed to add to favorites:", data.error);
         }
       } catch (error) {
-        return;
+        favoriteProductsRef.current = favoriteProductsRef.current.filter(
+          (id) => id !== productId,
+        );
+        setFavoriteProducts([...favoriteProductsRef.current]);
+        console.error("Error adding to favorites:", error);
       }
-    }, 1000); // Delay visitor count to not impact initial render
-  };
+    },
+    [getFavoritesLocation],
+  );
 
-  // Add a product to favorites
-  const addToFavorites = async (productId) => {
-    try {
-      // Optimistically update UI
-      setFavoriteProducts((prev) => {
-        if (!prev.includes(productId)) return [...prev, productId];
-        return prev;
-      });
-
+  const removeFromFavorites = useCallback(
+    async (productId) => {
       try {
-        console.log(getFavoritesLocation());
-        sendGTMEvent({
-          event: "add_to_wishlist",
-          product_id: productId,
-          location: getFavoritesLocation(),
+        // Use ref for synchronous optimistic update — avoids race on rapid clicks
+        favoriteProductsRef.current = favoriteProductsRef.current.filter(
+          (id) => id !== productId,
+        );
+        setFavoriteProducts([...favoriteProductsRef.current]);
+
+        const res = await fetch(`/api/favorites?productId=${productId}`, {
+          method: "DELETE",
         });
-      } catch (_) {}
-
-      // Send request to API
-      const res = await fetch("/api/favorites", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId }),
-      });
-
-      const data = await res.json();
-      if (!data.success) {
-        // Revert if failed
-        setFavoriteProducts((prev) => prev.filter((id) => id !== productId));
-        console.error("Failed to add to favorites:", data.error);
+        const data = await res.json();
+        if (!data.success) {
+          favoriteProductsRef.current = [
+            ...favoriteProductsRef.current,
+            productId,
+          ];
+          setFavoriteProducts([...favoriteProductsRef.current]);
+          console.error("Failed to remove from favorites:", data.error);
+        }
+      } catch (error) {
+        favoriteProductsRef.current = [
+          ...favoriteProductsRef.current,
+          productId,
+        ];
+        setFavoriteProducts([...favoriteProductsRef.current]);
+        console.error("Error removing from favorites:", error);
       }
-    } catch (error) {
-      // Revert if failed
-      setFavoriteProducts((prev) => prev.filter((id) => id !== productId));
-      console.error("Error adding to favorites:", error);
-    }
-  };
+    },
+    [getFavoritesLocation],
+  );
 
-  // Remove a product from favorites
-  const removeFromFavorites = async (productId) => {
-    try {
-      // Optimistically update UI
-      setFavoriteProducts((prev) => prev.filter((id) => id !== productId));
-
-      try {
-        sendGTMEvent({
-          event: "remove_from_wishlist",
-          product_id: productId,
-          location: getFavoritesLocation(),
-        });
-      } catch (_) {}
-
-      // Send request to API
-      const res = await fetch(`/api/favorites?productId=${productId}`, {
-        method: "DELETE",
-      });
-
-      const data = await res.json();
-      if (!data.success) {
-        // Revert if failed
-        setFavoriteProducts((prev) => [...prev, productId]);
-        console.error("Failed to remove from favorites:", data.error);
-      }
-    } catch (error) {
-      // Revert if failed
-      setFavoriteProducts((prev) => [...prev, productId]);
-      console.error("Error removing from favorites:", error);
-    }
-  };
-
-  // Toggle favorite status
-  const toggleFavorite = (productId) => {
-    if (!user) return router.push("/login?message=unauthorized");
-    if (favoriteProducts.includes(productId)) removeFromFavorites(productId);
-    else addToFavorites(productId);
-  };
+  const toggleFavorite = useCallback(
+    (productId) => {
+      if (!user) return router.push("/login?message=unauthorized");
+      if (favoriteProductsRef.current.includes(productId))
+        removeFromFavorites(productId);
+      else addToFavorites(productId);
+    },
+    [user, router, addToFavorites, removeFromFavorites],
+  );
 
   useEffect(() => {
     fetchUser();
-    const handleBeforeUnload = () =>
-      fetch("/api/auth/user/offline", { method: "POST", keepalive: true });
-    window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      if (socket && typeof socket.disconnect === "function")
-        socket.disconnect();
+      // Cancel any pending socket idle callback before it fires
+      if (socketIdleRef.current) {
+        socketIdleRef.current();
+        socketIdleRef.current = null;
+      }
+      if (socketRef.current?.disconnect) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
     };
-  }, [reload]);
+  }, [reload, fetchUser]);
 
-  // Track page visits on client-side navigation (Next.js Link / router.push)
-  // Skips the very first render since the main useEffect handles that.
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
     }
-    // Small delay so the new page's URL is fully committed
     const timer = setTimeout(() => {
-      fetchVisitorCount(user);
+      fetchVisitorCount(userRef.current);
     }, 300);
     return () => clearTimeout(timer);
-  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pathname, fetchVisitorCount]);
 
-  return (
-    <UserContext.Provider
-      value={{
-        user,
-        setUser,
-        loading,
-        socket,
-        setReload,
-        favoriteProducts,
-        setFavoriteProducts,
-        addToFavorites,
-        removeFromFavorites,
-        toggleFavorite,
-        visitorId,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
+  const contextValue = useMemo(
+    () => ({
+      user,
+      setUser,
+      loading,
+      socket,
+      setReload,
+      favoriteProducts,
+      setFavoriteProducts: updateFavoriteProducts,
+      addToFavorites,
+      removeFromFavorites,
+      toggleFavorite,
+      visitorId,
+    }),
+    [
+      user,
+      loading,
+      socket,
+      favoriteProducts,
+      visitorId,
+      addToFavorites,
+      removeFromFavorites,
+      toggleFavorite,
+      updateFavoriteProducts,
+    ],
   );
+
+  return <UserContext value={contextValue}>{children}</UserContext>;
 }
 
 export const useUser = () => useContext(UserContext);

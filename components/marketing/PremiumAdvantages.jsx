@@ -98,7 +98,7 @@ const PremiumAdvantages = ({ translate, lang }) => {
 
   return (
     <section
-      className="py-16 md:py-24 bg-white font-sans"
+      className="py-16 md:py-24 bg-white"
       dir={lang === "ar" ? "rtl" : "ltr"}
     >
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -130,7 +130,7 @@ const PremiumAdvantages = ({ translate, lang }) => {
                 <h3 className="text-[16px] md:text-[1.15rem] font-bold text-[#111827] mb-3">
                   {card.title}
                 </h3>
-                <p className="text-[#6B7280] text-xs md:text-[0.95rem] min-h-[40px] min-w-[40px] md:min-h-[60px] md:min-w-[60px] max-h-[60px] overflow-hidden line-clamp-2 leading-[1.7] mb-2 md:mb-6">
+                <p className="text-[#6B7280] text-xs md:text-0.95 leading-[1.7] mb-2 md:mb-6">
                   {card.desc}
                 </p>
                 <div className="mt-auto bg-[#FFF5EC] text-[#F97316] border border-[#FDE5D0] rounded-full md:px-4 px-3 py-2 text-[10px] md:text-[13px] font-semibold">

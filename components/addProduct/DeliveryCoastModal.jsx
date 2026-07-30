@@ -1,11 +1,5 @@
 "use client";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@heroui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@/components/ui/CustomModal";
 import { useState } from "react";
 import { toast } from "@/utils/toast";
 import { Send } from "@/components/ui/svgs/icons/SendSvg";

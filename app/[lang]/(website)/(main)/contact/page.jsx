@@ -36,6 +36,14 @@ export async function generateMetadata({ params }) {
       description: currentMeta.description,
       url: `${siteURL}/${lang === "ar" ? "" : `${lang}/`}contact`,
       type: "website",
+      images: [
+        {
+          url: lang === "ar" ? `${siteURL}/og/contact_ar.webp` : `${siteURL}/og/contact_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - تواصل معنا" : "Estajer - Contact Us",
+        },
+      ],
     },
   };
 }

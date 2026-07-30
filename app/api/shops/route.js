@@ -2,11 +2,39 @@ import { authenticateUser } from "@/middleware/auth";
 import connectDB from "@/lib/db";
 import Shop from "@/models/Shop";
 import User from "@/models/User";
-import Product from "@/models/Product";
 import cloudinary from "@/lib/cloudinary";
 import { NextResponse } from "next/server";
 import { handleApiError } from "@/lib/errorHandler";
 import mongoose from "mongoose";
+
+/**
+ * Recursively walk an object and upload any base64 data: image strings to Cloudinary.
+ * Returns a new object with all base64 strings replaced with Cloudinary URLs.
+ */
+async function uploadImagesInObject(obj, folder = "shops") {
+  if (typeof obj === "string") {
+    if (obj.startsWith("data:image/")) {
+      const uploaded = await cloudinary.uploader.upload(obj, {
+        folder,
+        format: "webp",
+      });
+      return uploaded.secure_url;
+    }
+    // Strip full domain from internal links
+    return obj.replace("https://estajer.com", "").replace("/en/", "/");
+  }
+  if (Array.isArray(obj)) {
+    return Promise.all(obj.map((item) => uploadImagesInObject(item, folder)));
+  }
+  if (obj && typeof obj === "object") {
+    const result = {};
+    for (const key of Object.keys(obj)) {
+      result[key] = await uploadImagesInObject(obj[key], folder);
+    }
+    return result;
+  }
+  return obj;
+}
 
 // GET - Fetch all shops (with pagination for admin)
 export async function GET(req) {
@@ -27,9 +55,7 @@ export async function GET(req) {
       query.isActive = isActive === "true";
     }
 
-    if (owner) {
-      query.owner = owner;
-    }
+    if (owner) query.owner = owner;
 
     if (search) {
       query.$or = [
@@ -42,11 +68,17 @@ export async function GET(req) {
     const skip = (page - 1) * limit;
     const logosOnly = searchParams.get("logosOnly") === "true";
 
-    let shopsQuery = Shop.find(query);
+    let shopsQuery;
     if (logosOnly) {
-      shopsQuery = shopsQuery.select("_id nameAr nameEn logo");
+      shopsQuery = Shop.find(query).select("_id nameAr nameEn logo isActive");
+    } else if (all) {
+      shopsQuery = Shop.find(query)
+        .select("_id nameAr nameEn slug logo shopCommission plan isActive createdAt owner")
+        .populate("owner", "fullName email phone shopPlanExpiresAt shopPlan");
     } else {
-      shopsQuery = shopsQuery.populate("owner", "fullName email phone");
+      shopsQuery = Shop.find(query)
+        .select("_id nameAr nameEn slug logo descriptionAr descriptionEn sections owner isActive")
+        .populate("owner", "shopPlanExpiresAt");
     }
 
     const shops = await shopsQuery
@@ -59,14 +91,55 @@ export async function GET(req) {
     const lang = searchParams.get("lang") || "ar";
     const langSuffix = lang === "en" ? "En" : "Ar";
 
-    const localizedShops = shops.map((shop) => {
+    const localizedShops = [];
+    for (const shop of shops) {
       const s = shop.toObject();
-      return {
+      let isExpired = false;
+
+      if (s.owner && s.owner.shopPlanExpiresAt) {
+        const expiryDate = new Date(s.owner.shopPlanExpiresAt);
+        if (expiryDate < new Date()) {
+          isExpired = true;
+          if (s.isActive) {
+            await Shop.findByIdAndUpdate(s._id, { isActive: false });
+            s.isActive = false;
+          }
+        }
+      }
+
+      if (!all && !s.isActive) {
+        continue;
+      }
+
+      if (!all && !logosOnly) {
+        // Extract heroBanners, sliders, and categories from sections
+        const heroSection = s.sections?.find((sec) => sec.sectionType === "hero");
+        s.heroBanners = heroSection?.data?.heroBanners || [];
+
+        const sliderSections = s.sections?.filter((sec) => sec.sectionType === "slider") || [];
+        s.sliders = sliderSections.map((sec) => ({
+          products: sec.data?.products || [],
+        }));
+
+        const categoriesSection = s.sections?.find((sec) => sec.sectionType === "categories");
+        s.categories = categoriesSection?.data?.categories || [];
+
+        const aboutSection = s.sections?.find((sec) => sec.sectionType === "about");
+        s.descriptionAr = aboutSection?.data?.aboutDescriptionAr || "";
+        s.descriptionEn = aboutSection?.data?.aboutDescriptionEn || "";
+
+        // Remove the massive sections array and owner details from response
+        delete s.sections;
+        delete s.owner;
+      }
+
+      localizedShops.push({
         ...s,
+        isExpired,
         name: s[`name${langSuffix}`] || s.name,
         description: s[`description${langSuffix}`] || s.description,
-      };
-    });
+      });
+    }
 
     return NextResponse.json({
       success: true,
@@ -100,7 +173,7 @@ export async function POST(req) {
       );
     }
 
-    const data = await req.json();
+    let data = await req.json();
 
     // Validation
     if (
@@ -138,7 +211,7 @@ export async function POST(req) {
       );
     }
 
-    // Handle Logo Upload
+    // Upload logo
     if (data.logo && data.logo.startsWith("data:")) {
       const uploaded = await cloudinary.uploader.upload(data.logo, {
         folder: "shops",
@@ -147,7 +220,7 @@ export async function POST(req) {
       data.logo = uploaded.secure_url;
     }
 
-    // Handle OG Image Upload
+    // Upload OG image
     if (data.ogImage && data.ogImage.startsWith("data:")) {
       const uploaded = await cloudinary.uploader.upload(data.ogImage, {
         folder: "shops/seo",
@@ -156,96 +229,28 @@ export async function POST(req) {
       data.ogImage = uploaded.secure_url;
     }
 
-    // Handle Hero Banners Upload
-    if (data.heroBanners && Array.isArray(data.heroBanners)) {
-      for (let banner of data.heroBanners) {
-        if (banner.imageAr && banner.imageAr.startsWith("data:")) {
-          const uploadedAr = await cloudinary.uploader.upload(banner.imageAr, {
-            folder: "shops/banners",
-            format: "webp",
-          });
-          banner.imageAr = uploadedAr.secure_url;
-        }
-        if (banner.imageEn && banner.imageEn.startsWith("data:")) {
-          const uploadedEn = await cloudinary.uploader.upload(banner.imageEn, {
-            folder: "shops/banners",
-            format: "webp",
-          });
-          banner.imageEn = uploadedEn.secure_url;
-        }
-        if (banner.link) {
-          banner.link = banner.link
-            .replace("https://estajer.com", "")
-            .replace("/en/", "/");
-        }
-      }
-    }
-
-    // Handle Offer Banners Upload (Multi-section)
-    if (data.offerBanners && Array.isArray(data.offerBanners)) {
-      for (let section of data.offerBanners) {
-        if (section.banners && Array.isArray(section.banners)) {
-          for (let banner of section.banners) {
-            if (banner.imageAr && banner.imageAr.startsWith("data:")) {
-              const uploadedAr = await cloudinary.uploader.upload(
-                banner.imageAr,
-                {
-                  folder: "shops/offers",
-                  format: "webp",
-                },
-              );
-              banner.imageAr = uploadedAr.secure_url;
-            }
-            if (banner.imageEn && banner.imageEn.startsWith("data:")) {
-              const uploadedEn = await cloudinary.uploader.upload(
-                banner.imageEn,
-                {
-                  folder: "shops/offers",
-                  format: "webp",
-                },
-              );
-              banner.imageEn = uploadedEn.secure_url;
-            }
-            if (banner.link) {
-              banner.link = banner.link
-                .replace("https://estajer.com", "")
-                .replace("/en/", "/");
-            }
+    // Upload all images inside sections[].data generically
+    if (data.sections && Array.isArray(data.sections)) {
+      data.sections = await Promise.all(
+        data.sections.map(async (section) => {
+          const uploadedData = await uploadImagesInObject(
+            section.data,
+            `shops/${section.sectionType}`,
+          );
+          if (section.sectionType === "categories" && uploadedData?.categories) {
+            uploadedData.categories = uploadedData.categories.map((cat) => {
+              if (!cat._id) {
+                cat._id = new mongoose.Types.ObjectId().toString();
+              }
+              return cat;
+            });
           }
-        }
-      }
-    }
-
-    // Handle Shop Categories Upload and IDs
-    if (data.categories && Array.isArray(data.categories)) {
-      for (let category of data.categories) {
-        if (category.image && category.image.startsWith("data:")) {
-          const uploaded = await cloudinary.uploader.upload(category.image, {
-            folder: "shops/categories",
-            format: "webp",
-          });
-          category.image = uploaded.secure_url;
-        }
-        // Ensure categories have an ID for product syncing
-        if (!category._id) {
-          category._id = new mongoose.Types.ObjectId();
-        }
-      }
-    }
-
-    // Sync Shop Categories with Products (Only if categories exist)
-    if (data.categories && Array.isArray(data.categories)) {
-      for (const cat of data.categories) {
-        if (cat.allowedProducts && cat.allowedProducts.length > 0) {
-          const productIds = cat.allowedProducts.map((p) =>
-            p._id ? p._id : p,
-          );
-          await Product.updateMany(
-            { _id: { $in: productIds } },
-            { $addToSet: { shopCategories: cat._id } },
-          );
-        }
-      }
+          return {
+            ...section,
+            data: uploadedData,
+          };
+        }),
+      );
     }
 
     const shop = await Shop.create({

@@ -1,8 +1,7 @@
 "use client";
 import { useTranslations } from "@/hooks/useTranslations";
-import { Select, SelectItem } from "@heroui/select";
+import { Select, SelectItem } from "@/components/ui/Select";
 import { useEffect, useState } from "react";
-import { sendGTMEvent } from "@next/third-parties/google";
 import Button from "../ui/Button";
 
 export default function SelectCategory({
@@ -26,27 +25,11 @@ export default function SelectCategory({
     const firstSubCat = subCategories[value]?.[0]?.key || "";
     setSelectedSubCategory(firstSubCat);
     onSubCategoryChange?.(firstSubCat);
-    try {
-      sendGTMEvent({
-        event: "home_category_select",
-        category: value || "",
-        sub_category: firstSubCat || "",
-        location: "home_search_box",
-      });
-    } catch (_) {}
   };
 
   const changeSubCategory = ({ target: { value } }) => {
     setSelectedSubCategory(value);
     onSubCategoryChange?.(value);
-    try {
-      sendGTMEvent({
-        event: "home_subcategory_select",
-        category: selectedCategory || "",
-        sub_category: value || "",
-        location: "home_search_box",
-      });
-    } catch (_) {}
   };
 
   const toggleDropdown = () => {
@@ -55,7 +38,11 @@ export default function SelectCategory({
   useEffect(() => {
     if (isOpen) {
       const handleOutsideClick = (event) => {
-        if (!event.target.closest(".dropdown")) setIsOpen(false);
+        if (
+          !event.target.closest(".dropdown") &&
+          !event.target.closest(".category-select-portal")
+        )
+          setIsOpen(false);
       };
       document.addEventListener("mousedown", handleOutsideClick);
       return () => {
@@ -76,16 +63,17 @@ export default function SelectCategory({
       {isOpen && (
         <div className="absolute z-50 top-full right-0 bg-white shadow-lg rounded-lg min-w-max px-6 py-6 flex gap-6 w-full my-6">
           <Select
-            scrollShadowProps={{ hideScrollBar: false }}
+            scrollShadowProps={{ hideScrollBar: false, isEnabled: true }}
             label={t("home.search.category")}
             classNames={{
               label: "text-lg -mt-2 ",
               base: "!mt-10",
               value: "!min-w-[200px]",
+              popover: "category-select-portal !z-drawer",
             }}
             size="lg"
             onChange={changeCategory}
-            radius="sm"
+            radius="md"
             disallowEmptySelection
             selectedKeys={[selectedCategory]}
             labelPlacement="outside"
@@ -95,15 +83,16 @@ export default function SelectCategory({
             ))}
           </Select>
           <Select
-            scrollShadowProps={{ hideScrollBar: false }}
+            scrollShadowProps={{ hideScrollBar: false, isEnabled: true }}
             label={t("home.search.supCategory")}
             classNames={{
               label: "text-lg -mt-2",
               base: "!mt-10",
               value: "!min-w-[200px]",
+              popover: "category-select-portal !z-drawer",
             }}
             size="lg"
-            radius="sm"
+            radius="md"
             disallowEmptySelection
             onChange={changeSubCategory}
             selectedKeys={

@@ -4,7 +4,7 @@ import { useTranslations } from "@/hooks/useTranslations";
 import Button from "../ui/Button";
 import { Search } from "../ui/svgs/icons/SearchSvg";
 import { ChevronLeft } from "../ui/svgs/icons/ChevronLeftSvg";
-import { ChevronRight } from "../ui/svgs/icons/ChevronRightSvg";;
+import { ChevronRight } from "../ui/svgs/icons/ChevronRightSvg";
 import {
   EInvoice,
   Security,
@@ -186,7 +186,7 @@ const TopSection = ({
                           color={isActive ? "#FF8D28" : "#D2D2D2"}
                         />
                       </div>
-                      <span className="text-center font-IBMPlex font-semibold text-medium md:text-lg text-[#21212191]">
+                      <span className="text-center font-IBMPlex font-semibold text-base md:text-lg text-[#21212191]">
                         {lang === "en" ? nameEn : nameAr}
                       </span>
                     </div>

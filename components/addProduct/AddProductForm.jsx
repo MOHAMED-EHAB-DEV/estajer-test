@@ -5,7 +5,7 @@ import ProductLocation from "./ProductLocation";
 import RentDetails from "./RentDetails";
 import Button from "@/components/ui/Button";
 import { useUser } from "@/context/UserContext";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import SupplierModal from "./SupplierModal";
 import { toast } from "@/utils/toast";
 import ToastMessage from "../ui/ToastMessage";
@@ -14,14 +14,29 @@ import { useRouter } from "next/navigation";
 import revalidate, { revalidateWithTag } from "@/actions/revalidateTag";
 import DeliveryCoastModal from "./DeliveryCoastModal";
 import NafathAuthModal from "../checkout/NafathAuthModal";
-import { useDisclosure } from "@heroui/react";
+import { useDisclosure } from "@/components/ui/CustomModal";
 import AdditionalDetails from "./AdditionalDetails";
+import LeaveConfirmationModal from "./LeaveConfirmationModal";
 import McpBanner from "./McpBanner";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useDrawerWithHistory } from "@/hooks/useDrawerWithHistory";
+import dynamic from "next/dynamic";
+import { Home } from "@/components/ui/svgs/icons/HomeSvg";
+import { Search } from "@/components/ui/svgs/icons/SearchSvg";
+import { Plus } from "@/components/ui/svgs/icons/PlusSvg";
+import { Edit } from "@/components/ui/svgs/icons/EditSvg";
+import { Cart } from "@/components/ui/svgs/icons/CartSvg";
+import { Menu } from "@/components/ui/svgs/icons/MenuSvg";
+
+const NavbarDrawer = dynamic(() => import("@/components/ui/NavbarDrawer"), {
+  ssr: false,
+});
 
 const FormContent = ({ children, num, title, description }) => (
   <div
     className={`flex max-w-screen-xl mx-auto md:px-4 ${
-      num !== 1 ? "mt-4" : ""
+      num !== 1 ? "md:mt-4 mt-2" : ""
     }`}
   >
     <div
@@ -33,12 +48,12 @@ const FormContent = ({ children, num, title, description }) => (
         {num}
       </div>
     </div>
-    <div className="grow md:p-10 px-4 py-8 bg-white">
-      <div className="mb-6">
-        <h1 className="lg:text-[1.7rem] md:text-[1.5rem] text-[1.3rem] font-semibold text-darkNavy font-IBMPlex mb-1">
+    <div className="grow md:p-10 p-4 bg-white">
+      <div className="md:mb-6 mb-3">
+        <h1 className="lg:text-[1.7rem] md:text-[1.5rem] text-1.1 font-semibold text-darkNavy font-IBMPlex mb-1 md:mb-2">
           {title}
         </h1>
-        <p className="lg:text-[1.3rem] md:text-[1.2rem] text-[1.15rem] text-darkNavy ">
+        <p className="lg:text-[1.3rem] md:text-1.2 text-xs text-darkNavy">
           {description}
         </p>
       </div>
@@ -57,13 +72,25 @@ export default function AddProductForm({
 }) {
   const langPrefix = lang === "ar" ? "" : "en/";
   const router = useRouter();
+  const pathname = usePathname();
   const trans = useTranslations(translate);
   const t = (key) => trans(`addProductPage.${key}`);
+  const tn = (key) => trans(`mobileNav.${key}`);
   const { user, setUser } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const [showSupplierModal, setShowSupplierModal] = useState(false);
   const [deliveryCoastModal, setDeliveryCoastModal] = useState(false);
   const [aiMode, setAiMode] = useState(null); // null | "choice" | "mcp" | "ai"
+
+  const {
+    isOpen: navOpen,
+    onOpen: onNavOpen,
+    onOpenChange: onNavOpenChange,
+  } = useDrawerWithHistory();
+
+  const homeHref = lang === "ar" ? "/" : "/en";
+  const searchHref = `/${langPrefix}search/products`;
+  const cartHref = `/${langPrefix}cart`;
 
   // Section 5 state
   const [useCases, setUseCases] = useState(
@@ -100,18 +127,27 @@ export default function AddProductForm({
     product?.[`address${Lang}`] || emptyLocation,
   );
 
+  // For approved products: prefer pendingChanges values so the user
+  // sees what they last submitted, not the live public values.
+  const pc = product?.pendingChanges;
+
   const [productData, setProductData] = useState({
-    nameAr: product?.nameAr || "",
-    nameEn: product?.nameEn || "",
+    nameAr: pc?.nameAr ?? product?.nameAr ?? "",
+    nameEn: pc?.nameEn ?? product?.nameEn ?? "",
     quantity: product?.quantity || 1,
     minQuantity: product?.minQuantity || 1,
     status: product?.status || "excellent",
-    descriptionAr: product?.descriptionAr || "",
-    descriptionEn: product?.descriptionEn || "",
+    descriptionAr: pc?.descriptionAr ?? product?.descriptionAr ?? "",
+    descriptionEn: pc?.descriptionEn ?? product?.descriptionEn ?? "",
+    saleUnit: product?.saleUnit || "",
   });
 
   const [productImages, setProductImages] = useState(
-    product?.images ? product.images.map((preview) => preview) : [],
+    pc?.images?.length
+      ? pc.images
+      : product?.images
+        ? product.images.map((preview) => preview)
+        : [],
   );
   const [location, setLocation] = useState(
     product?.location?.coordinates
@@ -123,10 +159,10 @@ export default function AddProductForm({
   );
   const [services, setServices] = useState(product?.services || []);
   const [category, setCategory] = useState(
-    product?.category || categories[0].key,
+    pc?.category ?? product?.category ?? "",
   );
   const [subCategory, setSubCategory] = useState(
-    product?.subCategory || subCategories[categories[0].key][0]?.key || "",
+    pc?.subCategory ?? product?.subCategory ?? "",
   );
 
   const [rentData, setRentData] = useState({
@@ -164,6 +200,107 @@ export default function AddProductForm({
   );
 
   const [minDays, setMinDays] = useState(product?.rental?.minDays || 1);
+
+  const isDirty =
+    !isEditing &&
+    (!!productData.nameAr?.trim() ||
+      !!productData.nameEn?.trim() ||
+      !!productData.descriptionAr?.trim() ||
+      productImages.length > 0 ||
+      !!rentData.value ||
+      !!location?.lat);
+
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const allowNavigationRef = useRef(false);
+  const isSubmittingRef = useRef(false);
+
+  // Restore text draft on mount for new products
+  useEffect(() => {
+    if (isEditing) return;
+    try {
+      const saved = localStorage.getItem("estajer_product_text_draft");
+      if (saved) {
+        const draft = JSON.parse(saved);
+        setProductData((prev) => ({
+          ...prev,
+          nameAr: draft.nameAr ?? prev.nameAr,
+          nameEn: draft.nameEn ?? prev.nameEn,
+          descriptionAr: draft.descriptionAr ?? prev.descriptionAr,
+          descriptionEn: draft.descriptionEn ?? prev.descriptionEn,
+        }));
+      }
+    } catch (e) {}
+  }, [isEditing]);
+
+  // Auto-save text draft or remove if all empty
+  useEffect(() => {
+    if (isEditing || isSubmittingRef.current) return;
+    const hasText =
+      !!productData.nameAr?.trim() ||
+      !!productData.nameEn?.trim() ||
+      !!productData.descriptionAr?.trim() ||
+      !!productData.descriptionEn?.trim();
+
+    try {
+      if (hasText) {
+        localStorage.setItem(
+          "estajer_product_text_draft",
+          JSON.stringify({
+            nameAr: productData.nameAr,
+            nameEn: productData.nameEn,
+            descriptionAr: productData.descriptionAr,
+            descriptionEn: productData.descriptionEn,
+          }),
+        );
+      } else {
+        localStorage.removeItem("estajer_product_text_draft");
+      }
+    } catch (e) {}
+  }, [
+    isEditing,
+    productData.nameAr,
+    productData.nameEn,
+    productData.descriptionAr,
+    productData.descriptionEn,
+  ]);
+
+  // Show browser alert on reload or navigate away if form has unsaved changes
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isDirty && !isSubmittingRef.current) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isDirty]);
+
+  // Intercept browser Back button when form is dirty
+  useEffect(() => {
+    if (!isDirty) return;
+
+    window.history.pushState({ isFormDirty: true }, "", window.location.href);
+
+    const handlePopState = () => {
+      if (allowNavigationRef.current) return;
+      window.history.pushState({ isFormDirty: true }, "", window.location.href);
+      setShowLeaveModal(true);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [isDirty]);
+
+  const handleConfirmLeave = () => {
+    allowNavigationRef.current = true;
+    setShowLeaveModal(false);
+    window.history.go(-2);
+  };
+
+  const handleStayOnPage = () => {
+    setShowLeaveModal(false);
+  };
 
   const changeCategory = ({ target: { value } }) => {
     setCategory(value);
@@ -355,35 +492,68 @@ export default function AddProductForm({
         setIsLoading(false);
       });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, currentUser = null) => {
     if (e && e.preventDefault) e.preventDefault();
 
+    const activeUser = currentUser || user;
+
     if (
-      user &&
-      !user.nafathVerified &&
-      user.accountType !== "admin" &&
-      user.accountType !== "company" &&
-      !user.skipIbanVerification
+      activeUser &&
+      !activeUser.nafathVerified &&
+      activeUser.accountType !== "admin" &&
+      activeUser.accountType !== "company" &&
+      !activeUser.skipIbanVerification
     )
       return onOpen();
+    const isCompanyWithTax =
+      activeUser?.accountType === "company" &&
+      !!activeUser?.companyDetails?.taxCode;
+    const bAddr = activeUser?.companyDetails?.billingAddress;
+    const hasBillingAddr =
+      !isCompanyWithTax ||
+      (!!bAddr?.street &&
+        !!bAddr?.city &&
+        !!bAddr?.district &&
+        !!bAddr?.postalCode &&
+        !!bAddr?.buildingNumber);
+
     if (
-      !user.iban &&
-      user.accountType !== "admin" &&
-      !user.skipIbanVerification
+      (!activeUser?.iban || !hasBillingAddr) &&
+      activeUser?.accountType !== "admin" &&
+      !activeUser?.skipIbanVerification
     )
       return setShowSupplierModal(true);
 
     if (!location?.lat)
       return toast.error(ToastMessage(t("toasts.locationRequired")));
+    if (!address?.city) {
+      const errorMsg =
+        lang === "ar"
+          ? "المدينة مطلوبة لتحديد موقع المنتج بشكل صحيح"
+          : "City is required to specify the product location correctly";
+      return toast.error(ToastMessage(errorMsg));
+    }
     if (productImages.length === 0)
       return toast.error(ToastMessage(t("toasts.imagesRequired")));
     if (pricingModel === "packages" && rentData.packages.length === 0)
       return toast.error(ToastMessage(t("toasts.packagesRequired")));
     if (
-      rentData.delivery.pricingModel === "fixedCity" &&
-      rentData.delivery.fixedCityPricing.length === 0
+      rentData.delivery.type === "delivery" &&
+      rentData.delivery.pricingModel === "fixedCity"
     ) {
-      return toast.error(ToastMessage(t("toasts.cityRequired")));
+      if (rentData.delivery.fixedCityPricing.length === 0) {
+        return toast.error(ToastMessage(t("toasts.cityRequired")));
+      }
+      const hasInvalidCity = rentData.delivery.fixedCityPricing.some(
+        (c) => !c.cityAr?.trim() && !c.governorateAr?.trim(),
+      );
+      if (hasInvalidCity) {
+        const errorMsg =
+          lang === "ar"
+            ? "يرجى اختيار مدينة صالحة من الاقتراحات لكل مدن التسعير"
+            : "Please select a valid city from the suggestions for all pricing cities";
+        return toast.error(ToastMessage(errorMsg));
+      }
     }
     const isValid = rentData.discountTiers.every((item) =>
       item.dateRanges.every((range) => range.from && range.to),
@@ -404,7 +574,11 @@ export default function AddProductForm({
           services,
           category,
           subCategory,
-          rental: { ...rentData, minDays },
+          rental: {
+            ...rentData,
+            minDays,
+            ...(rentData.saleUnit && { saleUnit: rentData.saleUnit }),
+          },
           pricingModel,
           useCases: useCases.filter(
             (uc) => uc.nameAr?.trim() && uc.nameEn?.trim(),
@@ -440,15 +614,29 @@ export default function AddProductForm({
               );
             if (isEditing) await revalidateWithTag(`product-${data.data._id}`);
             if (isEditing) await revalidate("/");
+            const isPendingReview =
+              isEditing && data.data?.pendingChanges?.needsReview;
             toast.success(
               ToastMessage(
-                t(`toasts.product${isEditing ? "Updated" : "Added"}Success`),
+                t(
+                  `toasts.product${
+                    isPendingReview
+                      ? "UpdatedPendingReview"
+                      : isEditing
+                        ? "Updated"
+                        : "Added"
+                  }Success`,
+                ),
               ),
             );
+            isSubmittingRef.current = true;
+            try {
+              localStorage.removeItem("estajer_product_text_draft");
+            } catch (e) {}
             router.push(
               `/${langPrefix}${
-                user?.accountType === "admin" ? "admin" : "dashboard"
-              }/products${user?.accountType === "admin" ? "/all" : ""}`,
+                activeUser?.accountType === "admin" ? "admin" : "dashboard"
+              }/products${activeUser?.accountType === "admin" ? "/all" : ""}`,
             );
           });
         })
@@ -461,10 +649,17 @@ export default function AddProductForm({
   };
 
   const handleNafathSuccess = () => {
-    setUser({ ...user, nafathVerified: true });
+    const updatedUser = { ...user, nafathVerified: true };
+    setUser(updatedUser);
     toast.success(ToastMessage("Verification successful!"));
     onClose();
-    handleSubmit();
+    handleSubmit(null, updatedUser);
+  };
+
+  const handleSupplierSuccess = (updatedUserData) => {
+    const updatedUser = updatedUserData || { ...user };
+    setUser(updatedUser);
+    handleSubmit(null, updatedUser);
   };
 
   const handleNafathError = (error) => toast.error(ToastMessage(error));
@@ -480,19 +675,71 @@ export default function AddProductForm({
           onAiApply={handleAiApply}
           mode={aiMode}
           setMode={setAiMode}
+          user={user}
+          setUser={setUser}
         />
       )}
 
+      {/* ── Pending-changes banners (editing approved products only) ── */}
+      {isEditing && pc?.needsReview && (
+        <div className="max-w-screen-xl mx-auto md:px-4 mb-4 mt-2">
+          <div className="flex items-start gap-3 bg-amber-50 border border-amber-300 rounded-2xl p-4">
+            <svg
+              className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <p className="text-amber-800 text-sm font-medium">
+              {trans("addProductPage.pendingChanges.pendingReviewNote")}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {isEditing && !pc?.needsReview && pc?.rejectMessage && (
+        <div className="max-w-screen-xl mx-auto md:px-4 mb-4 mt-2">
+          <div className="flex items-start gap-3 bg-red-50 border border-red-300 rounded-2xl p-4">
+            <svg
+              className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728"
+              />
+            </svg>
+            <div>
+              <p className="text-red-800 text-sm font-semibold mb-0.5">
+                {trans("addProductPage.pendingChanges.rejectedTitle")}
+              </p>
+              <p className="text-red-700 text-sm">{pc.rejectMessage}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {!isEditing && (
-        <div className="max-w-screen-xl mx-auto md:px-4 mb-6 mt-2">
-          <div className="bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-transparent border border-amber-500/20 rounded-3xl p-5 md:p-6 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 relative overflow-hidden group">
+        <div className="max-w-screen-xl mx-auto md:px-4 mb-4 md:mb-6 mt-2">
+          <div className="bg-gradient-to-r from-[#f6eee0] via-[#f6efea] to-[#f6f6f6] border border-amber-500/20 rounded-2xl md:rounded-3xl p-3 md:p-6 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 md:gap-5 relative overflow-hidden group">
             {/* Background sparkle blur effect */}
             <div className="absolute end-[-40px] top-[-40px] w-32 h-32 bg-amber-400/10 rounded-full blur-2xl group-hover:bg-amber-400/20 transition-colors pointer-events-none" />
 
-            <div className="flex items-start gap-4 text-start relative z-10">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md">
+            <div className="flex items-start gap-3 md:gap-4 text-start relative z-10">
+              <div className="w-9 h-9 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md">
                 <svg
-                  className="w-6 h-6 text-white"
+                  className="w-4 h-4 md:w-6 md:h-6 text-white"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                 >
@@ -500,28 +747,45 @@ export default function AddProductForm({
                   <path d="M19 8c0 2.209-1.791 4-4 4 2.209 0 4 1.791 4 4 0-2.209 1.791-4 4-4-2.209 0-4-1.791-4-4z" />
                 </svg>
               </div>
-              <div className="space-y-1">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <h3 className="font-bold text-darkNavy font-IBMPlex text-base md:text-lg">
+              <div className="space-y-0.5 md:space-y-1">
+                <div className="flex items-center gap-1.5 md:gap-2 flex-wrap">
+                  <h3 className="font-bold text-darkNavy font-IBMPlex text-sm md:text-lg">
                     {t("promo.title")}
                   </h3>
-                  <span className="bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                  <span className="bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-[9px] md:text-[10px] px-2 md:px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                     {t("promo.new")}
                   </span>
                 </div>
-                <p className="text-slate-650 text-xs md:text-sm leading-relaxed max-w-2xl font-medium">
+                <p className="text-slate-650 text-[11px] md:text-sm leading-relaxed max-w-2xl font-medium">
                   {t("promo.description")}
                 </p>
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setAiMode("ai")}
-              className="relative z-10 w-full sm:w-auto bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold px-6 py-3 rounded-2xl shadow-lg shadow-orange-500/10 hover:shadow-orange-500/20 active:scale-95 transition-all text-sm whitespace-nowrap"
-            >
-              {t("promo.btn")}
-            </button>
+            <div className="flex gap-2 items-center w-full sm:w-auto justify-end">
+              <Link
+                target="_blank"
+                href="https://www.youtube.com/watch?v=Ss8Udvi1s5U&t=1s"
+                className="flex gap-1.5 md:gap-2 rounded-xl md:rounded-2xl border-2 border-amber-500/30 hover:border-amber-500/50 hover:bg-amber-500/10 text-amber-700 font-bold px-3 md:px-6 py-2 md:py-3 h-auto active:scale-95 transition-all text-xs md:text-sm whitespace-nowrap group"
+              >
+                <span className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+                  <svg
+                    className="w-2 h-2 md:w-2.5 md:h-2.5 text-amber-600 fill-current transition-transform group-hover:scale-110"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </span>
+                {t("promo.howTo")}
+              </Link>
+              <button
+                type="button"
+                onClick={() => setAiMode("ai")}
+                className="relative z-10 flex-1 sm:flex-none sm:w-auto bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl shadow-lg shadow-orange-500/10 hover:shadow-orange-500/20 active:scale-95 transition-all text-xs md:text-sm whitespace-nowrap"
+              >
+                {t("promo.btn")}
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -592,6 +856,8 @@ export default function AddProductForm({
             pricingModel={pricingModel}
             setPricingModel={setPricingModel}
             commission={user?.commission || 15}
+            saleUnit={productData.saleUnit}
+            setProductData={setProductData}
           />
         </FormContent>
 
@@ -611,12 +877,12 @@ export default function AddProductForm({
           isEditing={isEditing}
         />
 
-        <div className="max-w-screen-xl mx-auto px-4 mt-4 mb-20 text-end">
+        <div className="max-w-screen-xl mx-auto px-4 md:mt-4 mt-2 mb-28 md:mb-20 text-end">
           {!isEditing && (
-            <div className="mb-6 p-3 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded flex items-center gap-1 text-start">
-              <div className="flex-shrink-0 w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+            <div className="mb-4 md:mb-6 p-2.5 md:p-3 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded flex items-center gap-2 text-start">
+              <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 bg-amber-100 rounded-full flex items-center justify-center">
                 <svg
-                  className="w-5 h-5 text-amber-600"
+                  className="w-4 h-4 md:w-5 md:h-5 text-amber-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -629,16 +895,165 @@ export default function AddProductForm({
                   />
                 </svg>
               </div>
-              <p className="text-amber-800 text-sm">{t("reviewNote")}</p>
+              <p className="text-amber-800 text-xs md:text-sm">
+                {t("reviewNote")}
+              </p>
             </div>
           )}
-          <Button
-            isLoading={isLoading}
-            type="submit"
-            className="py-7 min-w-60 text-xl font-IBMPlex"
+          {/* Desktop submit button */}
+          <div>
+            <Button
+              isLoading={isLoading}
+              type="submit"
+              startContent={
+                isEditing ? (
+                  <Edit className="w-4 h-4 md:w-6 md:h-6" color="#fff" />
+                ) : (
+                  <Plus className="w-5 h-5 md:w-6 md:h-6" color="#fff" />
+                )
+              }
+              className="md:py-7 py-3.5 w-full md:w-auto md:min-w-60 md:text-xl text-base font-IBMPlex"
+            >
+              {isEditing ? t("buttons.updateProduct") : t("buttons.addProduct")}
+            </Button>
+          </div>
+        </div>
+
+        {/* ══ Mobile-only bottom bar ══ */}
+        <div className="block md:hidden fixed bottom-0 start-0 end-0 z-50 shadow-lg">
+          <div
+            className="bg-white/95 backdrop-blur-md"
+            style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
           >
-            {isEditing ? t("buttons.updateProduct") : t("buttons.addProduct")}
-          </Button>
+            {/* ── Row 1: Action buttons ── */}
+            <div className="flex items-center gap-2 px-3 pt-2 pb-1.5 border-t border-gray-100 shadow-sm">
+              {!isEditing && (
+                <button
+                  type="button"
+                  onClick={() => setAiMode("choice")}
+                  aria-label={lang === "ar" ? "أضف بـ AI" : "AI Add"}
+                  className="flex items-center justify-center gap-1.5 px-3 h-10 rounded-xl border border-amber-300/90 text-amber-800 font-bold text-xs shadow-sm active:scale-95 transition-all shrink-0 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                >
+                  <svg
+                    className="w-4 h-4 text-amber-500"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M10 2c0 4.418-3.582 8-8 8 4.418 0 8 3.582 8 8 0-4.418 3.582-8 8-8-4.418 0-8-3.582-8-8z" />
+                    <path d="M19 8c0 2.209-1.791 4-4 4 2.209 0 4 1.791 4 4 0-2.209 1.791-4 4-4-2.209 0-4-1.791-4-4z" />
+                  </svg>
+                  <span>{lang === "ar" ? "أضف بـ AI" : "AI Add"}</span>
+                </button>
+              )}
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                aria-label={
+                  isEditing
+                    ? t("buttons.updateProduct")
+                    : t("buttons.addProduct")
+                }
+                className="flex-1 flex items-center justify-center gap-1.5 h-10 rounded-xl font-bold text-white text-sm tracking-wide transition-all active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 disabled:opacity-50"
+                style={{
+                  background:
+                    "linear-gradient(130deg, #F48A42 0%, #d96e1c 100%)",
+                  boxShadow:
+                    "0 2px 10px rgba(244,138,66,0.3), inset 0 1px 0 rgba(255,255,255,0.2)",
+                }}
+              >
+                {isLoading ? (
+                  <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                ) : (
+                  <>
+                    {isEditing ? (
+                      <Edit className="w-3.5 h-3.5" color="#fff" />
+                    ) : (
+                      <Plus className="w-3.5 h-3.5" color="#fff" />
+                    )}
+                    <span>
+                      {isEditing
+                        ? t("buttons.updateProduct")
+                        : t("buttons.addProduct")}
+                    </span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* ── Row 2: Navigation icons ── */}
+            <nav
+              aria-label={tn("ariaLabel")}
+              className="grid grid-cols-5 items-center justify-items-center px-2 py-0.5"
+            >
+              {/* Home */}
+              <Link
+                href={homeHref}
+                title={tn("homeTitle")}
+                aria-label={tn("home")}
+                aria-current={pathname === homeHref ? "page" : undefined}
+                className="flex flex-col items-center gap-0.5 p-1.5 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+              >
+                <Home
+                  color={pathname === homeHref ? "#F48A42" : "#0d092b"}
+                  aria-hidden="true"
+                />
+              </Link>
+
+              {/* Search */}
+              <Link
+                href={searchHref}
+                title={tn("searchTitle")}
+                aria-label={tn("search")}
+                aria-current={pathname === searchHref ? "page" : undefined}
+                className="flex flex-col items-center gap-0.5 p-1.5 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+              >
+                <Search
+                  color={pathname === searchHref ? "#F48A42" : "#0d092b"}
+                  className="min-w-5 h-5"
+                  aria-hidden="true"
+                  strokeWidth={6}
+                />
+              </Link>
+
+              {/* Add product — center circle */}
+              <Link
+                href={`/${langPrefix}add-product`}
+                aria-label={tn("addProduct")}
+                className="flex flex-col items-center justify-center h-8 w-8 rounded-full bg-primary !opacity-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              >
+                <Plus color="#fff" size={16} aria-hidden="true" />
+                <span className="sr-only">{tn("addProduct")}</span>
+              </Link>
+
+              {/* Cart */}
+              <Link
+                href={cartHref}
+                title={tn("cartTitle")}
+                aria-label={tn("cart")}
+                aria-current={pathname === cartHref ? "page" : undefined}
+                className="flex flex-col items-center gap-0.5 p-1.5 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+              >
+                <Cart
+                  color={pathname === cartHref ? "#F48A42" : "#0d092b"}
+                  circle={false}
+                  size={36}
+                  aria-hidden="true"
+                />
+              </Link>
+
+              {/* Menu */}
+              <button
+                type="button"
+                onClick={onNavOpen}
+                aria-label={tn("menu")}
+                aria-expanded={navOpen}
+                className="flex flex-col items-center gap-0.5 px-2 py-1.5 min-w-0 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+              >
+                <Menu aria-hidden="true" />
+              </button>
+            </nav>
+          </div>
         </div>
       </form>
       <DeliveryCoastModal
@@ -655,6 +1070,7 @@ export default function AddProductForm({
         setUser={setUser}
         user={user}
         translate={trans}
+        onSuccess={handleSupplierSuccess}
       />
       <NafathAuthModal
         trans={trans}
@@ -664,6 +1080,21 @@ export default function AddProductForm({
         onError={handleNafathError}
         user={user}
       />
+      <LeaveConfirmationModal
+        isOpen={showLeaveModal}
+        onStay={handleStayOnPage}
+        onLeave={handleConfirmLeave}
+        trans={trans}
+      />
+      {navOpen && (
+        <NavbarDrawer
+          open={navOpen}
+          user={user}
+          setOpen={onNavOpenChange}
+          lang={lang}
+          trans={trans}
+        />
+      )}
     </>
   );
 }

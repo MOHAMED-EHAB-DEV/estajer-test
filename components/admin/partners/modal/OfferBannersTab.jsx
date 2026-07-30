@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { anyImgUrl } from "@/utils/ImageUrl";
+import ProductLinkPicker from "@/components/shop/editor/ProductLinkPicker";
 
 export default function OfferBannersTab({
   formData,
@@ -26,7 +27,13 @@ export default function OfferBannersTab({
   mode = "list", // 'list' or 'edit'
   sectionIndex = null,
   onEditOffer,
+  translate,
+  branch,
+  providerId,
 }) {
+  const ownerId = formData?.owner;
+  const shopSlug = formData?.slug;
+
   if (mode === "edit" && sectionIndex !== null) {
     const section = formData.offerBanners[sectionIndex];
     if (!section) return null;
@@ -77,6 +84,30 @@ export default function OfferBannersTab({
               />
             </div>
           </div>
+
+          <div className="flex items-center justify-between p-3 rounded-xl bg-white/60 border border-neutral-100 shadow-sm mt-3">
+            <div className="flex flex-col gap-0.5">
+              <span className="text-[13px] font-bold text-darkNavy">
+                {t("singleLangBanner") || "One Banner Image for All Languages"}
+              </span>
+              <span className="text-[10px] text-neutral-400">
+                {t("singleLangBannerDesc") ||
+                  "Use the same image for Arabic and English"}
+              </span>
+            </div>
+            <input
+              type="checkbox"
+              checked={section.singleLangImage === true}
+              onChange={(e) =>
+                handleOfferBannerSectionChange(
+                  sectionIndex,
+                  "singleLangImage",
+                  e.target.checked,
+                )
+              }
+              className="w-5 h-5 rounded-md border-neutral-300 text-primary focus:ring-primary cursor-pointer"
+            />
+          </div>
         </div>
 
         {/* Banners List Header */}
@@ -125,7 +156,9 @@ export default function OfferBannersTab({
 
               <div className="grid grid-cols-1 gap-4">
                 {/* Image Uploaders */}
-                <div className="grid grid-cols-2 gap-3">
+                <div
+                  className={`grid gap-3 ${section.singleLangImage === true ? "grid-cols-1" : "grid-cols-2"}`}
+                >
                   {/* Arabic Image */}
                   <div className="flex flex-col gap-2">
                     <label className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider px-1">
@@ -183,60 +216,62 @@ export default function OfferBannersTab({
                   </div>
 
                   {/* English Image */}
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider px-1">
-                      {t("imageEn")}
-                    </label>
-                    <div className="aspect-[16/9] w-full bg-neutral-50 rounded-xl border-2 border-dashed border-neutral-200 relative overflow-hidden flex items-center justify-center p-2 hover:border-primary/40 hover:bg-primary/[0.02] transition-all cursor-pointer group/upload">
-                      {banner.imageEn ? (
-                        <>
-                          <Image
-                            unoptimized
-                            src={
-                              banner.imageEn.startsWith("data:")
-                                ? banner.imageEn
-                                : anyImgUrl({
-                                    src: banner.imageEn,
-                                    size: 400,
-                                    quality: 90,
-                                  })
-                            }
-                            alt="EN"
-                            fill
-                            className="object-cover group-hover/upload:scale-105 transition-transform duration-500"
-                          />
-                          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/upload:opacity-100 transition-opacity flex items-center justify-center">
-                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
-                              <FaPlus size={14} />
+                  {!section.singleLangImage && (
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider px-1">
+                        {t("imageEn")}
+                      </label>
+                      <div className="aspect-[16/9] w-full bg-neutral-50 rounded-xl border-2 border-dashed border-neutral-200 relative overflow-hidden flex items-center justify-center p-2 hover:border-primary/40 hover:bg-primary/[0.02] transition-all cursor-pointer group/upload">
+                        {banner.imageEn ? (
+                          <>
+                            <Image
+                              unoptimized
+                              src={
+                                banner.imageEn.startsWith("data:")
+                                  ? banner.imageEn
+                                  : anyImgUrl({
+                                      src: banner.imageEn,
+                                      size: 400,
+                                      quality: 90,
+                                    })
+                              }
+                              alt="EN"
+                              fill
+                              className="object-cover group-hover/upload:scale-105 transition-transform duration-500"
+                            />
+                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/upload:opacity-100 transition-opacity flex items-center justify-center">
+                              <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
+                                <FaPlus size={14} />
+                              </div>
                             </div>
+                          </>
+                        ) : (
+                          <div className="flex flex-col items-center gap-1.5 text-neutral-300 group-hover/upload:text-primary transition-colors">
+                            <div className="w-10 h-10 rounded-2xl bg-white flex items-center justify-center shadow-sm border border-neutral-100 group-hover/upload:shadow-md group-hover/upload:border-primary/20 transition-all">
+                              <FaPlus size={16} />
+                            </div>
+                            <p className="text-[9px] uppercase font-bold tracking-widest mt-1">
+                              EN IMAGE
+                            </p>
                           </div>
-                        </>
-                      ) : (
-                        <div className="flex flex-col items-center gap-1.5 text-neutral-300 group-hover/upload:text-primary transition-colors">
-                          <div className="w-10 h-10 rounded-2xl bg-white flex items-center justify-center shadow-sm border border-neutral-100 group-hover/upload:shadow-md group-hover/upload:border-primary/20 transition-all">
-                            <FaPlus size={16} />
-                          </div>
-                          <p className="text-[9px] uppercase font-bold tracking-widest mt-1">
-                            EN IMAGE
-                          </p>
-                        </div>
-                      )}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="absolute inset-0 opacity-0 cursor-pointer"
-                        onChange={(e) =>
-                          handleImageUpload(
-                            e,
-                            "offerBanners",
-                            sectionIndex,
-                            "imageEn",
-                            bIdx,
-                          )
-                        }
-                      />
+                        )}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="absolute inset-0 opacity-0 cursor-pointer"
+                          onChange={(e) =>
+                            handleImageUpload(
+                              e,
+                              "offerBanners",
+                              sectionIndex,
+                              "imageEn",
+                              bIdx,
+                            )
+                          }
+                        />
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Info Fields */}
@@ -245,18 +280,22 @@ export default function OfferBannersTab({
                     <label className="text-[12px] font-semibold text-darkNavy/80 px-1">
                       {t("link")}
                     </label>
-                    <input
+                    <ProductLinkPicker
                       value={banner.link || ""}
-                      placeholder="https://..."
-                      onChange={(e) =>
+                      onChange={(val) =>
                         handleBannerChangeInSection(
                           sectionIndex,
                           bIdx,
                           "link",
-                          e.target.value,
+                          val,
                         )
                       }
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200/80 bg-neutral-50/50 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 focus:outline-none transition-all placeholder:text-neutral-300"
+                      lang={lang}
+                      translate={translate}
+                      ownerId={ownerId}
+                      shopSlug={shopSlug}
+                      branch={branch}
+                      providerId={providerId}
                     />
                   </div>
 

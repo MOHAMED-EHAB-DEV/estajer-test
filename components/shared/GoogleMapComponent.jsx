@@ -142,7 +142,7 @@ export default function GoogleMapComponent({
 
   return (
     <MapProvider lang={lang}>
-      <div className="relative rounded-3xl overflow-hidden">
+      <div className="relative rounded-3xl overflow-hidden w-full h-full">
         <Map
           mapTypeControl={false}
           streetViewControl={false}
@@ -154,7 +154,7 @@ export default function GoogleMapComponent({
           onDragStart={() => setSelectedProduct(null)}
           onDragend={(e) => setDrag(e)}
           onZoomChanged={(e) => setDrag(e)}
-          style={{ width: "100%" }}
+          style={{ width: "100%", height: "100%" }}
           className={className}
         >
           {products.map((product) => (

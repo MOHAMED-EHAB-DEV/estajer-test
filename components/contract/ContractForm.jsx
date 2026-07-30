@@ -3,13 +3,16 @@
 import { useState, useRef } from "react";
 import { Nafath } from "@/components/ui/svgs/icons/NafathSvg";
 import Button from "../ui/Button";
+import { useTranslations } from "@/hooks/useTranslations";
 
 export default function ContractForm({
   userData,
   ownerData,
   items = [],
   order,
+  translate,
 }) {
+  const trans = useTranslations(translate);
   const calculateDuration = (start, end) => {
     if (!start || !end) return "-";
     const startDate = new Date(start);
@@ -20,10 +23,10 @@ export default function ContractForm({
   };
 
   const lessorInfo = {
-    name: ownerData.companyDetails.companyName || ownerData.fullName,
+    name: ownerData.companyDetails?.companyName || ownerData.fullName,
     id: ownerData.nationalId,
     unifiedNumber: ownerData.unifiedNumber,
-    taxCode: ownerData.companyDetails.taxCode,
+    taxCode: ownerData.companyDetails?.taxCode,
     address: ownerData.address,
     phone: ownerData.phone,
     email: ownerData.email,
@@ -226,7 +229,7 @@ export default function ContractForm({
                       <td className="border px-2 py-1">
                         {item.product?.nameAr || "-"}
                       </td>
-                      <td className="border px-2 py-1">{item.quantity}</td>
+                      <td className="border px-2 py-1">{item.quantity}{item.product?.saleUnit ? ` ${trans(`unit.${item.product.saleUnit}`)}` : ""}</td>
                       <td className="border px-2 py-1">{item.price}</td>
                       <td className="border px-2 py-1">
                         {new Date(order.startDate).toLocaleDateString("ar")}

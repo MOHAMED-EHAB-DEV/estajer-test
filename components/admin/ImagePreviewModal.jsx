@@ -7,6 +7,7 @@ export default function ImagePreviewModal({ previewImage, onClose }) {
     <CustomModal
       isOpen={!!previewImage}
       onClose={onClose}
+      hideCloseButton={true}
       size="full"
       className="bg-black/95 backdrop-blur-md w-full h-full flex flex-col justify-center items-center select-none"
       backdropClass="bg-black/80 backdrop-blur-md"

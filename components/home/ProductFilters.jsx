@@ -122,7 +122,7 @@ const freeDelivery = ({ color, ariaLabel }) => (
   </svg>
 );
 
-export default function ProductFilters({ translate, fetchProducts }) {
+export default function ProductFilters({ translate, fetchProducts, lang }) {
   const trans = useTranslations(translate);
   const t = (key) => trans(`home.filters.${key}`);
   const [selectedFilter, setSelectedFilter] = useState("main");
@@ -172,7 +172,11 @@ export default function ProductFilters({ translate, fetchProducts }) {
     setSelectedFilter(filterValue);
     setLoading(true);
     await fetchProducts(
-      filterValue === "main" ? { status: "main" } : filterValue === "freeDelivery" ? { deliveryType: "free" } : { sortBy: filterValue },
+      filterValue === "main"
+        ? { status: "main" }
+        : filterValue === "freeDelivery"
+          ? { deliveryType: "free" }
+          : { sortBy: filterValue },
     );
     setLoading(false);
   };
@@ -181,6 +185,7 @@ export default function ProductFilters({ translate, fetchProducts }) {
     <section
       className="flex flex-wrap gap-x-2 md:gap-x-8 gap-y-4 justify-center md:mb-12 mb-6 -mt-2"
       aria-label={t("filtersLabel")}
+      dir={lang === "ar" ? "rtl" : "ltr"}
     >
       {filters.map(({ value, label, Icon, description }) => (
         <button
@@ -194,7 +199,7 @@ export default function ProductFilters({ translate, fetchProducts }) {
               flex items-center md:gap-2 gap-1 px-2 py-2 border-b-2 focus:outline-primary transition-all duration-300 disabled:opacity-70 ${
                 selectedFilter === value
                   ? "border-b-primary text-primary"
-                  : "border-b-transparent text-[#5B5656] hover:border-b-gray-300"
+                  : "border-b-transparent text-mutedGray hover:border-b-gray-300"
               }
             `}
         >

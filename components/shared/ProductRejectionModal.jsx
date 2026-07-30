@@ -1,12 +1,6 @@
 "use client";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-} from "@heroui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@/components/ui/CustomModal";
+import Button from "@/components/ui/Button";
 
 export default function ProductRejectionModal({
   isOpen,

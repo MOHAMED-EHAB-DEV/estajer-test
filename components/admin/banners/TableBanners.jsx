@@ -7,9 +7,9 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Chip,
-  Tooltip,
-} from "@heroui/react";
+} from "@/components/ui/Table";
+import { Chip } from "@/components/ui/Chip";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { Edit } from "@/components/ui/svgs/icons/EditSvg";
 import { Delete } from "@/components/ui/svgs/icons/DeleteSvg";
 import { Eye } from "@/components/ui/svgs/icons/EyeSvg";
@@ -164,7 +164,7 @@ const TableBanners = ({ banners, loading, onEdit, onDelete, translate }) => {
         aria-label="Banners table"
         classNames={{
           wrapper: "min-h-[400px] p-0 shadow-none rounded-none",
-          th: "bg-gray-50 text-darkNavy font-semibold text-medium py-6 h-auto",
+          th: "bg-gray-50 text-darkNavy font-semibold text-base py-6 h-auto",
           td: "py-4 text-darkNavy font-medium",
         }}
       >

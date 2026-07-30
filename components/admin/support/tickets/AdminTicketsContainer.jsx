@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import FilterOptions from "../../orders/FilterOptions";
 import Image from "next/image";
 import { anyImgUrl } from "@/utils/ImageUrl";
-import { Pagination } from "@heroui/react";
+import { Pagination } from "@/components/ui/Pagination";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -204,7 +204,6 @@ const AdminTicketsContainer = ({
               total={totalPages}
               color="warning"
               showControls
-              initialPage={1}
               classNames={{
                 next: lang === "ar" ? "rotate-180" : "",
                 prev: lang === "ar" ? "rotate-180" : "",
@@ -337,6 +336,7 @@ const TicketCard = ({ ticket, lang }) => {
                   fill
                   alt={ticket.user.fullName}
                   className="object-cover"
+                  unoptimized
                 />
               ) : (
                 <span className="font-bold text-gray-400 text-sm">
@@ -345,14 +345,14 @@ const TicketCard = ({ ticket, lang }) => {
               )}
             </div>
             <div className="min-w-0">
-              <p className="text-xs font-bold text-[#f48a42] truncate">
+              <p className="text-xs font-bold text-primary truncate">
                 👤 {ticket.user.fullName}
               </p>
               <p className="text-[10px] text-orange-600/70 truncate">
                 {ticket.user.email}
               </p>
             </div>
-            <span className="ms-auto shrink-0 text-[10px] bg-[#f48a42] text-white rounded-full px-2 py-0.5 font-semibold">
+            <span className="ms-auto shrink-0 text-[10px] bg-primary text-white rounded-full px-2 py-0.5 font-semibold">
               مسجّل
             </span>
           </div>
@@ -396,7 +396,7 @@ const TicketCard = ({ ticket, lang }) => {
                 e.preventDefault();
                 setExpanded((v) => !v);
               }}
-              className="text-xs text-[#f48a42] font-semibold mt-1.5 hover:underline"
+              className="text-xs text-primary font-semibold mt-1.5 hover:underline"
             >
               {expanded ? "إخفاء" : "قراءة المزيد..."}
             </button>
@@ -407,7 +407,7 @@ const TicketCard = ({ ticket, lang }) => {
         <div className="flex items-center gap-2 mt-auto pt-2 border-t border-gray-100">
           <Link
             href={`/${lang}/admin/support/tickets/${ticket._id}`}
-            className="flex w-full justify-center items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#f48a42] text-white hover:opacity-90 shadow-sm shadow-[#f48a42]/20 transition-all"
+            className="flex w-full justify-center items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white hover:opacity-90 shadow-sm shadow-[#f48a42]/20 transition-all"
           >
             <svg
               className="w-4 h-4"

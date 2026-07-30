@@ -18,23 +18,25 @@ export default function GTMProductView({ product, lang }) {
       sendGTMEvent({
         event: "view_item",
         page_location: window.location.href,
-        value: value,
-        items: [
-          {
-            item_id: product._id,
-            item_name: product.name,
-            price: value,
-            quantity: 1,
-            currency: "SAR",
-            item_category: product.category,
-            item_category2: product.subCategory,
-            city: product.address?.city,
-            seller_name: product.owner?.fullName,
-            availability: "in stock",
-            condition: "used",
-            language: lang,
-          },
-        ],
+        currency: "SAR",
+        ecommerce: {
+          currency: "SAR",
+          value: value,
+          items: [
+            {
+              item_id: product._id,
+              item_name: product.name,
+              price: value,
+              quantity: 1,
+              currency: "SAR",
+              item_category: product.category,
+              item_category2: product.subCategory,
+              city: product.address?.city,
+              seller_name: product.owner?.fullName,
+              availability: "in stock",
+            },
+          ],
+        },
       });
     } catch (_) {}
   }, [lang, pathname, product]);

@@ -6,7 +6,6 @@ import usePushNotifications from "@/hooks/usePushNotifications";
 
 export default function ChatNotificationBanner({ t, isApp }) {
   const { isSubscribed, subscribe } = usePushNotifications({ isApp });
-  console.log('isSubscribed: ', isSubscribed);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 

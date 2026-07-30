@@ -2,8 +2,6 @@ import localFont from "next/font/local";
 import Providers from "./Providers";
 import { Suspense } from "react";
 import LocalSEO from "@/components/seo/LocalSEO";
-import { GoogleTagManager } from "@next/third-parties/google";
-import GTMPageView from "@/hooks/GTMPageView";
 import Script from "next/script";
 
 // Font files can be colocated inside of `pages`
@@ -148,10 +146,10 @@ export async function generateMetadata({ params }) {
       siteName: "Estajer",
       images: [
         {
-          url: "https://res.cloudinary.com/dhfzkadm2/image/upload/v1751550047/Screenshot_2025-07-03_163831_wiwtv4.webp",
-          width: 1900,
-          height: 1056,
-          alt: "Estajer - Rent Anything",
+          url: lang === "ar" ? `${siteURL}/og/home_ar.webp` : `${siteURL}/og/home_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - استأجر أي شيء" : "Estajer - Rent Anything",
           type: "image/webp",
         },
       ],
@@ -180,10 +178,10 @@ export async function generateMetadata({ params }) {
       creator: "@Estajercom",
       images: [
         {
-          url: "https://res.cloudinary.com/dhfzkadm2/image/upload/v1751550047/Screenshot_2025-07-03_163831_wiwtv4.webp",
-          alt: "Estajer - Rent Anything",
-          width: 1900,
-          height: 1056,
+          url: lang === "ar" ? `${siteURL}/og/home_ar.webp` : `${siteURL}/og/home_en.webp`,
+          alt: lang === "ar" ? "استأجر - استأجر أي شيء" : "Estajer - Rent Anything",
+          width: 1200,
+          height: 630,
           type: "image/webp",
         },
       ],
@@ -212,26 +210,6 @@ export default async function RootLayout({ children, params }) {
   return (
     <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
       <head>
-        {/* <Script
-          id="gtm-script"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `
-              function loadGTM() {
-                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','GTM-W7PNC244');
-              }
-              if ('requestIdleCallback' in window) {
-                requestIdleCallback(function() { setTimeout(loadGTM, 3000); });
-              } else {
-                setTimeout(loadGTM, 5000);
-              }
-            `,
-          }}
-        /> */}
         <LocalSEO lang={lang} />
         <Script id="webmcp-registration" strategy="lazyOnload">
           {`
@@ -257,23 +235,49 @@ export default async function RootLayout({ children, params }) {
             }
           `}
         </Script>
+        {/* Auto-reload on stale chunk after deployment */}
+        <Script id="chunk-error-reload" strategy="beforeInteractive">{`
+          (function () {
+            var RELOAD_KEY = '__chunk_reload__';
+            function isChunkError(msg) {
+              return (
+                typeof msg === 'string' &&
+                (msg.indexOf('ChunkLoadError') !== -1 ||
+                  msg.indexOf('Loading chunk') !== -1 ||
+                  msg.indexOf("Cannot read properties of undefined (reading 'call')") !== -1 ||
+                  msg.indexOf('Unexpected token') !== -1)
+              );
+            }
+            window.addEventListener('error', function (e) {
+              if (isChunkError(e && e.message)) {
+                if (!sessionStorage.getItem(RELOAD_KEY)) {
+                  sessionStorage.setItem(RELOAD_KEY, '1');
+                  window.location.reload();
+                } else {
+                  sessionStorage.removeItem(RELOAD_KEY);
+                }
+              }
+            });
+            window.addEventListener('unhandledrejection', function (e) {
+              var reason = e && e.reason;
+              var msg = reason && (reason.message || String(reason));
+              if (isChunkError(msg)) {
+                e.preventDefault();
+                if (!sessionStorage.getItem(RELOAD_KEY)) {
+                  sessionStorage.setItem(RELOAD_KEY, '1');
+                  window.location.reload();
+                } else {
+                  sessionStorage.removeItem(RELOAD_KEY);
+                }
+              }
+            });
+          })();
+        `}</Script>
       </head>
       <body className={`${IBMPlexArabic.variable} ${NotoSansArabic.className}`}>
-        {/* <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-W7PNC244"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          ></iframe>
-        </noscript> */}
-        <Suspense fallback={null}>
-          <GTMPageView />
-        </Suspense>
         <Providers dir={lang === "ar" ? "rtl" : "ltr"} lang={lang}>
           {children}
         </Providers>
-        <GoogleTagManager gtmId="GTM-W7PNC244" />
       </body>
     </html>
   );

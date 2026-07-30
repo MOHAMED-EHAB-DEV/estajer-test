@@ -1,6 +1,6 @@
 export const Delete = ({ className, size = 18, fill = "#F44242", ...rest }) => (
   <svg
-    className={className}
+    className={className || "md:w-4.5 w-[14px] md:h-[20px] h-3.75"}
     width={size}
     height={size}
     viewBox="0 0 18 20"

@@ -211,7 +211,10 @@ export default async function CategoryProductsPage({ params, searchParams }) {
         {/* Search Filters */}
         <SearchFilters
           lang={lang}
-          translate={translate()}
+          translate={{
+            search: translate("search"),
+            product: { page: translate("product.page") },
+          }}
           initialProducts={initialProducts}
           queryParams={{ ...queryParams, category }}
           queryString={queryString.toString()}
@@ -230,7 +233,7 @@ export default async function CategoryProductsPage({ params, searchParams }) {
           <CategoriesCarousel
             categoriesData={subCategory}
             langPrefix={langPrefix}
-            translate={translate()}
+            translate={{ categories: translate("categories") }}
             isSubCategory={true}
             mainCategory={category}
             lang={lang}
@@ -244,7 +247,11 @@ export default async function CategoryProductsPage({ params, searchParams }) {
             key={queryString}
             search={true}
             lang={lang}
-            translate={translate()}
+            translate={{
+              productComponent: translate("productComponent"),
+              bulkEditDelivery: translate("bulkEditDelivery"),
+              ui: translate("ui"),
+            }}
             initialProducts={initialProducts}
             addedValue={addedValue}
             category={category}
@@ -255,7 +262,9 @@ export default async function CategoryProductsPage({ params, searchParams }) {
           categoryName={categoryData.label}
           richContent={categoryData[`richContent${langSuffix}`]}
           lang={lang}
-          translate={translate()}
+          translate={{
+            categoryRichContent: translate("categoryRichContent"),
+          }}
         />
       </div>
     </>

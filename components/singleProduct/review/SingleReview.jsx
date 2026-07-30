@@ -121,7 +121,11 @@ export default function SingleRate({
               onPress={() => setShowConfirm(true)}
               isDisabled={isDeleting}
             >
-              <Delete fill="#fff" size={14} className="md:w-5 md:h-5 w-3.5 h-3.5" />
+              <Delete
+                fill="#fff"
+                size={14}
+                className="md:w-4 md:h4w-3.5 h-3.5"
+              />
             </Button>
           )}
         </header>
@@ -129,7 +133,7 @@ export default function SingleRate({
           <div className="mt-1 md:mt-2 lg:mt-0">
             <p
               ref={commentRef}
-              className={`text-[#5B5656] text-xs md:text-lg whitespace-pre-line line-clamp-6 ${
+              className={`text-mutedGray text-xs md:text-lg whitespace-pre-line line-clamp-6 ${
                 !isExpanded ? "" : "line-clamp-none"
               }`}
             >

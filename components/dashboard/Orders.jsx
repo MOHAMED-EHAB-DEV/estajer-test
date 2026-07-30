@@ -68,7 +68,7 @@ export default async function Orders({
         ) : orderData?.orders?.length > 0 ? (
           orderData?.orders?.map((order, idx) => (
             <div key={idx}>
-              <div className="bg-[#EAEEF3] flex flex-wrap justify-between items-center font-semibold md:text-base text-[13px]">
+              <div className="bg-surfaceBlue flex flex-wrap justify-between items-center font-semibold md:text-base text-[13px]">
                 <div className="flex flex-wrap md:gap-6 gap-3 items-center md:p-4 p-3 flex-1">
                   <div className="flex items-center gap-2">
                     {requests ? t("renter") : t("landlord")}:{" "}
@@ -81,7 +81,7 @@ export default async function Orders({
                   </div>
                   <div className="flex items-center gap-1 text-primary">
                     {t("cart.total")} : {order.totalAmount}
-                    <Currency className="md:w-[15px] md:h-[15px] w-3.5 h-3.5" />
+                    <Currency className="md:w-3.75 md:h-3.75 w-3.5 h-3.5" />
                   </div>
                 </div>
                 <div>
@@ -123,10 +123,13 @@ export default async function Orders({
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-primary font-semibold md:text-xl text-lg flex items-center gap-1">
                           {item.price}
-                          <Currency className="md:w-[18px] md:h-[18px] w-4 h-4" />
+                          <Currency className="md:w-4.5 md:h-4.5 w-4 h-4" />
                         </span>
                         <span className="text-[#595959] md:text-lg text-base">
-                          {item.quantity} {t("perDay")}
+                          {item.product?.saleUnit
+                            ? `${item.quantity} ${translate(`unit.${item.product.saleUnit}`)}`
+                            : `${item.quantity}`}{" "}
+                          {t("perDay")}
                         </span>
                       </div>
                       <div className="font-IBMPlex font-semibold md:text-lg text-base line-clamp-1 mb-4">

@@ -181,8 +181,9 @@ export default async function RenterCards({ translate, placeholder, lang }) {
       Icon: ({ className }) => (
         <Completed className={className} color="#F48A42" background="#fce7c5" />
       ),
-      className: "text-[#F48A42]",
+      className: "text-primary",
       addProduct: true,
+      href: `/${langPrefix}dashboard/products`,
     },
     {
       title: t("cards.receivedRentals"),
@@ -191,6 +192,7 @@ export default async function RenterCards({ translate, placeholder, lang }) {
         <Pending className={className} color="#9747FF" background="#f0e4ff" />
       ),
       className: "text-[#9747FF]",
+      href: `/${langPrefix}dashboard/requests`,
       progress: [
         {
           title: t("cards.progress.completed"),
@@ -217,91 +219,142 @@ export default async function RenterCards({ translate, placeholder, lang }) {
       count: placeholder ? "..." : (visitsStats?.today || 0).toString(),
       Icon: Views,
       className: "text-[#17A1FA]",
+      href: null,
     },
     {
       title: t("cards.dailyEarnings"),
       count: placeholder ? "..." : `${dailyIncome} ${t("currency")}`,
       Icon: DailyIncome,
       className: "text-[#4FD64F]",
+      href: null,
     },
     {
       title: t("cards.totalBalance"),
       count: placeholder ? "..." : `${totalIncome} ${t("currency")}`,
       Icon: TotalIncome,
       className: "text-[#23983C]",
+      href: null,
     },
     {
       title: t("cards.unreadMessages"),
       count: placeholder ? "..." : unreadMessagesCount.toString(),
       Icon: Messages,
       className: "text-[#4FD6B6]",
+      href: `/${langPrefix}dashboard/messages`,
     },
   ];
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:gap-6 gap-2 mb-6">
       {cardsData.map(
-        ({ Icon, className, title, count, progress, addProduct }, idx) => (
-          <div
-            className={`flex flex-wrap items-center md:gap-4 gap-1 justify-between lg:p-6 md:p-5 p-3 bg-white rounded-lg ${
-              idx === 1
-                ? "2xl:col-span-3 2xl:-order-none col-span-2 -order-1"
-                : ""
-            }`}
-            key={idx}
-          >
-            <div className="flex items-center md:gap-4 gap-2">
-              <Icon className="md:w-14 md:h-14 w-10 h-10" />
-              <div className="font-IBMPlex text-[0.8rem] md:text-[1.2rem] 2xl:text-[1.25rem] leading-tight">
-                <div className={className}>{title}</div>
-                <div className="font-semibold md:mt-1">
-                  {placeholder ? "..." : count}
+        (
+          { Icon, className, title, count, progress, addProduct, href },
+          idx,
+        ) => {
+          const content = (
+            <>
+              <div className="flex items-center md:gap-4 gap-2">
+                <Icon className="md:w-14 md:h-14 w-10 h-10" />
+                <div className="font-IBMPlex text-0.8 md:text-1.2 2xl:text-[1.25rem] leading-tight">
+                  <div className={className}>{title}</div>
+                  <div className="font-semibold md:mt-1 text-black">
+                    {placeholder ? "..." : count}
+                  </div>
                 </div>
               </div>
-            </div>
-            {addProduct && (
-              <Link
-                href={`/${langPrefix}add-product`}
-                className="flex items-center gap-1 md:text-base text-sm bg-[#F48A42] ms-auto text-white md:px-4 px-2 py-2 rounded-lg"
-              >
-                <Plus color="white" className="md:w-4 md:h-4 w-3 h-3" />
-                <span className="hidden md:block">{t("cards.addProduct")}</span>
-              </Link>
-            )}
-            {progress && (
-              <div className="flex flex-wrap lg:gap-8 gap-4 mt-2 items-center">
-                {progress?.map(({ title, count, percentage, color }, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <div className="relative flex items-center justify-center shrink-0">
-                      <CircularProgress
-                        percentage={placeholder ? 0 : percentage}
-                        color={color}
-                        className="md:w-14 md:h-14 w-9 h-9"
-                      />
-                      <span className="absolute md:text-sm text-[0.6rem] font-semibold">
-                        {placeholder ? "0" : percentage}%
-                      </span>
+              {progress && (
+                <div className="flex flex-wrap lg:gap-8 gap-4 mt-2 items-center">
+                  {progress?.map(({ title, count, percentage, color }, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <div className="relative flex items-center justify-center shrink-0">
+                        <CircularProgress
+                          percentage={placeholder ? 0 : percentage}
+                          color={color}
+                          className="md:w-14 md:h-14 w-9 h-9"
+                        />
+                        <span className="absolute md:text-sm text-[0.6rem] font-semibold text-black">
+                          {placeholder ? "0" : percentage}%
+                        </span>
+                      </div>
+                      <div>
+                        <div
+                          className="font-semibold md:text-lg text-sm"
+                          style={{ color }}
+                        >
+                          {placeholder ? "..." : count}
+                        </div>
+                        <div className="md:text-base text-[0.7rem] line-clamp-1 text-black">
+                          {title}
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <div
-                        className="font-semibold md:text-lg text-sm"
-                        style={{ color }}
-                      >
-                        {placeholder ? "..." : count}
-                      </div>
-                      <div className="md:text-base text-[0.7rem] line-clamp-1">
-                        {title}
-                      </div>
+                  ))}
+                  {progress && (
+                    <Arrow className="md:w-5 md:h-5 w-4 h-4 shrink-0" />
+                  )}
+                </div>
+              )}
+            </>
+          );
+
+          if (addProduct) {
+            return (
+              <div
+                key={idx}
+                className="relative flex flex-wrap items-center md:gap-4 gap-1 justify-between lg:p-6 md:p-5 p-3 bg-white rounded-lg hover:shadow-sm transition-shadow"
+              >
+                <Link
+                  href={href}
+                  className="absolute inset-0 z-0 rounded-lg"
+                  aria-label={title}
+                />
+                <div className="flex items-center md:gap-4 gap-2 relative z-10 pointer-events-none">
+                  <Icon className="md:w-14 md:h-14 w-10 h-10" />
+                  <div className="font-IBMPlex text-0.8 md:text-1.2 2xl:text-[1.25rem] leading-tight">
+                    <div className={className}>{title}</div>
+                    <div className="font-semibold md:mt-1 text-black">
+                      {placeholder ? "..." : count}
                     </div>
                   </div>
-                ))}
-                {progress && (
-                  <Arrow className="md:w-5 md:h-5 w-4 h-4 shrink-0" />
-                )}
+                </div>
+                <Link
+                  href={`/${langPrefix}add-product`}
+                  className="relative z-10 flex items-center gap-1 md:text-base text-sm bg-primary ms-auto text-white md:px-4 px-2 py-2 rounded-lg hover:bg-[#e07933] transition-colors"
+                >
+                  <Plus color="white" className="md:w-4 md:h-4 w-3 h-3" />
+                  <span className="hidden md:block">
+                    {t("cards.addProduct")}
+                  </span>
+                </Link>
               </div>
-            )}
-          </div>
-        ),
+            );
+          }
+
+          if (href) {
+            return (
+              <Link
+                href={href}
+                key={idx}
+                className={`flex flex-wrap items-center md:gap-4 gap-1 justify-between lg:p-6 md:p-5 p-3 bg-white rounded-lg hover:shadow-sm transition-shadow ${
+                  idx === 1
+                    ? "2xl:col-span-3 2xl:-order-none col-span-2 -order-1"
+                    : ""
+                }`}
+              >
+                {content}
+              </Link>
+            );
+          }
+
+          return (
+            <div
+              key={idx}
+              className="flex flex-wrap items-center md:gap-4 gap-1 justify-between lg:p-6 md:p-5 p-3 bg-white rounded-lg"
+            >
+              {content}
+            </div>
+          );
+        },
       )}
     </div>
   );

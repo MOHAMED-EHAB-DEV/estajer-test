@@ -3,20 +3,22 @@ import { useEffect, useState, useRef, useTransition, useMemo } from "react";
 import dynamic from "next/dynamic";
 import Product from "@/components/shared/Product";
 import { useTranslations } from "@/hooks/useTranslations";
+import Button from "@/components/ui/Button";
 import {
-  Button,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Textarea,
-  Checkbox,
+} from "@/components/ui/CustomModal";
+import { Textarea } from "@/components/ui/Input";
+import { Checkbox } from "@/components/ui/Checkbox";
+import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from "@heroui/react";
+} from "@/components/ui/Dropdown";
 import { toast } from "@/utils/toast";
 import ToastMessage from "@/components/ui/ToastMessage";
 import revalidate, { revalidateWithTag } from "@/actions/revalidateTag";
@@ -25,7 +27,7 @@ import { GridView, TableView } from "@/components/ui/svgs/Admin";
 import TableProducts from "./TableProducts";
 import Link from "next/link";
 import ProductFilters from "@/components/dashboard/ProductFilters";
-import { useSearchParams } from "next/navigation";
+
 import { Delete } from "@/components/ui/svgs/icons/DeleteSvg";
 import { MoreVertical } from "@/components/ui/svgs/icons/MoreVerticalSvg";
 import { EyeOff } from "@/components/ui/svgs/icons/EyeOffSvg";
@@ -78,7 +80,7 @@ export default function AdminProductContainer({
   const trans = useTranslations(translate);
   const t = (text) => trans(`productComponent.${text}`);
   const langPrefix = lang === "ar" ? "" : "en/";
-  const searchParams = useSearchParams();
+
   const [products, setProducts] = useState(initialProducts || []);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(hasMoreServer);
@@ -148,7 +150,7 @@ export default function AdminProductContainer({
   const handleExportExcel = async () => {
     try {
       setIsPrintLoading(true);
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(queryParams);
 
       const response = await fetch(`/api/products/export?${params.toString()}`);
       if (!response.ok) throw new Error("فشل في تصدير البيانات");
@@ -197,11 +199,12 @@ export default function AdminProductContainer({
       showAll: true,
       compressed: true,
       owner: true,
+      isAdminPage: true,
       fields: `images,owner,${
         lang === "ar" ? "nameAr" : "nameEn"
       },rental,rating,pricingModel,location,${
         lang === "ar" ? "addressAr" : "addressEn"
-      },rejected,approved,deleted,hidden,rejectMessage,category,subCategory,quantity,minQuantity,status,isMain,nana`,
+      },rejected,approved,deleted,hidden,rejectMessage,category,subCategory,quantity,minQuantity,status,isMain,nana,pendingChanges`,
       ...(name && { name }),
       ...(status && status !== "all" && { status }),
       ...(category && category !== "all" && { category }),
@@ -548,12 +551,14 @@ export default function AdminProductContainer({
               variant={rangeSelectionMode ? "solid" : "solid"}
               onPress={handleRangeSelection}
               className="text-xs md:text-sm h-8 md:h-10"
+              radius="lg"
             >
               {rangeSelectionMode ? "إلغاء التحديد المتتالي" : "تحديد متتالي"}
             </Button>
             <Button
               size="sm"
               color="primary"
+              radius="lg"
               onPress={() =>
                 handleSelected("approve", selectedProducts, setSelectedProducts)
               }
@@ -571,7 +576,8 @@ export default function AdminProductContainer({
                 <Button
                   size="sm"
                   color="primary"
-                  className="bg-white border-1 border-primary text-primary hover:bg-primary-50 px-2 md:px-4 min-w-8 md:min-w-10 h-8 md:h-10 transition-all duration-200 shadow-sm text-xs md:text-sm"
+                  radius="lg"
+                  className="bg-white border border-primary text-primary hover:bg-primary-50 px-2 md:px-4 min-w-8 md:min-w-10 h-8 md:h-10 transition-all duration-200 shadow-sm text-xs md:text-sm"
                   endContent={<ChevronDown className="w-3 h-3 md:w-4 md:h-4" />}
                 >
                   إجراءات محددة ({selectedProducts.size})
@@ -681,7 +687,7 @@ export default function AdminProductContainer({
                 ref={idx === products.length - 1 ? lastProductRef : null}
               >
                 <Product
-                sm={true}
+                  sm={true}
                   product={product}
                   lang={lang}
                   translate={translate}

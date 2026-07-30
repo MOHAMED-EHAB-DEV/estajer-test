@@ -1,14 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  Input,
-  Select,
-  SelectItem,
-  Button,
-  Card,
-  CardBody,
-} from "@heroui/react";
+import { Input } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
+import Button from "@/components/ui/Button";
+import { Card, CardBody } from "@/components/ui/Card";
 import { useDebounce } from "use-debounce";
 import { useTranslations } from "@/hooks/useTranslations";
 
@@ -84,12 +80,15 @@ const TaskFilters = ({ queryParams, translate }) => {
   const [type, setType] = useState(queryParams?.type || "all");
   const [status, setStatus] = useState(queryParams?.status || "all");
   const [sort, setSort] = useState(
-    `${queryParams?.sortBy || "priority"}-${queryParams?.sortOrder || "desc"}`
+    `${queryParams?.sortBy || "priority"}-${queryParams?.sortOrder || "desc"}`,
   );
   const [dateFrom, setDateFrom] = useState(queryParams?.dateFrom || "");
   const [dateTo, setDateTo] = useState(queryParams?.dateTo || "");
   const [showCompleted, setShowCompleted] = useState(
-    queryParams?.showCompleted === "true"
+    queryParams?.showCompleted === "true",
+  );
+  const [showCancelled, setShowCancelled] = useState(
+    queryParams?.showCancelled === "true",
   );
 
   const [debouncedSearch] = useDebounce(search, 500);
@@ -140,6 +139,13 @@ const TaskFilters = ({ queryParams, translate }) => {
       hasChanges = true;
     }
 
+    const currentShowCancelled = params.get("showCancelled") === "true";
+    if (showCancelled !== currentShowCancelled) {
+      if (showCancelled) params.set("showCancelled", "true");
+      else params.delete("showCancelled");
+      hasChanges = true;
+    }
+
     const [sortBy, sortOrder] = sort.split("-");
     const currentSortBy = params.get("sortBy") || "priority";
     const currentSortOrder = params.get("sortOrder") || "desc";
@@ -154,7 +160,7 @@ const TaskFilters = ({ queryParams, translate }) => {
       if (params.get("page")) params.set("page", "1");
       router.push(`?${params.toString()}`);
     }
-  }, [debouncedSearch, type, status, sort, dateFrom, dateTo, showCompleted]);
+  }, [debouncedSearch, type, status, sort, dateFrom, dateTo, showCompleted, showCancelled]);
 
   const handleReset = () => {
     setSearch("");
@@ -164,6 +170,7 @@ const TaskFilters = ({ queryParams, translate }) => {
     setDateFrom("");
     setDateTo("");
     setShowCompleted(false);
+    setShowCancelled(false);
     router.push("?");
   };
 
@@ -188,15 +195,16 @@ const TaskFilters = ({ queryParams, translate }) => {
             className="lg:col-span-2"
             classNames={{
               inputWrapper:
-                "border-2 border-transparent focus-within:border-[#f48a42] bg-white shadow-sm",
+                "border-2 h-10 border-transparent focus-within:border-[#f48a42] bg-white shadow-sm px-4",
             }}
           />
 
           <Select
             label={t("admin.tasks.type")}
+            labelPlacement="outside"
             selectedKeys={[type]}
             onChange={(e) => setType(e.target.value)}
-            classNames={{ trigger: "bg-white shadow-sm" }}
+            classNames={{ trigger: "bg-white shadow-sm h-10 px-4", label: "text-sm" }}
           >
             {taskTypes.map((t) => (
               <SelectItem key={t.key} value={t.key}>
@@ -207,9 +215,10 @@ const TaskFilters = ({ queryParams, translate }) => {
 
           <Select
             label={t("admin.tasks.status")}
+            labelPlacement="outside"
             selectedKeys={[status]}
             onChange={(e) => setStatus(e.target.value)}
-            classNames={{ trigger: "bg-white shadow-sm" }}
+            classNames={{ trigger: "bg-white shadow-sm h-10 px-4", label: "text-sm" }}
           >
             {taskStatuses.map((s) => (
               <SelectItem key={s.key} value={s.key}>
@@ -221,24 +230,27 @@ const TaskFilters = ({ queryParams, translate }) => {
           <Input
             type="date"
             label={t("admin.tasks.dateFrom")}
+            labelPlacement="outside"
             value={dateFrom}
             onChange={(e) => setDateFrom(e.target.value)}
-            classNames={{ inputWrapper: "bg-white shadow-sm" }}
+            classNames={{ inputWrapper: "bg-white shadow-sm h-10 px-4", label: "text-sm" }}
           />
 
           <Input
             type="date"
             label={t("admin.tasks.dateTo")}
+            labelPlacement="outside"
             value={dateTo}
             onChange={(e) => setDateTo(e.target.value)}
-            classNames={{ inputWrapper: "bg-white shadow-sm" }}
+            classNames={{ inputWrapper: "bg-white shadow-sm h-10 px-4", label: "text-sm" }}
           />
 
           <Select
             label={t("admin.tasks.sortBy")}
+            labelPlacement="outside"
             selectedKeys={[sort]}
             onChange={(e) => setSort(e.target.value)}
-            classNames={{ trigger: "bg-white shadow-sm" }}
+            classNames={{ trigger: "bg-white shadow-sm h-10 px-4", label: "text-sm" }}
           >
             {sortOptions.map((o) => (
               <SelectItem key={o.key} value={o.key}>
@@ -250,21 +262,38 @@ const TaskFilters = ({ queryParams, translate }) => {
           <div className="flex items-end gap-2">
             <Button
               variant="flat"
+              radius="lg"
+              size="md"
               onPress={handleReset}
-              className="flex-1 bg-gray-100 hover:bg-gray-200"
+              className="flex-1 bg-gray-100 text-black hover:bg-gray-200"
             >
               {t("admin.tasks.resetFilters")}
             </Button>
             <Button
               variant={showCompleted ? "solid" : "flat"}
+              radius="lg"
+              size="md"
               onPress={() => setShowCompleted(!showCompleted)}
               className={
                 showCompleted
                   ? "bg-gradient-to-r from-[#f48a42] to-[#f47242] text-white"
-                  : "bg-gray-100"
+                  : "bg-gray-100 text-black"
               }
             >
               {t("admin.tasks.showCompleted")}
+            </Button>
+            <Button
+              variant={showCancelled ? "solid" : "flat"}
+              radius="lg"
+              size="md"
+              onPress={() => setShowCancelled(!showCancelled)}
+              className={
+                showCancelled
+                  ? "bg-gradient-to-r from-[#f48a42] to-[#f47242] text-white"
+                  : "bg-gray-100 text-black"
+              }
+            >
+              {t("admin.tasks.showCancelled")}
             </Button>
           </div>
         </div>

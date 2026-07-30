@@ -33,7 +33,9 @@ export async function getTranslations(lang, namespaces = ["all"]) {
       (acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined),
       mergedTranslations
     );
-    if (!result) console.log("Missing: ", path);
+    if (!result) {
+      console.log(`[getTranslations] Missing: "${path}" | Stack:`, new Error().stack);
+    }
     return result || "Missing: " + path;
   };
 }

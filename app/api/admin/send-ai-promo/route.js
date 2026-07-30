@@ -17,44 +17,22 @@ export async function GET(req) {
       );
     }
 
-    const testEmail = "alaaelbana58@gmail.com";
+    // Find all active, unsubscribed=false users
+    const users = await User.find({
+      email: { $exists: true, $ne: "" },
+      unsubscribed: { $ne: true },
+    })
+      .sort({ createdAt: 1 })
+      .skip(616);
 
-    if (testEmail) {
-      // Send a single test email
-      const targetUser = await User.findOne({ email: testEmail });
-      console.log("targetUser: ", targetUser);
-      await sendAiAssistFeatureEmail({
-        email: testEmail,
-        name: targetUser ? targetUser.name || "" : "User",
-        lang: targetUser?.lang || "ar",
-      });
+    // Send emails in background
+    sendEmailsInBatches(users);
 
-      return NextResponse.json({
-        success: true,
-        message: `Test email sent successfully to ${testEmail}`,
-      });
-    }
-
-    if (allUsers) {
-      // Find all active, unsubscribed=false users
-      const users = await User.find({
-        email: { $exists: true, $ne: "" },
-        unsubscribed: { $ne: true },
-      });
-
-      // Send emails in background
-      // sendEmailsInBatches(users);
-
-      return NextResponse.json({
-        success: true,
-        message: `Started sending emails to ${users.length} users in the background.`,
-      });
-    }
-
-    return NextResponse.json(
-      { success: false, error: "Missing testEmail or allUsers parameter" },
-      { status: 400 },
-    );
+    return NextResponse.json({
+      success: true,
+      users,
+      message: `Started sending emails to ${users.length} users in the background.`,
+    });
   } catch (error) {
     return handleApiError(error, {
       endpoint: "/api/admin/send-ai-promo",
@@ -65,9 +43,9 @@ export async function GET(req) {
 }
 
 async function sendEmailsInBatches(users) {
-  const batchSize = 10;
+  const batchSize = 15;
   const batchDelayMs = 5000; // 5 seconds delay between batches
-  const emailDelayMs = 500;  // 0.5 seconds delay between each email
+  const emailDelayMs = 400; // 0.5 seconds delay between each email
 
   for (let i = 0; i < users.length; i += batchSize) {
     const batch = users.slice(i, i + batchSize);

@@ -7,7 +7,8 @@ import { toast } from "@/utils/toast";
 import ToastMessage from "../ui/ToastMessage";
 import { useRouter } from "next/navigation";
 import revalidate, { revalidateWithTag } from "@/actions/revalidateTag";
-import { Input, Select, SelectItem, Textarea } from "@heroui/react";
+import { Input, Textarea } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
 import dynamic from "next/dynamic";
 
 const ReactQuill = dynamic(
@@ -576,7 +577,7 @@ export default function AddBlog({ lang, translate, isEditing, blog }) {
               ],
             })
           }
-          className="bg-[#F48A42] text-white self-start px-8"
+          className="bg-primary text-white self-start px-8"
         >
           إضافة سؤال جديد
         </Button>

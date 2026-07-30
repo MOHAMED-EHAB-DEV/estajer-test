@@ -4,7 +4,7 @@ export const Order = ({ color, isActive, size = 15, className }) => (
     height={size}
     viewBox="0 0 15 15"
     fill={color || (isActive ? "white" : "#13112A")}
-    className={className}
+    className={className || "md:w-3.75 w-[12px] md:h-3.75 h-[12px]"}
   >
     <path d="M0.646484 8.25187V4.59188H14.6465V8.25187V8.25188C14.6465 11.2519 14.6465 12.7619 13.8165 13.5919C12.9865 14.4219 11.4765 14.4219 8.47649 14.4219H8.47648H6.81648H6.81647C3.81648 14.4219 2.30648 14.4219 1.47648 13.5919C0.646484 12.7619 0.646484 11.2519 0.646484 8.25187Z" />
     <path d="M2.53648 0.701875C2.98648 0.421875 3.66648 0.421875 5.02648 0.421875H7.14648V3.59187H0.916484L1.32648 2.69187C1.87648 1.46188 2.11648 0.951875 2.53648 0.701875Z" />
@@ -14,7 +14,7 @@ export const Order = ({ color, isActive, size = 15, className }) => (
 
 export const Checked = ({ className, size = 18, color = "#4FD658" }) => (
   <svg
-    className={className}
+    className={className || "md:w-4.5 w-[14px] md:h-4.5 h-[14px]"}
     width={size}
     height={size}
     viewBox="0 0 18 19"
@@ -30,7 +30,7 @@ export const Checked = ({ className, size = 18, color = "#4FD658" }) => (
 );
 export const RoundedX = ({ className }) => (
   <svg
-    className={className}
+    className={className || "md:w-[16px] w-[13px] md:h-[17px] h-[14px]"}
     width="16"
     height="17"
     viewBox="0 0 16 17"
@@ -41,7 +41,7 @@ export const RoundedX = ({ className }) => (
 );
 export const Money = ({ className, size = 18, color = "#0D092B" }) => (
   <svg
-    className={className}
+    className={className || "md:w-4.5 w-[14px] md:h-4.5 h-[14px]"}
     width={size}
     height={size}
     viewBox="0 0 15 15"
@@ -52,7 +52,7 @@ export const Money = ({ className, size = 18, color = "#0D092B" }) => (
 );
 export const Map = ({ className, size = 21, color = "#F48A42" }) => (
   <svg
-    className={`mt-1 ${className}`}
+    className={`mt-1 ${className || "md:w-[21px] w-[16px] md:h-[19px] h-[14px]"}`}
     width={size}
     height="19"
     viewBox="0 0 21 19"
@@ -91,5 +91,23 @@ export const Receipt = ({ className, size = 20, color = "#F48A42" }) => (
     <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z" />
     <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
     <path d="M12 6v2m0 8v2" />
+  </svg>
+);
+
+export const Download = ({ className, size = 18, color = "currentColor" }) => (
+  <svg
+    className={className}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+    <polyline points="7 10 12 15 17 10" />
+    <line x1="12" y1="15" x2="12" y2="3" />
   </svg>
 );

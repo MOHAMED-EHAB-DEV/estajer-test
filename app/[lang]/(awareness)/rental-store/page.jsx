@@ -53,9 +53,9 @@ export async function generateMetadata({ params }) {
       name: lang === "ar" ? "استأجر" : "Estajer",
       images: [
         {
-          url: "https://res.cloudinary.com/dhfzkadm2/image/upload/v1775731147/Screenshot_2026-04-09_123320_rfzmbl.webp",
-          width: 1900,
-          height: 1050,
+          url: lang === "ar" ? `${siteURL}/og/rental_store_ar.webp` : `${siteURL}/og/rental_store_en.webp`,
+          width: 1200,
+          height: 630,
           alt:
             lang === "ar"
               ? "استأجر - منصة تأجير المنتجات"
@@ -72,7 +72,7 @@ export async function generateMetadata({ params }) {
       site: "@Estajercom",
       creator: "@Estajercom",
       images: [
-        "https://res.cloudinary.com/dhfzkadm2/image/upload/v1775731147/Screenshot_2026-04-09_123320_rfzmbl.webp",
+        lang === "ar" ? `${siteURL}/og/rental_store_ar.webp` : `${siteURL}/og/rental_store_en.webp`,
       ],
     },
   };

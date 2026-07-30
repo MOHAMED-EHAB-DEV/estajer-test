@@ -13,6 +13,13 @@ export async function GET(req, { params }) {
   const limit = parseInt(searchParams.get("limit")) || 4;
   const skip = parseInt(searchParams.get("skip")) || 0;
 
+  if (!id || !/^[a-f\d]{24}$/i.test(id)) {
+    return NextResponse.json(
+      { success: false, error: "Invalid product id" },
+      { status: 400 },
+    );
+  }
+
   try {
     await connectDB();
 

@@ -101,7 +101,7 @@ export default async function CallToAction({ lang }) {
           >
             {t("title")}
           </h2>
-          <p className="text-[#5B5656] lg:text-[1.4rem] md:text-[1.2rem] text-[1rem] max-w-2xl mx-auto">
+          <p className="text-mutedGray lg:text-[1.4rem] md:text-1.2 text-[1rem] max-w-2xl mx-auto">
             {t("description")}
           </p>
         </header>
@@ -127,27 +127,27 @@ export default async function CallToAction({ lang }) {
               </div>
 
               {/* Title */}
-              <h3 className="font-IBMPlex font-bold text-2xl md:text-3xl text-darkNavy mb-3 group-hover:text-[#f48a42] transition-colors duration-300">
+              <h3 className="font-IBMPlex font-bold text-2xl md:text-3xl text-darkNavy mb-3 group-hover:text-primary transition-colors duration-300">
                 {t("renter.title")}
               </h3>
 
               {/* Description */}
-              <p className="text-[#5B5656] text-base md:text-lg mb-6 leading-relaxed">
+              <p className="text-mutedGray text-base md:text-lg mb-6 leading-relaxed">
                 {t("renter.description")}
               </p>
 
               {/* Features List */}
               <ul className="space-y-2 mb-8">
-                <li className="flex items-center gap-2 text-sm text-[#5B5656]">
-                  <span className="w-2 h-2 rounded-full bg-[#f48a42]" />
+                <li className="flex items-center gap-2 text-sm text-mutedGray">
+                  <span className="w-2 h-2 rounded-full bg-primary" />
                   {t("renter.feature1")}
                 </li>
-                <li className="flex items-center gap-2 text-sm text-[#5B5656]">
-                  <span className="w-2 h-2 rounded-full bg-[#f48a42]" />
+                <li className="flex items-center gap-2 text-sm text-mutedGray">
+                  <span className="w-2 h-2 rounded-full bg-primary" />
                   {t("renter.feature2")}
                 </li>
-                <li className="flex items-center gap-2 text-sm text-[#5B5656]">
-                  <span className="w-2 h-2 rounded-full bg-[#f48a42]" />
+                <li className="flex items-center gap-2 text-sm text-mutedGray">
+                  <span className="w-2 h-2 rounded-full bg-primary" />
                   {t("renter.feature3")}
                 </li>
               </ul>
@@ -190,21 +190,21 @@ export default async function CallToAction({ lang }) {
               </h3>
 
               {/* Description */}
-              <p className="text-[#5B5656] text-base md:text-lg mb-6 leading-relaxed">
+              <p className="text-mutedGray text-base md:text-lg mb-6 leading-relaxed">
                 {t("lessor.description")}
               </p>
 
               {/* Features List */}
               <ul className="space-y-2 mb-8">
-                <li className="flex items-center gap-2 text-sm text-[#5B5656]">
+                <li className="flex items-center gap-2 text-sm text-mutedGray">
                   <span className="w-2 h-2 rounded-full bg-[#1E3A5F]" />
                   {t("lessor.feature1")}
                 </li>
-                <li className="flex items-center gap-2 text-sm text-[#5B5656]">
+                <li className="flex items-center gap-2 text-sm text-mutedGray">
                   <span className="w-2 h-2 rounded-full bg-[#1E3A5F]" />
                   {t("lessor.feature2")}
                 </li>
-                <li className="flex items-center gap-2 text-sm text-[#5B5656]">
+                <li className="flex items-center gap-2 text-sm text-mutedGray">
                   <span className="w-2 h-2 rounded-full bg-[#1E3A5F]" />
                   {t("lessor.feature3")}
                 </li>

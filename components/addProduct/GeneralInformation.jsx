@@ -1,7 +1,8 @@
 "use client";
 
 import { useTranslations } from "@/hooks/useTranslations";
-import { Input, Select, SelectItem, Textarea } from "@heroui/react";
+import { Input, Textarea } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
 import Button from "../ui/Button";
 import { Line } from "../ui/svgs/icons/LineSvg";
 import { Minus } from "../ui/svgs/icons/MinusSvg";
@@ -14,11 +15,11 @@ function FormInput({ ...props }) {
       labelPlacement="outside"
       radius="sm"
       classNames={{
-        mainWrapper: "mt-10",
-        label: "text-lg -mt-2 flex items-center",
+        mainWrapper: "md:mt-10 mt-3",
+        label: "md:text-lg text-xs flex items-center",
         base: "max-w-full !mt-0",
-        input: "text-base",
-        inputWrapper: "bg-gray-100 h-12",
+        input: "md:text-base text-sm",
+        inputWrapper: "bg-gray-100 md:h-12 h-10",
       }}
       {...props}
     />
@@ -42,7 +43,7 @@ export default function GeneralInformation({
     trans(`addProductPage.formSteps.generalInformation.${key}`);
   return (
     <div className="w-full">
-      <div className="grid md:grid-cols-2 gap-4 w-full">
+      <div className="grid md:grid-cols-2 gap-3 md:gap-4 w-full">
         <FormInput
           dir={lang === "ar" ? "rtl" : "ltr"}
           label={t("nameArLabel")}
@@ -66,16 +67,22 @@ export default function GeneralInformation({
           type="text"
         />
       </div>
-      <div className="grid md:grid-cols-3 gap-4 w-full mt-6">
+      <div className="grid md:grid-cols-3 md:gap-4 w-full">
         <Select
           isRequired
-          scrollShadowProps={{ hideScrollBar: false }}
+          scrollShadowProps={{ hideScrollBar: false, isEnabled: true }}
           label={t("categoryLabel")}
-          classNames={{ label: "text-lg -mt-2", base: "!mt-10" }}
+          placeholder={t("categoryPlaceholder")}
+          classNames={{
+            label: "md:text-lg text-xs",
+            base: "!mt-3 md:!mt-5 gap-2 md:gap-4",
+            value: "text-xs md:text-sm",
+            trigger: "h-10 md:h-12",
+          }}
           size="lg"
           onChange={changeCategory}
           required
-          radius="sm"
+          radius="md"
           disallowEmptySelection
           selectedKeys={[selectedCategory]}
           labelPlacement="outside"
@@ -86,12 +93,17 @@ export default function GeneralInformation({
         </Select>
         <Select
           isRequired
-          scrollShadowProps={{ hideScrollBar: false }}
+          scrollShadowProps={{ hideScrollBar: false, isEnabled: true }}
           label={t("subCategoryLabel")}
-          classNames={{ label: "text-lg -mt-2", base: "!mt-10" }}
+          classNames={{
+            label: "md:text-lg text-xs",
+            base: "!mt-3 md:!mt-5 gap-2 md:gap-4",
+            value: "text-xs md:text-sm",
+            trigger: "h-10 md:h-12",
+          }}
           size="lg"
           required
-          radius="sm"
+          radius="md"
           disallowEmptySelection
           onChange={changeSubCategory}
           selectedKeys={
@@ -116,12 +128,17 @@ export default function GeneralInformation({
         </Select>
         <Select
           isRequired
-          scrollShadowProps={{ hideScrollBar: false }}
+          scrollShadowProps={{ hideScrollBar: false, isEnabled: true }}
           label={t("statusLabel")}
-          classNames={{ label: "text-lg -mt-2", base: "!mt-10" }}
+          classNames={{
+            label: "md:text-lg text-xs",
+            base: "!mt-3 md:!mt-5 gap-2 md:gap-4",
+            value: "text-xs md:text-sm",
+            trigger: "h-10 md:h-12",
+          }}
           size="lg"
           required
-          radius="sm"
+          radius="md"
           disallowEmptySelection
           name="status"
           onChange={(e) => {
@@ -137,17 +154,17 @@ export default function GeneralInformation({
           <SelectItem key="good">{t("statusOptionGood")}</SelectItem>
         </Select>
       </div>
-      <div className="grid lg:grid-cols-5 gap-4 w-full my-6">
+      <div className="grid lg:grid-cols-5 gap-3 md:gap-4 w-full my-3 md:my-6">
         <div className="w-full flex items-end lg:col-span-3">
           <FormInput
             label={t("quantityLabel")}
             name="quantity"
             classNames={{
-              mainWrapper: "mt-10",
-              label: "text-lg -mt-2 flex items-center min-w-max",
-              base: "max-w-full !mt-0",
-              input: "text-base",
-              inputWrapper: "bg-gray-100 h-12",
+              mainWrapper: "md:mt-10 mt-3",
+              label: "md:text-lg text-xs md:-mt-2 -mt-1 flex items-center min-w-max",
+              base: "max-w-full !mt-0 gap-2 md:gap-3",
+              input: "md:text-base text-sm",
+              inputWrapper: "bg-gray-100 md:h-12 h-10",
             }}
             onChange={handleChange}
             min={1}
@@ -155,7 +172,7 @@ export default function GeneralInformation({
             type="number"
             placeholder={t("quantityPlaceholder")}
           />
-          <div className="flex bg-[#c5c5c5] rounded-lg h-12 items-center">
+          <div className="flex bg-[#c5c5c5] rounded-lg md:h-12 h-10 items-center">
             <Button
               onPress={() => {
                 handleChange({
@@ -166,11 +183,11 @@ export default function GeneralInformation({
                 });
               }}
               color="transparent"
-              className="min-w-14 px-2 rounded-none"
+              className="md:min-w-14 min-w-10 px-1 md:px-2 rounded-none"
             >
-              <Plus color="#0D092B" size={20} />
+              <Plus color="#0D092B" className="md:w-5 w-4 md:h-5 h-4" />
             </Button>
-            <Line />
+            <Line className="min-w-0.5 md:h-[30px] h-[20px]" />
             <Button
               onPress={() => {
                 handleChange({
@@ -181,9 +198,9 @@ export default function GeneralInformation({
                 });
               }}
               color="transparent"
-              className="min-w-14 px-2 rounded-none"
+              className="md:min-w-14 min-w-10 px-1 md:px-2 rounded-none"
             >
-              <Minus color="#0D092B" size={30} />
+              <Minus color="#0D092B" className="md:w-7 w-5 md:h-7 h-5" />
             </Button>
           </div>
         </div>
@@ -214,8 +231,8 @@ export default function GeneralInformation({
         dir="rtl"
         minLength={20}
         classNames={{
-          input: "resize-y min-h-[150px] text-base text-right",
-          label: "text-lg pb-3 flex items-center",
+          input: "resize-y md:min-h-[150px] min-h-[100px] md:text-base text-sm text-right",
+          label: "md:text-lg text-xs pb-1 md:pb-3 flex items-center",
         }}
       />
       <Textarea
@@ -232,9 +249,9 @@ export default function GeneralInformation({
         dir="ltr"
         minLength={20}
         classNames={{
-          base: "mt-6",
-          input: "resize-y min-h-[150px] text-base",
-          label: "text-lg pb-3 flex items-center",
+          base: "mt-3 md:mt-6",
+          input: "resize-y md:min-h-[150px] min-h-[100px] md:text-base text-sm",
+          label: "md:text-lg text-xs pb-1 md:pb-3 flex items-center",
         }}
       />
     </div>

@@ -50,7 +50,7 @@ export default function McpAuthClient({ code, lang, translate }) {
   }, [code]);
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-br from-[#fff7f0] via-[#fff] to-[#fff3ea] flex items-center justify-center p-6 font-sans">
+    <div className="min-h-[100dvh] bg-gradient-to-br from-[#fff7f0] via-[#fff] to-[#fff3ea] flex items-center justify-center p-6">
       <div className="bg-white rounded-[24px] shadow-[0_8px_48px_rgba(244,138,66,0.12),_0_2px_12px_rgba(0,0,0,0.06)] px-10 py-12 max-w-[480px] w-full text-center">
         {/* Logo / Brand */}
         <div className="mb-8">
@@ -62,9 +62,7 @@ export default function McpAuthClient({ code, lang, translate }) {
           <h1 className="text-[22px] font-bold text-[#1a1a2e] mb-1.5">
             {t("title")}
           </h1>
-          <p className="text-sm text-[#888] m-0">
-            {t("subtitle")}
-          </p>
+          <p className="text-sm text-[#888] m-0">{t("subtitle")}</p>
         </div>
 
         {/* Status Card */}
@@ -90,8 +88,18 @@ export default function McpAuthClient({ code, lang, translate }) {
 
           {status === "success" && (
             <>
-              <svg className="w-12 h-12 text-[#16a34a] mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-12 h-12 text-[#16a34a] mx-auto mb-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               {userName && (
                 <p className="text-xs text-[#16a34a] font-semibold mb-1.5">
@@ -106,8 +114,18 @@ export default function McpAuthClient({ code, lang, translate }) {
 
           {status === "expired" && (
             <>
-              <svg className="w-12 h-12 text-[#a16207] mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-12 h-12 text-[#a16207] mx-auto mb-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               <p className="text-[15px] text-[#a16207] font-medium m-0">
                 {message}
@@ -117,8 +135,18 @@ export default function McpAuthClient({ code, lang, translate }) {
 
           {status === "error" && (
             <>
-              <svg className="w-12 h-12 text-[#dc2626] mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-12 h-12 text-[#dc2626] mx-auto mb-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               <p className="text-[15px] text-[#dc2626] font-medium m-0">
                 {message}
@@ -134,9 +162,7 @@ export default function McpAuthClient({ code, lang, translate }) {
           </p>
         )}
 
-        <p className="mt-5 text-xs text-[#cbd5e1]">
-          {t("platformName")}
-        </p>
+        <p className="mt-5 text-xs text-[#cbd5e1]">{t("platformName")}</p>
       </div>
     </div>
   );

@@ -24,11 +24,22 @@ export async function generateMetadata({ params }) {
       siteName: "Estajer",
       locale: lang === "ar" ? "ar_SA" : "en_US",
       type: "website",
+      images: [
+        {
+          url: lang === "ar" ? `${siteURL}/og/home_ar.webp` : `${siteURL}/og/home_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - استأجر أي شيء" : "Estajer - Rent Anything",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: t("cart.title"),
       description: t("cart.description"),
+      images: [
+        lang === "ar" ? `${siteURL}/og/home_ar.webp` : `${siteURL}/og/home_en.webp`,
+      ],
     },
   };
 }

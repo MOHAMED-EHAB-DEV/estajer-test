@@ -6,19 +6,17 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
-  Select,
-  SelectItem,
-  Textarea,
-  Avatar,
+} from "@/components/ui/CustomModal";
+import { Input, Textarea } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Avatar } from "@/components/ui/Avatar";
+import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  Listbox,
-  ListboxItem,
-  Chip,
-  Spinner,
-} from "@heroui/react";
+} from "@/components/ui/Popover";
+import { Chip } from "@/components/ui/Chip";
+import { Spinner } from "@/components/ui/Spinner";
 import Button from "@/components/ui/Button";
 import { Send } from "@/components/ui/svgs/icons/SendSvg";
 import ImageUploader from "@/components/addProduct/ImageUploader";
@@ -131,11 +129,11 @@ function FormInput({ label, isRequired = false, ...props }) {
   return (
     <Input
       isRequired={isRequired}
-      labelPlacement="outside-top"
+      labelPlacement="outside"
       radius="sm"
       label={label}
       classNames={{
-        base: "max-w-full !mt-0",
+        base: "max-w-full !mt-0 h-10",
         input: "text-base",
         label: "text-sm font-medium text-darkNavy",
         inputWrapper:
@@ -313,16 +311,15 @@ const TaskModal = ({
       placement="center"
       scrollBehavior="inside"
       classNames={{
-        body: "py-4",
+        body: "p-6 sm:p-8",
         backdrop: "bg-darkNavy/50 backdrop-blur-sm",
-        base: "border-none bg-white dark:bg-gray-900 rounded-3xl",
-        header: "border-b-[1.5px] border-gray-200 mx-8 p-8",
-        footer: "pb-6",
-        closeButton: "absolute top-9 left-8 text-3xl",
+        base: "border-none bg-white dark:bg-gray-900 rounded-3xl overflow-hidden max-h-[90vh] flex flex-col",
+        header: "border-b border-gray-200 p-6 sm:p-8",
+        footer: "p-6 sm:p-8 bg-white border-t border-gray-200",
       }}
     >
-      <ModalContent>
-        <ModalHeader className="text-3xl font-semibold font-IBMPlex text-darkNavy flex items-center gap-4">
+      <ModalContent className="flex flex-col h-full overflow-hidden">
+        <ModalHeader className="text-3xl font-semibold font-IBMPlex text-darkNavy flex justify-start items-center gap-4 pe-16 border-b border-gray-200 p-6 sm:p-8">
           <div className="w-14 h-14 bg-gradient-to-r from-[#f48a42] to-[#f47242] rounded-2xl flex items-center justify-center shadow-lg">
             <TaskIcon />
           </div>
@@ -331,7 +328,7 @@ const TaskModal = ({
             : t("admin.tasks.editTask")}
         </ModalHeader>
 
-        <ModalBody>
+        <ModalBody className="p-4 sm:p-5">
           <div className="space-y-6">
             {/* Title & Type Row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -352,9 +349,10 @@ const TaskModal = ({
                 isRequired
                 disallowEmptySelection
                 classNames={{
-                  base: "max-w-full !mt-0",
+                  base: "max-w-full gap-2.5 !mt-0",
                   input: "text-base !rounded-md",
-                  label: "mt-4 text-sm",
+                  label: "text-sm",
+                  popoverContent: "z-modal",
                 }}
               >
                 {taskTypes.map((type) => (
@@ -364,6 +362,9 @@ const TaskModal = ({
                 ))}
               </Select>
             </div>
+
+            {/* Separator */}
+            <div className="h-[1px] w-full bg-gray-200" />
 
             {/* Priority, Due Date, Status Row */}
             <div className={`grid grid-cols-1 md:grid-cols-2 gap-6`}>
@@ -387,6 +388,7 @@ const TaskModal = ({
                     base: "max-w-full !mt-0",
                     input: "text-base !rounded-md",
                     label: "mt-4 text-sm",
+                    popoverContent: "z-modal",
                   }}
                 >
                   {taskStatuses.map((status) => (
@@ -442,7 +444,7 @@ const TaskModal = ({
                       )}
                     </div>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[300px]">
+                  <PopoverContent className="w-[300px] z-popover">
                     <div className="flex flex-col w-full">
                       <div className="p-3 border-b sticky top-0 bg-white z-10">
                         <Input
@@ -459,55 +461,95 @@ const TaskModal = ({
                         />
                       </div>
                       <div className="max-h-[300px] overflow-y-auto w-full">
-                        <Listbox
+                        <ul
+                          role="listbox"
+                          className="flex flex-col gap-0.5 w-full p-1"
                           aria-label="Assign users"
-                          selectionMode="multiple"
-                          selectedKeys={
-                            new Set(
-                              (Array.isArray(formData.assignedTo)
-                                ? formData.assignedTo
-                                : []
-                              ).map((u) => u._id),
-                            )
-                          }
-                          onSelectionChange={handleSelectionChange}
-                          variant="flat"
-                          disabledKeys={
-                            new Set(
-                              (Array.isArray(formData.assignedTo)
-                                ? formData.assignedTo
-                                : []
-                              ).map((u) => u._id),
-                            )
-                          }
-                          emptyContent={
-                            isSearching
-                              ? t("admin.tasks.searching") || "Searching..."
-                              : t("admin.tasks.noUsersFound") ||
-                                "No users found"
-                          }
                         >
-                          {searchedUsers.map((user) => (
-                            <ListboxItem
-                              key={user._id}
-                              id={user._id}
-                              textValue={user.fullName}
-                              startContent={
-                                <Avatar
-                                  src={user.avatar}
-                                  size="sm"
-                                  className="w-8 h-8"
-                                />
-                              }
-                            >
-                              <div className="flex flex-col">
-                                <span className="text-small font-medium">
-                                  {user.fullName}
-                                </span>
-                              </div>
-                            </ListboxItem>
-                          ))}
-                        </Listbox>
+                          {searchedUsers.length === 0 ? (
+                            <li className="px-2 py-3 text-sm text-center text-default-400">
+                              {isSearching
+                                ? t("admin.tasks.searching") || "Searching..."
+                                : t("admin.tasks.noUsersFound") ||
+                                  "No users found"}
+                            </li>
+                          ) : (
+                            searchedUsers.map((user) => {
+                              const id = user._id;
+                              const isSelected = (
+                                Array.isArray(formData.assignedTo)
+                                  ? formData.assignedTo
+                                  : []
+                              ).some((u) => u._id === id);
+                              const isDisabled = isSelected; // disabledKeys matches selectedKeys in this usage
+
+                              const handleClick = () => {
+                                if (!isDisabled) {
+                                  const newKeys = new Set(
+                                    (Array.isArray(formData.assignedTo)
+                                      ? formData.assignedTo
+                                      : []
+                                    ).map((u) => u._id),
+                                  );
+                                  if (newKeys.has(id)) newKeys.delete(id);
+                                  else newKeys.add(id);
+                                  handleSelectionChange(newKeys);
+                                }
+                              };
+
+                              return (
+                                <li
+                                  key={id}
+                                  role="option"
+                                  aria-selected={isSelected}
+                                  aria-disabled={isDisabled}
+                                  data-selected={isSelected}
+                                  data-disabled={isDisabled}
+                                  onClick={handleClick}
+                                  className={`relative flex items-center justify-between gap-2 px-2 py-1.5 w-full rounded-md outline-none cursor-pointer transition-colors ${
+                                    isDisabled
+                                      ? "opacity-50 cursor-not-allowed pointer-events-none"
+                                      : ""
+                                  } hover:bg-default-100 ${isSelected ? "bg-default-100" : ""}`}
+                                >
+                                  <div className="flex items-center gap-3 truncate">
+                                    <div className="flex-shrink-0">
+                                      <Avatar
+                                        src={user.avatar}
+                                        size="sm"
+                                        className="w-8 h-8"
+                                      />
+                                    </div>
+                                    <div className="flex flex-col truncate">
+                                      <span className="text-sm truncate">
+                                        <div className="flex flex-col">
+                                          <span className="text-small font-medium">
+                                            {user.fullName}
+                                          </span>
+                                        </div>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  {isSelected && (
+                                    <span className="flex-shrink-0 text-primary ms-2">
+                                      <svg
+                                        className="w-4 h-4"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="3"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      >
+                                        <polyline points="20 6 9 17 4 12" />
+                                      </svg>
+                                    </span>
+                                  )}
+                                </li>
+                              );
+                            })
+                          )}
+                        </ul>
                       </div>
                     </div>
                   </PopoverContent>
@@ -516,7 +558,7 @@ const TaskModal = ({
             </div>
 
             {/* Separator */}
-            <div className="h-[1.5px] w-full bg-black/10" />
+            <div className="h-[1px] w-full bg-gray-200" />
 
             {/* Description */}
             <div className="flex flex-col gap-2">
@@ -537,11 +579,11 @@ const TaskModal = ({
             </div>
 
             {/* Separator */}
-            <div className="h-[1.5px] w-full bg-black/10" />
+            <div className="h-[1px] w-full bg-gray-200" />
 
             {/* Images Section with ImageUploader */}
             <div className="flex flex-col gap-4">
-              <span className="relative text-medium font-medium text-darkNavy w-fit">
+              <span className="relative text-base font-medium text-darkNavy w-fit">
                 📷 {t("admin.tasks.images")}
               </span>
               <ImageUploader
@@ -553,11 +595,11 @@ const TaskModal = ({
             </div>
 
             {/* Separator */}
-            <div className="h-[1.5px] w-full bg-black/10" />
+            <div className="h-[1px] w-full bg-gray-200" />
 
             {/* Links Section */}
             <div className="flex flex-col gap-4">
-              <span className="relative text-medium font-medium text-darkNavy w-fit">
+              <span className="relative text-base font-medium text-darkNavy w-fit">
                 🔗 {t("admin.tasks.links")}
               </span>
 
@@ -666,7 +708,7 @@ const TaskModal = ({
           </div>
         </ModalBody>
 
-        <ModalFooter className="flex gap-4 justify-between border-t border-gray-200 pt-6">
+        <ModalFooter className="flex gap-4 justify-between border-t border-gray-200 p-6 sm:p-8 bg-white">
           <Button
             onPress={() => handleSubmit()}
             isLoading={isSubmitting}

@@ -1,39 +1,44 @@
 "use client";
 
-import { Input, Textarea } from "@heroui/react";
+import { Input, Textarea } from "@/components/ui/Input";
 import Button from "../ui/Button";
 import { useState } from "react";
 import { toast } from "@/utils/toast";
 import ToastMessage from "../ui/ToastMessage";
 import ImageUploader from "@/components/addProduct/ImageUploader";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { useUser } from "@/context/UserContext";
 
-function FormInput({ ...props }) {
+function FormInput({ sm, ...props }) {
+  const size = sm ? "sm" : "md";
   return (
     <Input
       isRequired
       labelPlacement="outside"
       radius="sm"
+      size={size}
       classNames={{
-        mainWrapper: "mt-10",
-        label: "text-lg -mt-2 flex items-center",
+        mainWrapper: sm ? "mt-6" : "mt-10",
+        label: sm
+          ? "text-sm -mt-1 flex items-center"
+          : "text-lg -mt-2 flex items-center",
         base: "max-w-full !mt-0",
-        input: "text-base",
-        inputWrapper: "bg-gray-100 h-12",
+        input: sm ? "text-sm" : "text-base",
+        inputWrapper: sm ? "bg-gray-100 h-10" : "bg-gray-100 h-12",
       }}
       {...props}
     />
   );
 }
 
-export default function ProposalForm({ lang, t, translate }) {
+export default function ProposalForm({ lang, t, translate, sm, data }) {
+  const { user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    title: "",
-    phone: "",
-    email: "",
-    description: "",
+    name: data?.name || user?.fullName || "",
+    title: data?.title || "",
+    phone: user?.phone || "",
+    email: user?.email || "",
+    description: data?.description || "",
     pdfLink: "",
     budget: 0,
   });
@@ -61,17 +66,6 @@ export default function ProposalForm({ lang, t, translate }) {
         if (res.ok) {
           toast.success(ToastMessage(t("success")));
           // Track proposal form submission
-          try {
-            sendGTMEvent({
-              event: "form_submission",
-              form_name: "proposal_form",
-              has_images: proposalImages.length > 0,
-              has_pdf_link: !!formData.pdfLink,
-              budget: Number(formData.budget) || 0,
-              title_length: (formData.title || "").length,
-              location: "proposal_page",
-            });
-          } catch (_) {}
           setFormData({
             name: "",
             phone: "",
@@ -93,7 +87,7 @@ export default function ProposalForm({ lang, t, translate }) {
   return (
     <div className="w-full">
       <form onSubmit={submitForm} className="flex flex-col gap-4">
-        <div className="grid md:grid-cols-3 gap-4 w-full">
+        <div className={`grid ${sm ? "gap-2" : "gap-4 md:grid-cols-3"} w-full`}>
           <FormInput
             label={t("name")}
             name="name"
@@ -102,6 +96,7 @@ export default function ProposalForm({ lang, t, translate }) {
             placeholder={t("namePlaceholder")}
             minLength={2}
             type="text"
+            sm={sm}
           />
           <FormInput
             label={t("phone")}
@@ -112,6 +107,7 @@ export default function ProposalForm({ lang, t, translate }) {
             minLength={2}
             type="text"
             dir="ltr"
+            sm={sm}
           />
           <FormInput
             dir="ltr"
@@ -121,6 +117,7 @@ export default function ProposalForm({ lang, t, translate }) {
             onChange={handleChange}
             value={formData.email}
             type="email"
+            sm={sm}
           />
         </div>
 
@@ -132,11 +129,12 @@ export default function ProposalForm({ lang, t, translate }) {
             onChange={handleChange}
             value={formData.title}
             type="text"
+            sm={sm}
           />
         </div>
 
         <Textarea
-          size="lg"
+          size={sm ? "sm" : "lg"}
           radius="sm"
           isRequired
           label={t("descriptionOfProposal")}
@@ -148,8 +146,12 @@ export default function ProposalForm({ lang, t, translate }) {
           type="text"
           minLength={20}
           classNames={{
-            input: "resize-y min-h-[150px] text-base",
-            label: "text-lg pb-3 flex items-center",
+            input: sm
+              ? "resize-y min-h-[110px] text-sm"
+              : "resize-y min-h-[150px] text-base",
+            label: sm
+              ? "text-sm pb-2 flex items-center"
+              : "text-lg pb-3 flex items-center",
           }}
         />
 
@@ -163,17 +165,23 @@ export default function ProposalForm({ lang, t, translate }) {
             type="number"
             min={0}
             isRequired={false}
+            sm={sm}
           />
         </div>
 
-        <div className="w-full flex flex-col gap-4 mt-14">
-          <label className="text-lg font-NotoSansArabic">{t("imgLabel")}</label>
+        <div className={`w-full flex flex-col gap-4 ${sm ? "mt-8" : "mt-14"}`}>
+          <label
+            className={`${sm ? "text-sm" : "text-lg"} font-NotoSansArabic`}
+          >
+            {t("imgLabel")}
+          </label>
           <ImageUploader
             lang={lang}
             files={proposalImages}
             setFiles={setProposalImages}
             translate={translate}
             proposal={true}
+            sm={sm}
           />
         </div>
 
@@ -187,14 +195,15 @@ export default function ProposalForm({ lang, t, translate }) {
             value={formData.pdfLink}
             type="url"
             isRequired={false}
+            sm={sm}
           />
         </div>
 
-        <div className="mt-10 mb-10 text-center">
+        <div className={`${sm ? "mt-8" : "mt-10 mb-10"} text-center`}>
           <Button
             isLoading={isLoading}
             type="submit"
-            className="py-7 min-w-60 text-xl font-IBMPlex"
+            className={`${sm ? "py-4 min-w-48 text-base" : "py-7 min-w-60 text-xl"} font-IBMPlex`}
           >
             {t("submit")}
           </Button>

@@ -6,6 +6,9 @@ import DocumentationForm from "@/components/productDocumentation/DocumentationFo
 import DocumentationSafety from "@/components/productDocumentation/DocumentationSafety";
 import LoginRequired from "@/components/productDocumentation/LoginRequired";
 
+export const metadata = { robots: { index: false, follow: false } };
+
+
 async function getOrderAndRole({ id }) {
   try {
     const cookieStore = await cookies();
@@ -72,7 +75,7 @@ export default async function page({ params }) {
         title={translate().productDocumentation.pageTitle}
         description={translate().productDocumentation.pageDescription}
       />
-      <div className="border-t max-w-screen-2xl md:gap-8 mx-auto -mt-4 px-8 pt-10 pb-24 grid grid-cols-1 md:grid-cols-2 justify-center ">
+      <div className="border-t max-w-screen-2xl md:gap-8 gap-1 mx-auto -mt-4 px-8 pt-10 pb-24 grid grid-cols-1 md:grid-cols-[60%_40%] justify-center ">
         <DocumentationForm
           id={id}
           lang={lang}

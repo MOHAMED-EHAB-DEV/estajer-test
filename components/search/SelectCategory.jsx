@@ -1,10 +1,9 @@
 "use client";
-import { Select, SelectItem } from "@heroui/select";
+import { Select, SelectItem } from "@/components/ui/Select";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "@/hooks/useTranslations";
-import { X } from "../ui/svgs/icons/XSvg";;
-import { sendGTMEvent } from "@next/third-parties/google";
+import { X } from "../ui/svgs/icons/XSvg";
 
 export default function SelectCategory({
   categories,
@@ -15,6 +14,7 @@ export default function SelectCategory({
   map,
   categoryPage,
   subCategoryPage,
+  shopSlug,
 }) {
   const trans = useTranslations(translate);
   const t = (text) => trans(`search.${text}`);
@@ -50,7 +50,12 @@ export default function SelectCategory({
 
     // Construct the base URL based on whether we are on map view or list view
     let basePath;
-    if (map) {
+    if (shopSlug) {
+      basePath = `/${langPrefix}shops/${shopSlug}/search/${map ? "map" : "products"}`;
+      if (category) params.set("category", category);
+      if (subcategory) params.set("subCategory", subcategory);
+      else params.delete("subCategory");
+    } else if (map) {
       basePath = `/${langPrefix}search/map`;
       // If we are on map view, we keep category and subcategory in params
       if (category) params.set("category", category);
@@ -75,30 +80,11 @@ export default function SelectCategory({
     setSelectedCategory(value);
     setSelectedSubCategory("");
     updateSearchParams(value, "");
-    try {
-      sendGTMEvent({
-        event: "category_select",
-        category: value || "all",
-        location: "search_filters",
-        view: map ? "map" : "products",
-        language: lang,
-      });
-    } catch (_) {}
   };
 
   const changeSubCategory = ({ target: { value } }) => {
     setSelectedSubCategory(value);
     updateSearchParams(selectedCategory, value);
-    try {
-      sendGTMEvent({
-        event: "subcategory_select",
-        category: selectedCategory || "all",
-        sub_category: value || "all",
-        location: "search_filters",
-        view: map ? "map" : "products",
-        language: lang,
-      });
-    } catch (_) {}
   };
 
   return (
@@ -108,7 +94,7 @@ export default function SelectCategory({
         <div className="mb-3">
           <label className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2 mb-2">
             <svg
-              className="w-4 h-4 text-[#f48a42]"
+              className="w-4 h-4 text-primary"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -132,7 +118,6 @@ export default function SelectCategory({
               trigger: [
                 "h-12 sm:h-13 lg:h-14",
                 "border-2 border-gray-200",
-                "hover:border-[#f48a42]",
                 "focus:border-[#f48a42]",
                 "data-[focus=true]:border-[#f48a42]",
                 "transition-all duration-200",
@@ -205,7 +190,7 @@ export default function SelectCategory({
         <div className="mb-3">
           <label className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2 mb-2">
             <svg
-              className="w-4 h-4 text-[#f48a42]"
+              className="w-4 h-4 text-primary"
               fill="currentColor"
               viewBox="0 0 20 20"
             >

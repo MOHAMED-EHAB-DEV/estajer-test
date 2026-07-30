@@ -2,7 +2,7 @@
 import Button from "../ui/Button";
 import { Love } from "../ui/svgs/icons/LoveSvg";
 import { Star } from "../ui/svgs/icons/StarSvg";
-import { Checkbox } from "@heroui/checkbox";
+import { Checkbox } from "@/components/ui/Checkbox";
 
 export default function ProductOverlayControls({
   admin,
@@ -39,7 +39,7 @@ export default function ProductOverlayControls({
         <div className="absolute top-0 end-0 z-10 p-4">
           <Button
             color="transparent"
-            className="min-w-0 w-12 p-3 bg-[#EAEEF3] rounded-full"
+            className="min-w-0 w-12 p-3 bg-surfaceBlue rounded-full"
             onPress={() => handleToggleMain(product._id, product.isMain)}
             title={
               product.isMain ? "إلغاء المنتج الرئيسي" : "تعيين كمنتج رئيسي"
@@ -48,7 +48,7 @@ export default function ProductOverlayControls({
             <Star
               size={18}
               filled={product.isMain}
-              className="md:w-[18px] w-[14px] h-auto"
+              className="md:w-4.5 w-[14px] h-auto"
             />
           </Button>
         </div>
@@ -67,7 +67,7 @@ export default function ProductOverlayControls({
                 isSelected ? "ring-2 ring-[#f48a42]" : ""
               }`,
               wrapper: isSelected
-                ? "ring-2 ring-[#f48a42] bg-[#f48a42] !mx-0"
+                ? "ring-2 ring-[#f48a42] bg-primary !mx-0"
                 : "!mx-0",
             }}
           />

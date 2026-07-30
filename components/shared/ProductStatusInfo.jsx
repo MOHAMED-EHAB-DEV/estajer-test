@@ -3,7 +3,7 @@
 import { anyImgUrl } from "@/utils/ImageUrl";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { useDisclosure } from "@heroui/react";
+import { useDisclosure } from "@/components/ui/CustomModal";
 
 const ProductRejectionModal = dynamic(() => import("./ProductRejectionModal"), {
   ssr: false,
@@ -28,7 +28,7 @@ export default function ProductStatusInfo({
           sm
             ? "py-0.5 px-2 text-[10px] md:text-[13px]"
             : "py-1 px-4 text-[13px]"
-        } rounded-md w-max font-IBMPlex text-white`}
+        } rounded-md w-max max-w-full font-IBMPlex text-white shrink-0`}
       >
         {currentStatus.label}
       </div>
@@ -41,8 +41,8 @@ export default function ProductStatusInfo({
         <div
           className={
             admin
-              ? `flex justify-between items-center ${
-                  sm ? "gap-1 mb-1.5 pb-1.5" : "gap-2 mb-3 pb-3"
+              ? `flex flex-wrap justify-between items-center ${
+                  sm ? "gap-1 mb-1.5 pb-1.5 md:gap-2 md:mb-3 md:pb-3" : "gap-2 mb-3 pb-3"
                 } border-b border-gray-100`
               : sm
                 ? "mb-1"
@@ -50,7 +50,7 @@ export default function ProductStatusInfo({
           }
         >
           {admin && product.owner && (
-            <div className={`flex items-center ${sm ? "gap-1" : "gap-2"}`}>
+            <div className={`flex items-center ${sm ? "gap-1 md:gap-2" : "gap-2"} min-w-0`}>
               <Image
                 unoptimized
                 width={100}
@@ -61,18 +61,18 @@ export default function ProductStatusInfo({
                 })}
                 alt={product.owner.fullName}
                 className={`${
-                  sm ? "w-6 h-6" : "w-8 h-8"
-                } rounded-full object-cover border border-gray-200`}
+                  sm ? "w-6 h-6 md:w-8 md:h-8" : "w-8 h-8"
+                } rounded-full object-cover border border-gray-200 shrink-0`}
               />
               <div className="flex flex-col min-w-0">
                 <span
                   className={`${
-                    sm ? "text-xs md:text-[13px]" : "text-xs md:text-sm"
-                  } font-semibold text-darkNavy truncate max-w-[50px] md:max-w-none`}
+                    sm ? "text-[11px] md:text-sm" : "text-xs md:text-sm"
+                  } font-semibold text-darkNavy truncate max-w-[70px] md:max-w-none`}
                 >
                   {product.owner.fullName}
                 </span>
-                <span className="text-[10px] text-gray-500">
+                <span className="text-[10px] text-gray-500 truncate">
                   {product.owner.phone}
                 </span>
               </div>
@@ -82,7 +82,12 @@ export default function ProductStatusInfo({
         </div>
       )}
       {/* Rejection Message */}
-      {product.rejected && product.rejectMessage && (
+      {((product.rejected && product.rejectMessage) ||
+        (admin && !product.approved && product.rejectMessage) ||
+        (product.approved &&
+          product.pendingChanges &&
+          !product.pendingChanges.needsReview &&
+          product.pendingChanges.rejectMessage)) && (
         <>
           <div
             onClick={onOpen}
@@ -92,7 +97,10 @@ export default function ProductStatusInfo({
               {t("rejectionReason")}
             </span>
             <p className="text-xs text-red-700 line-clamp-1 px-1">
-              {product.rejectMessage || t("cannotAcceptRequest")}
+              {(product.rejected || (!product.approved && admin))
+                ? product.rejectMessage
+                : product.pendingChanges?.rejectMessage ||
+                  t("cannotAcceptRequest")}
             </p>
           </div>
 
@@ -100,7 +108,11 @@ export default function ProductStatusInfo({
             <ProductRejectionModal
               isOpen={isOpen}
               onOpenChange={onOpenChange}
-              rejectMessage={product.rejectMessage}
+              rejectMessage={
+                (product.rejected || (!product.approved && admin))
+                  ? product.rejectMessage
+                  : product.pendingChanges?.rejectMessage
+              }
               t={t}
             />
           )}

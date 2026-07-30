@@ -1,15 +1,23 @@
 "use client";
 
 import React from "react";
-import { FaImage as ImageIcon, FaUpload, FaPlus } from "@/components/ui/svgs/AdminIcons";
+import {
+  FaImage as ImageIcon,
+  FaUpload,
+  FaPlus,
+} from "@/components/ui/svgs/AdminIcons";
 import Image from "next/image";
 import { anyImgUrl } from "@/utils/ImageUrl";
+import PlanGate from "@/components/premium/PlanGate";
 
 export default function SeoTab({
   formData,
   handleInputChange,
   handleImageUpload,
   t,
+  userPlan = null,
+  lang = "ar",
+  onUpgrade,
 }) {
   return (
     <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-300 pb-6">
@@ -165,14 +173,52 @@ export default function SeoTab({
           </div>
           <div className="px-1 flex items-center justify-between">
             <p className="text-[11px] text-neutral-400 max-w-[200px] leading-relaxed">
-              This image will be displayed when your page is shared on social media like Facebook, Twitter...
+              This image will be displayed when your page is shared on social
+              media like Facebook, Twitter...
             </p>
             {!formData.ogImage && (
               <div className="text-primary font-bold text-[11px] flex items-center gap-1 opacity-60">
-                 <FaPlus size={10} /> Select
+                <FaPlus size={10} /> Select
               </div>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Tracking Card */}
+      <div className="bg-white p-5 rounded-2xl border border-neutral-200/60 flex flex-col gap-4 shadow-sm">
+        <div className="flex items-center gap-2 mb-1 px-1">
+          <div className="w-1.5 h-1.5 rounded-full bg-primary/40" />
+          <h4 className="text-[12px] font-bold text-darkNavy/60 uppercase tracking-widest">
+            Tracking
+          </h4>
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <PlanGate
+            userPlan={userPlan}
+            lang={lang}
+            label="ربط Google Tag Manager"
+            onUpgrade={onUpgrade}
+          >
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[12.5px] font-semibold text-darkNavy/80 px-1">
+                {t("gtmId") || "Google Tag Manager ID"}
+              </label>
+              <input
+                name="gtmId"
+                value={formData.gtmId || ""}
+                onChange={handleInputChange}
+                placeholder="GTM-XXXXXX"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200/80 bg-neutral-50/20 text-sm focus:border-primary focus:ring-2 focus:ring-primary/15 focus:outline-none transition-all shadow-sm shadow-black/[0.01]"
+                dir="ltr"
+              />
+              <p className="text-[10px] text-neutral-400 px-1 italic">
+                {t("gtmIdHint") ||
+                  "Enter your Google Tag Manager Container ID for custom tracking."}
+              </p>
+            </div>
+          </PlanGate>
         </div>
       </div>
     </div>

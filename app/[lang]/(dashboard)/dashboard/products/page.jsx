@@ -21,7 +21,7 @@ async function getInitialData({ lang, userId, queryParams }) {
         lang === "ar" ? "nameAr" : "nameEn"
       },rental,rating,lovedCount,rejected,approved,rejectMessage,pricingModel,location,hidden,deleted,${
         lang === "ar" ? "addressAr" : "addressEn"
-      }`,
+      },pendingChanges`,
       ...queryParams,
     });
 
@@ -55,7 +55,7 @@ export default async function MyProductsPage({ params, searchParams }) {
   return (
     <div className="max-w-screen-2xl mx-auto">
       <div className="flex justify-between items-center md:mb-8 mb-2">
-        <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-[1.2rem] font-IBMPlex font-bold">
+        <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-1.2 font-IBMPlex font-bold">
           {t("myProducts.title")}
           <PushNotificationModal translate={t()} open={true} lang={lang} />
         </h1>

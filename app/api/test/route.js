@@ -33,7 +33,7 @@ export async function GET() {
   //     console.error("Error processing order:", error);
   //   }
   // }
-  // const product = await Product.findById("");
+  // remove this product 6a5e099285cf9316d1ba6260
 
-  return NextResponse.json({});
+  return NextResponse.json({ status: "success" });
 }

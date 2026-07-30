@@ -34,6 +34,7 @@ export default function DatesStep({
   translate,
   t,
   ownerHolidayPeriods = [],
+  allowSameDayRent = true,
 }) {
   return (
     <div>
@@ -48,6 +49,7 @@ export default function DatesStep({
           translate={trans}
           lang={lang}
           ownerHolidayPeriods={ownerHolidayPeriods}
+          allowSameDayRent={allowSameDayRent}
         />
       ) : (
         <RangeDate
@@ -64,6 +66,7 @@ export default function DatesStep({
           setDaysCount={setDaysCount}
           lang={lang}
           ownerHolidayPeriods={ownerHolidayPeriods}
+          allowSameDayRent={allowSameDayRent}
         />
       )}
     </div>

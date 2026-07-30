@@ -29,7 +29,7 @@ const TimelineItem = ({
             href={href}
             aria-label={button}
             variant="light"
-            className="md:w-52 bg-primary/5 border border-primary/10 py-4 px-6 text-[0.8rem] md:text-[1.1rem] text-darkNavy font-semibold"
+            className="md:w-52 bg-primary/5 border border-primary/10 py-4 px-6 text-0.8 md:text-1.1 text-darkNavy font-semibold"
           >
             {button}
           </Button>
@@ -59,7 +59,7 @@ const TimelineItem = ({
                 {title}
               </div>
               <p
-                className={`text-[#5B5656] max-w-52 md:text-base text-[0.9rem] ${
+                className={`text-mutedGray max-w-52 md:text-base text-[0.9rem] ${
                   index % 2 !== 0 ? "ms-auto" : ""
                 }`}
               >

@@ -3,12 +3,12 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Map, AdvancedMarker } from "@vis.gl/react-google-maps";
 import { anyImgUrl } from "@/utils/ImageUrl";
-import { Autocomplete, AutocompleteItem } from "@heroui/react";
+import { Autocomplete, AutocompleteItem } from "@/components/ui/Autocomplete";
 import MapProvider from "@/components/shared/MapProvider";
 
 const containerStyle = {
   width: "100%",
-  height: "500px",
+  height: "100%",
 };
 
 const defaultCenter = { lat: 24.8, lng: 46.7 };
@@ -65,13 +65,20 @@ export default function UserLocation({
     return () => clearTimeout(handler);
   }, [address, fetchSuggestions, autocompleteOpen]);
 
-  const handlePlaceSelect = async (placeDescription) => {
+  const handlePlaceSelect = async (placeId, placeDescription) => {
+    const addressToUse = typeof placeId === "string" && placeId.startsWith("ChI") ? null : placeId;
+    const actualPlaceId = addressToUse ? null : placeId;
+    const actualDescription = addressToUse || placeDescription;
+
+    if (!actualPlaceId && !actualDescription) return;
     setIsLoading(true);
     try {
+      const queryParam = actualPlaceId
+        ? `place_id=${encodeURIComponent(actualPlaceId)}`
+        : `address=${encodeURIComponent(actualDescription)}`;
+
       const response = await fetch(
-        `/api/geocode/search?address=${encodeURIComponent(
-          placeDescription
-        )}&lang=${lang}`
+        `/api/geocode/search?${queryParam}&lang=${lang}`
       );
       const data = await response.json();
       if (data.status === "OK" && data.results.length > 0) {
@@ -84,12 +91,16 @@ export default function UserLocation({
           const types = component.types;
           if (types.includes("administrative_area_level_1"))
             governorate = component.long_name;
-          else if (types.includes("administrative_area_level_2"))
+          else if (
+            types.includes("administrative_area_level_2") ||
+            types.includes("locality")
+          )
             city = component.long_name;
         });
         setAddressData && setAddressData({ governorate, city });
 
-        setAddress(placeDescription);
+        const displayName = actualDescription || place.formatted_address;
+        setAddress(displayName);
         const newPosition = {
           lat: place.geometry.location.lat,
           lng: place.geometry.location.lng,
@@ -126,7 +137,10 @@ export default function UserLocation({
                 const types = component.types;
                 if (types.includes("administrative_area_level_1"))
                   governorate = component.long_name;
-                else if (types.includes("administrative_area_level_2"))
+                else if (
+                  types.includes("administrative_area_level_2") ||
+                  types.includes("locality")
+                )
                   city = component.long_name;
               });
               setAddressData && setAddressData({ governorate, city });
@@ -170,7 +184,10 @@ export default function UserLocation({
             const types = component.types;
             if (types.includes("administrative_area_level_1"))
               governorate = component.long_name;
-            else if (types.includes("administrative_area_level_2"))
+            else if (
+              types.includes("administrative_area_level_2") ||
+              types.includes("locality")
+            )
               city = component.long_name;
           });
           setAddressData && setAddressData({ governorate, city });
@@ -205,7 +222,7 @@ export default function UserLocation({
         <Autocomplete
           errorMessage={errorMessage}
           isRequired={required}
-          aria-label="location"
+          aria-label={lang === "ar" ? "الموقع" : "Location"}
           size="lg"
           radius="sm"
           placeholder="Enter your address"
@@ -217,6 +234,7 @@ export default function UserLocation({
             if (e.key === "Enter" && address) handlePlaceSelect(address);
           }}
           isLoading={isLoading}
+          defaultFilter={() => true}
           startContent={
             <button type="button" onClick={getCurrentLocation}>
               <svg width="22" height="22" viewBox="0 0 22 22" fill="#F48A42">
@@ -229,16 +247,16 @@ export default function UserLocation({
         >
           {(suggestion) => (
             <AutocompleteItem
-              key={suggestion.description}
+              key={suggestion.place_id}
               value={suggestion.description}
-              onPress={() => handlePlaceSelect(suggestion.description)}
+              onPress={() => handlePlaceSelect(suggestion.place_id, suggestion.description)}
             >
               {suggestion.description}
             </AutocompleteItem>
           )}
         </Autocomplete>
 
-        <div className="border border-gray-300 relative rounded-3xl overflow-hidden">
+        <div className="border border-gray-300 relative rounded-3xl overflow-hidden w-full h-[300px] md:h-[500px]">
           <Map
             mapId="google-map-user"
             defaultCenter={defaultCenter}

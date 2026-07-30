@@ -12,7 +12,7 @@ export default function ClearCartModal({
     <CustomModal
       isOpen={isOpen}
       onClose={onClose}
-      className="bg-white shadow-2xl relative flex flex-col z-[101] rounded-2xl max-w-md w-[90%] p-6"
+      className="bg-white shadow-2xl relative flex flex-col z-modal-content rounded-2xl max-w-md w-[90%] p-6"
     >
       <div className="text-xl flex justify-center font-bold border-b pb-4 mb-4">
         {t("clearCartModal.title")}

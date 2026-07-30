@@ -8,32 +8,31 @@ import { useTooltip, useTooltipInPortal, defaultStyles } from "@visx/tooltip";
 import { localPoint } from "@visx/event";
 import { ChevronDown } from "@/components/ui/svgs/icons/ChevronDownSvg";
 import { ChevronLeft } from "@/components/ui/svgs/icons/ChevronLeftSvg";
-import { Currency } from "@/components/ui/svgs/icons/CurrencySvg";;
+import { Currency } from "@/components/ui/svgs/icons/CurrencySvg";
 import { formatNumeric } from "@/lib/utils";
 
 const pieData = [
-    { name: "صافي الربح", value: 14700 },
-    { name: "المبالغ المعلقة", value: 505 },
-    { name: "المسحوبات", value: 2000 },
-    { name: "النزاعات", value: 105 },
+  { name: "صافي الربح", value: 14700 },
+  { name: "المبالغ المعلقة", value: 505 },
+  { name: "المسحوبات", value: 2000 },
+  { name: "النزاعات", value: 105 },
 ];
 const PIE_COLORS = ["#4FD658", "#F48A42", "#F55757", "#9747FF"];
 
 const data = [
-    { date: "10/01", income: 115, withdrawals: 85 },
-    { date: "25/01", income: 50, withdrawals: 65 },
-    { date: "10/02", income: 45, withdrawals: 35 },
-    { date: "25/02", income: 60, withdrawals: 50 },
-    { date: "10/03", income: 30, withdrawals: 20 },
-    { date: "25/03", income: 80, withdrawals: 98 },
-    { date: "10/04", income: 85, withdrawals: 60 },
-    { date: "25/04", income: 45, withdrawals: 30 },
-    { date: "10/05", income: 55, withdrawals: 45 },
-    { date: "25/05", income: 60, withdrawals: 30 },
-    { date: "10/06", income: 75, withdrawals: 95 },
-    { date: "25/06", income: 80, withdrawals: 50 },
+  { date: "10/01", income: 115, withdrawals: 85 },
+  { date: "25/01", income: 50, withdrawals: 65 },
+  { date: "10/02", income: 45, withdrawals: 35 },
+  { date: "25/02", income: 60, withdrawals: 50 },
+  { date: "10/03", income: 30, withdrawals: 20 },
+  { date: "25/03", income: 80, withdrawals: 98 },
+  { date: "10/04", income: 85, withdrawals: 60 },
+  { date: "25/04", income: 45, withdrawals: 30 },
+  { date: "10/05", income: 55, withdrawals: 45 },
+  { date: "25/05", income: 60, withdrawals: 30 },
+  { date: "10/06", income: 75, withdrawals: 95 },
+  { date: "25/06", income: 80, withdrawals: 50 },
 ];
-
 
 const tooltipStyles = {
   ...defaultStyles,
@@ -69,8 +68,7 @@ const BarCharts = () => {
   const yScale = scaleLinear({
     domain: [
       0,
-      Math.max(...data.map((d) => Math.max(d.income, d.withdrawals))) +
-        20,
+      Math.max(...data.map((d) => Math.max(d.income, d.withdrawals))) + 20,
     ],
     nice: true,
     range: [yMax, 0],
@@ -109,17 +107,13 @@ const BarCharts = () => {
         <h2 className="text-lg md:text-xl font-bold">ملخص الدخل والمسحوبات</h2>
         <div className="flex items-center gap-3">
           <div className="relative">
-            <select
-              className="appearance-none bg-transparent rounded-md px-4 py-2 text-sm text-gray-700 pe-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300"
-            >
+            <select className="appearance-none bg-transparent rounded-md px-4 py-2 text-sm text-gray-700 pe-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300">
               <option>يناير</option>
             </select>
             <ChevronDown className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
           </div>
           <div className="relative">
-            <select
-              className="appearance-none bg-transparent rounded-md px-4 py-2 text-sm text-gray-700 pe-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300"
-            >
+            <select className="appearance-none bg-transparent rounded-md px-4 py-2 text-sm text-gray-700 pe-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300">
               {Array.from({ length: 10 }, (_, i) => {
                 const year = new Date().getFullYear() - i;
                 return (
@@ -242,16 +236,14 @@ const BarCharts = () => {
             <div className="flex flex-col gap-1">
               <p className="text-gray-500 text-sm">مجموع المسحوبات</p>
               <p className="text-2xl font-bold text-red-500 flex items-center gap-1">
-                {505 || 0}{" "}
-                <Currency className="w-5 h-5" size={20} />
+                {505 || 0} <Currency className="w-5 h-5" size={20} />
               </p>
             </div>
             <div className="h-[1px] w-full bg-[#B3B3B380]" />
             <div className="flex items-center justify-between">
               <p className="text-gray-500 text-sm">صافي الربح</p>
               <p className="text-2xl font-bold text-[#4FD658] flex items-center gap-1">
-                14.7k{" "}
-                <Currency color="#4FD658" className="w-5 h-5" size={20} />
+                14.7k <Currency color="#4FD658" className="w-5 h-5" size={20} />
               </p>
             </div>
           </div>
@@ -267,7 +259,9 @@ const BarCharts = () => {
         >
           <div className="text-center">
             <div className="text-sm text-white">{tooltipData.date}</div>
-            <div className="font-bold text-white flex items-center justify-center gap-1">{tooltipData.value} <Currency className="w-4 h-4" color="#fff" /></div>
+            <div className="font-bold text-white flex items-center justify-center gap-1">
+              {tooltipData.value} <Currency className="w-4 h-4" color="#fff" />
+            </div>
             <div className="text-xs text-gray-300">{tooltipData.type}</div>
           </div>
         </TooltipInPortal>
@@ -364,7 +358,8 @@ const PieChart = () => {
           <div className="text-center">
             <div className="text-sm">{tooltipData.name}</div>
             <div className="font-bold flex items-center gap-1">
-              {tooltipData.value.toLocaleString()} <Currency className="w-4 h-4" color="#fff" />
+              {tooltipData.value.toLocaleString()}{" "}
+              <Currency className="w-4 h-4" color="#fff" />
             </div>
           </div>
         </TooltipInPortal>
@@ -383,7 +378,7 @@ const PieChart = () => {
                 {item.name}
               </span>
             </div>
-            <span className="font-bold text-sm md:text-medium">
+            <span className="font-bold text-sm md:text-base">
               {formatNumeric(item.value)}
             </span>
           </div>

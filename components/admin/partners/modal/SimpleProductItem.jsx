@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { anyImgUrl } from "@/utils/ImageUrl";
-import { Checkbox } from "@heroui/react";
+import { Checkbox } from "@/components/ui/Checkbox";
 
 export default function SimpleProductItem({
   product,
@@ -36,6 +36,7 @@ export default function SimpleProductItem({
           onValueChange={() => onSelect(product)}
           color="primary"
           size="sm"
+          aria-label={product.name}
         />
       </div>
 

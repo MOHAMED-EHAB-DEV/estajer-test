@@ -1,6 +1,6 @@
 export const ChevronRight = ({ color = "black", ...rest }) => (
   <svg
-    className="md:!w-6 md:!h-6 !w-5 !h-5"
+    className="md:!w-6 md:!h-6 !w-4 !h-4"
     width="24"
     height="24"
     viewBox="0 0 24 24"

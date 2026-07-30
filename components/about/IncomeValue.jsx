@@ -83,7 +83,7 @@ const SvgIcon = ({ className, ...props }) => (
 );
 
 const ShieldIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-[#FF8C42]">
+  <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-brandOrangeAlt">
     <path
       d="M12 2L4 5V11C4 16.19 7.41 21.05 12 22C16.59 21.05 20 16.19 20 11V5L12 2Z"
       stroke="currentColor"
@@ -122,26 +122,31 @@ const IncomeValue = ({ translate, lang = "ar" }) => {
   }, []);
 
   const desc1 = typeof t("description1") === "string" ? t("description1") : "";
-  const [titlePart1, titlePart2] = desc1.includes("..") ? desc1.split("..") : [desc1, ""];
+  const [titlePart1, titlePart2] = desc1.includes("..")
+    ? desc1.split("..")
+    : [desc1, ""];
 
   const reasonSubtitles = {
     ar: [
       "استغل كل ما تملك واجعله مصدر دخل مستمر",
       "دعم الاقتصاد الوطني وتوفير فرص عمل للشباب",
-      "كن جزءاً من التحول الرقمي والاقتصادي في المملكة"
+      "كن جزءاً من التحول الرقمي والاقتصادي في المملكة",
     ],
     en: [
       "Exploit everything you own and make it a continuous source of income",
       "Supporting the national economy and providing job opportunities for youth",
-      "Be part of the digital and economic transformation in the Kingdom"
-    ]
+      "Be part of the digital and economic transformation in the Kingdom",
+    ],
   };
 
   return (
-    <section ref={containerRef} id="benefit" className="bg-[#FFFBF7] py-16 md:py-24 relative overflow-hidden">
+    <section
+      ref={containerRef}
+      id="benefit"
+      className="bg-[#FFFBF7] py-16 md:py-24 relative overflow-hidden"
+    >
       <div className="max-w-screen-2xl mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
           {/* Graphical Mockup Column */}
           <div className="relative w-full max-w-2xl mx-auto flex items-center justify-center p-4 py-8 sm:py-10 md:p-8">
             {/* Tilted Background Card */}
@@ -160,7 +165,7 @@ const IncomeValue = ({ translate, lang = "ar" }) => {
                     12,450 {lang === "ar" ? "ريال" : "SAR"}
                   </h4>
                 </div>
-                <div className="bg-[#FF8C42]/10 p-2 md:p-3 rounded-xl md:rounded-2xl">
+                <div className="bg-brandOrangeAlt/10 p-2 md:p-3 rounded-xl md:rounded-2xl">
                   <ShieldIcon className="w-4 h-4 md:w-5 md:h-5" />
                 </div>
               </div>
@@ -175,7 +180,7 @@ const IncomeValue = ({ translate, lang = "ar" }) => {
                         height: isVisible ? `${h}%` : "0%",
                         transition: `height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${i * 0.05}s`,
                       }}
-                      className={`flex-1 rounded-t-sm md:rounded-t-lg transition-all ${i === 5 ? "bg-[#FF8C42]" : "bg-[#FF8C42]/20"} ${i > 10 ? "hidden md:block" : ""}`}
+                      className={`flex-1 rounded-t-sm md:rounded-t-lg transition-all ${i === 5 ? "bg-brandOrangeAlt" : "bg-brandOrangeAlt/20"} ${i > 10 ? "hidden md:block" : ""}`}
                     />
                   ),
                 )}
@@ -192,7 +197,7 @@ const IncomeValue = ({ translate, lang = "ar" }) => {
                       className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white bg-gray-200"
                     />
                   ))}
-                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white bg-[#FF8C42] flex items-center justify-center text-[8px] md:text-[10px] text-white font-bold">
+                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white bg-brandOrangeAlt flex items-center justify-center text-[8px] md:text-[10px] text-white font-bold">
                     +12
                   </div>
                 </div>
@@ -201,7 +206,7 @@ const IncomeValue = ({ translate, lang = "ar" }) => {
 
             {/* Floating Badges */}
             <div className="absolute -top-4 -start-1 sm:-top-6 sm:-start-4 md:-top-8 md:-start-8 bg-white shadow-xl rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4 border border-[#FF8C42]/10 z-30 flex items-center gap-1.5 sm:gap-2 md:gap-3 animate-float">
-              <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-[#FF8C42]/10 flex items-center justify-center text-[#FF8C42]">
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-brandOrangeAlt/10 flex items-center justify-center text-brandOrangeAlt">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 25 18"
@@ -233,17 +238,21 @@ const IncomeValue = ({ translate, lang = "ar" }) => {
 
           <div>
             <div className="flex items-center gap-2.5 mb-4 md:mb-6 justify-start">
-              <div className="w-10 h-10 rounded-xl bg-[#FF8C42]/10 flex items-center justify-center text-[#FF8C42]">
+              <div className="w-10 h-10 rounded-xl bg-brandOrangeAlt/10 flex items-center justify-center text-brandOrangeAlt">
                 <SvgIcon className="w-5 h-5" />
               </div>
-              <span className="text-sm font-bold text-[#FF8C42] tracking-wide uppercase">
+              <span className="text-sm font-bold text-brandOrangeAlt tracking-wide uppercase">
                 {lang === "ar" ? "العائد المادي" : "Financial Return"}
               </span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl md:text-[44px] font-black text-[#1A1A2E] mb-4 md:mb-5 leading-[1.2] md:leading-[1.25]">
               {titlePart1}..
-              {titlePart2 && <span className="block text-[#FF8C42] mt-0">{titlePart2.trim()}</span>}
+              {titlePart2 && (
+                <span className="block text-brandOrangeAlt mt-0">
+                  {titlePart2.trim()}
+                </span>
+              )}
             </h2>
 
             <p className="text-sm sm:text-base text-gray-500 mb-6 md:mb-8 leading-[1.7] md:leading-[1.8] max-w-xl">
@@ -251,32 +260,35 @@ const IncomeValue = ({ translate, lang = "ar" }) => {
             </p>
 
             <div className="flex flex-col gap-3 md:gap-4">
-              {Array.isArray(reasons) && reasons.map((reason, index) => {
-                const Icon = listIcons[index % listIcons.length];
-                const cleanReason = reason.replace(/\.$/, "");
-                const subtitle = reasonSubtitles[lang] ? reasonSubtitles[lang][index] : reasonSubtitles["en"][index];
+              {Array.isArray(reasons) &&
+                reasons.map((reason, index) => {
+                  const Icon = listIcons[index % listIcons.length];
+                  const cleanReason = reason.replace(/\.$/, "");
+                  const subtitle = reasonSubtitles[lang]
+                    ? reasonSubtitles[lang][index]
+                    : reasonSubtitles["en"][index];
 
-                return (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 sm:gap-4 p-4 sm:p-5 bg-white rounded-2xl border border-gray-100 border-s-4 border-s-transparent shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(255,140,66,0.08)] hover:border-s-[#FF8C42] hover:-translate-y-0.5 group"
-                  >
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#FF8C42]/10 flex items-center justify-center text-[#FF8C42] flex-shrink-0 transition-colors group-hover:bg-[#FF8C42] group-hover:text-white">
-                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center gap-3 sm:gap-4 p-4 sm:p-5 bg-white rounded-2xl border border-gray-100 border-s-4 border-s-transparent shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(255,140,66,0.08)] hover:border-s-[#FF8C42] hover:-translate-y-0.5 group"
+                    >
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-brandOrangeAlt/10 flex items-center justify-center text-brandOrangeAlt flex-shrink-0 transition-colors group-hover:bg-brandOrangeAlt group-hover:text-white">
+                        <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </div>
+                      <div className="flex-1 text-start">
+                        <h4 className="text-sm sm:text-base md:text-[17px] font-black text-[#1A1A2E] mb-0.5 md:mb-1 leading-snug">
+                          {cleanReason}
+                        </h4>
+                        {subtitle && (
+                          <p className="text-[11px] sm:text-xs md:text-sm text-gray-400 font-medium leading-normal">
+                            {subtitle}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex-1 text-start">
-                      <h4 className="text-sm sm:text-base md:text-[17px] font-black text-[#1A1A2E] mb-0.5 md:mb-1 leading-snug">
-                        {cleanReason}
-                      </h4>
-                      {subtitle && (
-                        <p className="text-[11px] sm:text-xs md:text-sm text-gray-400 font-medium leading-normal">
-                          {subtitle}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
 
             <div className="mt-8 md:mt-10">
@@ -296,7 +308,6 @@ const IncomeValue = ({ translate, lang = "ar" }) => {
               </Link>
             </div>
           </div>
-
         </div>
       </div>
     </section>

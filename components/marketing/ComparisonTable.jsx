@@ -44,9 +44,9 @@ const XIcon = () => (
 
 // Indices matching rows where regular=null (X) or premium=null (check)
 const ICON_ROW_INDICES = {
-  regularX: [4, 8, 9, 12, 13, 14, 15, 16],
-  regularGrayCheck: [10, 11, 17],
-  premiumCheck: [4, 8, 10, 11, 12, 13, 14, 15, 16, 17],
+  regularX: [3, 7, 8, 11, 12, 13, 14, 15],
+  regularGrayCheck: [9, 10, 16],
+  premiumCheck: [3, 7, 9, 10, 11, 12, 13, 14, 15, 16],
 };
 
 const ComparisonTable = ({ translate, lang }) => {
@@ -146,7 +146,7 @@ const ComparisonTable = ({ translate, lang }) => {
   return (
     <section
       ref={sectionRef}
-      className="py-12 md:py-24 bg-[#FAFAFA] font-sans"
+      className="py-12 md:py-24 bg-[#FAFAFA]"
       dir={lang === "ar" ? "rtl" : "ltr"}
     >
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">

@@ -21,6 +21,38 @@ function formatDateForChart(date) {
   return `${day}/${month}`;
 }
 
+// Helper function to extract or compute order financial amounts
+function getOrderAmounts(order) {
+  const totalAmount = Number(order.totalAmount) || 0;
+  let adminAmount = order.adminAmount;
+  let ownerAmount = order.ownerAmount;
+
+  if (
+    adminAmount === undefined ||
+    adminAmount === null ||
+    ownerAmount === undefined ||
+    ownerAmount === null
+  ) {
+    const tax = Number(order.tax) || 0;
+    const totalWithoutTax = totalAmount - tax;
+    const shopCommission = order.source?.refId?.shopCommission ?? 5;
+    const adminCommission =
+      order.source?.type === "shop"
+        ? shopCommission / 100
+        : (order.ownerData?.commission || 15) / 100;
+    const adminWithoutTax = totalWithoutTax * adminCommission;
+    const adminTax = adminWithoutTax * 0.15;
+    adminAmount = +(adminWithoutTax + adminTax).toFixed(0);
+    ownerAmount = totalAmount - adminAmount;
+  }
+
+  return {
+    totalAmount,
+    adminAmount: Number(adminAmount) || 0,
+    ownerAmount: Number(ownerAmount) || 0,
+  };
+}
+
 // Helper function to group orders by days for a specific month
 function groupOrdersByDays(orders, month, year) {
   const { startDate, endDate } = getMonthDateRange(month, year);
@@ -38,11 +70,11 @@ function groupOrdersByDays(orders, month, year) {
     });
 
     const income = dayOrders.reduce(
-      (sum, order) => sum + (order.totalAmount || 0),
+      (sum, order) => sum + getOrderAmounts(order).totalAmount,
       0
     );
     const withdrawals = dayOrders.reduce(
-      (sum, order) => sum + ((order.tax || 0) + (order.ownerAmount || 0)),
+      (sum, order) => sum + getOrderAmounts(order).ownerAmount,
       0
     );
 
@@ -92,8 +124,12 @@ export async function GET(req) {
       await Promise.all([
         Order.find({
           createdAt: { $gte: startDate, $lte: endDate },
-          status: { $in: ["completed", "received"] },
-        }).lean(),
+          status: "completed",
+          waffyStatus: "COMPLETED",
+        })
+          .populate("ownerData")
+          .populate("source.refId")
+          .lean(),
         User.countDocuments({ accountType: "company" }),
         User.countDocuments({ accountType: "personal" }),
         User.countDocuments({ isBanned: true }),
@@ -103,15 +139,16 @@ export async function GET(req) {
     const chartData = groupOrdersByDays(orders, month, year);
 
     // Calculate totals
-    const totalIncome = orders.reduce(
-      (sum, order) => sum + (order.totalAmount || 0),
-      0
-    );
-    const totalWithdrawals = orders.reduce(
-      (sum, order) => sum + ((order.tax || 0) + (order.ownerAmount || 0)),
-      0
-    );
-    const netProfit = totalIncome - totalWithdrawals;
+    let totalIncome = 0;
+    let totalWithdrawals = 0;
+    let netProfit = 0;
+
+    for (const order of orders) {
+      const amounts = getOrderAmounts(order);
+      totalIncome += amounts.totalAmount;
+      totalWithdrawals += amounts.ownerAmount;
+      netProfit += amounts.adminAmount;
+    }
 
     // Prepare pie chart data
     const pieData = [

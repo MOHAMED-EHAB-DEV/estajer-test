@@ -1,12 +1,12 @@
 export const Location = ({
-  className = "w-5 h-[26px]",
+  className,
   width = 18,
   height = 24,
   color = "#F48A42",
   ...rest
 }) => (
   <svg
-    className={className}
+    className={className || "md:w-5 w-4 md:h-[26px] h-[20px]"}
     width={width}
     height={height}
     viewBox="0 0 20 26"

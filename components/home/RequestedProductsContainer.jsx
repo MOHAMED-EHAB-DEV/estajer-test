@@ -20,7 +20,7 @@ const RequestedProduct = ({ request, lang, translate }) => {
         {request?.name}
       </h3>
 
-      <p className="text-[#5B5656] text-sm md:text-base lg:text-2xl font-IBMPlex text-center leading-relaxed line-clamp-3 md:line-clamp-4">
+      <p className="text-mutedGray text-sm md:text-base lg:text-2xl font-IBMPlex text-center leading-relaxed line-clamp-3 md:line-clamp-4">
         {request?.description}
       </p>
 
@@ -121,7 +121,7 @@ export default function RequestedProductsContainer({
       emblaApi.scrollTo(targetIndex);
       emblaThumbsApi.scrollTo(index);
     },
-    [emblaApi, emblaThumbsApi, clonedRequests, cloneOffset]
+    [emblaApi, emblaThumbsApi, clonedRequests, cloneOffset],
   );
 
   useEffect(() => {
@@ -182,11 +182,11 @@ export default function RequestedProductsContainer({
 
   const scrollPrev = useCallback(
     () => emblaApi && emblaApi.scrollPrev(),
-    [emblaApi]
+    [emblaApi],
   );
   const scrollNext = useCallback(
     () => emblaApi && emblaApi.scrollNext(),
-    [emblaApi]
+    [emblaApi],
   );
 
   if (!requests || requests.length === 0) return null;

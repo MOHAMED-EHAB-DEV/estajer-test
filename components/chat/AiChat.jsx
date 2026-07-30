@@ -19,6 +19,7 @@ export default function AiChat({ translate, lang }) {
 
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const [visitorName, setVisitorName] = useState();
+  const [visitorContact, setVisitorContact] = useState();
   const { isOpen, onOpen, onOpenChange } = useDrawerWithHistory();
 
   const handleDismissBubble = () => {
@@ -29,9 +30,18 @@ export default function AiChat({ translate, lang }) {
   useEffect(() => {
     const name =
       typeof window !== "undefined" ? localStorage.getItem("visitorName") : "";
-    if (user?.fullName) return setVisitorName(user?.fullName);
+    const contact =
+      typeof window !== "undefined" ? localStorage.getItem("visitorContact") : "";
+    if (user?.fullName) {
+      setVisitorName(user.fullName);
+      setVisitorContact(user.phone || user.email || "");
+      return;
+    }
 
-    if (name && !user?.fullName) setVisitorName(name);
+    if (name && !user?.fullName) {
+      setVisitorName(name);
+      setVisitorContact(contact || "");
+    }
   }, [user]);
 
   useEffect(() => {
@@ -68,7 +78,10 @@ export default function AiChat({ translate, lang }) {
           (visitorId || user?._id) &&
           (isOpen ? onOpenChange(false) : onOpen())
         }
-        className="fixed md:bottom-6 bottom-24 right-6 w-14 h-14 bg-primary hover:bg-orange-500 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-50"
+        style={{
+          bottom: "calc(6rem + env(safe-area-inset-bottom, 0px))",
+        }}
+        className="fixed md:!bottom-6 right-6 w-14 h-14 bg-primary hover:bg-orange-500 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-50"
       >
         {isOpen ? (
           <X className="w-5 h-5" strokeWidth="3" />
@@ -77,7 +90,12 @@ export default function AiChat({ translate, lang }) {
         )}
       </button>
       {!isOpen && isBubbleVisible && (
-        <div className="fixed md:bottom-24 bottom-40 right-8 bg-white rounded-lg shadow-lg ps-4 pe-5 py-3 z-50 animate-fade-in-from-bottom">
+        <div
+          style={{
+            bottom: "calc(10rem + env(safe-area-inset-bottom, 0px))",
+          }}
+          className="fixed md:!bottom-24 right-8 bg-white rounded-lg shadow-lg ps-4 pe-5 py-3 z-50 animate-fade-in-from-bottom"
+        >
           <div className="relative">
             <p className="text-gray-800 text-sm font-medium whitespace-nowrap">
               {t("chat.welcomeText")}
@@ -115,6 +133,8 @@ export default function AiChat({ translate, lang }) {
             aiAssistant={true}
             visitorName={visitorName}
             setVisitorName={setVisitorName}
+            visitorContact={visitorContact}
+            setVisitorContact={setVisitorContact}
           />
         )}
       </Suspense>

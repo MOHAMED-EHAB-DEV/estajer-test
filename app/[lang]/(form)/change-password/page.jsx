@@ -45,7 +45,7 @@ export default async function page({ params }) {
   const translate = await getTranslations(lang);
 
   return (
-    <div className="relative bg-[#F48A42]">
+    <div className="relative bg-primary">
       <div className="bg-white lg:rounded-s-[2rem] absolute top-0 end-0 lg:w-1/2 w-full h-full"></div>
       <div className="max-w-screen-3xl mx-auto flex flex-col gap-4 text-white">
         <div className="flex flex-wrap">

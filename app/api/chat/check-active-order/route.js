@@ -29,7 +29,6 @@ export async function GET(req) {
       endDate: { $gte: today },
     }).select("_id");
 
-    console.log("order: ", order);
     let contactInfo = null;
     if (order) {
       const otherUser = await User.findById(otherUserId).select(

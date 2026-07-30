@@ -7,11 +7,21 @@ input[type="number"]::-webkit-outer-spin-button {
   display: none;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+  -webkit-text-fill-color: black !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   --nextui-focus: 24 89% 61%;
   letter-spacing: 1px;
 }
+
 [data-slot="wrapper"] {
   --visual-viewport-height: auto !important;
 }
@@ -187,10 +197,14 @@ iframe {
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
+    --danger-50: 339.13 92% 95.1%;
+    --danger: 339.20000000000005 90.36% 51.18%;
+    --danger-foreground: 0 0% 100%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
     --radius: 0.5rem;
+    color-scheme: light;
   }
 }
 /* Embla Carousel Styles */
@@ -321,6 +335,27 @@ iframe {
   }
 }
 
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d9dbdf transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d9dbdf;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
+}
 @keyframes moveLine {
   0% {
     background-position: 0 0;
@@ -343,4 +378,55 @@ iframe {
 .animate-line-reverse {
   animation: moveLineReverse 1s linear infinite;
 }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } } @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } } @keyframes fadeInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero-stagger-1 {
+  opacity: 0;
+  animation: heroFadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 50ms forwards;
+}
+.hero-stagger-2 {
+  opacity: 0;
+  animation: heroFadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 90ms forwards;
+}
+.hero-stagger-3 {
+  opacity: 0;
+  animation: heroFadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 260ms forwards;
+}

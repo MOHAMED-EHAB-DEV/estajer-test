@@ -41,13 +41,14 @@ export function TopSection({ t, lang = "ar" }) {
   return (
     <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10 w-full mt-4 lg:mt-10">
       <div className="animate-[fadeInRight_1s_ease-out]">
-        <div className="inline-flex items-center gap-2 bg-[rgba(255,140,66,0.15)] border border-[rgba(255,140,66,0.3)] px-3.5 py-1.5 md:px-5 md:py-2 rounded-full text-[#FF8C42] text-[11px] md:text-sm font-semibold mb-4 md:mb-6 animate-[fadeInUp_0.8s_ease-out_0.2s_both]">
+        <div className="inline-flex items-center gap-2 bg-[rgba(255,140,66,0.15)] border border-[rgba(255,140,66,0.3)] px-3.5 py-1.5 md:px-5 md:py-2 rounded-full text-brandOrangeAlt text-[11px] md:text-sm font-semibold mb-4 md:mb-6 animate-[fadeInUp_0.8s_ease-out_0.2s_both]">
           <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 animate-[pulse_2s_ease-in-out_infinite]" />
           منصة استأجر - الاقتصاد التشاركي
         </div>
         <h1 className="text-[22px] sm:text-[30px] md:text-[42px] lg:text-[52px] font-black text-[#1A1A2E] leading-[1.3] mb-3 md:mb-4 animate-[fadeInUp_0.8s_ease-out_0.4s_both]">
-          {t("description1").split("..")[0]}..<br />
-          <span className="mt-2 md:mt-3 text-[#FF8C42] relative inline-block after:content-[''] after:absolute after:-bottom-[12px] after:end-0 after:w-full after:h-[4px] after:bg-[#FF8C42] after:-z-10 after:rounded-sm">
+          {t("description1").split("..")[0]}..
+          <br />
+          <span className="mt-2 md:mt-3 text-brandOrangeAlt relative inline-block after:content-[''] after:absolute after:-bottom-[12px] after:end-0 after:w-full after:h-[4px] after:bg-brandOrangeAlt after:-z-10 after:rounded-sm">
             {t("description1").split("..")[1]?.trim()}
           </span>
         </h1>
@@ -72,58 +73,89 @@ export function TopSection({ t, lang = "ar" }) {
         <div className="grid grid-cols-3 grid-rows-4 gap-2 md:gap-3 h-[320px] md:h-[520px]">
           {/* Photo 1: Col 1, R1-2 (Tall) */}
           <div className="rounded-xl md:rounded-2xl overflow-hidden relative shadow-lg transition-all hover:scale-105 hover:-translate-y-1 hover:z-10 group col-start-1 col-end-2 row-start-1 row-end-3">
-            <img src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275097/1748960928873_dyk6tu.webp" alt="Hero 1" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <img
+              src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275097/1748960928873_dyk6tu.webp"
+              alt="Hero 1"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A2E]/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
           </div>
 
           {/* Photo 3: Col 2-3, R1 (Wide) */}
           <div className="rounded-xl md:rounded-2xl overflow-hidden relative shadow-lg transition-all hover:scale-105 hover:-translate-y-1 hover:z-10 group col-start-2 col-end-4 row-start-1 row-end-2">
-            <img src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275097/1754489840503_zdyysy.webp" alt="Hero 2" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <img
+              src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275097/1754489840503_zdyysy.webp"
+              alt="Hero 2"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A2E]/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
           </div>
 
           {/* Logo: Col 2, R2-3 (Center) */}
           <div className="rounded-xl md:rounded-2xl overflow-hidden relative shadow-[0_8px_30px_rgba(255,140,66,0.12)] bg-white/95 backdrop-blur border border-[#FF8C42]/20 flex items-center justify-center p-3 md:p-5 transition-all duration-300 hover:scale-105 hover:shadow-[0_12px_40px_rgba(255,140,66,0.22)] hover:border-[#FF8C42]/40 hover:-translate-y-1 hover:z-10 group col-start-2 col-end-3 row-start-2 row-end-4">
-            <img src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275096/logo_rfpe1x.webp" alt="Estajer Logo" className="w-full h-full object-contain max-h-[85%] transition-transform duration-500 group-hover:scale-110" />
+            <img
+              src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275096/logo_rfpe1x.webp"
+              alt="Estajer Logo"
+              className="w-full h-full object-contain max-h-[85%] transition-transform duration-500 group-hover:scale-110"
+            />
           </div>
 
           {/* Photo 5: Col 3, R2-4 (Tall) */}
           <div className="rounded-xl md:rounded-2xl overflow-hidden relative shadow-lg transition-all hover:scale-105 hover:-translate-y-1 hover:z-10 group col-start-3 col-end-4 row-start-2 row-end-5">
-            <img src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275098/1759657560894_tawvok.webp" alt="Hero 3" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <img
+              src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275098/1759657560894_tawvok.webp"
+              alt="Hero 3"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A2E]/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
           </div>
 
           {/* Photo 2: Col 1, R3-4 (Tall) */}
           <div className="rounded-xl md:rounded-2xl overflow-hidden relative shadow-lg transition-all hover:scale-105 hover:-translate-y-1 hover:z-10 group col-start-1 col-end-2 row-start-3 row-end-5">
-            <img src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275097/1758111785584_raaaah.webp" alt="Hero 4" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <img
+              src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275097/1758111785584_raaaah.webp"
+              alt="Hero 4"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A2E]/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
           </div>
 
           {/* Photo 4: Col 2, R4 (Small) */}
           <div className="rounded-xl md:rounded-2xl overflow-hidden relative shadow-lg transition-all hover:scale-105 hover:-translate-y-1 hover:z-10 group col-start-2 col-end-3 row-start-4 row-end-5">
-            <img src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275097/1739199601759_rtxblr.webp" alt="Hero 5" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <img
+              src="https://res.cloudinary.com/dhfzkadm2/image/upload/v1779275097/1739199601759_rtxblr.webp"
+              alt="Hero 5"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A2E]/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
           </div>
         </div>
 
         {/* Floating Label 1 (50k+ Active Users) */}
         <div className="absolute bg-white px-4 py-3 md:px-6 md:py-4 rounded-xl shadow-xl flex items-center gap-2 md:gap-3 animate-[float_5s_ease-in-out_infinite] top-[5%] md:top-[10%] -start-[10px] md:-start-[30px] z-20 scale-90 md:scale-100 origin-start">
-          <div className="w-10 h-10 md:w-12 md:h-12 bg-[#FFF0E6] rounded-xl flex items-center justify-center text-[#FF8C42]">
-            <FloatIcon1 className="w-5 h-5 md:w-6 md:h-6 text-[#FF8C42]" />
+          <div className="w-10 h-10 md:w-12 md:h-12 bg-[#FFF0E6] rounded-xl flex items-center justify-center text-brandOrangeAlt">
+            <FloatIcon1 className="w-5 h-5 md:w-6 md:h-6 text-brandOrangeAlt" />
           </div>
           <div>
-            <h4 className="text-lg md:text-xl font-black text-[#1A1A2E] text-start">50,000+</h4>
+            <h4 className="text-lg md:text-xl font-black text-[#1A1A2E] text-start">
+              50,000+
+            </h4>
             <p className="text-[11px] md:text-[13px] text-[#999]">مستخدم نشط</p>
           </div>
         </div>
 
         {/* Floating Label 2 (25k+ Successful Transactions) */}
-        <div className="absolute bg-white px-4 py-3 md:px-6 md:py-4 rounded-xl shadow-xl flex items-center gap-2 md:gap-3 animate-[float_5s_ease-in-out_infinite] bottom-[10%] md:bottom-[15%] -end-[5px] md:-end-[20px] z-20 scale-90 md:scale-100 origin-end" style={{ animationDelay: '1s' }}>
-          <div className="w-10 h-10 md:w-12 md:h-12 bg-[#FFF0E6] rounded-xl flex items-center justify-center text-[#FF8C42]">
-            <FloatIcon2 className="w-5 h-5 md:w-6 md:h-6 text-[#FF8C42]" />
+        <div
+          className="absolute bg-white px-4 py-3 md:px-6 md:py-4 rounded-xl shadow-xl flex items-center gap-2 md:gap-3 animate-[float_5s_ease-in-out_infinite] bottom-[10%] md:bottom-[15%] -end-[5px] md:-end-[20px] z-20 scale-90 md:scale-100 origin-end"
+          style={{ animationDelay: "1s" }}
+        >
+          <div className="w-10 h-10 md:w-12 md:h-12 bg-[#FFF0E6] rounded-xl flex items-center justify-center text-brandOrangeAlt">
+            <FloatIcon2 className="w-5 h-5 md:w-6 md:h-6 text-brandOrangeAlt" />
           </div>
           <div>
-            <h4 className="text-lg md:text-xl font-black text-[#1A1A2E] text-start">25,000+</h4>
+            <h4 className="text-lg md:text-xl font-black text-[#1A1A2E] text-start">
+              25,000+
+            </h4>
             <p className="text-[11px] md:text-[13px] text-[#999]">صفقة ناجحة</p>
           </div>
         </div>

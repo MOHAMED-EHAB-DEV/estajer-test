@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import "./Product";
-
 const shopSchema = new mongoose.Schema(
   {
     // --- Owner ---
@@ -10,15 +8,17 @@ const shopSchema = new mongoose.Schema(
       required: true,
       unique: true, // A user can only have one shop
     },
-
     // --- Basic Info ---
     nameAr: { type: String, required: true },
     nameEn: { type: String, required: true },
     slug: { type: String, required: true, unique: true, lowercase: true },
+    domain: { type: String, default: null, sparse: true, index: true }, // Custom domain e.g. "alaaelbana.com"
+    gtmId: { type: String, default: null }, // Custom GTM Container ID e.g. "GTM-XXXXXX"
     logo: { type: String, required: true }, // Cloudinary URL
     descriptionAr: { type: String },
     descriptionEn: { type: String },
-
+    // --- Brand ---
+    brandColor: { type: String, default: "#E04B2A" },
     // --- SEO ---
     seoTitleAr: { type: String },
     seoTitleEn: { type: String },
@@ -27,113 +27,27 @@ const shopSchema = new mongoose.Schema(
     seoKeywordsAr: { type: String },
     seoKeywordsEn: { type: String },
     ogImage: { type: String },
-
-    // --- About Us Section ---
-    aboutUsLink: { type: String },
-    aboutUsButtonTextAr: { type: String },
-    aboutUsButtonTextEn: { type: String },
-
-    // --- Hero Section ---
-    heroTitleAr: { type: String },
-    heroTitleEn: { type: String },
-    heroDescriptionAr: { type: String },
-    heroDescriptionEn: { type: String },
-    heroBanners: [
+    sections: [
       {
-        imageAr: { type: String, required: true },
-        imageEn: { type: String, required: true },
-        link: { type: String },
-        altAr: { type: String },
-        altEn: { type: String },
+        _id: false,
+        instanceId: { type: String, required: true }, // nanoid — unique per added section
+        themeId: { type: String, required: true, default: "classic" },
+        sectionType: { type: String, required: true }, // "hero" | "about" | "slider" | "offerBanners" | "categories" | "howItWorks" | "reviews"
         order: { type: Number, default: 0 },
+        data: { type: mongoose.Schema.Types.Mixed, default: {} },
       },
     ],
-
-    // --- Product Sections/Sliders ---
-    sliders: [
-      {
-        titleAr: { type: String, required: true },
-        titleEn: { type: String, required: true },
-        products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-        type: {
-          type: String,
-          enum: ["manual", "newest", "random"],
-          default: "manual",
-        },
-        displayMode: {
-          type: String,
-          enum: ["slider", "grid"],
-          default: "slider",
-        },
-        order: { type: Number, default: 0 },
-      },
-    ],
-
-    // --- How It Works Section ---
-    howItWorks: {
-      sectionTitleAr: { type: String, default: "" },
-      sectionTitleEn: { type: String, default: "" },
-      estajerSide: {
-        titleAr: { type: String, default: "" },
-        titleEn: { type: String, default: "" },
-        itemsAr: [{ type: String }],
-        itemsEn: [{ type: String }],
-      },
-      partnerSide: {
-        titleAr: { type: String, default: "" },
-        titleEn: { type: String, default: "" },
-        itemsAr: [{ type: String }],
-        itemsEn: [{ type: String }],
-      },
-      sharedBenefits: {
-        titleAr: { type: String, default: "" },
-        titleEn: { type: String, default: "" },
-        itemsAr: [{ type: String }],
-        itemsEn: [{ type: String }],
-      },
+    shopCommission: { type: Number, default: 10, min: 0, max: 100 },
+    plan: {
+      type: String,
+      enum: ["starter", "growth"],
+      default: "starter",
     },
-
-    // --- Offer Banners ---
-    offerBanners: [
-      {
-        titleAr: { type: String, default: "" },
-        titleEn: { type: String, default: "" },
-        banners: [
-          {
-            imageAr: { type: String },
-            imageEn: { type: String },
-            link: { type: String },
-            altAr: { type: String },
-            altEn: { type: String },
-            order: { type: Number, default: 0 },
-          },
-        ],
-        order: { type: Number, default: 2 },
-      },
-    ],
-
     // --- Status ---
     isActive: { type: Boolean, default: true },
     order: { type: Number, default: 0 },
-    aboutUsOrder: { type: Number, default: 1 },
-    howItWorksOrder: { type: Number, default: 4 },
-    shopCategoriesOrder: { type: Number, default: 3 },
-    reviewsOrder: { type: Number, default: 5 },
-    showReviews: { type: Boolean, default: false },
-    categories: [
-      {
-        nameAr: { type: String, required: true },
-        nameEn: { type: String, required: true },
-        image: { type: String, required: true },
-        allowedProducts: [
-          { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-        ],
-      },
-    ],
   },
   { timestamps: true },
 );
-
-// Indexing for faster lookups
 
 export default mongoose.models.Shop || mongoose.model("Shop", shopSchema);

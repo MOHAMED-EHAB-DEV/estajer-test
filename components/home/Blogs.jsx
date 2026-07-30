@@ -42,7 +42,7 @@ export default async function Blogs({ lang }) {
               <Blog
                 blog={article}
                 lang={lang}
-                translate={translate()}
+                translate={{ blog: translate("blog") }}
                 key={article._id}
               />
             ))}

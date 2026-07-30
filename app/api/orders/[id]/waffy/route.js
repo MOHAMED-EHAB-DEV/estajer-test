@@ -97,16 +97,35 @@ export async function GET(req, { params }) {
       order.ownerData?.location?.lng !== undefined &&
       order.ownerData?.location?.lng !== null;
     const hasValidIban = !!order.ownerData?.iban;
+
+    const isCompanyWithTax =
+      order.ownerData?.accountType === "company" &&
+      !!order.ownerData?.companyDetails?.taxCode;
+    const bAddr = order.ownerData?.companyDetails?.billingAddress;
+    const hasValidBillingAddress =
+      !isCompanyWithTax ||
+      (!!bAddr?.street &&
+        !!bAddr?.city &&
+        !!bAddr?.district &&
+        !!bAddr?.postalCode &&
+        !!bAddr?.buildingNumber);
+
     return NextResponse.json({
       success: true,
       data: {
         waffyStatus,
         hasValidLocation,
         hasValidIban,
+        isCompanyWithTax,
+        hasValidBillingAddress,
+        billingAddress: order.ownerData?.companyDetails?.billingAddress || null,
         waffyAddress: order.ownerData?.waffyAddress,
         orderStatus: order.status,
         milestones,
         lastCashoutEmailSent: order.lastCashoutEmailSent,
+        adminAmount: order.adminAmount,
+        ownerAmount: order.ownerAmount,
+        customerAmount: order.customerAmount,
       },
     });
   } catch (error) {
@@ -132,7 +151,8 @@ export async function POST(req, { params }) {
     const { action, customAmounts } = body;
     const order = await Order.findById(id)
       .populate("ownerData")
-      .populate("userData.id", "waffyId");
+      .populate("userData.id", "waffyId")
+      .populate("source.refId", "shopCommission");
     if (!order) {
       return NextResponse.json(
         { success: false, error: "Order not found" },
@@ -159,9 +179,20 @@ export async function POST(req, { params }) {
         order.ownerData?.location?.lng !== undefined &&
         order.ownerData?.location?.lng !== null;
       const hasValidIban = !!order.ownerData?.iban;
+      const isCompanyWithTax =
+        order.ownerData?.accountType === "company" &&
+        !!order.ownerData?.companyDetails?.taxCode;
+      const billing = order.ownerData?.companyDetails?.billingAddress;
+      const hasValidBillingAddress =
+        !isCompanyWithTax ||
+        (!!billing?.street &&
+          !!billing?.city &&
+          !!billing?.district &&
+          !!billing?.postalCode &&
+          !!billing?.buildingNumber);
 
-      if (!hasValidLocation || !hasValidIban) {
-        throw new Error("Missing requirements: Location or IBAN");
+      if (!hasValidLocation || !hasValidIban || !hasValidBillingAddress) {
+        throw new Error("Missing requirements: Location, IBAN, or National Address");
       }
       if (!order.ownerData?.waffyAddress && hasValidLocation) {
         await handleUserAddress(
@@ -178,8 +209,56 @@ export async function POST(req, { params }) {
         throw new Error(res.error || "Failed to accept contract");
       return NextResponse.json({ success: true, message: "Contract accepted" });
     }
+    if (action === "SAVE_CUSTOM_AMOUNTS") {
+      let adminAmount = null,
+        ownerAmount = null,
+        customerAmount = null;
+
+      if (customAmounts) {
+        if (
+          customAmounts.platform !== undefined &&
+          customAmounts.owner !== undefined &&
+          customAmounts.customer !== undefined
+        ) {
+          adminAmount = +Number(customAmounts.platform).toFixed(2);
+          ownerAmount = +Number(customAmounts.owner).toFixed(2);
+          customerAmount = +Number(customAmounts.customer).toFixed(2);
+          const total = +(adminAmount + ownerAmount + customerAmount).toFixed(
+            2,
+          );
+          if (Math.abs(total - order.totalAmount) > 1) {
+            return NextResponse.json(
+              {
+                success: false,
+                error: `مجموع التوزيع (${total}) لا يتطابق مع إجمالي الطلب (${order.totalAmount})`,
+              },
+              { status: 400 },
+            );
+          }
+        }
+      }
+
+      await Order.findByIdAndUpdate(order._id, {
+        ownerAmount,
+        adminAmount,
+        customerAmount,
+      });
+
+      return NextResponse.json({
+        success: true,
+        message: "تم حفظ التوزيع المخصص بنجاح",
+      });
+    }
     if (action === "SETTLE_CONTRACT") {
       let adminAmount, ownerAmount, customerAmount;
+
+      let waffyStatus = null;
+      if (order.contractId) {
+        const data = await waffyContract.getContractMilestones(
+          order.contractId,
+        );
+        waffyStatus = data?.data?.content?.[0]?.status;
+      }
 
       if (
         customAmounts &&
@@ -201,30 +280,68 @@ export async function POST(req, { params }) {
             { status: 400 },
           );
         }
+      } else if (
+        order.adminAmount !== undefined &&
+        order.adminAmount !== null
+      ) {
+        adminAmount = order.adminAmount;
+        ownerAmount = order.ownerAmount;
+        customerAmount =
+          order.customerAmount !== undefined && order.customerAmount !== null
+            ? order.customerAmount
+            : 0;
       } else {
-        // Default formula
-        const totalWithoutTax = order.totalAmount - order.tax;
-        const adminCommission = (order.ownerData?.commission || 15) / 100;
-        const adminWithoutTax = totalWithoutTax * adminCommission;
-        const adminTax = adminWithoutTax * 0.15;
-        adminAmount = +(adminWithoutTax + adminTax).toFixed(0);
-        ownerAmount = order.totalAmount - adminAmount;
-        customerAmount = 0;
+        if (waffyStatus === "REFUND_IN_PROGRESS") {
+          adminAmount = 0;
+          ownerAmount = 0;
+          customerAmount = order.totalAmount;
+        } else {
+          // Default formula
+          const totalWithoutTax = order.totalAmount - order.tax;
+          const shopCommission = order.source?.refId?.shopCommission ?? 5;
+          const adminCommission =
+            order.source?.type === "shop"
+              ? shopCommission / 100
+              : (order.ownerData?.commission || 15) / 100;
+          const adminWithoutTax = totalWithoutTax * adminCommission;
+          const adminTax = adminWithoutTax * 0.15;
+          adminAmount = +(adminWithoutTax + adminTax).toFixed(0);
+          ownerAmount = order.totalAmount - adminAmount;
+          customerAmount = 0;
+        }
       }
 
-      await Order.findByIdAndUpdate(order._id, { ownerAmount });
+      await Order.findByIdAndUpdate(order._id, {
+        ownerAmount,
+        adminAmount,
+        customerAmount,
+      });
 
       const customerWaffyId = order.userData?.id?.waffyId || null;
 
-      const res = await waffyContract.settleContract({
-        milestoneId: order.milestoneId,
-        providerId: order.ownerData.waffyId,
-        receiverId: order.ownerData.waffyId,
-        receiverAmount: ownerAmount,
-        adminAmount,
-        customerAmount,
-        customerId: customerWaffyId,
-      });
+      let res;
+      if (waffyStatus === "REFUND_IN_PROGRESS") {
+        res = await waffyContract.settleContract({
+          milestoneId: order.milestoneId,
+          providerId: order.ownerData.waffyId,
+          receiverId: order.userData.id.waffyId,
+          receiverAmount: customerAmount,
+          adminAmount,
+          customerId: order.ownerData.waffyId,
+          customerAmount: ownerAmount,
+        });
+      } else {
+        res = await waffyContract.settleContract({
+          milestoneId: order.milestoneId,
+          providerId: order.ownerData.waffyId,
+          receiverId: order.ownerData.waffyId,
+          receiverAmount: ownerAmount,
+          adminAmount,
+          customerAmount,
+          customerId: customerWaffyId,
+        });
+      }
+
       if (!res.success)
         throw new Error(res.error || "Failed to settle contract");
       return NextResponse.json({ success: true, message: "Contract settled" });

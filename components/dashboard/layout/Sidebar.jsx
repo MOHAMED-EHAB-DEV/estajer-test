@@ -160,7 +160,7 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
           open ? "start-0" : "-start-[21rem]"
         } `}
       >
-        <div className="overflow-auto h-full pb-36 md:p-8 p-3">
+        <div className="overflow-auto h-full pb-36 md:p-8 md:pb-36 p-3">
           <Button
             variant="light"
             color="default"
@@ -216,11 +216,11 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
                       href: fullHref,
                       // target: "_blank",
                     })}
-                    key={idx}
+                    key={href || idx}
                     startContent={
                       <Icon
                         isActive={isActive}
-                        className="md:w-5 md:h-5 w-[18px] h-[18px]"
+                        className="md:w-5 md:h-5 w-4.5 h-4.5"
                       />
                     }
                     className={`md:text-xl text-base justify-start md:py-7 py-4 md:px-6 px-4 relative ${
@@ -233,15 +233,17 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
                     {...(!isActive && { color: "transparent" })}
                     isLoading={isPending && pendingPath === fullHref}
                   >
-                    <span className="flex items-center gap-2">
-                      {text}
-                      {soon && (
-                        <span className="ms-auto bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs px-2 py-1 rounded-full font-medium shadow-sm">
-                          {t("soon")}
-                        </span>
-                      )}
-                    </span>
-                    {isActive && <Arrow className="md:size-8 size-6" />}
+                    <>
+                      <span className="flex items-center gap-2">
+                        {text}
+                        {soon && (
+                          <span className="ms-auto bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs px-2 py-1 rounded-full font-medium shadow-sm">
+                            {t("soon")}
+                          </span>
+                        )}
+                      </span>
+                      {isActive && <Arrow className="md:size-8 size-6" />}
+                    </>
                   </Button>
                 );
               },
@@ -260,7 +262,12 @@ export default function Sidebar({ lang, open, setOpen, translate }) {
         <div className="absolute bottom-0 start-0 w-full">
           {/* gradient fade-out above */}
           <div className="h-6 w-full bg-gradient-to-t from-white to-transparent" />
-          <div className="bg-white border-t border-gray-100 px-4 pt-3 pb-4 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]">
+          <div
+            style={{
+              paddingBottom: "calc(1rem + env(safe-area-inset-bottom, 0px))",
+            }}
+            className="bg-white border-t border-gray-100 px-4 pt-3 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]"
+          >
             <SwitchRole
               langPrefix={langPrefix}
               initialRole={

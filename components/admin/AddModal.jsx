@@ -6,10 +6,12 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Textarea,
-} from "@heroui/react";
+} from "@/components/ui/CustomModal";
+import { Textarea } from "@/components/ui/Input";
 import Button from "../ui/Button";
-import { Input, Select, SelectItem, Label, Switch } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Switch } from "@/components/ui/Switch";
 import { Send } from "../ui/svgs/icons/SendSvg";
 import ImageUploader from "../addProduct/ImageUploader";
 import dynamic from "next/dynamic";
@@ -287,23 +289,25 @@ export default function AddModal({
       onClose={onClose}
       size="4xl"
       placement="center"
+      scrollBehavior="inside"
       classNames={{
-        body: "py-4",
+        body: "p-6 sm:p-8",
         backdrop: "bg-darkNavy/50 backdrop-blur-sm",
-        base: "border-none bg-white dark:bg-gray-900 rounded-3xl",
-        header: "border-b-[1.5px] border-gray-200 mx-8 p-8",
-        footer: "pb-6",
-        closeButton: "absolute top-9 left-8 text-3xl",
+        base: "border-none bg-white dark:bg-gray-900 rounded-3xl overflow-hidden max-h-[90vh] flex flex-col",
+        header: "border-b border-gray-200 p-6 sm:p-8",
+        footer: "p-6 sm:p-8 bg-white border-t border-gray-200",
       }}
     >
-      <ModalContent>
-        <ModalHeader className="text-3xl font-semibold font-IBMPlex text-darkNavy flex items-center gap-4">
+      <ModalContent className="flex flex-col h-full overflow-hidden">
+        <ModalHeader className="text-3xl font-semibold font-IBMPlex text-darkNavy flex justify-start items-center gap-4 pe-16 border-b border-gray-200 p-6 sm:p-8">
           <ModalIcon />
           {isEditing ? t("editTitle") : t("title")}
         </ModalHeader>
-        <ModalBody className="max-h-[70vh] overflow-auto">
+        <ModalBody className="p-6 sm:p-8 overflow-y-auto">
           <div className={`grid ${gridSwitch()} gap-6`}>
             <FormInput
+              labelPlacement="outside"
+              size="sm"
               label={t("titleAr")}
               name="nameAr"
               placeholder={t("titleAr")}
@@ -312,6 +316,8 @@ export default function AddModal({
               type="text"
             />
             <FormInput
+              labelPlacement="outside"
+              size="sm"
               label={t("titleEn")}
               placeholder={t("titleEn")}
               name="nameEn"
@@ -325,6 +331,7 @@ export default function AddModal({
                   base: "max-w-full !mt-0",
                   input: "text-base !rounded-md",
                   label: "mt-4 text-sm",
+                  popoverContent: "z-modal",
                 }}
                 labelPlacement="outside"
                 defaultSelectedKeys={[data.status]}
@@ -351,6 +358,8 @@ export default function AddModal({
               <div className="h-[1.5px] w-full bg-black/10" />
               <div className="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 gap-6">
                 <FormInput
+                  labelPlacement="outside"
+                  size="sm"
                   label={t("key")}
                   name="key"
                   onChange={handleChange}
@@ -363,6 +372,7 @@ export default function AddModal({
                     base: "max-w-full !mt-0",
                     input: "text-base !rounded-md",
                     label: "mt-4 text-sm",
+                    popoverContent: "z-modal",
                   }}
                   labelPlacement="outside"
                   label={t("categoryType")}
@@ -394,6 +404,8 @@ export default function AddModal({
               </div>
               <div className="grid grid-rows-1 md:grid-cols-2 gap-6">
                 <FormInput
+                  labelPlacement="outside"
+                  size="sm"
                   label={t("order")}
                   name="order"
                   onChange={handleChange}
@@ -438,6 +450,8 @@ export default function AddModal({
                 </span>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormInput
+                    labelPlacement="outside"
+                    size="sm"
                     label={t("seoTitleAr")}
                     name="seoTitleAr"
                     onChange={handleChange}
@@ -446,6 +460,8 @@ export default function AddModal({
                     isRequired={false}
                   />
                   <FormInput
+                    labelPlacement="outside"
+                    size="sm"
                     label={t("seoTitleEn")}
                     name="seoTitleEn"
                     onChange={handleChange}
@@ -455,6 +471,7 @@ export default function AddModal({
                   />
                   {/* use Textare instead of form input */}
                   <Textarea
+                    labelPlacement="outside"
                     label={t("seoDescriptionAr")}
                     name="seoDescriptionAr"
                     onChange={handleChange}
@@ -462,13 +479,13 @@ export default function AddModal({
                     type="text"
                     isRequired={false}
                     minRows={2}
-                    labelPlacement="outside"
                     classNames={{
                       input: "resize-y text-base text-right",
                       label: "text-sm pb-3 flex items-center",
                     }}
                   />
                   <Textarea
+                    labelPlacement="outside"
                     label={t("seoDescriptionEn")}
                     name="seoDescriptionEn"
                     onChange={handleChange}
@@ -476,13 +493,14 @@ export default function AddModal({
                     type="text"
                     isRequired={false}
                     minRows={2}
-                    labelPlacement="outside"
                     classNames={{
                       input: "resize-y text-base text-right",
                       label: "text-sm pb-3 flex items-center",
                     }}
                   />
                   <FormInput
+                    labelPlacement="outside"
+                    size="sm"
                     label={t("seoKeywordsAr")}
                     name="seoKeywordsAr"
                     onChange={handleChange}
@@ -491,6 +509,8 @@ export default function AddModal({
                     isRequired={false}
                   />
                   <FormInput
+                    labelPlacement="outside"
+                    size="sm"
                     label={t("seoKeywordsEn")}
                     name="seoKeywordsEn"
                     onChange={handleChange}
@@ -550,7 +570,7 @@ export default function AddModal({
           <div className="h-[1.5px] w-full bg-black/10" />
           {modalKey === "categories" ? (
             <div className="flex flex-col gap-4">
-              <span className="relative text-medium text-darkNavy w-fit">
+              <span className="relative text-base text-darkNavy w-fit">
                 {t("image")}
                 {!isSubcategory && (
                   <span className="text-primary absolute -left-2 -top-1">
@@ -578,6 +598,7 @@ export default function AddModal({
                   base: "max-w-full !mt-0",
                   input: "text-base !rounded-md",
                   label: "mt-4 text-sm",
+                  popoverContent: "z-modal",
                 }}
                 labelPlacement="outside"
                 defaultSelectedKeys={["all"]}
@@ -594,6 +615,8 @@ export default function AddModal({
                 </SelectItem>
               </Select>
               <FormInput
+                labelPlacement="outside"
+                size="sm"
                 label={t("notificationLink")}
                 name="notificationLink"
                 onChange={handleChange}

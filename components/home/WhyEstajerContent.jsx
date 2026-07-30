@@ -1,10 +1,35 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  lazy,
+  Suspense,
+  useRef,
+} from "react";
 import Image from "next/image";
 import { useTranslations } from "@/hooks/useTranslations";
 import ImprovedIcons from "../ui/svgs/ImprovedWhyIcons";
 import { anyImgUrl } from "@/utils/ImageUrl";
-import useEmblaCarousel from "embla-carousel-react";
+
+const EmblaInit = lazy(() =>
+  import("embla-carousel-react").then((mod) => {
+    const useEmblaCarousel = mod.default;
+    function Inner({ onReady, lang }) {
+      const [emblaRef, emblaApi] = useEmblaCarousel({
+        direction: lang === "ar" ? "rtl" : "ltr",
+        breakpoints: {
+          "(min-width: 768px)": { active: false },
+        },
+      });
+      useEffect(() => {
+        onReady(emblaRef, emblaApi);
+      }, [emblaRef, emblaApi, onReady]);
+      return null;
+    }
+    return { default: Inner };
+  }),
+);
 
 export default function WhyEstajerContent({ translate, lang }) {
   const trans = useTranslations(translate);
@@ -32,7 +57,7 @@ export default function WhyEstajerContent({ translate, lang }) {
     },
     {
       id: "icon4",
-      icon: <ImprovedIcons.Local />,
+      icon: <ImprovedIcons.SecurePay />,
       title: tIcons("icon4.title"),
       desc: tIcons("icon4.description"),
     },
@@ -50,12 +75,30 @@ export default function WhyEstajerContent({ translate, lang }) {
     },
   ];
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    direction: lang === "ar" ? "rtl" : "ltr",
-    breakpoints: {
-      "(min-width: 768px)": { active: false },
-    },
-  });
+  const containerRef = useRef(null);
+  const [shouldLoadCarousel, setShouldLoadCarousel] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setShouldLoadCarousel(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const [emblaRef, setEmblaRef] = useState(null);
+  const [emblaApi, setEmblaApi] = useState(null);
+
+  const handleEmblaReady = useCallback((ref, api) => {
+    setEmblaRef(() => ref);
+    setEmblaApi(api);
+  }, []);
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState([]);
@@ -70,6 +113,12 @@ export default function WhyEstajerContent({ translate, lang }) {
     emblaApi.on("reInit", onSelect);
     onInit();
     onSelect();
+    return () => {
+      emblaApi.off("init", onInit);
+      emblaApi.off("reInit", onInit);
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onSelect);
+    };
   }, [emblaApi]);
 
   const scrollTo = useCallback(
@@ -78,7 +127,10 @@ export default function WhyEstajerContent({ translate, lang }) {
   );
 
   return (
-    <section className="relative overflow-hidden py-10 md:py-24 bg-gradient-to-br from-white via-[#fff8f3] to-[#fff5ed]">
+    <section
+      ref={containerRef}
+      className="relative overflow-hidden py-10 md:py-24 bg-gradient-to-br from-white via-[#fff8f3] to-[#fff5ed]"
+    >
       {/* Background Shapes */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute -top-40 -start-0 w-[400px] h-[400px] rounded-full bg-primary/15 blur-3xl opacity-30"></div>
@@ -97,10 +149,15 @@ export default function WhyEstajerContent({ translate, lang }) {
 
         {/* ── MOBILE: Embla slider (hidden on md+) ── */}
         <div className="md:hidden" dir={lang === "ar" ? "rtl" : "ltr"}>
+          {shouldLoadCarousel && (
+            <Suspense fallback={null}>
+              <EmblaInit onReady={handleEmblaReady} lang={lang} />
+            </Suspense>
+          )}
           {/* Embla viewport */}
           <div
             className="overflow-hidden w-full cursor-grab active:cursor-grabbing"
-            ref={emblaRef}
+            ref={emblaRef ?? undefined}
           >
             {/* Embla container — only the 6 card slides, nothing else */}
             <div className="flex gap-3 pb-4">
@@ -175,16 +232,15 @@ export default function WhyEstajerContent({ translate, lang }) {
                       strokeWidth="3"
                     />
                   </svg>
-                  <div className="absolute top-1/2 -translate-y-1/2 w-[98%] aspect-square bg-gradient-to-t from-primary/10 to-transparent rounded-full border border-primary/20"></div>
+                  <div className="absolute top-1/2 -translate-y-1/2 w-[98%] aspect-square bg-gradient-to-t from-[#fff3ec] to-[#fefdfd] rounded-full border border-[#fff3ec]"></div>
                 </div>
                 <Image
-                  src={anyImgUrl({ src: "why-estajer-bg_ndjn4c", size: 800 })}
+                  src={anyImgUrl({ src: "why-estajer_wgtuaw", size: 448 })}
                   alt="Estajer Platform"
                   fill
                   draggable={false}
                   unoptimized
                   className="object-contain relative z-10"
-                  priority
                 />
               </div>
             </div>

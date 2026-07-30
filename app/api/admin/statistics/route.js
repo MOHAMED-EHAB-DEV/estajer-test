@@ -39,7 +39,7 @@ export async function GET(req) {
     if (user.accountType !== "admin") {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
-        { status: 403 }
+        { status: 403 },
       );
     }
 

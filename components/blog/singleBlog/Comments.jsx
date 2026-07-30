@@ -127,7 +127,7 @@ const Comments = ({ trans, comments, blogId }) => {
                       <h3 className="font-IBMPlex font-bold text-black text-2xl">
                         {comment.owner.fullName}
                       </h3>
-                      <p className="font-NotoSansArabic text-[18px] text-[#5B5656]">
+                      <p className="font-NotoSansArabic text-[18px] text-mutedGray">
                         {comment.text}
                       </p>
                     </div>
@@ -155,7 +155,7 @@ const Comments = ({ trans, comments, blogId }) => {
                         onClick={() => handleAddSubComment(comment._id)}
                       >
                         <Message />
-                        <span className="font-NotoSansArabic text-darkNavy font-medium text-medium">
+                        <span className="font-NotoSansArabic text-darkNavy font-medium text-base">
                           {t("respond")}
                         </span>
                       </div>
@@ -187,7 +187,7 @@ const Comments = ({ trans, comments, blogId }) => {
                             <h3 className="font-IBMPlex font-bold text-black text-2xl">
                               {sub.owner.fullName}
                             </h3>
-                            <p className="font-NotoSansArabic text-[18px] text-[#5B5656]">
+                            <p className="font-NotoSansArabic text-[18px] text-mutedGray">
                               {sub.text}
                             </p>
                           </div>

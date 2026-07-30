@@ -8,7 +8,7 @@ export const Chevron = ({ className, size = 16, color = "currentColor", ...rest 
     strokeLinejoin="round"
     width={size}
     height={size}
-    className={className}
+    className={className || "md:w-4 w-3 md:h-4 h-3"}
     {...rest}
   >
     <path d="M6 9l6 6 6-6" />

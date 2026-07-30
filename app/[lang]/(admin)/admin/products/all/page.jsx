@@ -10,11 +10,12 @@ async function getInitialData({ lang, queryParams }) {
       compressed: true,
       showAll: true,
       owner: true,
+      isAdminPage: true,
       fields: `images,owner,${
         lang === "ar" ? "nameAr" : "nameEn"
       },rental,rating,pricingModel,location,${
         lang === "ar" ? "addressAr" : "addressEn"
-      },rejected,approved,deleted,hidden,rejectMessage,category,subCategory,quantity,minQuantity,status,createdAt,updatedAt,isMain,nana`,
+      },rejected,approved,deleted,hidden,rejectMessage,category,subCategory,quantity,minQuantity,status,createdAt,updatedAt,isMain,nana,pendingChanges`,
       ...queryParams,
     });
 
@@ -43,7 +44,9 @@ export default async function AdminProducts({ params, searchParams }) {
   return (
     <div className="relative max-w-screen-2xl mx-auto md:px-4 md:pt-8">
       <div className="flex justify-between items-center mb-2 md:mb-4">
-        <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-[1.1rem] font-IBMPlex font-bold">المنتجات</h1>
+        <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-1.1 font-IBMPlex font-bold">
+          المنتجات
+        </h1>
       </div>
       <div className="relative md:static pt-20 md:pt-0">
         <AdminProductContainer

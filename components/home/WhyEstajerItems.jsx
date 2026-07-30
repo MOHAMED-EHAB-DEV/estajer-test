@@ -13,7 +13,7 @@ const IconItem = ({ Icon, title, description, index }) => {
       <div className="rounded-full shadow-[0px_0px_23px_0px_rgba(244,138,66,0.6)]">
         {Icon}
       </div>
-      <div className="xl:text-[1.35rem] md:text-[1.25rem] text-[1.15rem] font-semibold font-IBMPlex">
+      <div className="xl:text-1.35 md:text-[1.25rem] text-[1.15rem] font-semibold font-IBMPlex">
         {title}
       </div>
       <p className="px-2 -mt-0.5 xl:text-base md:text-[0.92rem] text-[0.875rem]">

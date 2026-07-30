@@ -22,7 +22,7 @@ export default function ProductSearch({
   if (!showProductSearch) return null;
 
   return (
-    <div className="absolute bottom-[80px] start-3 end-3 bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.12)] border border-gray-100 z-[100] flex flex-col max-h-[70%] overflow-hidden animate-in slide-in-from-bottom-3 duration-200">
+    <div className="absolute bottom-[80px] start-3 end-3 bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.12)] border border-gray-100 z-modal flex flex-col max-h-[70%] overflow-hidden animate-in slide-in-from-bottom-3 duration-200">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
         <div className="flex items-center gap-2.5">

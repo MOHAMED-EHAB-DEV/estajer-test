@@ -16,6 +16,7 @@ export default function ChatHeader({
   t,
   onClose,
   aiAssistant,
+  supportMode,
   isAdminChat,
   participant1,
   participant2,
@@ -25,13 +26,13 @@ export default function ChatHeader({
   const [showContact, setShowContact] = useState(false);
   const ASSISTANT_AVATAR =
     "https://res.cloudinary.com/dhfzkadm2/image/upload/v1763326241/abc0121a-15f7-40ba-adf3-07b2e2eba8d1_ev61fp.webp";
-
+  const lastSeenValue = lastSeen ? formatLastSeen(lastSeen) : "";
   return (
     <div
       className={`${
         small ? "bg-darkNavy/95 p-4" : "bg-white p-6"
       } flex justify-between items-center rounded-t-lg ${
-        isAdminChat ? "border-b border-b-[#EAEEF3]" : ""
+        isAdminChat ? "border-b border-b-surfaceBlue" : ""
       }`}
     >
       <div className="flex items-center gap-3">
@@ -78,7 +79,9 @@ export default function ChatHeader({
               unoptimized
               width={45}
               height={45}
-              className="rounded-full border-2 bg-white h-10 w-10 md:h-[45px] md:w-[45px] object-cover"
+              className={`rounded-full border-2 bg-white h-10 w-10 md:h-[45px] md:w-[45px] ${
+                supportMode ? "object-contain p-0.5" : "object-cover"
+              }`}
             />
             <span
               className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
@@ -90,7 +93,7 @@ export default function ChatHeader({
         <div className="flex flex-col">
           <div
             className={`${
-              small ? "text-white" : "text-[#0D092B]"
+              small ? "text-white" : "text-darkNavy"
             } flex items-center gap-2 text-sm md:text-base`}
           >
             {isAdminChat ? (
@@ -105,18 +108,21 @@ export default function ChatHeader({
                 dir={isArabic(otherUserName) ? "rtl" : "ltr"}
                 className="font-bold"
               >
-                {aiAssistant ? otherUserName : removeLastWord(otherUserName)}
+                {aiAssistant || supportMode
+                  ? otherUserName
+                  : removeLastWord(otherUserName)}
               </h3>
             )}
           </div>
           {!isAdminChat && (
             <span
-              className={`text-xs md:text-sm ${small ? "text-[#ddd]" : "text-[#5B5656]"}`}
+              className={`text-xs md:text-sm ${small ? "text-[#ddd]" : "text-mutedGray"}`}
             >
               {otherUserOnline
                 ? t("chat.online")
-                : lastSeen &&
-                  `${t("chat.lastSeen")} ${formatLastSeen(lastSeen)}`}
+                : lastSeenValue
+                  ? `${t("chat.lastSeen")} ${lastSeenValue}`
+                  : ""}
             </span>
           )}
         </div>
@@ -130,14 +136,14 @@ export default function ChatHeader({
               title="Contact Info"
             >
               <UserCard
-                className={`${small ? "text-white" : "text-[#0D092B]"} w-[22px] h-[22px] md:w-[24px] md:h-[24px]`}
+                className={`${small ? "text-white" : "text-darkNavy"} w-[22px] h-[22px] md:w-[24px] md:h-[24px]`}
                 fill={small ? "#ffffff" : "#0D092B"}
                 width={24}
                 height={24}
               />
             </button>
             {showContact && (
-              <div className="absolute end-0 top-full mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-100 p-4 z-50 text-[#0D092B] animate-in fade-in slide-in-from-top-2">
+              <div className="absolute end-0 top-full mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-100 p-4 z-50 text-darkNavy animate-in fade-in slide-in-from-top-2">
                 <div className="text-sm font-bold mb-2 border-b border-gray-100 pb-2">
                   {t("chat.contactInfo")}
                 </div>
@@ -187,7 +193,7 @@ export default function ChatHeader({
         >
           <X
             size={16}
-            className={`${small ? "text-white" : "text-[#0D092B]"} w-[18px] h-[18px] md:w-5 md:h-5`}
+            className={`${small ? "text-white" : "text-darkNavy"} w-4.5 h-4.5 md:w-5 md:h-5`}
           />
         </button>
       </div>

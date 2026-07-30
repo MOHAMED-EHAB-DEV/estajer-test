@@ -94,7 +94,7 @@ const LatestMessages = async ({ translate, placeholder }) => {
                       width={35}
                       height={35}
                       unoptimized
-                      className="rounded-full translate-x-4 w-[30px] h-[30px] md:w-[50px] md:h-[50px]"
+                      className="rounded-full translate-x-4 w-7.5 h-[30px] md:w-[50px] md:h-[50px]"
                     />
                   )}
                 </div>
@@ -107,11 +107,11 @@ const LatestMessages = async ({ translate, placeholder }) => {
                         </span>
                       ))}
                     </div>
-                    <p className="font-NotoSansArabic text-[11px] md:text-sm text-[#5B5656] line-clamp-2 break-all">
+                    <p className="font-NotoSansArabic text-[11px] md:text-sm text-mutedGray line-clamp-2 break-all">
                       {message}
                     </p>
                   </div>
-                  <p className="min-w-max font-NotoSansArabic text-[10px] md:text-xs text-[#5B5656]">
+                  <p className="min-w-max font-NotoSansArabic text-[10px] md:text-xs text-mutedGray">
                     {date}
                   </p>
                 </div>

@@ -15,11 +15,17 @@
 /coverage
 
 # next.js
+/scripts
+.cache
+.cache/
+/.cache
 /.cache/
 /.next/
 /.next-build/
 /out/
-
+caddy.exe
+Caddyfile
+*.md
 # production
 /build
 

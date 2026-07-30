@@ -18,7 +18,7 @@ export default function TicketPage({ lang, translate }) {
       <div className="flex max-w-screen-xl mx-auto px-4">
         <div className="grow md:p-10 px-4 py-8 bg-white rounded-xl shadow">
           <div className="md:mb-12 mb-8 text-center">
-            <div className="lg:text-[1.9rem] md:text-[1.7rem] text-[1.5rem] font-semibold text-darkNavy font-IBMPlex mb-2">
+            <div className="lg:text-1.9 md:text-[1.7rem] text-[1.5rem] font-semibold text-darkNavy font-IBMPlex mb-2">
               {t("formTitle")}
             </div>
           </div>

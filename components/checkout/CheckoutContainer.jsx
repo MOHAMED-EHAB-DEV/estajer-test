@@ -6,8 +6,8 @@ import { Send } from "../ui/svgs/icons/SendSvg";
 import { useTranslations } from "@/hooks/useTranslations";
 import PageTitle from "../shared/PageTitle";
 import { anyImgUrl } from "@/utils/ImageUrl";
-import { Input, Textarea } from "@heroui/input";
-import { useDisclosure } from "@heroui/use-disclosure";
+import { Input, Textarea } from "@/components/ui/Input";
+import { useDisclosure } from "@/components/ui/CustomModal";
 import Button from "../ui/Button";
 import { useUser } from "@/context/UserContext";
 import { toast } from "@/utils/toast";
@@ -19,6 +19,7 @@ import { differenceInDays } from "date-fns";
 import formatDuration from "@/utils/formatDuration";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { CheckCircle } from "../ui/svgs/Admin";
+import CheckoutTrustIndicators from "./CheckoutTrustIndicators";
 
 // Helper function to calculate delivery cost based on pricing model
 const calculateDeliveryCost = (product, userLocation, userAddressData) => {
@@ -91,10 +92,9 @@ function FormInput({ ...props }) {
       radius="sm"
       classNames={{
         mainWrapper: "mt-10",
-        label:
-          "text-[1rem] md:text-[1.2rem] lg:text-[1.2rem] -mt-2 flex items-center",
+        label: "text-[1rem] md:text-1.2 lg:text-1.2 -mt-2 flex items-center",
         base: "max-w-full !mt-0",
-        input: " text-[0.9rem] md:text-[1.2rem] lg:text-base",
+        input: " text-[0.9rem] md:text-1.2 lg:text-base",
         inputWrapper: "bg-gray-100 h-8 md:h-12",
       }}
       {...props}
@@ -248,14 +248,16 @@ export default function CheckoutContainer({ translate, lang }) {
   const handleChange = ({ target: { name, value } }) =>
     setData((prev) => ({ ...prev, [name]: value }));
 
-  const checkout = async (e) => {
-    e.preventDefault();
+  const checkout = async (e, currentUser = null) => {
+    if (e && e.preventDefault) e.preventDefault();
+
+    const activeUser = currentUser || user;
 
     if (
-      user &&
-      !user.nafathVerified &&
-      user.accountType !== "admin" &&
-      user.accountType !== "company"
+      activeUser &&
+      !activeUser.nafathVerified &&
+      activeUser.accountType !== "admin" &&
+      activeUser.accountType !== "company"
     )
       return onOpen();
 
@@ -283,12 +285,12 @@ export default function CheckoutContainer({ translate, lang }) {
               ? +item.selectedPackage.price?.toFixed(0)
               : +item.product?.rental?.value?.toFixed(0),
           quantity: item.quantity,
-          item_category: item.product?.category,
-          item_category2: item.product?.subCategory,
           days: differenceInDays(item.endDate, item.startDate) + 1,
-          services_count: item.selectedServices.length,
-          city: item.product?.city,
+          item_category: item.product?.category,
           currency: "SAR",
+          seller_name: item.product?.owner?.fullName,
+          item_category2: item.product?.subCategory,
+          city: item.product?.city,
         }));
         const totalAmount = +(
           totalPrice +
@@ -296,22 +298,19 @@ export default function CheckoutContainer({ translate, lang }) {
           totalTax -
           totalDiscount
         ).toFixed(0);
+        const totalValue = +(totalAmount || 0).toFixed(0);
+
         sendGTMEvent({
-          event: "added_payment_info",
-          location: "checkout",
-          items_count: cartItems.reduce((sum, item) => sum + item.quantity, 0),
-          value: totalAmount,
+          event: "add_payment_info",
+          ecommerce: {
+            currency: "SAR",
+            value: totalValue,
+            items: items,
+            shipping: +finalDeliveryCost.toFixed(0),
+            discount: +totalDiscount.toFixed(0),
+          },
           delivery_type:
             cartItems[0]?.product?.rental?.delivery?.type || "none",
-          shipping: +finalDeliveryCost.toFixed(0),
-          discount: +totalDiscount.toFixed(0),
-          customer: {
-            name: data.fullName,
-            email: data.email,
-            phone: data.phone,
-            address: data.address,
-          },
-          items,
         });
       } catch (_) {}
 
@@ -350,10 +349,12 @@ export default function CheckoutContainer({ translate, lang }) {
           mode: "redirect",
         });
         localStorage.removeItem("cart");
+        window.dispatchEvent(new Event("cartUpdated"));
         setCartItems([]);
         toast.success(ToastMessage(t2("success")));
       } else {
         localStorage.removeItem("cart");
+        window.dispatchEvent(new Event("cartUpdated"));
         setCartItems([]);
         toast.success(ToastMessage(t2("success")));
         window.location.href = `${result.data.paymentUrl}&userTokenUrl=${result.customerToken}`;
@@ -366,10 +367,11 @@ export default function CheckoutContainer({ translate, lang }) {
   };
 
   const handleNafathSuccess = () => {
-    setUser({ ...user, nafathVerified: true });
+    const updatedUser = { ...user, nafathVerified: true };
+    setUser(updatedUser);
     toast.success(ToastMessage("Verification successful!"));
     onClose();
-    checkout();
+    checkout(null, updatedUser);
   };
 
   const handleNafathError = (error) => toast.error(ToastMessage(error));
@@ -390,7 +392,7 @@ export default function CheckoutContainer({ translate, lang }) {
         description={t("description")}
       />
       <div className="max-w-screen-2xl mx-auto  py-4 md:py-12 border-t">
-        <div className="flex w-full gap-8 mb-4 md:mb-12">
+        <div className="flex w-full lg:gap-8 md:gap-6 gap-4 mb-4 md:mb-12">
           <div className="grid lg:grid-cols-2 gap-6 w-full ">
             {cartItems.map((item) => {
               const daysNumber =
@@ -494,7 +496,9 @@ export default function CheckoutContainer({ translate, lang }) {
                             )}
                         </p>
                         <p>
-                          {t("quantity")}: {item.quantity}
+                          {item.product?.saleUnit
+                            ? `${item.quantity} ${trans(`unit.${item.product.saleUnit}`)}`
+                            : `${t("quantity")}: ${item.quantity}`}
                         </p>
                         {item.deliveryType && (
                           <p>
@@ -530,28 +534,30 @@ export default function CheckoutContainer({ translate, lang }) {
                     <div className="flex justify-between mb-2">
                       {t("subtotal")}
                       <span className="flex gap-1 items-center">
-                        {productTotalPrice} <Currency size={15} />
+                        {productTotalPrice}{" "}
+                        <Currency className="w-3.75 h-3.75" />
                       </span>
                     </div>
                     <div className="flex justify-between mb-2">
                       {t("discount")}
                       <span className="flex gap-1 items-center text-green-600">
                         - {item.product.discount.toFixed(0)}{" "}
-                        <Currency size={18} color="#16a34a" />
+                        <Currency className="w-4.5 h-4.5" color="#16a34a" />
                       </span>
                     </div>
                     {servicesTotalPrice > 0 && (
                       <div className="flex justify-between mb-2">
                         {t("additionalServices")}
                         <span className="flex gap-1 items-center">
-                          {servicesTotalPrice.toFixed(0)} <Currency size={18} />
+                          {servicesTotalPrice.toFixed(0)}{" "}
+                          <Currency className="w-4.5 h-4.5" />
                         </span>
                       </div>
                     )}
                     <div className="flex justify-between mb-2 md:gap-x-14">
                       {t("tax")}
                       <span className="flex gap-1 items-center">
-                        {tax} <Currency size={18} />
+                        {tax} <Currency className="w-4.5 h-4.5" />
                       </span>
                     </div>
                     <div className="flex justify-between mb-2">
@@ -562,7 +568,7 @@ export default function CheckoutContainer({ translate, lang }) {
                           tax -
                           item.product.discount
                         ).toFixed(0)}{" "}
-                        <Currency size={15} />
+                        <Currency className="w-3.75 h-3.75" />
                       </span>
                     </div>
                   </div>
@@ -573,114 +579,124 @@ export default function CheckoutContainer({ translate, lang }) {
         </div>
         <form onSubmit={checkout} className="w-full">
           {/* Header */}
-          <div className="p-2 rounded-t-lg shadow-sm bg-[#EAEEF3] md:p-6  mx-2 my-2 ">
-            <h1 className="text-[1.2rem] font-bold md:text-xl">
+          <div className="p-2 rounded-t-lg shadow-sm bg-surfaceBlue md:p-6 mx-4 my-2 ">
+            <h1 className="text-1.2 font-bold md:text-xl">
               {t2("completePayment")}
             </h1>
           </div>
 
-          <div className="mt-2 md:mt-6 p-4 shadow-sm mb-2 rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2 md:gap-4 md:mb-4 ">
-              <FormInput
-                name="fullName"
-                label={t2("fullName")}
-                placeholder={t2("fullNamePlaceholder")}
-                value={data.fullName}
-                onChange={handleChange}
-              />
-              <FormInput
-                label={t2("email")}
-                type="email"
-                placeholder={t2("emailPlaceholder")}
-                name="email"
-                value={data.email}
-                onChange={handleChange}
-              />
-              <FormInput
-                label={t2("phone")}
-                placeholder={t2("phonePlaceholder")}
-                name="phone"
-                type="tel"
-                value={data.phone}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-4">
-              <Textarea
-                name="notes"
-                placeholder={t2("notesPlaceholder")}
-                label={t2("notes")}
-                labelPlacement="outside"
-                classNames={{
-                  label: "text-lg flex items-center",
-                  base: "max-w-full !mt-6",
-                  input: "text-base",
-                }}
-                value={data.notes}
-                onChange={handleChange}
-              />
-              <div className="flex items-center gap-1 mt-2">
-                <svg
-                  className="w-4 h-4 text-gray-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          {/* 2-Column Layout */}
+          <div className="flex flex-col lg:flex-row gap-8 items-start mb-8 mx-4 mt-4 md:mt-8">
+            {/* Main Form Column (Right in RTL) */}
+            <div className="flex-1 w-full flex flex-col gap-6">
+              {/* Personal Info Box */}
+              <div className="p-6 shadow-sm rounded-3xl border border-gray-100 bg-white">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
+                  <FormInput
+                    name="fullName"
+                    label={t2("fullName")}
+                    placeholder={t2("fullNamePlaceholder")}
+                    value={data.fullName}
+                    onChange={handleChange}
                   />
-                </svg>
-                <p className="text-xs md:text-sm text-gray-600 font-medium">
-                  {t2("notesHint")}
-                </p>
+                  <FormInput
+                    label={t2("email")}
+                    type="email"
+                    placeholder={t2("emailPlaceholder")}
+                    name="email"
+                    value={data.email}
+                    onChange={handleChange}
+                  />
+                  <FormInput
+                    label={t2("phone")}
+                    placeholder={t2("phonePlaceholder")}
+                    name="phone"
+                    type="tel"
+                    value={data.phone}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mt-4">
+                  <Textarea
+                    name="notes"
+                    placeholder={t2("notesPlaceholder")}
+                    label={t2("notes")}
+                    labelPlacement="outside"
+                    classNames={{
+                      label: "text-lg flex items-center",
+                      base: "max-w-full !mt-6",
+                      input: "text-base",
+                    }}
+                    value={data.notes}
+                    onChange={handleChange}
+                    minRows={4}
+                  />
+                  <div className="flex items-center gap-1 mt-2">
+                    <svg
+                      className="w-4 h-4 text-gray-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <p className="text-xs md:text-sm text-gray-600 font-medium">
+                      {t2("notesHint")}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="mb-2">
-              <div className="md:text-lg text-base mb-2">
-                {t2("address")} <span className="text-red-500">*</span>
-              </div>
-              <UserLocation
-                errorMessage={t2("locationRequired")}
-                lang={lang}
-                address={data.address}
-                setAddress={(address) =>
-                  setData((prev) => ({ ...prev, address }))
-                }
-                setAddressData={(addressData) =>
-                  setData((prev) => ({ ...prev, addressData }))
-                }
-                markerPosition={data.location}
-                setMarkerPosition={(location) =>
-                  setData((prev) => ({ ...prev, location }))
-                }
-              />
-            </div>
-          </div>
 
-          {/* Order Summary */}
-          <div className="py-2 md:py-6">
-            <div className="flex flex-col mx-3 my-3 md:flex-row justify-between items-start md:items-center gap-8">
-              <div className="bg-[#f2f3f5] p-6 rounded-3xl shadow md:shadow-none w-full md:w-[30rem]">
+              {/* Map Box */}
+              <div className="p-6 bg-white border border-gray-100 rounded-3xl shadow-sm">
+                <div className="md:text-lg text-base font-bold mb-4">
+                  {t2("address")} <span className="text-red-500">*</span>
+                </div>
+                <UserLocation
+                  errorMessage={t2("locationRequired")}
+                  lang={lang}
+                  address={data.address}
+                  setAddress={(address) =>
+                    setData((prev) => ({ ...prev, address }))
+                  }
+                  setAddressData={(addressData) =>
+                    setData((prev) => ({ ...prev, addressData }))
+                  }
+                  markerPosition={data.location}
+                  setMarkerPosition={(location) =>
+                    setData((prev) => ({ ...prev, location }))
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Summary Column */}
+            <div className="w-full lg:w-[30rem] shrink-0 flex flex-col gap-6 sticky top-24">
+              <div className="bg-[#f2f3f5] p-6 rounded-3xl shadow-sm w-full">
                 <div className="flex justify-between md:gap-14 gap-6 md:text-lg text-base mb-2">
                   <span>{t2("subtotal")}</span>
                   <span className="flex gap-1 items-center">
-                    {+totalPrice.toFixed(0)} <Currency size={18} />
+                    {+totalPrice.toFixed(0)}{" "}
+                    <Currency className="w-4.5 h-4.5" />
                   </span>
                 </div>
                 <div className="flex justify-between md:gap-14 gap-6 md:text-lg text-base mb-2">
                   <span>{t2("discount")}</span>
                   <span className="flex gap-1 items-center">
-                    {+totalDiscount.toFixed(0)} <Currency size={18} />
+                    {+totalDiscount.toFixed(0)}{" "}
+                    <Currency className="w-4.5 h-4.5" />
                   </span>
                 </div>
                 <div className="flex justify-between md:gap-14 gap-6 md:text-lg text-base mb-2">
                   <span>{t2("delivery")}</span>
                   <span className="flex gap-1 items-center">
                     {isDeliveryAvailable ? +finalDeliveryCost.toFixed(0) : 0}{" "}
-                    <Currency size={18} />
+                    <Currency className="w-4.5 h-4.5" />
                   </span>
                 </div>
                 {!isDeliveryAvailable && unavailableProducts.length > 0 && (
@@ -688,10 +704,8 @@ export default function CheckoutContainer({ translate, lang }) {
                     {unavailableProducts.length ===
                     cartItems.filter((item) => item.deliveryType !== "receive")
                       .length ? (
-                      // All delivery products are unavailable
                       t2("deliveryNotAvailable")
                     ) : (
-                      // Some products are unavailable
                       <div>
                         <div className="font-semibold mb-1">
                           {lang === "ar"
@@ -710,7 +724,7 @@ export default function CheckoutContainer({ translate, lang }) {
                 <div className="flex justify-between md:gap-14 gap-6 md:text-lg text-base mb-2">
                   <span>{t2("tax")}</span>
                   <span className="flex gap-1 items-center">
-                    {+totalTax.toFixed(0)} <Currency size={18} />
+                    {+totalTax.toFixed(0)} <Currency className="w-4.5 h-4.5" />
                   </span>
                 </div>
                 <div className="flex justify-between md:gap-14 gap-6 text-lg font-bold">
@@ -724,26 +738,27 @@ export default function CheckoutContainer({ translate, lang }) {
                         totalDiscount
                       ).toFixed(0)
                     }{" "}
-                    <Currency size={18} />
+                    <Currency className="w-4.5 h-4.5" />
                   </span>
                 </div>
                 {totalInsurance > 0 && (
-                  <div className="font-semibold text-gray-700 mt-6 flex flex-wrap gap-1 justify-center text-center">
+                  <div className="font-semibold text-gray-700 mt-6 text-center">
                     {t("warnMsg")}
-                    <div className="flex gap-1 items-center justify-center">
+                    <div className="inline-flex ps-1 gap-1 items-center justify-center">
                       <span className="text-primary ">{totalInsurance}</span>{" "}
-                      <Currency size={20} />
+                      <Currency className="w-[16px] h-[16px]" />
                       {t("extra")}
                     </div>
                   </div>
                 )}
               </div>
+
               <Button
                 type="submit"
                 isLoading={loading}
-                className="bg-orange-500 hover:bg-orange-600 text-white text-[1rem] lg:text-lg  rounded-full px-10 py-7 flex items-center gap-2 w-full md:w-auto"
+                className="text-[1rem] lg:text-lg rounded-full px-10 py-7 flex items-center justify-center gap-2 w-full shadow-lg"
               >
-                <span className="text-[1rem] lg:text-lg  ">
+                <span className="text-[1rem] lg:text-lg">
                   {t2("completePayment")}{" "}
                   {
                     +(
@@ -761,6 +776,10 @@ export default function CheckoutContainer({ translate, lang }) {
                   <Send className="lg:w-6 lg:h-6 w-4 h-4" />
                 </span>
               </Button>
+
+              <div className="mt-2">
+                <CheckoutTrustIndicators lang={lang} translate={translate} />
+              </div>
             </div>
           </div>
         </form>

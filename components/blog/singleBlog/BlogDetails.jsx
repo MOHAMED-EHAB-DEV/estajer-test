@@ -29,7 +29,7 @@ const BlogDetails = ({
           priority
         />
         {category && (
-          <span className="absolute top-4 right-4 bg-[#F48A42] text-white px-4 py-2 rounded-full text-sm font-medium">
+          <span className="absolute top-4 right-4 bg-primary text-white px-4 py-2 rounded-full text-sm font-medium">
             {trans ? trans(`blog.categories.${category}`) : category}
           </span>
         )}
@@ -37,12 +37,12 @@ const BlogDetails = ({
       <div className="flex flex-col gap-6">
         <div className="flex gap-1 items-center">
           <Calender />
-          <span className="font-NotoSansArabic font-medium text-medium text-darkNavy">
+          <span className="font-NotoSansArabic font-medium text-base text-darkNavy">
             {date}
           </span>
         </div>
         <div
-          className="font-NotoSansArabic text-lg md:text-2xl text-[#5B5656] overflow-hidden [overflow-wrap:anywhere] [&>p]:mb-4 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 [&>h1]:text-3xl [&>h1]:font-bold [&>h2]:text-2xl [&>h2]:font-bold [&>h3]:text-xl [&>h3]:font-bold"
+          className="font-NotoSansArabic text-lg md:text-2xl text-mutedGray overflow-hidden [overflow-wrap:anywhere] [&>p]:mb-4 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 [&>h1]:text-3xl [&>h1]:font-bold [&>h2]:text-2xl [&>h2]:font-bold [&>h3]:text-xl [&>h3]:font-bold"
           dangerouslySetInnerHTML={{ __html: content }}
         />
       </div>
@@ -66,10 +66,10 @@ const BlogDetails = ({
                     {lang === "ar" ? faq.questionAr : faq.questionEn}
                   </span>
                   <div
-                    className={`h-8 w-8 rounded-full bg-[#F48A42]/10 flex items-center justify-center transition-transform duration-300 ${
+                    className={`h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center transition-transform duration-300 ${
                       openFaq === index
-                        ? "rotate-180 bg-[#F48A42] text-white"
-                        : "text-[#F48A42]"
+                        ? "rotate-180 bg-primary text-white"
+                        : "text-primary"
                     }`}
                   >
                     <svg
@@ -97,7 +97,7 @@ const BlogDetails = ({
                   }`}
                 >
                   <div className="p-8 pt-0 border-t border-gray-50">
-                    <p className="text-[#5B5656] text-lg md:text-xl leading-relaxed whitespace-pre-line">
+                    <p className="text-mutedGray text-lg md:text-xl leading-relaxed whitespace-pre-line">
                       {lang === "ar" ? faq.answerAr : faq.answerEn}
                     </p>
                   </div>

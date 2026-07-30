@@ -113,8 +113,6 @@ export default function ProfileImage({ translate, user, setUser, t, lang }) {
       });
 
       const result = await res.json();
-      console.log("updatedUser", result.data);
-      console.log("User", user);
       if (!result.success) {
         if (result.rejectionReason) {
           setRejectionReason(result.rejectionReason);

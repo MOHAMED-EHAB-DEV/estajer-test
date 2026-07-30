@@ -1,6 +1,6 @@
 "use client";
-import { Select, SelectItem } from "@heroui/select";
-import { Location } from "../ui/svgs/icons/LocationSvg";;
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Location } from "../ui/svgs/icons/LocationSvg";
 import { useEffect } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
@@ -60,14 +60,14 @@ export default function DeliverySelect({
       labelPlacement="outside"
       size="lg"
       radius="sm"
-      startContent={<Location className="w-[15px] h-[20px]" />}
+      startContent={<Location className="w-3.75 h-[20px]" />}
       classNames={{
         mainWrapper: "!mt-2",
         trigger:
           "!bg-white border border-primary/70  rounded-xl shadow hover:!bg-white/20",
         base: "!mt-16",
         label:
-          "text-darkNavy font-semibold text-[1rem] md:text-[1.2rem] lg:text-[1.4rem] font-IBMPlex mb-4",
+          "text-darkNavy font-semibold text-[1rem] md:text-1.2 lg:text-[1.4rem] font-IBMPlex mb-4",
       }}
       aria-label={t("deliveryOptions")}
       selectedKeys={[selectedBranch ? selectedBranch._id : deliveryType]}

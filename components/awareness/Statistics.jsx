@@ -2,7 +2,6 @@ import { useTranslations } from "@/hooks/useTranslations";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 
-
 const Statistics = ({ translate, lang = "ar" }) => {
   const trans = useTranslations(translate);
   const t = (text) => trans(`awareness.statistics.${text}`);
@@ -22,7 +21,7 @@ const Statistics = ({ translate, lang = "ar" }) => {
         </h1>
 
         {/* Subtitle */}
-        <p className="text-[#5B5656] lg:text-[1.1rem] md:text-[1.2rem] px-2 text-sm md:mb-16 mb-8 max-w-3xl mx-auto font-IBMPlex leading-relaxed">
+        <p className="text-mutedGray lg:text-1.1 md:text-1.2 px-2 text-sm md:mb-16 mb-8 max-w-3xl mx-auto font-IBMPlex leading-relaxed">
           {t("description")}
           <span className="text-primary font-bold mx-1">
             {t("descriptionHighlight")}
@@ -60,7 +59,11 @@ const Statistics = ({ translate, lang = "ar" }) => {
             href={`/${lang}/pricing`}
             className="md:text-lg text-sm py-4 px-6 md:py-7 md:px-12 flex items-center gap-3 font-IBMPlex font-bold shadow-[0_15px_30px_-8px_rgba(244,138,66,0.35)] hover:-translate-y-1 transition-all duration-300 rounded-full group bg-primary text-white"
           >
-            <span>{lang === "ar" ? "انضم لـ 800+ شريك ناجح" : "Join 800+ successful partners"}</span>
+            <span>
+              {lang === "ar"
+                ? "انضم لـ 800+ شريك ناجح"
+                : "Join 800+ successful partners"}
+            </span>
             <span className="font-black text-xl leading-none transition-transform duration-300 group-hover:-translate-x-1">
               {lang === "ar" ? "←" : "→"}
             </span>

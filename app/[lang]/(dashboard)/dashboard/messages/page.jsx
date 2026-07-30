@@ -3,27 +3,30 @@ import { cookies } from "next/headers";
 import { getTranslations } from "@/hooks/getTranslations";
 import PushNotificationModal from "@/components/shared/PushNotificationModal";
 
-const getChatsData = async () => {
+const getData = async () => {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
+    const headers = { Authorization: token };
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/chat/list`,
-      { headers: { Authorization: token } }
-    );
-    if (!response.ok) throw new Error("Failed to fetch orders");
-    const data = await response.json();
-    return data;
+    const [chatsRes, supportRes] = await Promise.all([
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/chat/list?page=1&limit=20`, { headers }),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/support`, { headers }),
+    ]);
+
+    const chats = chatsRes.ok ? await chatsRes.json() : [];
+    const supportChat = supportRes.ok ? await supportRes.json() : null;
+
+    return { chats: Array.isArray(chats) ? chats : [], supportChat };
   } catch (error) {
-    console.error("Error fetching orders:", error);
-    return [];
+    console.error("Error fetching messages:", error);
+    return { chats: [], supportChat: null };
   }
 };
 
 export default async function ChatsPage({ params }) {
   const { lang } = await params;
-  const chatsData = await getChatsData();
+  const { chats, supportChat } = await getData();
   const translate = await getTranslations(lang);
 
   return (
@@ -35,8 +38,14 @@ export default async function ChatsPage({ params }) {
           customer={true}
           lang={lang}
         />
-        <ChatContainer translate={translate()} chats={chatsData} />
+        <ChatContainer
+          translate={translate()}
+          chats={chats}
+          supportChat={supportChat}
+          lang={lang}
+        />
       </div>
     </div>
   );
 }
+

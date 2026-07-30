@@ -12,8 +12,8 @@ import { useTranslations } from "@/hooks/useTranslations";
 import { isArabic, removeLastWord } from "@/lib/utils";
 import { Share } from "../ui/svgs/icons/ShareSvg";
 import { Company } from "../ui/svgs/icons/CompanySvg";
-import { CheckFilled } from "../ui/svgs/icons/CheckFilledSvg";
-import { User as UserIcon } from "../ui/svgs/icons/UserSvg";
+// import { CheckFilled } from "../ui/svgs/icons/CheckFilledSvg";
+// import { User as UserIcon } from "../ui/svgs/icons/UserSvg";
 const ProductsIcon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -46,58 +46,58 @@ const CalendarIcon = (props) => (
   </svg>
 );
 
-const CircleArc = () => (
-  <svg
-    width="100%"
-    height="100%"
-    fill="none"
-    viewBox="0 0 738 738"
-    className="w-full h-full pointer-events-none"
-  >
-    {/* Thick translucent ring (MarketingHero style) */}
-    <circle
-      cx="369"
-      cy="369"
-      r="319"
-      stroke="#F48A42"
-      strokeWidth="100"
-      opacity="0.2"
-      style={{ mixBlendMode: "multiply" }}
-    ></circle>
-    {/* Outer dashed spinning ring */}
-    <circle
-      cx="369"
-      cy="369"
-      r="380"
-      stroke="#F48A42"
-      strokeWidth="3"
-      strokeDasharray="12 12"
-      opacity="0.4"
-      className="origin-center animate-[spin_60s_linear_infinite_reverse]"
-    ></circle>
-    {/* Inner dashed spinning ring (Hero.jsx style) */}
-    <circle
-      cx="369"
-      cy="369"
-      r="250"
-      stroke="#F48A42"
-      strokeWidth="4"
-      strokeDasharray="16 16"
-      opacity="0.5"
-      className="origin-center animate-[spin_40s_linear_infinite]"
-    ></circle>
-    {/* Middle thin pulsing ring for extra depth */}
-    <circle
-      cx="369"
-      cy="369"
-      r="310"
-      stroke="#F48A42"
-      strokeWidth="1.5"
-      opacity="0.25"
-      className="origin-center animate-[pulse_10s_ease-in-out_infinite]"
-    ></circle>
-  </svg>
-);
+// const CircleArc = () => (
+//   <svg
+//     width="100%"
+//     height="100%"
+//     fill="none"
+//     viewBox="0 0 738 738"
+//     className="w-full h-full pointer-events-none"
+//   >
+//     {/* Thick translucent ring (MarketingHero style) */}
+//     <circle
+//       cx="369"
+//       cy="369"
+//       r="319"
+//       stroke="#F48A42"
+//       strokeWidth="100"
+//       opacity="0.2"
+//       style={{ mixBlendMode: "multiply" }}
+//     ></circle>
+//     {/* Outer dashed spinning ring */}
+//     <circle
+//       cx="369"
+//       cy="369"
+//       r="380"
+//       stroke="#F48A42"
+//       strokeWidth="3"
+//       strokeDasharray="12 12"
+//       opacity="0.4"
+//       className="origin-center animate-[spin_60s_linear_infinite_reverse]"
+//     ></circle>
+//     {/* Inner dashed spinning ring (Hero.jsx style) */}
+//     <circle
+//       cx="369"
+//       cy="369"
+//       r="250"
+//       stroke="#F48A42"
+//       strokeWidth="4"
+//       strokeDasharray="16 16"
+//       opacity="0.5"
+//       className="origin-center animate-[spin_40s_linear_infinite]"
+//     ></circle>
+//     {/* Middle thin pulsing ring for extra depth */}
+//     <circle
+//       cx="369"
+//       cy="369"
+//       r="310"
+//       stroke="#F48A42"
+//       strokeWidth="1.5"
+//       opacity="0.25"
+//       className="origin-center animate-[pulse_10s_ease-in-out_infinite]"
+//     ></circle>
+//   </svg>
+// );
 
 export default function TopSection({
   lang,
@@ -134,7 +134,7 @@ export default function TopSection({
       <div className="h-[250px] md:h-[350px] relative overflow-hidden bg-gradient-to-br from-[#fff9f5] via-[#FEF6EE] to-[#fff3e7]">
         {/* 1. Main Background with Dots (Centered) */}
         <svg
-          className="absolute inset-0 w-full h-full text-[#f48a42]"
+          className="absolute inset-0 w-full h-full text-primary"
           preserveAspectRatio="xMidYMid slice"
           viewBox="0 0 1440 350"
           fill="none"
@@ -180,7 +180,7 @@ export default function TopSection({
 
         {/* 2. Right Side Swooshes (Anchored to Right) */}
         <svg
-          className="absolute inset-0 w-full h-full text-[#f48a42] pointer-events-none translate-x-1/3 md:translate-x-0"
+          className="absolute inset-0 w-full h-full text-primary pointer-events-none translate-x-1/3 md:translate-x-0"
           preserveAspectRatio="xMaxYMin slice"
           viewBox="0 0 1440 350"
           fill="none"
@@ -221,7 +221,7 @@ export default function TopSection({
 
         {/* 3. Left Side Swooshes (Anchored to Left) */}
         <svg
-          className="absolute inset-0 w-full h-full text-[#f48a42] pointer-events-none"
+          className="absolute inset-0 w-full h-full text-primary pointer-events-none"
           preserveAspectRatio="xMinYMin slice"
           viewBox="0 0 1440 350"
           fill="none"
@@ -277,7 +277,7 @@ export default function TopSection({
                   )}
                 </div>
                 {user?.accountType === "company" && (
-                  <div className="mt-[-10px] z-10 bg-[#FFF3E6] text-[#F48A42] px-3.5 py-1.5 rounded-full text-[0.8rem] font-bold border border-[#FFE4CC] flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+                  <div className="mt-[-10px] z-10 bg-orangeHighlight text-primary px-3.5 py-1.5 rounded-full text-0.8 font-bold border border-[#FFE4CC] flex items-center gap-1.5 whitespace-nowrap shadow-sm">
                     <Company className="w-3 h-3 " />
                     {t("company")}
                   </div>
@@ -286,7 +286,7 @@ export default function TopSection({
 
               {/* Info Section */}
               <div className="flex-1 w-full text-center md:text-start min-w-0 mt-3 md:mt-0">
-                <h1 className="text-xl md:text-[1.75rem] font-black text-[#0b0c2a] mb-1.5 flex items-center justify-center md:justify-start gap-2.5 leading-tight">
+                <h1 className="text-xl md:text-1.75 font-black text-[#0b0c2a] mb-1.5 flex items-center justify-center md:justify-start gap-2.5 leading-tight">
                   {user?.premium && (
                     <Premium className="w-5 h-5 md:w-8 md:h-6" />
                   )}
@@ -310,7 +310,7 @@ export default function TopSection({
                       } )`}
                   </span>
                 </h1>
-                <div className="flex items-center justify-center md:justify-start gap-1 text-[#6c757d] text-[0.8rem] md:text-[0.9rem] mb-3 md:mb-4">
+                <div className="flex items-center justify-center md:justify-start gap-1 text-[#6c757d] text-0.8 md:text-sm mb-3 md:mb-4">
                   <div className="bg-[#FFF3E6] md:bg-transparent p-1 rounded-md">
                     <Location className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#f28e2b]" />
                   </div>
@@ -318,7 +318,7 @@ export default function TopSection({
                     {fullBranchLocation || user?.address || t("noAddress")}
                   </span>
                 </div>
-                <p className="text-[#495057] text-[0.85rem] md:text-[1rem] leading-relaxed max-w-4xl line-clamp-3 md:line-clamp-none font-normal px-2 md:px-0">
+                <p className="text-[#495057] text-0.85 md:text-base leading-relaxed max-w-4xl line-clamp-3 md:line-clamp-none font-normal px-2 md:px-0">
                   {user?.bio || t("noDescription")}
                 </p>
               </div>
@@ -342,45 +342,57 @@ export default function TopSection({
             </div>
 
             {/* Stats Row */}
-            <div className="grid grid-cols-3 gap-2 md:flex md:flex-wrap md:gap-[15px] mt-6 md:mt-[25px]">
+            <div className="grid grid-cols-3 gap-2 md:flex md:flex-wrap md:items-stretch md:gap-[15px] mt-6 md:mt-[25px]">
               {/* Rating Pill */}
-              <div className="bg-[#f8f9fa] md:bg-white border border-[#e9ecef] px-2 py-3 md:px-[20px] md:py-2 rounded-xl md:rounded-full text-[0.75rem] md:text-[0.95rem] flex flex-wrap items-center justify-center gap-1 md:gap-2 transition-all hover:border-[#f28e2b] hover:bg-white group shadow-sm md:shadow-none">
-                <Star
-                  className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:scale-110"
-                  color="#f28e2b"
-                  filled
-                />
-                <span className="font-black text-[#0b0c2a]">
-                  {user?.stats?.averageRating?.toFixed(1) || "0.0"}
-                </span>
-                <span className="w-full text-center md:w-auto text-[#6c757d] text-[0.6rem] md:text-[0.9rem] font-bold uppercase tracking-wider md:normal-case md:tracking-normal">
-                  {t("averageRating")}
-                </span>
+              <div className="bg-[#f8f9fa] md:bg-white border border-[#e9ecef] px-2 py-3 md:px-[20px] md:py-2 rounded-xl md:rounded-full text-[0.75rem] md:text-0.95 flex flex-col items-center justify-between transition-all hover:border-[#f28e2b] hover:bg-white group shadow-sm md:shadow-none min-w-0 overflow-hidden break-words">
+                <div className="flex items-center justify-center gap-1 md:gap-2">
+                  <Star
+                    className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:scale-110 shrink-0"
+                    color="#f28e2b"
+                    filled
+                  />
+                  <span className="font-black text-[#0b0c2a] break-words">
+                    {user?.stats?.averageRating?.toFixed(1) || "0.0"}
+                  </span>
+                </div>
+                <div className="w-full flex items-center justify-center text-center flex-1 mt-1">
+                  <span className="text-[#6c757d] text-[0.6rem] md:text-[0.9rem] font-bold uppercase tracking-wider md:normal-case md:tracking-normal break-words">
+                    {t("averageRating")}
+                  </span>
+                </div>
               </div>
 
               {/* Products Pill */}
-              <div className="bg-[#f8f9fa] md:bg-white border border-[#e9ecef] px-2 py-3 md:px-[20px] md:py-2 rounded-xl md:rounded-full text-[0.75rem] md:text-[0.95rem] flex flex-wrap items-center justify-center gap-1 md:gap-2 transition-all hover:border-[#f28e2b] hover:bg-white group shadow-sm md:shadow-none">
-                <ProductsIcon className="w-4 h-4 md:w-5 md:h-5 text-[#f28e2b]" />
-                <span className="font-black text-[#0b0c2a]">
-                  {user?.stats?.productsCount || 0}
-                </span>
-                <span className="w-full text-center md:w-auto text-[#6c757d] text-[0.6rem] md:text-[0.9rem] font-bold uppercase tracking-wider md:normal-case md:tracking-normal">
-                  {t("products")}
-                </span>
+              <div className="bg-[#f8f9fa] md:bg-white border border-[#e9ecef] px-2 py-3 md:px-[20px] md:py-2 rounded-xl md:rounded-full text-[0.75rem] md:text-0.95 flex flex-col items-center justify-between transition-all hover:border-[#f28e2b] hover:bg-white group shadow-sm md:shadow-none min-w-0 overflow-hidden break-words">
+                <div className="flex items-center justify-center gap-1 md:gap-2">
+                  <ProductsIcon className="w-4 h-4 md:w-5 md:h-5 text-[#f28e2b] shrink-0" />
+                  <span className="font-black text-[#0b0c2a] break-words">
+                    {user?.stats?.productsCount || 0}
+                  </span>
+                </div>
+                <div className="w-full flex items-center justify-center text-center flex-1 mt-1">
+                  <span className="text-[#6c757d] text-[0.6rem] md:text-[0.9rem] font-bold uppercase tracking-wider md:normal-case md:tracking-normal break-words">
+                    {t("products")}
+                  </span>
+                </div>
               </div>
 
               {/* Joined Pill */}
-              <div className="bg-[#f8f9fa] md:bg-white border border-[#e9ecef] px-2 py-3 md:px-[20px] md:py-2 rounded-xl md:rounded-full text-[0.75rem] md:text-[0.95rem] flex flex-wrap items-center justify-center gap-1 md:gap-2 transition-all hover:border-[#f28e2b] hover:bg-white group shadow-sm md:shadow-none">
-                <CalendarIcon
-                  className="w-4 h-4 md:w-5 md:h-5"
-                  color="#f28e2b"
-                />
-                <span className="font-black text-[#0b0c2a]">
-                  {monthsJoined}
-                </span>
-                <span className="w-full text-center md:w-auto text-[#6c757d] text-[0.6rem] md:text-[0.9rem] font-bold uppercase tracking-wider md:normal-case md:tracking-normal whitespace-nowrap">
-                  {t("monthsSinceJoined")}
-                </span>
+              <div className="bg-[#f8f9fa] md:bg-white border border-[#e9ecef] px-2 py-3 md:px-[20px] md:py-2 rounded-xl md:rounded-full text-[0.75rem] md:text-0.95 flex flex-col items-center justify-between transition-all hover:border-[#f28e2b] hover:bg-white group shadow-sm md:shadow-none min-w-0 overflow-hidden break-words">
+                <div className="flex items-center justify-center gap-1 md:gap-2">
+                  <CalendarIcon
+                    className="w-4 h-4 md:w-5 md:h-5 shrink-0"
+                    color="#f28e2b"
+                  />
+                  <span className="font-black text-[#0b0c2a] break-words">
+                    {monthsJoined}
+                  </span>
+                </div>
+                <div className="w-full flex items-center justify-center text-center flex-1 mt-1">
+                  <span className="text-[#6c757d] text-[0.6rem] md:text-[0.9rem] font-bold uppercase tracking-wider md:normal-case md:tracking-normal break-words">
+                    {t("monthsSinceJoined")}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

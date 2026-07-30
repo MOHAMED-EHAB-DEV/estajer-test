@@ -9,7 +9,11 @@ import { CalendarIcon } from "../ui/svgs/icons/CalendarIconSvg";
 import { FormInput } from "./RentDetails";
 import ToastMessage from "../ui/ToastMessage";
 import { Calendar } from "../ui/calendar";
-import { Popover, PopoverTrigger, PopoverContent } from "@heroui/popover";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/Popover";
 
 export default function DiscountList({
   t,
@@ -92,7 +96,6 @@ export default function DiscountList({
   };
 
   const addDateRange = (tierId) => {
-    console.log("tierId: ", tierId);
     setRentData((prev) => ({
       ...prev,
       discountTiers: prev.discountTiers.map((tier) =>
@@ -186,62 +189,65 @@ export default function DiscountList({
   return (
     <div>
       {/* Header Section (Unchanged) */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-xl flex items-center justify-center shadow-lg">
-            <Currency color="white" size={17} />
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-4 mb-4 md:mb-6">
+        <div className="flex items-center gap-2.5 md:gap-3">
+          <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-lg md:rounded-xl flex items-center justify-center shadow-lg">
+            <Currency
+              color="white"
+              className="w-[14px] h-[14px] md:w-[17px] md:h-[17px]"
+            />
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-gray-900">
+            <h3 className="text-base md:text-xl font-semibold text-gray-900">
               {t("discountTiers.title")}
             </h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs md:text-sm text-gray-500">
               {t("discountTiers.subtitle")}
             </p>
           </div>
         </div>
         <Button
-          className="bg-gradient-to-r from-[#F48A42] to-[#FF6B35] text-white rounded-xl px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          className="bg-gradient-to-r from-[#F48A42] to-[#FF6B35] text-white rounded-xl px-3 md:px-6 py-1.5 md:py-3 text-xs md:text-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           onPress={addDiscountTier}
           type="button"
         >
-          <Plus size={20} color="white" />
+          <Plus className="w-3.5 h-3.5 md:w-5 md:h-5" color="white" />
           {t("discountTiers.addButton")}
         </Button>
       </div>
 
       {/* Discount Tiers List */}
       {discountTiers.length > 0 && (
-        <div className="space-y-4 mb-6">
+        <div className="space-y-3 md:space-y-4 mb-4 md:mb-6">
           {discountTiers.map((tier, index) => (
             <div
               key={tier.id}
-              className="relative bg-white border-2 border-gray-100 rounded-2xl md:p-6 p-4 shadow-sm hover:shadow-md transition-all duration-300 group"
+              className="relative bg-white border-2 border-gray-100 rounded-xl md:rounded-2xl p-3 md:p-6 shadow-sm hover:shadow-md transition-all duration-300 group"
             >
-              {/* Tier Number & Remove Button (Unchanged) */}
-              <div className="absolute -top-3 -start-3 w-8 h-8 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-sm font-bold">
+              {/* Tier Number & Remove Button */}
+              <div className="absolute -top-2.5 -start-2.5 w-6 h-6 md:w-8 md:h-8 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white text-xs md:text-sm font-bold">
                   {index + 1}
                 </span>
               </div>
-              <div className="absolute -top-3 -end-3">
+              <div className="absolute -top-2.5 -end-2.5">
                 <Button
-                  className="bg-red-500 hover:bg-red-600 text-white rounded-full min-w-0 p-2 shadow-lg"
+                  className="bg-red-500 hover:bg-red-600 text-white rounded-full min-w-0 p-1 md:p-2 aspect-square shadow-lg"
                   onPress={() => removeDiscountTier(tier.id)}
                   type="button"
                   size="sm"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 </Button>
               </div>
 
-              {/* Main Inputs (Unchanged) */}
-              <div className="grid md:grid-cols-3 gap-6">
+              {/* Main Inputs */}
+              <div className="grid md:grid-cols-3 gap-3 md:gap-6">
                 {/* Minimum Days Input */}
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2 text-gray-700">
+                <div className="space-y-1 md:space-y-2">
+                  <label className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-gray-700">
                     <svg
-                      className="w-4 h-4 text-[#F48A42]"
+                      className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -259,8 +265,9 @@ export default function DiscountList({
                   <div className="relative">
                     <FormInput
                       classNames={{
-                        input: "text-base ps-4 pe-12",
-                        inputWrapper: "h-12",
+                        input:
+                          "text-xs md:text-base ps-3 md:ps-4 pe-10 md:pe-12",
+                        inputWrapper: "h-10 md:h-12",
                       }}
                       type="number"
                       step="1"
@@ -275,17 +282,17 @@ export default function DiscountList({
                         )
                       }
                     />
-                    <div className="absolute end-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                    <div className="absolute end-2 md:end-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs md:text-sm">
                       {t("discountTiers.daysUnit")}
                     </div>
                   </div>
                 </div>
 
                 {/* Discount Type Toggle */}
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2 text-gray-700">
+                <div className="space-y-1 md:space-y-2">
+                  <label className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-gray-700">
                     <svg
-                      className="w-4 h-4 text-[#F48A42]"
+                      className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -299,10 +306,10 @@ export default function DiscountList({
                     </svg>
                     {t("discountTiers.discountType")}
                   </label>
-                  <div className="flex rounded-xl border border-gray-200 overflow-hidden">
+                  <div className="flex rounded-lg md:rounded-xl border border-gray-200 overflow-hidden">
                     <Button
                       variant="light"
-                      className={`rounded-none outline-none flex-1 px-3 py-2 transition-all duration-200 ${
+                      className={`rounded-none outline-none flex-1 px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm transition-all duration-200 ${
                         tier.discountType === "percentage"
                           ? "bg-gradient-to-r from-[#F48A42] to-[#FF6B35] text-white"
                           : "bg-gray-50 text-gray-700 hover:bg-gray-100"
@@ -319,7 +326,7 @@ export default function DiscountList({
                     </Button>
                     <Button
                       variant="light"
-                      className={`rounded-none outline-none flex-1 px-3 py-2 transition-all duration-200 ${
+                      className={`rounded-none outline-none flex-1 px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm transition-all duration-200 ${
                         tier.discountType === "price"
                           ? "bg-gradient-to-r from-[#F48A42] to-[#FF6B35] text-white"
                           : "bg-gray-50 text-gray-700 hover:bg-gray-100"
@@ -334,10 +341,10 @@ export default function DiscountList({
                 </div>
 
                 {/* Discount Input (Percentage or Price) */}
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2 text-gray-700">
+                <div className="space-y-1 md:space-y-2">
+                  <label className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-gray-700">
                     <svg
-                      className="w-4 h-4 text-[#F48A42]"
+                      className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -357,8 +364,8 @@ export default function DiscountList({
                   <div className="flex items-stretch">
                     <FormInput
                       classNames={{
-                        input: "text-base ps-4 ",
-                        inputWrapper: "h-12 rounded-e-none",
+                        input: "text-xs md:text-base ps-3 md:ps-4",
+                        inputWrapper: "h-10 md:h-12 rounded-e-none",
                       }}
                       type="number"
                       min={0}
@@ -401,12 +408,15 @@ export default function DiscountList({
                         }
                       }}
                     />
-                    <div className="bg-gradient-to-r from-[#F48A42] to-[#FF6B35] h-12 min-w-16 flex items-center justify-center rounded-e-xl shadow-sm">
-                      <span className="text-white font-bold text-lg">
+                    <div className="bg-gradient-to-r from-[#F48A42] to-[#FF6B35] h-10 md:h-12 min-w-12 md:min-w-16 flex items-center justify-center rounded-e-xl shadow-sm">
+                      <span className="text-white font-bold text-sm md:text-lg">
                         {tier.discountType === "percentage" ? (
                           "%"
                         ) : (
-                          <Currency color="white" size={18} />
+                          <Currency
+                            color="white"
+                            className="w-[14px] h-[14px] md:w-4.5 md:h-4.5"
+                          />
                         )}
                       </span>
                     </div>
@@ -512,7 +522,7 @@ export default function DiscountList({
 
                 <Button
                   variant="light"
-                  className="mt-4 text-[#F48A42] font-semibold hover:bg-orange-50"
+                  className="mt-4 text-primary font-semibold hover:bg-orange-50"
                   onPress={() => addDateRange(tier.id)}
                   type="button"
                 >
@@ -607,7 +617,7 @@ export default function DiscountList({
       {discountTiers.length > 0 && (
         <div className="mt-6 p-6 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-200">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-[#f48a42] rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <svg
                 className="w-4 h-4 text-white"
                 fill="none"
@@ -649,7 +659,7 @@ export default function DiscountList({
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-3">
                         <div className="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center">
-                          <span className="text-[#f48a42] text-xs font-bold">
+                          <span className="text-primary text-xs font-bold">
                             {index + 1}
                           </span>
                         </div>
@@ -658,7 +668,7 @@ export default function DiscountList({
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold text-[#f48a42]">
+                        <span className="text-2xl font-bold text-primary">
                           {discountPercentage.toFixed(1)}%
                         </span>
                         <span className="text-sm text-gray-500">
@@ -780,11 +790,11 @@ export function QuantityDiscountList({
   return (
     <div>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-xl flex items-center justify-center shadow-lg">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-4 mb-4 md:mb-6">
+        <div className="flex items-center gap-2.5 md:gap-3">
+          <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-lg md:rounded-xl flex items-center justify-center shadow-lg">
             <svg
-              className="w-[17px] h-[17px]"
+              className="w-4 h-4 md:w-[17px] md:h-[17px]"
               fill="none"
               stroke="white"
               strokeWidth={2}
@@ -798,56 +808,56 @@ export function QuantityDiscountList({
             </svg>
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-gray-900">
+            <h3 className="text-base md:text-xl font-semibold text-gray-900">
               {t("quantityDiscountTiers.title")}
             </h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs md:text-sm text-gray-500">
               {t("quantityDiscountTiers.subtitle")}
             </p>
           </div>
         </div>
         <Button
-          className="bg-gradient-to-r from-[#F48A42] to-[#FF6B35] text-white rounded-xl px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          className="bg-gradient-to-r from-[#F48A42] to-[#FF6B35] text-white rounded-xl px-3 md:px-6 py-1.5 md:py-3 text-xs md:text-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           onPress={addTier}
           type="button"
         >
-          <Plus size={20} color="white" />
+          <Plus className="w-3.5 h-3.5 md:w-5 md:h-5" color="white" />
           {t("quantityDiscountTiers.addButton")}
         </Button>
       </div>
 
       {/* Tiers list */}
       {quantityDiscountTiers.length > 0 && (
-        <div className="space-y-4 mb-6">
+        <div className="space-y-3 md:space-y-4 mb-4 md:mb-6">
           {quantityDiscountTiers.map((tier, index) => (
             <div
               key={tier.id}
-              className="relative bg-white border-2 border-gray-100 rounded-2xl md:p-6 p-4 shadow-sm hover:shadow-md transition-all duration-300"
+              className="relative bg-white border-2 border-gray-100 rounded-xl md:rounded-2xl p-3 md:p-6 shadow-sm hover:shadow-md transition-all duration-300"
             >
               {/* Index badge */}
-              <div className="absolute -top-3 -start-3 w-8 h-8 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-sm font-bold">
+              <div className="absolute -top-2.5 -start-2.5 w-6 h-6 md:w-8 md:h-8 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white text-xs md:text-sm font-bold">
                   {index + 1}
                 </span>
               </div>
               {/* Remove button */}
-              <div className="absolute -top-3 -end-3">
+              <div className="absolute -top-2.5 -end-2.5">
                 <Button
-                  className="bg-red-500 hover:bg-red-600 text-white rounded-full min-w-0 p-2 shadow-lg"
+                  className="bg-red-500 hover:bg-red-600 text-white rounded-full min-w-0 p-1 md:p-2 aspect-square shadow-lg"
                   onPress={() => removeTier(tier.id)}
                   type="button"
                   size="sm"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 </Button>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-3 md:gap-6">
                 {/* Min Quantity */}
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2 text-gray-700">
+                <div className="space-y-1 md:space-y-2">
+                  <label className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-gray-700">
                     <svg
-                      className="w-4 h-4 text-[#f48a42]"
+                      className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -865,13 +875,13 @@ export function QuantityDiscountList({
                   <div className="relative">
                     <FormInput
                       classNames={{
-                        input: "text-base ps-4 pe-12",
-                        inputWrapper: "h-12",
+                        input:
+                          "text-xs md:text-base ps-3 md:ps-4 pe-10 md:pe-12",
+                        inputWrapper: "h-10 md:h-12",
                       }}
                       type="number"
                       step="1"
                       min={1}
-                      // if the number is higher than the quantity, show an error message that says "يجب أن يكون أقل من الكمية المتاحة"
                       errorMessage={t("quantityDiscountTiers.minQuantityError")}
                       max={quantity}
                       placeholder={t(
@@ -887,17 +897,17 @@ export function QuantityDiscountList({
                       }
                     />
 
-                    <div className="absolute end-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm">
+                    <div className="absolute end-2 md:end-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs md:text-sm">
                       {t("quantityDiscountTiers.piecesUnit")}
                     </div>
                   </div>
                 </div>
 
                 {/* Discount % */}
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2 text-gray-700">
+                <div className="space-y-1 md:space-y-2">
+                  <label className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-gray-700">
                     <svg
-                      className="w-4 h-4 text-[#f48a42]"
+                      className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -915,8 +925,8 @@ export function QuantityDiscountList({
                   <div className="flex items-stretch">
                     <FormInput
                       classNames={{
-                        input: "text-base ps-4",
-                        inputWrapper: "h-12 rounded-e-none",
+                        input: "text-xs md:text-base ps-3 md:ps-4",
+                        inputWrapper: "h-10 md:h-12 rounded-e-none",
                       }}
                       type="number"
                       min={0}
@@ -937,8 +947,10 @@ export function QuantityDiscountList({
                         )
                       }
                     />
-                    <div className="bg-gradient-to-r from-[#F48A42] to-[#FF6B35] h-12 min-w-16 flex items-center justify-center rounded-e-xl shadow-sm">
-                      <span className="text-white font-bold text-lg">%</span>
+                    <div className="bg-gradient-to-r from-[#F48A42] to-[#FF6B35] h-10 md:h-12 min-w-12 md:min-w-16 flex items-center justify-center rounded-e-xl shadow-sm">
+                      <span className="text-white font-bold text-sm md:text-lg">
+                        %
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1019,7 +1031,7 @@ export function QuantityDiscountList({
       {quantityDiscountTiers.length > 0 && (
         <div className="mt-6 p-6 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-200">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-[#f48a42] rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <svg
                 className="w-4 h-4 text-white"
                 fill="none"
@@ -1058,7 +1070,7 @@ export function QuantityDiscountList({
                       {t("quantityDiscountTiers.piecesUnit")}
                     </span>
                   </div>
-                  <span className="text-2xl font-bold text-[#f48a42]">
+                  <span className="text-2xl font-bold text-primary">
                     {tier.discount}%
                   </span>
                 </div>

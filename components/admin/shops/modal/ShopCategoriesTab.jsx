@@ -23,6 +23,7 @@ export default function ShopCategoriesTab({
       categories: [
         ...(prev.categories || []),
         {
+          _id: Array.from({ length: 24 }, () => Math.floor(Math.random() * 16).toString(16)).join(""),
           nameAr: "",
           nameEn: "",
           image: "",
@@ -150,7 +151,7 @@ export default function ShopCategoriesTab({
                 <div className="flex-1 grid grid-cols-1 gap-3">
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[12px] font-bold text-neutral-400 uppercase tracking-wider px-1">
-                      {t("nameAr")}
+                      {t("categoryNameAr") || t("nameAr")}
                     </label>
                     <input
                       value={category.nameAr}
@@ -163,7 +164,7 @@ export default function ShopCategoriesTab({
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[12px] font-bold text-neutral-400 uppercase tracking-wider px-1">
-                      {t("nameEn")}
+                      {t("categoryNameEn") || t("nameEn")}
                     </label>
                     <input
                       value={category.nameEn}

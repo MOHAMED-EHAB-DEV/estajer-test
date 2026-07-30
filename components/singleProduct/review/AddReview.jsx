@@ -1,6 +1,6 @@
 "use client";
 import CustomModal from "../../ui/CustomModal";
-import { Textarea, Input } from "@heroui/input";
+import { Textarea, Input } from "@/components/ui/Input";
 import { useState } from "react";
 import { toast } from "@/utils/toast";
 import Button from "../../ui/Button";
@@ -138,7 +138,7 @@ export default function AddReview({
               radius="none"
               color="transparent"
               size="md"
-              className="absolute start-4 top-8 px-4 min-w-0"
+              className="absolute end-0 top-2 px-4 min-w-0"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path

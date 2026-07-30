@@ -43,7 +43,7 @@ export default function Support({ translate, lang = "ar" }) {
             <h2 className="font-IBMPlex font-bold text-2xl lg:text-[2.2rem] text-darkNavy leading-tight mb-4">
               {t("title")}
             </h2>
-            <p className="font-IBMPlex font-bold md:text-lg lg:text-xl text-[#F48A42] md:mb-10 mb-6">
+            <p className="font-IBMPlex font-bold md:text-lg lg:text-xl text-primary md:mb-10 mb-6">
               {t("subtitle")}
             </p>
 
@@ -52,7 +52,7 @@ export default function Support({ translate, lang = "ar" }) {
                 features.map((text, idx) => (
                   <li key={idx} className="flex items-center gap-4">
                     <CheckCircleIcon />
-                    <span className="font-IBMPlex font-semibold text-[#5B5656] text-sm md:text-lg">
+                    <span className="font-IBMPlex font-semibold text-mutedGray text-sm md:text-lg">
                       {text}
                     </span>
                   </li>
@@ -63,7 +63,7 @@ export default function Support({ translate, lang = "ar" }) {
               <Button
                 as={Link}
                 href={`/${lang}/pricing`}
-                className="md:text-[1.05rem] text-sm py-4 px-6 md:py-7 md:px-10 flex items-center gap-3 font-IBMPlex font-bold shadow-[0_15px_30px_-8px_rgba(244,138,66,0.35)] hover:-translate-y-1 transition-all duration-300 rounded-full group bg-[#F48A42] text-white"
+                className="md:text-[1.05rem] text-sm py-4 px-6 md:py-7 md:px-10 flex items-center gap-3 font-IBMPlex font-bold shadow-[0_15px_30px_-8px_rgba(244,138,66,0.35)] hover:-translate-y-1 transition-all duration-300 rounded-full group bg-primary text-white"
               >
                 <span>{t("action")}</span>
                 <span className="font-black text-xl leading-none transition-transform duration-300 group-hover:-translate-x-1">

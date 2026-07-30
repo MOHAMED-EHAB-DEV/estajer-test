@@ -128,7 +128,7 @@ const BlogPost = ({ translate, lang, blog, blogs, randomBlogs = [] }) => {
       <TitleWithSegments
         title={blog.title}
         translate={translate}
-        titleClassNames="lg:text-[2rem] md:text-[1.8rem] text-[1.3rem] text-[#F48A42]"
+        titleClassNames="lg:text-[2rem] md:text-[1.8rem] text-[1.3rem] text-primary"
         segments={[
           {
             text: trans("titles.blogs"),
@@ -218,10 +218,10 @@ const BlogPost = ({ translate, lang, blog, blogs, randomBlogs = [] }) => {
                   {trans("singleBlog.articleContents")}
                 </h3>
                 <div
-                  className={`h-8 w-8 rounded-full bg-[#F48A42]/10 flex items-center justify-center transition-transform duration-300 ${
+                  className={`h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center transition-transform duration-300 ${
                     isMainContentsOpen
-                      ? "rotate-180 bg-[#F48A42] text-white"
-                      : "text-[#F48A42]"
+                      ? "rotate-180 bg-primary text-white"
+                      : "text-primary"
                   }`}
                 >
                   <svg
@@ -275,12 +275,12 @@ const BlogPost = ({ translate, lang, blog, blogs, randomBlogs = [] }) => {
                               }}
                               className={`transition-all duration-300 text-lg flex items-center gap-2 flex-1 ${
                                 activeId === parent.id
-                                  ? "text-[#F48A42] font-bold"
-                                  : "text-darkNavy font-semibold hover:text-[#F48A42]"
+                                  ? "text-primary font-bold"
+                                  : "text-darkNavy font-semibold hover:text-primary"
                               }`}
                             >
                               <span
-                                className={`h-1.5 w-1.5 rounded-full bg-[#F48A42] transition-opacity ${
+                                className={`h-1.5 w-1.5 rounded-full bg-primary transition-opacity ${
                                   activeId === parent.id
                                     ? "opacity-100"
                                     : "opacity-0 group-hover:opacity-100"
@@ -347,12 +347,12 @@ const BlogPost = ({ translate, lang, blog, blogs, randomBlogs = [] }) => {
                                       }}
                                       className={`transition-all duration-300 text-base flex items-center gap-2 group ${
                                         activeId === child.id
-                                          ? "text-[#F48A42] font-medium"
-                                          : "text-[#5B5656] hover:text-[#F48A42]"
+                                          ? "text-primary font-medium"
+                                          : "text-mutedGray hover:text-primary"
                                       }`}
                                     >
                                       <span
-                                        className={`h-1 w-1 rounded-full bg-[#F48A42] transition-opacity ${
+                                        className={`h-1 w-1 rounded-full bg-primary transition-opacity ${
                                           activeId === child.id
                                             ? "opacity-100"
                                             : "opacity-0 group-hover:opacity-100"

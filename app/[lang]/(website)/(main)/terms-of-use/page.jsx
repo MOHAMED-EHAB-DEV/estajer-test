@@ -39,6 +39,14 @@ export async function generateMetadata({ params }) {
       description: currentMeta.description,
       url: `${siteURL}/${lang === "ar" ? "" : `${lang}/`}terms-of-use`,
       type: "website",
+      images: [
+        {
+          url: lang === "ar" ? `${siteURL}/og/terms_ar.webp` : `${siteURL}/og/terms_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - شروط الاستخدام" : "Estajer - Terms of Use",
+        },
+      ],
     },
   };
 }

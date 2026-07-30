@@ -16,7 +16,7 @@ function NavLink({ href, text, lang, setOpen, title }) {
       href={href}
       title={title || text}
       onPress={() => setOpen(true)}
-      className="h-16 bg-[#F6F6F6] rounded-md p-4 font-semibold w-full flex items-center justify-between gap-2"
+      className="h-16 bg-lightBg rounded-md p-4 font-semibold w-full flex items-center justify-between gap-2"
     >
       <span>{text}</span>
       <span
@@ -139,7 +139,7 @@ export default function NavbarDrawer({ open, setOpen, lang, user, trans }) {
             </div>
           ) : (
             <div className="flex items-center gap-4">
-              <div className="p-2 bg-[#FDDCA680] rounded-full flex items-center justify-center">
+              <div className="p-2 bg-orangeHighlight rounded-full flex items-center justify-center">
                 <User size={28} />
               </div>
               <span className="text-xl font-semibold font-IBMPlex">
@@ -154,7 +154,7 @@ export default function NavbarDrawer({ open, setOpen, lang, user, trans }) {
             size="md"
             className="min-w-8 p-0 -me-1"
           >
-            <X className="text-[#0D092B] w-[22px] h-[22px]"></X>
+            <X className="text-darkNavy w-[22px] h-[22px]"></X>
           </Button>
         </div>
 

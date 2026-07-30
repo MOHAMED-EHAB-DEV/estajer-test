@@ -7,6 +7,7 @@ export const metadata = {
 export function generateViewport({ params }) {
   return {
     themeColor: "#ffffff",
+    viewportFit: "cover",
   };
 }
 export default async function RootLayout({ children }) {

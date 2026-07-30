@@ -38,6 +38,14 @@ export async function generateMetadata({ params }) {
       description: currentMeta.description,
       url: `${siteURL}/${lang === "ar" ? "" : `${lang}/`}privacy`,
       type: "website",
+      images: [
+        {
+          url: lang === "ar" ? `${siteURL}/og/privacy_ar.webp` : `${siteURL}/og/privacy_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - سياسة الخصوصية" : "Estajer - Privacy Policy",
+        },
+      ],
     },
   };
 }

@@ -1,15 +1,14 @@
 "use client";
+import Button from "@/components/ui/Button";
 import {
-  Button,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Textarea,
-  Select,
-  SelectItem,
-} from "@heroui/react";
+} from "@/components/ui/CustomModal";
+import { Textarea } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
 
 export default function UpdateReportModal({
   isOpen,
@@ -40,6 +39,9 @@ export default function UpdateReportModal({
                   selectedKeys={[newStatus]}
                   onChange={(e) => setNewStatus(e.target.value)}
                   placeholder="اختر الحالة"
+                  classNames={{
+                    popoverContent: "z-modal",
+                  }}
                 >
                   <SelectItem key="pending" value="pending">
                     معلق

@@ -51,23 +51,25 @@ export default function TableProducts({
     const status = [
       { label: t("deleted"), condition: deleted, className: "bg-red-600" },
       { label: t("hidden"), condition: hidden, className: "bg-gray-500" },
-      { label: t("rejected"), condition: rejected, className: "bg-[#F44242]" },
-      { label: t("approved"), condition: approved, className: "bg-[#4FD658]" },
+      { label: t("rejected"), condition: rejected, className: "bg-dangerRed" },
+      {
+        label: t("approved"),
+        condition: approved,
+        className: "bg-successGreen",
+      },
       {
         label: t("pendingApproval"),
         condition: !approved && !rejected,
-        className: "bg-[#F48A42]",
+        className: "bg-primary",
       },
     ];
     const currentStatus = status.find((item) => item.condition);
     return (
-      <div className="px-3 whitespace-nowrap">
-        <span
-          className={`px-2 font-IBMPlex py-1 text-white rounded-[5px] text-xs font-semibold ${currentStatus.className}`}
-        >
-          {currentStatus.label}
-        </span>
-      </div>
+      <span
+        className={`px-2 font-IBMPlex py-1 text-white rounded-[5px] text-xs font-semibold whitespace-nowrap ${currentStatus.className}`}
+      >
+        {currentStatus.label}
+      </span>
     );
   };
 
@@ -129,15 +131,17 @@ export default function TableProducts({
                 )
               }
               isDisabled={allSelectedInNana || selected.size === 0}
-              className="flex items-center justify-center rounded-full px-4 md:px-8 py-2 md:py-4 gap-1 md:gap-2 shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+              className="flex items-center justify-center rounded-full px-4 md:px-8 py-2 md:py-4 gap-1 md:gap-2 shadow-none font-semibold font-NotoSansArabic"
             >
               {allSelectedInNana ? "ازالة" : "اضافة"} المنتجات الي نعناع (
               {selected.size})
             </Button>
             <Button
               onClick={() => handleSelected("approve", selected, setSelected)}
-              isDisabled={allSelectedStatus === "approved" || selected.size === 0}
-              className="flex items-center justify-center rounded-full px-4 md:px-8 py-2 md:py-4 gap-1 md:gap-2 shadow-none font-semibold text-xs md:text-medium font-NotoSansArabic"
+              isDisabled={
+                allSelectedStatus === "approved" || selected.size === 0
+              }
+              className="flex items-center justify-center rounded-full px-4 md:px-8 py-2 md:py-4 gap-1 md:gap-2 shadow-none font-semibold font-NotoSansArabic"
             >
               <CheckFilled />
               {t("acceptProduct")} ({selected.size})
@@ -149,154 +153,189 @@ export default function TableProducts({
             className="text-darkNavy font-NotoSansArabic text-sm font-semibold flex gap-1 items-center justify-center"
           >
             {t("showAll")}
-            <ChevronLeft />
+            <ChevronLeft className="" />
           </Link>
         )}
       </div>
 
       {/* Scrollable Table */}
-      <div className="w-full overflow-x-auto">
-        <div className="min-w-[1024px] grid grid-rows-[auto_4fr] text-[13px] md:text-sm">
-          {/* Header */}
-          <div className="w-full h-fit gap-2 grid grid-cols-8 py-3 text-black border-b border-b-black/10 justify-center">
-            <div className="p-3 text-center flex items-center gap-3">
-              <Checkbox isChecked={allSelected} onChange={toggleAll} />
-              <div className="font-IBMPlex font-semibold text-sm">#</div>
-            </div>
-            <div className="p-3 font-IBMPlex font-semibold text-sm  flex gap-2 items-center whitespace-nowrap">
-              <span>{t("product")}</span>
-              <Sort className="w-3 h-3" />
-            </div>
-            <div className="p-3 font-IBMPlex font-semibold text-sm  flex gap-2 items-center whitespace-nowrap">
-              <span>{t("landlord")}</span>
-              <Sort className="w-3 h-3" />
-            </div>
-            <div className="p-3 font-IBMPlex font-semibold text-sm flex gap-2 items-center whitespace-nowrap">
-              <span>{t("renterPricePerDay")}</span>
-              <Sort className="w-3 h-3" />
-            </div>
-            <div className="p-3 font-IBMPlex font-semibold text-sm  flex gap-2 items-center whitespace-nowrap">
-              <span>{t("dateAdded")}</span>
-              <Sort className="w-3 h-3" />
-            </div>
-            <div className="p-3 font-IBMPlex font-semibold text-sm  flex gap-2 items-center whitespace-nowrap">
-              <span>{t("dateEdited")}</span>
-              <Sort className="w-3 h-3" />
-            </div>
-            <div className="p-3 font-IBMPlex font-semibold text-sm  flex gap-2 items-center whitespace-nowrap">
-              <span>{t("status")}</span>
-              <Sort className="w-3 h-3" />
-            </div>
-            <div className="p-3 font-IBMPlex font-semibold text-sm  flex gap-2 items-center whitespace-nowrap">
-              <span>{t("actions")}</span>
-            </div>
-          </div>
-
-          {products.map((product) => (
-            <div
-              key={product._id}
-              className={`group gap-2 grid grid-cols-8 w-full justify-center items-center h-fit transition-colors py-3 text-black ${
-                selected.has(product._id)
-                  ? "bg-[#F48A421A]"
-                  : "hover:bg-[#F6F6F6] bg-transparent"
-              }`}
-            >
-              <div className="px-3 text-center flex items-center gap-3">
-                <div className="w-1/2">
-                  <Checkbox
-                    isChecked={selected.has(product._id)}
-                    onChange={() => toggleOne(product._id)}
-                  />
+      <div className="w-full overflow-x-auto pb-4">
+        <table className="w-full min-w-max text-[13px] md:text-sm text-start border-collapse">
+          <thead>
+            <tr className="text-black border-b border-b-black/10">
+              <th className="p-3 font-IBMPlex font-semibold text-sm whitespace-nowrap">
+                <div className="flex items-center justify-center gap-3">
+                  <Checkbox isChecked={allSelected} onChange={toggleAll} />
+                  <span>#</span>
                 </div>
-                <div className="font-semibold text-sm font-IBMPlex truncate">
-                  {product._id}
-                </div>
-              </div>
-              <div className="px-3 whitespace-nowrap">
-                <div className="flex flex-col text-xs">
-                  <span className="font-medium text-sm  font-NotoSansArabic truncate">
-                    {product.name}
-                  </span>
-                  <span
-                    className={`py-[5px] px-[10px] ${
-                      selected.has(product._id)
-                        ? "bg-white"
-                        : "bg-[#F6F6F6] group-hover:bg-white"
-                    } text-darkNavy w-fit rounded-sm font-normal text-[12px] font-NotoSansArabic`}
-                  >
-                    {
-                      categoriesD?.find((cat) => cat.key === product.category)
-                        ?.name
-                    }
-                  </span>
-                </div>
-              </div>
-              <div className="px-3 whitespace-nowrap">
+              </th>
+              <th className="p-3 font-IBMPlex font-semibold text-sm whitespace-nowrap text-start">
                 <div className="flex items-center gap-2">
-                  <img
-                    src={product.owner?.avatar}
-                    alt={product.owner?.fullName}
-                    className="w-8 h-8 rounded-full object-cover border border-gray-100"
-                  />
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium font-NotoSansArabic truncate">
-                      {product.owner?.fullName}
+                  <span>{t("product")}</span>
+                  <Sort className="w-3 h-3" />
+                </div>
+              </th>
+              <th className="p-3 font-IBMPlex font-semibold text-sm whitespace-nowrap text-start">
+                <div className="flex items-center gap-2">
+                  <span>{t("landlord")}</span>
+                  <Sort className="w-3 h-3" />
+                </div>
+              </th>
+              <th className="p-3 font-IBMPlex font-semibold text-sm whitespace-nowrap text-start">
+                <div className="flex items-center gap-2">
+                  <span>{t("renterPricePerDay")}</span>
+                  <Sort className="w-3 h-3" />
+                </div>
+              </th>
+              <th className="p-3 font-IBMPlex font-semibold text-sm whitespace-nowrap text-start">
+                <div className="flex items-center gap-2">
+                  <span>{t("dateAdded")}</span>
+                  <Sort className="w-3 h-3" />
+                </div>
+              </th>
+              <th className="p-3 font-IBMPlex font-semibold text-sm whitespace-nowrap text-start">
+                <div className="flex items-center gap-2">
+                  <span>{t("dateEdited")}</span>
+                  <Sort className="w-3 h-3" />
+                </div>
+              </th>
+              <th className="p-3 font-IBMPlex font-semibold text-sm whitespace-nowrap text-start">
+                <div className="flex items-center gap-2">
+                  <span>{t("status")}</span>
+                  <Sort className="w-3 h-3" />
+                </div>
+              </th>
+              <th className="p-3 font-IBMPlex font-semibold text-sm whitespace-nowrap text-end">
+                <span>{t("actions")}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr
+                key={product._id}
+                className={`group transition-colors text-black border-b border-b-black/5 ${
+                  selected.has(product._id)
+                    ? "bg-[#F48A421A]"
+                    : "hover:bg-lightBg bg-transparent"
+                }`}
+              >
+                <td className="px-3 py-3 align-middle whitespace-nowrap">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-6 flex justify-center">
+                      <Checkbox
+                        isChecked={selected.has(product._id)}
+                        onChange={() => toggleOne(product._id)}
+                      />
+                    </div>
+                    <div
+                      className="font-semibold text-sm font-IBMPlex truncate max-w-[80px]"
+                      title={product._id}
+                    >
+                      {product._id}
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-3 align-middle whitespace-nowrap">
+                  <div className="flex flex-col text-xs text-start">
+                    <span className="font-medium text-sm font-NotoSansArabic truncate max-w-[200px] md:max-w-[250px] inline-block">
+                      {product.name}
                     </span>
-                    <span className="text-xs font-normal font-NotoSansArabic text-gray-500">
-                      {product.owner?.phone}
+                    <span
+                      className={`py-[5px] px-[10px] mt-1 ${
+                        selected.has(product._id)
+                          ? "bg-white"
+                          : "bg-lightBg group-hover:bg-white"
+                      } text-darkNavy w-fit rounded-sm font-normal text-[12px] font-NotoSansArabic`}
+                    >
+                      {
+                        categoriesD?.find((cat) => cat.key === product.category)
+                          ?.name
+                      }
                     </span>
                   </div>
-                </div>
-              </div>
-              <div className="px-3 flex items-center gap-1 whitespace-nowrap">
-                <span>{product.rental.value}</span>
-                <Currency size={14} className="w-3 h-3" />
-              </div>
-              <div className="px-3 font-medium text-sm  whitespace-nowrap">
-                {new Date(product.createdAt).toLocaleDateString("ar", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </div>
-              <div className="px-3 font-medium text-sm  whitespace-nowrap">
-                {new Date(product.updatedAt).toLocaleDateString("ar", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </div>
-              {CurrentStatus(product)}
-              <div className="px-3 flex gap-2 items-center justify-end whitespace-nowrap">
-                <Link
-                  href={`/${langPrefix}products/${product._id}`}
-                  className="flex items-center gap-1 bg-[#F6F6F6] rounded-sm p-1 font-medium  text-xs"
-                >
-                  <Eye color="#0D092B" size={12} />
-                  عرض
-                </Link>
-                <Link
-                  href={`/${langPrefix}edit-product/${product._id}`}
-                  className="flex items-center gap-1 bg-[#F6F6F6] rounded-[2px] p-1 font-medium text-sm"
-                >
-                  <Edit size={12} color="#0D092B" />
-                  تعديل
-                </Link>
-                {product.rejected && onRestore && (
-                  <button
-                    onClick={() => onRestore(product._id)}
-                    className="flex items-center gap-1 bg-green-100 rounded-[2px] p-1 font-medium text-sm text-green-700 hover:bg-green-200"
-                    title="Restore"
-                  >
-                    {/* Using Edit icon as placeholder or text? Let's use text or check existing icons. */}
-                    {/* The user wants restore. */}
-                    <span className="text-xs">استعادة</span>
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
+                </td>
+                <td className="px-3 py-3 align-middle whitespace-nowrap">
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={product.owner?.avatar}
+                      alt={product.owner?.fullName}
+                      className="w-8 h-8 rounded-full object-cover border border-gray-100"
+                    />
+                    <div className="flex flex-col text-start">
+                      <span className="text-sm font-medium font-NotoSansArabic truncate">
+                        {product.owner?.fullName}
+                      </span>
+                      <span className="text-xs font-normal font-NotoSansArabic text-gray-500">
+                        {product.owner?.phone}
+                      </span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-3 align-middle whitespace-nowrap">
+                  <div className="flex items-center gap-1 justify-start">
+                    <span>{product.rental.value}</span>
+                    <Currency size={14} className="w-3 h-3" />
+                  </div>
+                </td>
+                <td className="px-3 py-3 font-medium text-sm align-middle whitespace-nowrap text-start">
+                  <span dir={lang === "ar" ? "rtl" : "ltr"}>
+                    {new Date(product.createdAt).toLocaleDateString(
+                      lang === "en" ? "en-US" : "ar-EG",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      },
+                    )}
+                  </span>
+                </td>
+                <td className="px-3 py-3 font-medium text-sm align-middle whitespace-nowrap text-start">
+                  <span dir={lang === "ar" ? "rtl" : "ltr"}>
+                    {new Date(product.updatedAt).toLocaleDateString(
+                      lang === "en" ? "en-US" : "ar-EG",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      },
+                    )}
+                  </span>
+                </td>
+                <td className="px-3 py-3 align-middle whitespace-nowrap text-start">
+                  {CurrentStatus(product)}
+                </td>
+                <td className="px-3 py-3 align-middle whitespace-nowrap">
+                  <div className="flex gap-2 items-center justify-end">
+                    <Link
+                      href={`/${langPrefix}products/${product._id}`}
+                      className="flex items-center gap-1 bg-lightBg rounded-sm p-1 font-medium text-xs"
+                    >
+                      <Eye color="#0D092B" size={12} />
+                      عرض
+                    </Link>
+                    <Link
+                      href={`/${langPrefix}edit-product/${product._id}`}
+                      className="flex items-center gap-1 bg-lightBg rounded-[2px] p-1 font-medium text-sm"
+                    >
+                      <Edit size={12} color="#0D092B" />
+                      تعديل
+                    </Link>
+                    {product.rejected && onRestore && (
+                      <button
+                        onClick={() => onRestore(product._id)}
+                        className="flex items-center gap-1 bg-green-100 rounded-[2px] p-1 font-medium text-sm text-green-700 hover:bg-green-200"
+                        title="Restore"
+                      >
+                        <span className="text-xs">استعادة</span>
+                      </button>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Pagination */}

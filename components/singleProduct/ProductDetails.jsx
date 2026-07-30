@@ -37,7 +37,7 @@ export default async function ProductDetails({
         {/* ratings + delivery + location + certified */}
         <div className="flex flex-wrap items-center gap-2 mt-3 md:mt-4">
           {/* rating */}
-          {!requested && (
+          {!requested && averageRating > 0 && (
             <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50/80 border border-gray-200/60 rounded-xl">
               <svg
                 className={`w-4 h-4 ${averageRating > 0 ? "text-amber-500 fill-amber-500" : "text-gray-400 fill-current"}`}
@@ -116,13 +116,18 @@ export default async function ProductDetails({
         </div>
         <ProductInfoTabs
           lang={lang}
-          translate={translate()}
+          translate={{
+            product: translate("product"),
+            unit: translate("unit"),
+            singleProduct: { order: translate("singleProduct.order") },
+          }}
           description={product.description}
           useCases={product.useCases}
           specs={product.specs}
           features={product.features}
           status={product.status}
           quantity={product.quantity}
+          saleUnit={product.saleUnit}
         />
       </div>
       <div className="order-3 mt-8">
@@ -131,7 +136,11 @@ export default async function ProductDetails({
             <DeliveryInfo
               product={product}
               lang={lang}
-              translate={translate()}
+              translate={{
+                singleProduct: {
+                  deliveryInfo: translate("singleProduct.deliveryInfo"),
+                },
+              }}
               displayLocation={product.location}
             />
           }
@@ -139,16 +148,20 @@ export default async function ProductDetails({
           <DeliveryInfoWrapper
             product={product}
             lang={lang}
-            translate={translate()}
+            translate={{
+              singleProduct: {
+                deliveryInfo: translate("singleProduct.deliveryInfo"),
+              },
+            }}
           />
         </Suspense>
         <div
           id="owner-info"
-          className="bg-[rgba(234,238,243,0.3)] rounded-xl mt-10 overflow-hidden"
+          className="bg-[rgba(234,238,243,0.3)] rounded-xl mt-6 md:mt-8 overflow-hidden"
         >
-          <div className="bg-[#eaeef3] p-4 md:p-6 flex gap-2 items-center text-darkNavy font-semibold text-[1rem] md:text-[1.55rem] lg:text-[1.7rem]">
+          <div className="bg-surfaceBlue p-4 md:py-4 md:px-5 flex gap-2 items-center text-darkNavy font-semibold text-base md:text-1.2 lg:text-1.35">
             <svg
-              className="lg:w-8 lg:h-8 w-6 h-6"
+              className="lg:w-6 lg:h-6 md:w-5 md:h-5 w-5 h-5"
               width="32"
               height="32"
               viewBox="0 0 32 32"
@@ -160,12 +173,12 @@ export default async function ProductDetails({
 
             <span>{requested ? t("meetLessee") : t("meetOwner")}</span>
           </div>
-          <div className="flex flex-wrap items-center justify-center md:justify-normal p-6 gap-5">
+          <div className="flex flex-wrap items-center justify-center md:justify-normal p-5 md:p-5 gap-4 md:gap-5">
             <Suspense
               fallback={
                 <Link
                   href={`/${langPrefix}profile/${product.owner.pathName}/products`}
-                  className="w-[5rem] md:w-[9rem] aspect-square relative overflow-hidden rounded-full"
+                  className="w-[5rem] md:w-[7rem] aspect-square relative overflow-hidden rounded-full"
                 >
                   <Image
                     src={anyImgUrl({
@@ -186,7 +199,7 @@ export default async function ProductDetails({
               <OwnerProfileBranchLink
                 langPrefix={langPrefix}
                 pathName={product.owner.pathName}
-                className="w-[5rem] md:w-[9rem] aspect-square relative overflow-hidden rounded-full"
+                className="w-[5rem] md:w-[7rem] aspect-square relative overflow-hidden rounded-full"
               >
                 <Image
                   src={anyImgUrl({
@@ -210,7 +223,7 @@ export default async function ProductDetails({
                     <Link
                       dir={isArabic(product.owner.fullName) ? "rtl" : "ltr"}
                       href={`/${langPrefix}profile/${product.owner.pathName}/products`}
-                      className="flex items-center gap-1 text-darkNavy font-semibold text-[1rem] md:text-[1.5rem] lg:text-[1.7rem] font-IBMPlex"
+                      className="flex items-center gap-1 text-darkNavy font-semibold text-base md:text-1.2 lg:text-1.35 font-IBMPlex"
                     >
                       {product.owner.premium && <Premium />}
                       {product.owner.premium
@@ -223,7 +236,7 @@ export default async function ProductDetails({
                     langPrefix={langPrefix}
                     pathName={product.owner.pathName}
                     dir={isArabic(product.owner.fullName) ? "rtl" : "ltr"}
-                    className="flex items-center gap-1 text-darkNavy font-semibold text-[1rem] md:text-[1.5rem] lg:text-[1.7rem] font-IBMPlex"
+                    className="flex items-center gap-1 text-darkNavy font-semibold text-base md:text-1.2 lg:text-1.35 font-IBMPlex"
                   >
                     {product.owner.premium && <Premium />}
                     {product.owner.premium
@@ -269,7 +282,7 @@ export default async function ProductDetails({
                   </span>
                 )}
               </div>
-              <div className="text-[1rem] md:text-[1.2rem] lg:text-[1.4rem] mt-2 mb-3">
+              <div className="text-[1rem] md:text-0.95 lg:text-[1.05rem] mt-1.5 mb-2.5">
                 {`${t("joinedEstajer")} ${format(
                   new Date(product.owner.createdAt),
                   "yyyy/MM/dd",
@@ -283,7 +296,7 @@ export default async function ProductDetails({
                       filled={idx < product.owner.rating?.average}
                     />
                   ))}
-                  <span className="text-darkNavy text-xl opacity-65 font-semibold">
+                  <span className="text-darkNavy text-base opacity-65 font-semibold">
                     {product.owner?.rating?.average?.toFixed(1) || ""}
                   </span>
                 </div>
@@ -293,7 +306,10 @@ export default async function ProductDetails({
             </div>
             <ChatButton
               product={product}
-              translate={translate()}
+              translate={{
+                chat: translate("chat"),
+                notifications: translate("notifications"),
+              }}
               langPrefix={langPrefix}
               initialProduct={product}
             />

@@ -1,13 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import {
-  Input,
-  Select,
-  SelectItem,
-  Autocomplete,
-  AutocompleteItem,
-} from "@heroui/react";
+import { useState, useCallback, useEffect } from "react";
+import { Input } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Autocomplete, AutocompleteItem } from "@/components/ui/Autocomplete";
 import Button from "../ui/Button";
 import { Location } from "../ui/svgs/icons/LocationSvg";
 import { Plus } from "../ui/svgs/icons/PlusSvg";
@@ -18,6 +14,7 @@ export const CityPricingItem = ({ city, onRemove, onUpdate, t, lang }) => {
   const [addressSuggestions, setAddressSuggestions] = useState([]);
   const [addressLoading, setAddressLoading] = useState(false);
   const [searchInput, setSearchInput] = useState(city.displayName || "");
+  const [isOpen, setIsOpen] = useState(false);
 
   const fetchSuggestions = useCallback(
     async (input) => {
@@ -45,22 +42,31 @@ export const CityPricingItem = ({ city, onRemove, onUpdate, t, lang }) => {
     [lang],
   );
 
-  const handlePlaceSelect = async (selectedAddress) => {
-    if (!selectedAddress) return;
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = setTimeout(() => {
+      fetchSuggestions(searchInput);
+    }, 400);
+    return () => clearTimeout(handler);
+  }, [searchInput, isOpen, fetchSuggestions]);
+
+  const handlePlaceSelect = async (placeId, selectedAddress) => {
+    const addressToUse =
+      typeof placeId === "string" && placeId.startsWith("ChI") ? null : placeId;
+    const actualPlaceId = addressToUse ? null : placeId;
+    const actualAddress = addressToUse || selectedAddress;
+
+    if (!actualPlaceId && !actualAddress) return;
     setAddressLoading(true);
     try {
+      const queryParam = actualPlaceId
+        ? `place_id=${encodeURIComponent(actualPlaceId)}`
+        : `address=${encodeURIComponent(actualAddress)}`;
+
       // Fetch both Arabic and English geocoding data simultaneously
       const [responseAr, responseEn] = await Promise.all([
-        fetch(
-          `/api/geocode/search?address=${encodeURIComponent(
-            selectedAddress,
-          )}&lang=ar`,
-        ),
-        fetch(
-          `/api/geocode/search?address=${encodeURIComponent(
-            selectedAddress,
-          )}&lang=en`,
-        ),
+        fetch(`/api/geocode/search?${queryParam}&lang=ar`),
+        fetch(`/api/geocode/search?${queryParam}&lang=en`),
       ]);
 
       const [dataAr, dataEn] = await Promise.all([
@@ -88,7 +94,10 @@ export const CityPricingItem = ({ city, onRemove, onUpdate, t, lang }) => {
           const types = component.types;
           if (types.includes("administrative_area_level_1")) {
             governorateAr = component.long_name;
-          } else if (types.includes("administrative_area_level_2")) {
+          } else if (
+            types.includes("administrative_area_level_2") ||
+            types.includes("locality")
+          ) {
             cityAr = component.long_name;
             isGovernorate = false;
           }
@@ -102,20 +111,25 @@ export const CityPricingItem = ({ city, onRemove, onUpdate, t, lang }) => {
           const types = component.types;
           if (types.includes("administrative_area_level_1")) {
             governorateEn = component.long_name;
-          } else if (types.includes("administrative_area_level_2")) {
+          } else if (
+            types.includes("administrative_area_level_2") ||
+            types.includes("locality")
+          ) {
             cityEn = component.long_name;
           }
         });
 
+        const displayName = actualAddress || resultAr.formatted_address;
+
         // Update the city data
-        onUpdate(city.id, "displayName", selectedAddress);
+        onUpdate(city.id, "displayName", displayName);
         onUpdate(city.id, "cityAr", cityAr);
         onUpdate(city.id, "cityEn", cityEn);
         onUpdate(city.id, "governorateAr", governorateAr);
         onUpdate(city.id, "governorateEn", governorateEn);
         onUpdate(city.id, "isGovernorate", isGovernorate);
 
-        setSearchInput(selectedAddress);
+        setSearchInput(displayName);
       }
     } catch (error) {
       console.error("Geocoding error:", error);
@@ -125,172 +139,219 @@ export const CityPricingItem = ({ city, onRemove, onUpdate, t, lang }) => {
   };
 
   return (
-    <div className="p-5 border rounded-2xl bg-white relative shadow-md transition-all duration-300 hover:shadow-lg border-gray-100">
-      <div className="absolute -top-3 -end-3 z-20">
+    <div className="p-3 md:p-5 border rounded-xl md:rounded-2xl bg-white relative shadow-md transition-all duration-300 hover:shadow-lg border-gray-100">
+      <div className="absolute -top-2.5 -end-2.5 z-20">
         <Button
-          className="bg-white hover:bg-red-50 text-red-500 rounded-full min-w-0 p-2 shadow-md border border-gray-100 transition-all hover:scale-110"
+          className="bg-white hover:bg-red-50 text-red-500 rounded-full min-w-0 p-1 md:p-2 aspect-square shadow-md border border-gray-100 transition-all hover:scale-110"
           onPress={() => onRemove(city.id)}
           type="button"
           size="sm"
         >
-          <X className="w-4 h-4" />
+          <X className="w-3.5 h-3.5 md:w-4 md:h-4" />
         </Button>
       </div>
 
-      <div className="flex flex-col gap-4">
-        {/* Type Badge & Status */}
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            {searchInput && (
-              <span
-                className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm ${
-                  city.isGovernorate
-                    ? "bg-purple-100 text-purple-700 border border-purple-200"
-                    : "bg-blue-100 text-blue-700 border border-blue-200"
-                }`}
-              >
-                {city.isGovernorate
-                  ? lang === "ar"
-                    ? "منطقة / إمارة"
-                    : "Governorate"
-                  : lang === "ar"
-                    ? "مدينة"
-                    : "City"}
-              </span>
-            )}
-            {city.price === 0 && city.price !== "" && (
-              <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold border border-green-200 shadow-sm">
-                {lang === "ar" ? "توصيل مجاني" : "Free Delivery"}
-              </span>
-            )}
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 pt-3">
+        <div className="flex flex-col gap-1">
+          <Autocomplete
+            label={
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center gap-1.5">
+                  <span>
+                    {t("cityPricing.cityOrGovernorate")}
+                    <span className="text-rose-500 ms-0.5">*</span>
+                  </span>
+                  {searchInput && (
+                    <span
+                      className={`px-1.5 md:px-2 py-0.5 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-wider ${
+                        city.isGovernorate
+                          ? "bg-purple-100 text-purple-700 border border-purple-200"
+                          : "bg-blue-100 text-blue-700 border border-blue-200"
+                      }`}
+                    >
+                      {city.isGovernorate
+                        ? lang === "ar"
+                          ? "منطقة / إمارة"
+                          : "Governorate"
+                        : lang === "ar"
+                          ? "مدينة"
+                          : "City"}
+                    </span>
+                  )}
+                </div>
 
-          <div
-            className="flex items-center gap-2 cursor-pointer group py-1"
-            onClick={() => {
-              // Toggle price between 0 (free) and "" (empty/required input)
-              onUpdate(city.id, "price", city.price === 0 ? "" : 0);
-            }}
-          >
-            <div
-              className={`w-10 h-5 rounded-full transition-colors relative ${
-                city.price === 0 ? "bg-green-500" : "bg-gray-300"
-              }`}
-            >
-              <div
-                className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${
-                  city.price === 0 ? "start-6" : "start-1"
-                }`}
-              />
-            </div>
-            <span className="text-sm font-medium text-gray-600 transition-colors group-hover:text-green-600">
-              {lang === "ar" ? "توصيل مجاني؟" : "Free Delivery?"}
-            </span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-1">
-            <Autocomplete
-              isRequired
-              label={t("cityPricing.cityOrGovernorate")}
-              placeholder={t("cityPricing.searchCityOrGovernorate")}
-              inputValue={searchInput}
-              value={searchInput}
-              onInputChange={(value) => {
-                setSearchInput(value);
-                fetchSuggestions(value);
-              }}
-              onSelectionChange={(key) => {
-                if (key) {
-                  const suggestion = addressSuggestions.find(
-                    (s) => s.place_id === key,
-                  );
-                  if (suggestion) {
-                    handlePlaceSelect(suggestion.description);
-                  }
-                }
-              }}
-              isLoading={addressLoading}
-              labelPlacement="outside"
-              radius="lg"
-              variant="bordered"
-              classNames={{
-                label: "font-semibold text-gray-700",
-                trigger:
-                  "bg-gray-50/50 hover:bg-white transition-colors border-gray-200",
-              }}
-            >
-              {addressSuggestions.map((suggestion) => (
-                <AutocompleteItem
-                  key={suggestion.place_id}
-                  value={suggestion.description}
-                  className="py-2"
+                <div
+                  className="flex items-center gap-1.5 cursor-pointer group pointer-events-auto"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onUpdate(city.id, "price", city.price === 0 ? "" : 0);
+                  }}
                 >
-                  {suggestion.description}
-                </AutocompleteItem>
-              ))}
-            </Autocomplete>
-
-            {searchInput && (
-              <p className="text-[11px] text-gray-400 mt-1 flex items-center gap-1">
-                <svg
-                  className="w-3 h-3"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                {city.isGovernorate
-                  ? lang === "ar"
-                    ? "سيتم تطبيق السعر على جميع مدن هذه المنطقة"
-                    : "Price applies to all cities in this governorate"
-                  : lang === "ar"
-                    ? "سيتم تطبيق السعر على هذه المدينة فقط"
-                    : "Price applies to this specific city only"}
-              </p>
-            )}
-          </div>
-
-          <Input
-            isDisabled={city.price === 0}
-            isRequired={city.price !== 0}
-            label={t("cityPricing.deliveryCost")}
-            type="number"
-            step={0.01}
-            value={city.price}
-            onChange={(e) =>
-              onUpdate(
-                city.id,
-                "price",
-                e.target.value === "" ? "" : +e.target.value,
-              )
+                  <div
+                    className={`w-7 md:w-8 h-3.5 md:h-4 rounded-full transition-colors relative ${
+                      city.price === 0 ? "bg-green-500" : "bg-gray-300"
+                    }`}
+                  >
+                    <div
+                      className={`absolute top-0.5 w-2.5 h-2.5 bg-white rounded-full transition-all ${
+                        city.price === 0 ? "start-4 md:start-5" : "start-0.5"
+                      }`}
+                    />
+                  </div>
+                  <span className="text-[10px] md:text-xs font-medium text-gray-600 transition-colors group-hover:text-green-600 select-none">
+                    {lang === "ar" ? "توصيل مجاني؟" : "Free Delivery?"}
+                  </span>
+                </div>
+              </div>
             }
-            min={0}
-            placeholder="50"
+            aria-label={t("cityPricing.cityOrGovernorate")}
+            placeholder={t("cityPricing.searchCityOrGovernorate")}
+            inputValue={searchInput}
+            value={searchInput}
+            onOpenChange={setIsOpen}
+            onInputChange={(value) => {
+              setSearchInput(value);
+              if (!value) {
+                onUpdate(city.id, "displayName", "");
+                onUpdate(city.id, "cityAr", "");
+                onUpdate(city.id, "cityEn", "");
+                onUpdate(city.id, "governorateAr", "");
+                onUpdate(city.id, "governorateEn", "");
+                onUpdate(city.id, "isGovernorate", false);
+              }
+            }}
+            onSelectionChange={(key) => {
+              if (key) {
+                const suggestion = addressSuggestions.find(
+                  (s) => s.place_id === key,
+                );
+                if (suggestion) {
+                  handlePlaceSelect(
+                    suggestion.place_id,
+                    suggestion.description,
+                  );
+                }
+              } else {
+                onUpdate(city.id, "displayName", "");
+                onUpdate(city.id, "cityAr", "");
+                onUpdate(city.id, "cityEn", "");
+                onUpdate(city.id, "governorateAr", "");
+                onUpdate(city.id, "governorateEn", "");
+                onUpdate(city.id, "isGovernorate", false);
+                setSearchInput("");
+              }
+            }}
+            isLoading={addressLoading}
             labelPlacement="outside"
             radius="lg"
             variant="bordered"
+            defaultFilter={() => true}
+            items={addressSuggestions}
+            size="sm"
             classNames={{
-              label: "font-semibold text-gray-700",
+              label: "text-xs md:text-sm font-semibold text-gray-700",
               inputWrapper:
-                city.price === 0
-                  ? "bg-gray-100"
-                  : "bg-gray-50/50 hover:bg-white transition-colors border-gray-200",
+                "!h-9 md:!h-11 bg-gray-50/50 hover:bg-white transition-colors border-gray-200",
+              input:
+                "text-xs md:text-sm text-slate-800 placeholder:text-slate-400",
+              popoverContent: "z-modal",
             }}
-            endContent={
-              <div className="pointer-events-none flex items-center">
-                <span className="text-default-400 text-small font-bold">
-                  {t("sar")}
-                </span>
-              </div>
-            }
-          />
+          >
+            {(suggestion) => {
+              const isGov = suggestion.types?.includes(
+                "administrative_area_level_1",
+              );
+              const isLoc = suggestion.types?.some(
+                (t) => t === "locality" || t === "administrative_area_level_2",
+              );
+              return (
+                <AutocompleteItem
+                  key={suggestion.place_id}
+                  value={suggestion.place_id}
+                  textValue={suggestion.description}
+                  className="py-1.5 text-xs md:text-sm"
+                  endContent={
+                    (isGov || isLoc) && (
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-[9px] md:text-[10px] font-bold ${
+                          isGov
+                            ? "bg-purple-100 text-purple-700 border border-purple-200"
+                            : "bg-blue-100 text-blue-700 border border-blue-200"
+                        }`}
+                      >
+                        {isGov
+                          ? lang === "ar"
+                            ? "منطقة / إمارة"
+                            : "Region"
+                          : lang === "ar"
+                            ? "مدينة"
+                            : "City"}
+                      </span>
+                    )
+                  }
+                >
+                  {suggestion.description}
+                </AutocompleteItem>
+              );
+            }}
+          </Autocomplete>
+
+          {searchInput && (
+            <p className="text-[10px] md:text-[11px] text-gray-400 mt-1 flex items-center gap-1">
+              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              {city.isGovernorate
+                ? lang === "ar"
+                  ? "سيتم تطبيق السعر على جميع مدن هذه المنطقة"
+                  : "Price applies to all cities in this governorate"
+                : lang === "ar"
+                  ? "سيتم تطبيق السعر على هذه المدينة فقط"
+                  : "Price applies to this specific city only"}
+            </p>
+          )}
         </div>
+
+        <Input
+          isDisabled={city.price === 0}
+          isRequired={city.price !== 0}
+          label={t("cityPricing.deliveryCost")}
+          type="number"
+          step={0.01}
+          value={city.price}
+          onChange={(e) =>
+            onUpdate(
+              city.id,
+              "price",
+              e.target.value === "" ? "" : +e.target.value,
+            )
+          }
+          min={0}
+          placeholder="50"
+          labelPlacement="outside"
+          radius="md"
+          variant="bordered"
+          classNames={{
+            label: "text-xs md:text-sm font-semibold text-gray-700",
+            input: "text-xs md:text-sm",
+            inputWrapper:
+              city.price === 0
+                ? "bg-gray-100 h-9 md:h-11"
+                : "bg-gray-50/50 hover:bg-white transition-colors border-gray-200 h-9 md:h-11",
+          }}
+          endContent={
+            <div className="pointer-events-none flex items-center">
+              <span className="text-default-400 text-xs md:text-sm font-bold">
+                {t("sar")}
+              </span>
+            </div>
+          }
+        />
       </div>
     </div>
   );
@@ -343,35 +404,38 @@ export const CityPricingList = ({ cities, setRentData, t, lang }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-6 px-4 bg-gradient-to-r from-[#f48a42]/5 via-white to-[#f48a42]/5 rounded-2xl border border-[#f48a42]/10 shadow-sm">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-[#f48a42] rounded-2xl flex items-center justify-center shadow-lg shadow-[#f48a42]/20">
-            <Location color="#fff" className="w-5 h-6" />
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-4 py-3 md:py-6 px-3 md:px-4 bg-gradient-to-r from-[#f48a42]/5 via-white to-[#f48a42]/5 rounded-xl md:rounded-2xl border border-[#f48a42]/10 shadow-sm">
+        <div className="flex items-center gap-3 md:gap-4">
+          <div className="w-9 h-9 md:w-12 md:h-12 bg-primary rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg shadow-[#f48a42]/20">
+            <Location color="#fff" className="w-3 h-4 md:w-5 md:h-6" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-gray-900">
+            <h3 className="text-base md:text-xl font-bold text-gray-900">
               {t("cityPricing.fixedCityPricing")}
             </h3>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 text-xs md:text-sm">
               {t("cityPricing.setDeliveryPrices")}
             </p>
           </div>
         </div>
         <Button
           onPress={addCity}
-          className="bg-[#f48a42] hover:bg-[#ff9c5a] text-white rounded-xl px-6 py-6 shadow-md hover:shadow-xl transition-all duration-300 font-bold"
-          startContent={<Plus size={20} color="#fff" />}
+          size="sm"
+          className="bg-primary hover:bg-[#ff9c5a] text-white rounded-lg md:rounded-xl px-3 md:px-5 py-1.5 md:py-2 text-xs md:text-sm shadow-sm hover:shadow-md transition-all duration-300 font-semibold !h-9 md:!h-10"
+          startContent={
+            <Plus className="w-3.5 h-3.5 md:w-4 md:h-4" color="#fff" />
+          }
         >
           {t("cityPricing.addCity")}
         </Button>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3 md:space-y-4">
         {cities && cities.length > 0 ? (
           cities.map((city, index) => (
             <div key={city.id} className="relative">
-              <div className="absolute -top-3 z-10 text-white -start-3 w-8 h-8 bg-gradient-to-br from-[#f48a42] to-[#e67e22] rounded-full flex items-center justify-center shadow-lg">
+              <div className="absolute -top-2.5 z-10 text-white -start-2.5 w-6 h-6 md:w-8 md:h-8 bg-gradient-to-br from-[#f48a42] to-[#e67e22] rounded-full flex items-center justify-center shadow-lg text-xs md:text-sm font-bold">
                 {index + 1}
               </div>
               <CityPricingItem
@@ -384,14 +448,14 @@ export const CityPricingList = ({ cities, setRentData, t, lang }) => {
             </div>
           ))
         ) : (
-          <div className="text-center py-12 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-            <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Location color="#6b7280" />
+          <div className="text-center py-8 md:py-12 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <Location color="#6b7280" className="w-4 h-5 md:w-6 md:h-7" />
             </div>
-            <p className="text-lg text-gray-900 mb-2">
+            <p className="text-base md:text-lg text-gray-900 mb-1 md:mb-2">
               {t("cityPricing.noCitiesAdded")}
             </p>
-            <p className="text-gray-500 mb-2 text-sm">
+            <p className="text-gray-500 mb-2 text-xs md:text-sm">
               {t("cityPricing.addFirstCity")}
             </p>
           </div>
@@ -402,14 +466,14 @@ export const CityPricingList = ({ cities, setRentData, t, lang }) => {
 };
 
 export const PricingModelSwitcher = ({ value, onChange, lang, t }) => (
-  <div className="mb-8">
-    <h3 className="text-lg font-semibold text-gray-800 mb-4">
+  <div className="mb-3 md:mb-6">
+    <h3 className="text-xs md:text-base font-semibold text-gray-800 mb-1.5 md:mb-3">
       {t("pricingModel.label")}
     </h3>
-    <div className="relative flex p-1 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl w-full max-w-md mx-auto shadow-lg border border-gray-200/60 backdrop-blur-sm">
+    <div className="relative flex p-1 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg md:rounded-xl w-full max-w-xs md:max-w-sm mx-auto shadow-md border border-gray-200/60 backdrop-blur-sm">
       {/* Sliding background indicator */}
       <div
-        className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#f48a42] to-[#e67e22] rounded-xl shadow-xl transition-all duration-500 ease-out transform ${
+        className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#f48a42] to-[#e67e22] rounded-md md:rounded-lg shadow-md transition-all duration-500 ease-out transform ${
           value === "perDay"
             ? "translate-x-0"
             : lang === "ar"
@@ -419,16 +483,17 @@ export const PricingModelSwitcher = ({ value, onChange, lang, t }) => (
       />
       <Button
         color="transparent"
-        className={`flex-1 relative z-10 transition-all duration-300 rounded-xl font-semibold py-3 px-4 ${
+        size="sm"
+        className={`flex-1 relative z-10 transition-all duration-300 rounded-md md:rounded-lg font-medium py-1.5 md:py-2 px-2.5 md:px-3 text-xs md:text-sm !h-8 md:!h-10 !min-h-0 ${
           value === "perDay"
             ? "text-white"
             : "text-gray-600 hover:text-gray-800"
         }`}
         onPress={() => onChange("perDay")}
       >
-        <span className="relative z-10 flex items-center justify-center gap-2">
+        <span className="relative z-10 flex items-center justify-center gap-1 md:gap-1.5">
           <svg
-            className={`w-4 h-4 transition-all duration-300 ${
+            className={`w-3.5 h-3.5 md:w-4 md:h-4 transition-all duration-300 ${
               value === "perDay" ? "text-white" : "text-gray-500"
             }`}
             fill="currentColor"
@@ -446,16 +511,17 @@ export const PricingModelSwitcher = ({ value, onChange, lang, t }) => (
 
       <Button
         color="transparent"
-        className={`flex-1 relative z-10 transition-all duration-300 rounded-xl font-semibold py-3 px-4 ${
+        size="sm"
+        className={`flex-1 relative z-10 transition-all duration-300 rounded-md md:rounded-lg font-medium py-1.5 md:py-2 px-2.5 md:px-3 text-xs md:text-sm !h-8 md:!h-10 !min-h-0 ${
           value === "packages"
             ? "text-white"
             : "text-gray-600 hover:text-gray-800"
         }`}
         onPress={() => onChange("packages")}
       >
-        <span className="relative z-10 flex items-center justify-center gap-2">
+        <span className="relative z-10 flex items-center justify-center gap-1 md:gap-1.5">
           <svg
-            className={`w-4 h-4 transition-all duration-300 ${
+            className={`w-3.5 h-3.5 md:w-4 md:h-4 transition-all duration-300 ${
               value === "packages" ? "text-white" : "text-gray-500"
             }`}
             fill="currentColor"
@@ -469,7 +535,7 @@ export const PricingModelSwitcher = ({ value, onChange, lang, t }) => (
     </div>
 
     {/* Optional description text */}
-    <p className="text-sm text-gray-500 text-center mt-3 max-w-md mx-auto">
+    <p className="text-[10px] md:text-xs text-gray-500 text-center mt-1.5 md:mt-2 max-w-xs md:max-w-sm mx-auto">
       {value === "perDay"
         ? t("pricingModel.perDayDescription")
         : t("pricingModel.packagesDescription")}
@@ -490,20 +556,20 @@ export const PackageItem = ({ pkg, onRemove, onUpdate, t, commission }) => {
   ];
 
   return (
-    <div className="md:p-6 p-4 border rounded-lg bg-white relative shadow-sm">
-      <div className="absolute -top-3 -end-3">
+    <div className="p-3 md:p-6 border rounded-lg md:rounded-xl bg-white relative shadow-sm">
+      <div className="absolute -top-2.5 -end-2.5">
         <Button
-          className="bg-red-500 hover:bg-red-600 text-white rounded-full min-w-0 p-2 shadow-lg"
+          className="bg-red-500 hover:bg-red-600 text-white rounded-full min-w-0 p-1 md:p-2 aspect-square shadow-lg"
           onPress={() => onRemove(pkg.id)}
           type="button"
           size="sm"
         >
-          <X className="w-4 h-4" />
+          <X className="w-3.5 h-3.5 md:w-4 md:h-4" />
         </Button>
       </div>
 
       {/* Simplified Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-4">
         {/* 1. Combined Duration & Unit Input */}
         <Input
           isRequired
@@ -527,6 +593,10 @@ export const PackageItem = ({ pkg, onRemove, onUpdate, t, commission }) => {
           placeholder={t("packages.durationPlaceholder")}
           labelPlacement="outside"
           radius="sm"
+          classNames={{
+            label: "text-xs md:text-sm font-semibold text-gray-700",
+            inputWrapper: "h-10 md:h-12",
+          }}
           endContent={
             <div
               className="flex items-center w-20"
@@ -547,17 +617,10 @@ export const PackageItem = ({ pkg, onRemove, onUpdate, t, commission }) => {
                 }}
                 aria-label="Select rental unit"
                 disallowEmptySelection
-                popoverProps={{
-                  shouldBlockScroll: false,
-                  placement: "bottom-end",
-                  scrollShadowProps: {
-                    isEnabled: false,
-                  },
-                }}
                 classNames={{
                   base: "w-28 -me-2",
                   trigger:
-                    "h-full border-none bg-transparent shadow-none justify-center px-0 min-h-10",
+                    "h-full border-none bg-transparent shadow-none justify-center px-0 min-h-8 md:min-h-10 text-xs md:text-sm",
                   popoverContent: "md:w-36 w-28 translate-x-4 md:translate-x-0",
                 }}
               >
@@ -587,9 +650,15 @@ export const PackageItem = ({ pkg, onRemove, onUpdate, t, commission }) => {
           placeholder={t("packages.pricePlaceholder")}
           labelPlacement="outside"
           radius="sm"
+          classNames={{
+            label: "text-xs md:text-sm font-semibold text-gray-700",
+            inputWrapper: "h-10 md:h-12",
+          }}
           endContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-default-400 text-small">{t("sar")}</span>
+              <span className="text-default-400 text-xs md:text-sm">
+                {t("sar")}
+              </span>
             </div>
           }
         />
@@ -602,10 +671,15 @@ export const PackageItem = ({ pkg, onRemove, onUpdate, t, commission }) => {
           value={earnings}
           labelPlacement="outside"
           radius="sm"
-          classNames={{ inputWrapper: "!bg-[rgba(253,220,166,0.5)]" }}
+          classNames={{
+            label: "text-xs md:text-sm font-semibold text-gray-700",
+            inputWrapper: "h-10 md:h-12 !bg-[rgba(253,220,166,0.5)]",
+          }}
           endContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-default-400 text-small">{t("sar")}</span>
+              <span className="text-default-400 text-xs md:text-sm">
+                {t("sar")}
+              </span>
             </div>
           }
         />
@@ -647,14 +721,14 @@ export const PackagesList = ({ packages, setRentData, t, commission }) => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 md:space-y-8">
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50 rounded-xl border border-blue-100">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-4 p-3 md:p-6 bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50 rounded-xl border border-blue-100">
         <div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-1">
+          <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-0.5 md:mb-1">
             {t("packages.title")}
           </h3>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-xs md:text-base">
             {t(
               "packages.subtitle",
               "Set fixed-price packages for specific durations.",
@@ -663,19 +737,21 @@ export const PackagesList = ({ packages, setRentData, t, commission }) => {
         </div>
         <Button
           onPress={addPackage}
-          className="bg-gradient-to-r from-[#F48A42] to-[#FF6B35] text-white rounded-xl px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-          startContent={<Plus size={20} color="#fff" />}
+          className="bg-gradient-to-r from-[#F48A42] to-[#FF6B35] text-white rounded-xl px-3 md:px-6 py-2 md:py-3 text-xs md:text-base shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          startContent={
+            <Plus className="w-3.5 h-3.5 md:w-5 md:h-5" color="#fff" />
+          }
         >
           {t("packages.addButton")}
         </Button>
       </div>
 
       {/* Packages List */}
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         {packages && packages.length > 0 ? (
           packages.map((pkg, index) => (
             <div key={pkg.id} className="relative">
-              <div className="absolute -top-3 z-10 text-white -start-3 w-8 h-8 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-full flex items-center justify-center shadow-lg">
+              <div className="absolute -top-2.5 z-10 text-white -start-2.5 w-6 h-6 md:w-8 md:h-8 bg-gradient-to-br from-[#F48A42] to-[#FF6B35] rounded-full flex items-center justify-center shadow-lg text-xs md:text-sm font-bold">
                 {index + 1}
               </div>
               <PackageItem
@@ -688,14 +764,14 @@ export const PackagesList = ({ packages, setRentData, t, commission }) => {
             </div>
           ))
         ) : (
-          <div className="text-center py-12 bg-gray-50/50 rounded-xl border-2 border-dashed border-gray-200">
-            <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-              <Plus color="#9ca3af" size={24} />
+          <div className="text-center py-8 md:py-12 bg-gray-50/50 rounded-xl border-2 border-dashed border-gray-200">
+            <div className="mx-auto w-12 h-12 md:w-16 md:h-16 bg-gray-100 rounded-full flex items-center justify-center mb-3 md:mb-4">
+              <Plus color="#9ca3af" className="w-5 h-5 md:w-6 md:h-6" />
             </div>
-            <p className="text-gray-500 md:text-lg text-base mb-2">
+            <p className="text-gray-500 text-base md:text-lg mb-1 md:mb-2">
               {t("packages.empty.title")}
             </p>
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-400 text-xs md:text-sm">
               {t(
                 "packages.empty.subtitle",
                 'Click "Add Package" to create your first rental package',

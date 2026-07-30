@@ -24,7 +24,7 @@ const CheckCircleIcon = () => (
 );
 
 const ShieldIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-[#F48A42]">
+  <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-primary">
     <path
       d="M12 2L4 5V11C4 16.19 7.41 21.05 12 22C16.59 21.05 20 16.19 20 11V5L12 2Z"
       stroke="currentColor"
@@ -76,7 +76,7 @@ export default function Commissions({ translate, lang = "ar" }) {
       </div>
 
       <div className="absolute bottom-0 end-0 select-none pointer-events-none z-0 opacity-40 translate-y-1/4 translate-x-1/4">
-        <div className="w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-[#F48A42]/10 rounded-full blur-[120px]" />
+        <div className="w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-primary/10 rounded-full blur-[120px]" />
       </div>
 
       <div className="max-w-screen-2xl mx-auto px-4 md:px-8 relative z-10 w-full mt-6 md:mt-16">
@@ -99,7 +99,7 @@ export default function Commissions({ translate, lang = "ar" }) {
                     12,450 {lang === "ar" ? "ريال" : "SAR"}
                   </h4>
                 </div>
-                <div className="bg-[#F48A42]/10 p-2 md:p-3 rounded-xl md:rounded-2xl">
+                <div className="bg-primary/10 p-2 md:p-3 rounded-xl md:rounded-2xl">
                   <ShieldIcon className="w-4 h-4 md:w-5 md:h-5" />
                 </div>
               </div>
@@ -114,7 +114,7 @@ export default function Commissions({ translate, lang = "ar" }) {
                         height: isVisible ? `${h}%` : "0%",
                         transition: `height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${i * 0.05}s`,
                       }}
-                      className={`flex-1 rounded-t-sm md:rounded-t-lg transition-all ${i === 5 ? "bg-[#F48A42]" : "bg-[#F48A42]/20"} ${i > 10 ? "hidden md:block" : ""}`}
+                      className={`flex-1 rounded-t-sm md:rounded-t-lg transition-all ${i === 5 ? "bg-primary" : "bg-primary/20"} ${i > 10 ? "hidden md:block" : ""}`}
                     />
                   ),
                 )}
@@ -131,7 +131,7 @@ export default function Commissions({ translate, lang = "ar" }) {
                       className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white bg-gray-200"
                     />
                   ))}
-                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white bg-[#F48A42] flex items-center justify-center text-[8px] md:text-[10px] text-white font-bold">
+                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white bg-primary flex items-center justify-center text-[8px] md:text-[10px] text-white font-bold">
                     +12
                   </div>
                 </div>
@@ -168,7 +168,7 @@ export default function Commissions({ translate, lang = "ar" }) {
             <h2 className="font-IBMPlex font-bold text-3xl lg:text-5xl text-darkNavy leading-tight mb-6">
               {t("title")}
             </h2>
-            <p className="font-IBMPlex font-semibold text-lg lg:text-2xl text-[#F48A42] mb-8 leading-relaxed">
+            <p className="font-IBMPlex font-semibold text-lg lg:text-2xl text-primary mb-8 leading-relaxed">
               {t("subtitle")}
             </p>
 
@@ -182,7 +182,7 @@ export default function Commissions({ translate, lang = "ar" }) {
                     }}
                     className={`flex items-center gap-4 flex-row-reverse justify-end lg:flex-row-reverse transition-all duration-700 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"}`}
                   >
-                    <span className="font-IBMPlex font-medium text-[#5B5656] text-base md:text-xl">
+                    <span className="font-IBMPlex font-medium text-mutedGray text-base md:text-xl">
                       {text}
                     </span>
                     <CheckCircleIcon />
@@ -194,7 +194,7 @@ export default function Commissions({ translate, lang = "ar" }) {
               <Button
                 as={Link}
                 href={`/${lang}/pricing`}
-                className="w-full sm:w-auto text-base md:text-lg py-5 px-8 md:py-8 md:px-12 flex items-center justify-center gap-4 font-IBMPlex font-bold shadow-[0_20px_40px_-10px_rgba(244,138,66,0.4)] hover:-translate-y-1 hover:shadow-[0_25px_50px_-12px_rgba(244,138,66,0.5)] transition-all duration-300 group bg-[#F48A42] text-white"
+                className="w-full sm:w-auto text-base md:text-lg py-5 px-8 md:py-8 md:px-12 flex items-center justify-center gap-4 font-IBMPlex font-bold shadow-[0_20px_40px_-10px_rgba(244,138,66,0.4)] hover:-translate-y-1 hover:shadow-[0_25px_50px_-12px_rgba(244,138,66,0.5)] transition-all duration-300 group bg-primary text-white"
               >
                 <span>{t("action")}</span>
                 <span

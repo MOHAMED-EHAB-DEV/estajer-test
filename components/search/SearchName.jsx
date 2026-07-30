@@ -2,10 +2,9 @@
 import { startTransition, useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { useRouter } from "next/navigation";
-import { Input } from "@heroui/input";
+import { Input } from "@/components/ui/Input";
 import { useTranslations } from "@/hooks/useTranslations";
-import { sendGTMEvent } from "@next/third-parties/google";
-import { Search } from "../ui/svgs/icons/SearchSvg";;
+import { Search } from "../ui/svgs/icons/SearchSvg";
 import { useSearchTracking } from "@/hooks/useSearchTracking";
 
 export default function SearchName({
@@ -17,6 +16,7 @@ export default function SearchName({
   isCollapsed,
   categoryPage,
   subCategoryPage,
+  shopSlug,
 }) {
   const trans = useTranslations(translate);
   const t = (text) => trans(`search.${text}`);
@@ -25,16 +25,20 @@ export default function SearchName({
   const [name, setName] = useState(queryParams?.name || "");
   const [debouncedName] = useDebounce(name.trim(), 1000);
   const [isLoading, setIsLoading] = useState(false);
-  const { trackSearch, trackUnmount } = useSearchTracking({ source: "filters" });
+  const { trackSearch, trackUnmount } = useSearchTracking({
+    source: "filters",
+  });
 
   // Keep a stable ref to lang for the unmount cleanup
   const langRef = useRef(lang);
-  useEffect(() => { langRef.current = lang; }, [lang]);
+  useEffect(() => {
+    langRef.current = lang;
+  }, [lang]);
 
   // Track the final committed search term when user navigates away
   useEffect(() => {
     return () => trackUnmount(langRef.current);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     setIsLoading(false);
@@ -47,20 +51,12 @@ export default function SearchName({
       if (!debouncedName) params.delete("name");
       if (debouncedName) params.set("name", debouncedName);
 
-      // If on category/subcategory page, remove them from params as they're in the path
-      if (categoryPage && params.has("category")) params.delete("category");
-      if (subCategoryPage && params.has("subCategory"))
-        params.delete("subCategory");
-
-      try {
-        sendGTMEvent({
-          event: "search_update",
-          search_term: debouncedName || "",
-          location: "search_filters",
-          view: map ? "map" : "products",
-          language: lang,
-        });
-      } catch (_) {}
+      // If on category/subcategory page and NOT in shop, remove them from params as they're in the path
+      if (!shopSlug) {
+        if (categoryPage && params.has("category")) params.delete("category");
+        if (subCategoryPage && params.has("subCategory"))
+          params.delete("subCategory");
+      }
 
       // Track via the hook — client-side progression logic will suppress
       // intermediate steps (م → مل → ملع → ملعب) automatically.
@@ -74,7 +70,11 @@ export default function SearchName({
       }
 
       let basePath;
-      if (categoryPage && subCategoryPage) {
+      if (shopSlug) {
+        basePath = `/${langPrefix}shops/${shopSlug}/search/${map ? "map" : "products"}`;
+        if (categoryPage) params.set("category", categoryPage);
+        if (subCategoryPage) params.set("subCategory", subCategoryPage);
+      } else if (categoryPage && subCategoryPage) {
         basePath = `/${langPrefix}${categoryPage}/${subCategoryPage}/${
           map ? "map" : "products"
         }`;
@@ -108,7 +108,7 @@ export default function SearchName({
       >
         <label className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2 mb-2">
           <svg
-            className="w-4 h-4 text-[#f48a42]"
+            className="w-4 h-4 text-primary"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -138,7 +138,6 @@ export default function SearchName({
             inputWrapper: [
               "h-12 sm:h-13 lg:h-14",
               "border-2 border-gray-200",
-              "hover:border-[#f48a42]",
               "focus-within:border-[#f48a42]",
               "group-data-[focus=true]:border-[#f48a42]",
               "transition-all duration-200",
@@ -151,17 +150,7 @@ export default function SearchName({
           }}
           {...(!endContent
             ? {
-                onClear: () => {
-                  setName("");
-                  try {
-                    sendGTMEvent({
-                      event: "search_clear",
-                      location: "search_filters",
-                      view: map ? "map" : "products",
-                      language: lang,
-                    });
-                  } catch (_) {}
-                },
+                onClear: () => setName(""),
               }
             : {})}
           startContent={

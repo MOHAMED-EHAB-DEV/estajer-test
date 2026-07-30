@@ -1,6 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { FeatureIcon } from "@/components/shop/themes/shared/FeatureIcon";
 
 // Icons for the three steps
 const EstajerIcon = () => (
@@ -71,26 +73,8 @@ const ArrowConnector = ({ isRtl }) => (
   </div>
 );
 
-// Mobile arrow connector (vertical)
-const MobileArrowConnector = () => (
-  <div className="flex lg:hidden items-center justify-center py-2 z-10">
-    <div className="w-10 h-10 rounded-full bg-white shadow-lg shadow-primary/10 border border-primary/15 flex items-center justify-center text-primary">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2.5}
-        className="w-4 h-4 -rotate-90"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-        />
-      </svg>
-    </div>
-  </div>
-);
+// Mobile arrow connector (vertical) - Hidden since we now use a horizontal slider on mobile
+const MobileArrowConnector = () => null;
 
 const StepCard = ({ icon, title, items, variant = "default", index }) => {
   const variants = {
@@ -145,7 +129,7 @@ const StepCard = ({ icon, title, items, variant = "default", index }) => {
     >
       {/* Top accent line */}
       <div
-        className={`absolute top-0 start-0 w-full h-[3px] bg-gradient-to-r ${v.accent} opacity-80`}
+        className={`absolute top-0 start-0 w-full h-[3px] bg-gradient-to-l ${v.accent} opacity-80`}
       />
 
       {/* Decorative circles */}
@@ -211,7 +195,14 @@ export default function PartnerHowItWorks({ partner, lang }) {
 
   const steps = [
     {
-      icon: <EstajerIcon />,
+      icon: howItWorks.estajerSide?.iconType ? (
+        <FeatureIcon
+          type={howItWorks.estajerSide.iconType}
+          className="w-7 h-7 text-white"
+        />
+      ) : (
+        <EstajerIcon />
+      ),
       title: isAr
         ? howItWorks.estajerSide?.titleAr
         : howItWorks.estajerSide?.titleEn,
@@ -221,7 +212,14 @@ export default function PartnerHowItWorks({ partner, lang }) {
       variant: "estajer",
     },
     {
-      icon: <PartnerIcon />,
+      icon: howItWorks.partnerSide?.iconType ? (
+        <FeatureIcon
+          type={howItWorks.partnerSide.iconType}
+          className="w-7 h-7 text-white"
+        />
+      ) : (
+        <PartnerIcon />
+      ),
       title: isAr
         ? howItWorks.partnerSide?.titleAr
         : howItWorks.partnerSide?.titleEn,
@@ -231,7 +229,14 @@ export default function PartnerHowItWorks({ partner, lang }) {
       variant: "partner",
     },
     {
-      icon: <BenefitsIcon />,
+      icon: howItWorks.sharedBenefits?.iconType ? (
+        <FeatureIcon
+          type={howItWorks.sharedBenefits.iconType}
+          className="w-7 h-7 text-white"
+        />
+      ) : (
+        <BenefitsIcon />
+      ),
       title: isAr
         ? howItWorks.sharedBenefits?.titleAr
         : howItWorks.sharedBenefits?.titleEn,
@@ -249,43 +254,83 @@ export default function PartnerHowItWorks({ partner, lang }) {
 
   if (visibleSteps.length === 0) return null;
 
-  // For RTL, reverse the order for the visual flow
-  const orderedSteps = isAr ? [...visibleSteps].reverse() : visibleSteps;
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    axis: "x",
+    direction: lang === "ar" ? "rtl" : "ltr",
+    align: "center",
+    slidesToScroll: 1,
+    breakpoints: {
+      "(min-width: 1024px)": { active: false },
+    },
+  });
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState([]);
+
+  const onSelect = useCallback((emblaApi) => {
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, []);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect(emblaApi);
+    setScrollSnaps(emblaApi.scrollSnapList());
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+  }, [emblaApi, onSelect]);
+
+  const scrollTo = useCallback(
+    (index) => emblaApi && emblaApi.scrollTo(index),
+    [emblaApi],
+  );
 
   return (
     <section className="mt-16 lg:mt-24">
       {/* Section Header */}
       {sectionTitle && (
         <div className="text-center mb-10 lg:mb-14">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-darkNavy leading-tight">
+          <h2 className="text-xl md:text-3xl lg:text-4xl font-black text-darkNavy leading-tight">
             {sectionTitle}
           </h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mt-4 rounded-full" />
+          <div className="w-12 md:w-16 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mt-4 rounded-full" />
         </div>
       )}
 
       {/* Steps Flow */}
-      <div
-        className={`flex items-stretch ${isAr ? "lg:flex-row-reverse flex-col-reverse" : "lg:flex-row flex-col"}`}
-      >
-        {orderedSteps.map((step, idx) => (
-          <React.Fragment key={idx}>
-            <StepCard
-              icon={step.icon}
-              title={step.title}
-              items={step.items}
-              variant={step.variant}
-              index={isAr ? visibleSteps.length - 1 - idx : idx}
-            />
-            {idx < orderedSteps.length - 1 && (
-              <>
-                <ArrowConnector isRtl={isAr} />
-                <MobileArrowConnector />
-              </>
-            )}
-          </React.Fragment>
-        ))}
+      <div className="overflow-hidden lg:overflow-visible" ref={emblaRef}>
+        <div className="flex lg:flex-row lg:items-stretch">
+          {visibleSteps.map((step, idx) => (
+            <React.Fragment key={idx}>
+              <div className="flex-[0_0_85%] sm:flex-[0_0_70%] lg:flex-1 min-w-0 px-2 lg:px-0 flex items-stretch">
+                <StepCard
+                  icon={step.icon}
+                  title={step.title}
+                  items={step.items}
+                  variant={step.variant}
+                  index={idx}
+                />
+              </div>
+              {idx < visibleSteps.length - 1 && <ArrowConnector isRtl={isAr} />}
+            </React.Fragment>
+          ))}
+        </div>
       </div>
+
+      {/* Mobile Pagination Dots */}
+      {scrollSnaps.length > 1 && (
+        <div className="flex lg:hidden justify-center items-center gap-2 mt-8 h-3">
+          {scrollSnaps.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollTo(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === selectedIndex ? "bg-primary w-5" : "bg-neutral-200"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

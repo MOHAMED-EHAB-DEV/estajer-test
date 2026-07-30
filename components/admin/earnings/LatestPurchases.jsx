@@ -4,7 +4,7 @@ import { Eye } from "@/components/ui/svgs/CardsSvg";
 import { Edit } from "@/components/ui/svgs/icons/EditSvg";
 import { Sort } from "@/components/ui/svgs/icons/SortSvg";
 import { Currency } from "@/components/ui/svgs/icons/CurrencySvg";
-import { ChevronLeft } from "@/components/ui/svgs/icons/ChevronLeftSvg";;
+import { ChevronLeft } from "@/components/ui/svgs/icons/ChevronLeftSvg";
 import Link from "next/link";
 import { useTranslations } from "@/hooks/useTranslations";
 
@@ -19,9 +19,21 @@ export default function LatestPurchases({
   const CurrentStatus = (item) => {
     const { status } = item;
     const statusses = [
-      { label: t("failed"), condition: status === "failed", className: "bg-red-600" },
-      { label: t("pending"), condition: status === "pending", className: "bg-[#F48A42]" },
-      { label: t("completed"), condition: status === "completed", className: "bg-[#4FD658]" },
+      {
+        label: t("failed"),
+        condition: status === "failed",
+        className: "bg-red-600",
+      },
+      {
+        label: t("pending"),
+        condition: status === "pending",
+        className: "bg-primary",
+      },
+      {
+        label: t("completed"),
+        condition: status === "completed",
+        className: "bg-successGreen",
+      },
     ];
     const currentStatus = statusses.find((item) => item.condition);
     return (
@@ -39,11 +51,11 @@ export default function LatestPurchases({
   const allSelected = data.length !== 0 && selected.length === data.length;
   const toggleAll = () =>
     setSelected((prev) =>
-      prev.length === data.length ? [] : data.map((o) => o._id)
+      prev.length === data.length ? [] : data.map((o) => o._id),
     );
   const toggleOne = (id) =>
     setSelected((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
 
   return (
@@ -110,7 +122,7 @@ export default function LatestPurchases({
               className={`group gap-2 grid grid-cols-10 w-full justify-center items-center h-fit transition-colors py-4 text-black ${
                 selected.includes(item._id)
                   ? "bg-[#F48A421A]"
-                  : "hover:bg-[#F6F6F6] bg-transparent"
+                  : "hover:bg-lightBg bg-transparent"
               }`}
             >
               <div className="px-3 text-center flex items-center gap-3">
@@ -154,13 +166,11 @@ export default function LatestPurchases({
               </div>
               {CurrentStatus(item)}
               <div className="px-3 flex gap-2 items-center justify-end whitespace-nowrap">
-                <button
-                  className="flex items-center gap-1 bg-[#F6F6F6] rounded-sm p-1 font-medium  text-xs"
-                >
+                <button className="flex items-center gap-1 bg-lightBg rounded-sm p-1 font-medium  text-xs">
                   <Eye color="#0D092B" size={12} />
                   عرض
                 </button>
-                <button className="flex items-center gap-1 bg-[#F6F6F6] rounded-[2px] p-1 font-medium text-sm">
+                <button className="flex items-center gap-1 bg-lightBg rounded-[2px] p-1 font-medium text-sm">
                   <Edit size={12} color="#0D092B" />
                   تعديل
                 </button>

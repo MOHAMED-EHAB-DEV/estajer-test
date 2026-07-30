@@ -1,13 +1,13 @@
 "use client";
+import Button from "@/components/ui/Button";
 import {
-  Button,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Textarea,
-} from "@heroui/react";
+} from "@/components/ui/CustomModal";
+import { Textarea } from "@/components/ui/Input";
 import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import { toast } from "@/utils/toast";

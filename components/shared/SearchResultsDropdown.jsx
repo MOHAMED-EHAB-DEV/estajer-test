@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Search } from "../ui/svgs/icons/SearchSvg";
 import { Currency } from "../ui/svgs/icons/CurrencySvg";
-import { Location as LocationIcon } from "../ui/svgs/icons/LocationSvg";
+import DeliveryRow from "./DeliveryRow";
 import { anyImgUrl } from "@/utils/ImageUrl";
 import formatDuration from "@/utils/formatDuration";
 import { getUrlName } from "@/lib/sitemap";
@@ -23,6 +23,7 @@ export default function SearchResultsDropdown({
   onResultClick,
   trackFinalSearch,
   providerId,
+  shopSlug,
 }) {
   if (!showResults) return null;
 
@@ -91,8 +92,8 @@ export default function SearchResultsDropdown({
               return (
                 <Link
                   key={product._id}
-                  href={`/${langPrefix}products/${getUrlName(product.name)}_ref_${product._id}${providerId ? `?providerId=${providerId}` : ""}`}
-                  className="flex items-center gap-4 px-4 py-3 hover:bg-primary/5 transition-colors group border-b border-gray-50 md:border-none"
+                  href={`/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}products/${getUrlName(product.name)}_ref_${product._id}${providerId ? `?providerId=${providerId}` : ""}`}
+                  className="flex items-center gap-3 md:gap-4 px-3 py-2 md:px-4 md:py-3 hover:bg-primary/5 transition-colors group border-b border-gray-50 md:border-none"
                   onClick={() => {
                     // Clicking a product = user found what they wanted = final committed search
                     if (trackFinalSearch && searchValue?.trim().length >= 2) {
@@ -105,7 +106,7 @@ export default function SearchResultsDropdown({
                     onResultClick?.();
                   }}
                 >
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 italic">
+                  <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-lg overflow-hidden flex-shrink-0 italic">
                     <div
                       className="absolute inset-0 opacity-95 transition-opacity duration-300"
                       style={{
@@ -130,10 +131,10 @@ export default function SearchResultsDropdown({
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-semibold text-darkNavy truncate group-hover:text-primary transition-colors">
+                    <h4 className="text-xs md:text-sm font-semibold text-darkNavy truncate group-hover:text-primary transition-colors">
                       {product.name}
                     </h4>
-                    <div className="flex items-center gap-3 mt-1">
+                    <div className="flex items-center gap-2 md:gap-3 mt-0.5 md:mt-1">
                       {hasDiscount ? (
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-bold text-primary flex items-center gap-0.5">
@@ -167,10 +168,12 @@ export default function SearchResultsDropdown({
                             ? "باليوم"
                             : "per Day"}
                       </span>
-                      <span className="text-[10px] text-gray-400 flex items-center gap-1">
-                        <LocationIcon className="w-2.5 h-2.5" color="#9393A1" />
-                        {product.address?.city}
-                      </span>
+                      <DeliveryRow
+                        delivery={product.rental?.delivery}
+                        address={product.address}
+                        lang={lang}
+                        xs
+                      />
                     </div>
                   </div>
                   <div className="hidden lg:block opacity-0 group-hover:opacity-100 transition-opacity">
@@ -194,7 +197,7 @@ export default function SearchResultsDropdown({
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-3 text-center text-sm font-semibold text-primary hover:bg-primary/5 transition-colors border-t border-gray-50 flex items-center justify-center gap-2"
+            className="w-full px-4 py-2.5 md:py-3 text-center text-xs md:text-sm font-semibold text-primary hover:bg-primary/5 transition-colors border-t border-gray-50 flex items-center justify-center gap-2"
           >
             {lang === "ar" ? "عرض جميع النتائج" : "View all results"}
             <Search className="w-4 h-4" />

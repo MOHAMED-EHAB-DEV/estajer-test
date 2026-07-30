@@ -26,15 +26,27 @@ export async function GET(request) {
     const dateFrom = searchParams.get("dateFrom");
     const dateTo = searchParams.get("dateTo");
     const showCompleted = searchParams.get("showCompleted");
+    const showCancelled = searchParams.get("showCancelled");
 
     // Build query
     const query = {};
 
-    // Status filter - default to showing only non-completed tasks
+    // Status filter - default to showing only non-completed and non-cancelled tasks
     if (status) {
       query.status = status;
-    } else if (showCompleted !== "true") {
-      query.status = { $ne: "completed" };
+    } else {
+      const excluded = [];
+      if (showCompleted !== "true") {
+        excluded.push("completed");
+      }
+      if (showCancelled !== "true") {
+        excluded.push("cancelled");
+      }
+      if (excluded.length === 1) {
+        query.status = { $ne: excluded[0] };
+      } else if (excluded.length > 1) {
+        query.status = { $nin: excluded };
+      }
     }
 
     if (type) {

@@ -40,6 +40,7 @@ export default function ProductContainer({
   limit = 40,
   branch,
   providerId,
+  shopSlug,
 }) {
   const { user, favoriteProducts, toggleFavorite } = useUser();
   const trans = useTranslations(translate);
@@ -140,7 +141,7 @@ export default function ProductContainer({
         lang === "ar" ? "nameAr" : "nameEn"
       },rental,rating,pricingModel,location,${
         lang === "ar" ? "addressAr" : "addressEn"
-      }${owner ? ",lovedCount,rejected,approved,rejectMessage" : ""}`,
+      }${owner ? ",lovedCount,rejected,approved,rejectMessage,pendingChanges" : ""}`,
       ...(name &&
         seenProductIds.length > 0 && {
           excludeProducts: seenProductIds.join(","),
@@ -198,7 +199,7 @@ export default function ProductContainer({
         <div className="fixed md:bottom-8 bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-2xl shadow-2xl border border-gray-200 md:px-6 px-3 md:py-4 py-2.5 flex items-center md:gap-4 gap-2 z-50 animate-slide-up w-[90%] md:w-auto justify-between md:justify-start">
           <div className="flex items-center md:gap-2 gap-1.5 shrink-0">
             <div className="md:w-8 md:h-8 w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center">
-              <span className="md:text-sm text-[11px] font-bold text-[#f48a42]">
+              <span className="md:text-sm text-[11px] font-bold text-primary">
                 {selectedProducts.length}
               </span>
             </div>
@@ -214,7 +215,7 @@ export default function ProductContainer({
 
           <div className="flex items-center md:gap-3 gap-1.5">
             <Button
-              className="md:px-4 px-2.5 md:py-2 py-2 h-auto bg-[#f48a42] text-white md:text-sm text-[11px] font-medium rounded-lg hover:bg-[#e07a32] transition-colors flex items-center md:gap-2 gap-1"
+              className="md:px-4 px-2.5 md:py-2 py-2 h-auto bg-primary text-white md:text-sm text-[11px] font-medium rounded-lg hover:bg-[#e07a32] transition-colors flex items-center md:gap-2 gap-1"
               onPress={() => setShowBulkEditModal(true)}
             >
               <Edit className="md:w-4 md:h-4 w-3.5 h-3.5" color="white" />
@@ -244,7 +245,7 @@ export default function ProductContainer({
         <div className="flex justify-end mb-2">
           <Button
             color="transparent"
-            className="text-sm text-gray-600 hover:text-[#f48a42] bg-white shadow-sm border border-gray-200 px-4 py-2 rounded-lg"
+            className="text-sm text-gray-600 hover:text-primary bg-white shadow-sm border border-gray-200 px-4 py-2 rounded-lg"
             onPress={handleSelectAll}
           >
             {selectedProducts.length === products.length
@@ -261,17 +262,17 @@ export default function ProductContainer({
           products.length === 0 && !loading
             ? "items-center"
             : sm
-              ? "xl:grid-cols-4 lg:grid-cols-3 grid-cols-2"
+              ? `2xl:grid-cols-${owner ? "4" : "5"} xl:grid-cols-4 lg:grid-cols-3 grid-cols-2`
               : owner
                 ? "2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2"
-                : "xl:grid-cols-4 lg:grid-cols-3 grid-cols-2"
+                : "2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2"
         }`}
       >
         {products.length === 0 && !loading ? (
           <EmptyPlaceholder
             title={t("noProducts")}
             Icon={NoItems}
-            titleClassName="text-[#5B5656]"
+            titleClassName="text-mutedGray"
             detailsContainerClassName="w-full"
             {...(owner
               ? {
@@ -301,6 +302,7 @@ export default function ProductContainer({
                 favoriteProducts={favoriteProducts}
                 toggleFavorite={toggleFavorite}
                 providerId={providerId}
+                shopSlug={shopSlug}
               />
             </div>
           ))

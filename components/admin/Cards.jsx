@@ -1,5 +1,6 @@
 import { formatNumeric, hexToRgba } from "@/lib/utils";
 import Link from "next/link";
+import { twMerge } from "tailwind-merge";
 
 export default function Cards({
   placeholder,
@@ -34,8 +35,8 @@ export default function Cards({
 
   return (
     <div
-      className={`grid md:grid-cols-4 grid-cols-2 items-center justify-center gap-2 md:gap-4 ${noMargin ? "" : "mb-6"} ${
-        cards.length === 5 ? "md:grid-cols-2" : ""
+      className={`grid grid-cols-2 items-center justify-center gap-2 md:gap-4 ${noMargin ? "" : "mb-6"} ${
+        cards.length === 5 ? "md:grid-cols-2" : cards.length === 10 ? "md:grid-cols-3" : "md:grid-cols-4"
       }`}
     >
       {cards.map(
@@ -46,6 +47,7 @@ export default function Cards({
             iconColor,
             title,
             value,
+            valueClassNames,
             review,
             reviewColor,
             OtherIcon,
@@ -57,7 +59,7 @@ export default function Cards({
         ) => (
           <div
             key={idx}
-            className={`flex w-full h-full md:h-[140px] items-center justify-between gap-3 md:gap-5 p-2.5 md:p-4 rounded-lg bg-[#FEFEFE] ${cards.length === 5 && idx + 1 === cards.length ? "col-span-2" : ""} ${cards.length === 7 && idx + 1 > 4 ? (idx + 1 === cards.length ? "md:col-span-4 col-span-2" : "md:col-span-2") : ""}`}
+            className={`flex w-full h-full md:h-[140px] items-center justify-between gap-3 md:gap-5 p-2.5 md:p-4 rounded-lg bg-[#FEFEFE] ${cards.length === 5 && idx + 1 === cards.length ? "col-span-2" : ""} ${cards.length === 7 && idx + 1 > 4 ? (idx + 1 === cards.length ? "md:col-span-4 col-span-2" : "md:col-span-2") : ""} ${cards.length === 10 && idx + 1 === cards.length ? "md:col-span-3 col-span-2" : ""}`}
           >
             <div className="flex flex-col items-start gap-1 md:gap-3">
               <h1 className="text-[10px] md:text-sm font-semibold text-darkNavy font-IBMPlex">
@@ -77,7 +79,7 @@ export default function Cards({
                   </div>
                 ) : (
                   <p
-                    className="font-bold text-sm md:text-lg lg:text-[28px] font-NotoSansArabic"
+                    className={twMerge(`font-bold text-sm md:text-lg lg:text-[28px] font-NotoSansArabic`, valueClassNames)}
                     style={{ color: valueColor }}
                   >
                     {placeholder ? "..." : value}

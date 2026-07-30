@@ -1,12 +1,9 @@
-const { heroui } = require("@heroui/react");
-
 const config = {
   content: {
     files: [
       "./pages/**/*.{js,ts,jsx,tsx,mdx}",
       "./components/**/*.{js,ts,jsx,tsx,mdx}",
       "./app/**/*.{js,ts,jsx,tsx,mdx}",
-      "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
     ],
   },
   theme: {
@@ -16,9 +13,26 @@ const config = {
         "8xl": "85rem",
       },
       colors: {
-        primary: "#F48A42",
-        secondary: "#0E0E0E",
-        success: "#4FD658",
+        primary: {
+          DEFAULT: "rgb(var(--primary-rgb, 244 138 66) / <alpha-value>)",
+          foreground: "#ffffff",
+        },
+        secondary: {
+          DEFAULT: "#0E0E0E",
+          foreground: "#ffffff",
+        },
+        success: {
+          DEFAULT: "#4FD658",
+          foreground: "#ffffff",
+        },
+        brandCream: "#FDF5EE",
+        surfaceBlue: "#EAEEF3",
+        mutedGray: "#5B5656",
+        dangerRed: "#F44242",
+        lightBg: "#F6F6F6",
+        brandOrangeAlt: "#FF8C42",
+        successGreen: "#4FD658",
+        orangeHighlight: "#FDDCA6",
         darkNavy: "#0D092B",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -45,6 +59,35 @@ const config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
+        default: {
+          DEFAULT: "#d4d4d8",
+          foreground: "#18181b",
+          50: "#fafafa",
+          100: "#f4f4f5",
+          200: "#e4e4e7",
+          300: "#d4d4d8",
+          400: "#a1a1aa",
+          500: "#71717a",
+          600: "#52525b",
+          700: "#3f3f46",
+          800: "#27272a",
+          900: "#18181b",
+        },
+        warning: {
+          DEFAULT: "#f5a524",
+          foreground: "#ffffff",
+        },
+        danger: {
+          DEFAULT: "hsl(var(--danger))",
+          foreground: "hsl(var(--danger-foreground))",
+          50: "hsl(var(--danger-50))",
+        },
+        divider: "hsl(var(--border))",
+        overlay: "rgba(0, 0, 0, 0.4)",
+        content1: "hsl(var(--card))",
+        content2: "hsl(var(--muted))",
+        content3: "hsl(var(--accent))",
+        content4: "#e4e4e7",
       },
       fontFamily: {
         IBMPlex: ["var(--IBM-Plex-Sans-Arabic)"],
@@ -55,9 +98,38 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      zIndex: {
+        drawer: "60",
+        "drawer-content": "61",
+        overlay: "99",
+        modal: "100",
+        "modal-content": "101",
+        popover: "150",
+        max: "99999",
+      },
+      spacing: {
+        "3.75": "15px",
+        "4.5": "18px",
+        "5.5": "22px",
+        "7.5": "30px",
+        "12.5": "50px",
+        "15": "60px",
+      },
+      fontSize: {
+        "0.7": "0.7rem",
+        "0.75": "0.75rem",
+        "0.8": "0.8rem",
+        "0.85": "0.85rem",
+        "0.95": "0.95rem",
+        "1.1": "1.1rem",
+        "1.2": "1.2rem",
+        "1.35": "1.35rem",
+        "1.75": "1.75rem",
+        "1.9": "1.9rem",
+      },
     },
   },
   darkMode: "class",
-  plugins: [heroui(), require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate")],
 };
 export default config;

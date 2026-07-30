@@ -3,15 +3,18 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { useTranslations } from "@/hooks/useTranslations";
 
-export default function WelcomeCover({ setVisitorName, translate }) {
+export default function WelcomeCover({ setVisitorName, setVisitorContact, translate }) {
   const t = useTranslations(translate);
   const inputRef = useRef(null);
   const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
   const handelSubmit = (e) => {
     e.preventDefault();
-    if (name.trim()) {
+    if (name.trim() && contact.trim()) {
       setVisitorName(name);
+      setVisitorContact(contact);
       localStorage.setItem("visitorName", name);
+      localStorage.setItem("visitorContact", contact);
     }
   };
 
@@ -118,24 +121,41 @@ export default function WelcomeCover({ setVisitorName, translate }) {
             {t("chat.welcome.aiPowered")}
           </p>
         </div>
-        {/* Name Input */}
+        {/* Name & Contact Input */}
         <div className="bg-white rounded-xl shadow-lg border border-orange-100 p-4">
-          <p className="text-gray-700 font-semibold mb-2">
-            {t("chat.welcome.askName")}
-          </p>
+          <div className="flex flex-col gap-3">
+            <div>
+              <p className="text-gray-700 font-semibold mb-1 text-sm">
+                {t("chat.welcome.askName")}
+              </p>
+              <input
+                ref={inputRef}
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder={t("chat.welcome.namePlaceholder")}
+                className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none transition-all text-sm"
+              />
+            </div>
 
-          <div className="flex gap-2">
-            <input
-              ref={inputRef}
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder={t("chat.welcome.namePlaceholder")}
-              className="flex-1 min-w-0 px-3 py-2 border-2 border-gray-200 rounded-lg  focus:border-orange-500 focus:outline-none transition-all"
-            />
+            <div>
+              <p className="text-gray-700 font-semibold mb-1 text-sm">
+                {t("chat.welcome.askContact")}
+              </p>
+              <input
+                type="text"
+                required
+                value={contact}
+                onChange={(e) => setContact(e.target.value)}
+                placeholder={t("chat.welcome.contactPlaceholder")}
+                className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none transition-all text-sm"
+              />
+            </div>
+
             <button
               type="submit"
-              className="w-auto flex-shrink-0 bg-gradient-to-r from-primary to-orange-500 text-white px-4 py-2 rounded-lg font-bold hover:from-orange-600 hover:to-orange-700 transition-all shadow-md flex items-center gap-2"
+              className="w-full bg-gradient-to-r from-primary to-orange-500 text-white px-4 py-2.5 rounded-lg font-bold hover:from-orange-600 hover:to-orange-700 transition-all shadow-md flex items-center justify-center gap-2 mt-1"
             >
               <span>{t("chat.welcome.start")}</span>
               <svg

@@ -1,6 +1,40 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
-import { Input, Textarea, Button, Checkbox, ScrollShadow } from "@heroui/react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { Input, Textarea } from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
+import { Checkbox } from "@/components/ui/Checkbox";
+// Removed external ScrollShadow import
+
+function ScrollShadow({ children, className }) {
+  const containerRef = useRef(null);
+  const [showStart, setShowStart] = useState(false);
+  const [showEnd, setShowEnd] = useState(false);
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const handleScroll = () => {
+      setShowStart(container.scrollTop > 0);
+      setShowEnd(Math.ceil(container.scrollTop + container.clientHeight) < container.scrollHeight);
+    };
+    handleScroll();
+    container.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [children]);
+  const mask = `linear-gradient(to bottom, transparent, black ${showStart ? 40 : 0}px, black calc(100% - ${showEnd ? 40 : 0}px), transparent)`;
+  return (
+    <div
+      ref={containerRef}
+      className={`relative overflow-auto scrollbar-hide ${className || ""}`}
+      style={{ maskImage: mask, WebkitMaskImage: mask }}
+    >
+      {children}
+    </div>
+  );
+}
 import { toast } from "@/utils/toast";
 import ToastMessage from "@/components/ui/ToastMessage";
 import Image from "next/image";

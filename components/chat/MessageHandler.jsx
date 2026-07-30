@@ -6,6 +6,7 @@ import Image from "next/image";
 import { anyImgUrl } from "@/utils/ImageUrl";
 import { useTranslations } from "@/hooks/useTranslations";
 import TicketForm from "../ticket/TicketForm";
+import ProposalForm from "../proposal/ProposalForm";
 import { getUrlName } from "@/lib/sitemap";
 
 async function getInitialProducts({ name, lang }) {
@@ -48,7 +49,7 @@ function SimpleProductItem({ product, lang }) {
       title={product.name}
       aria-label={product.name}
     >
-      <div className="flex items-center gap-3 bg-white rounded-xl shadow-sm p-3 border border-[#EAEEF3] hover:border-primary/40 transition-colors">
+      <div className="flex items-center gap-3 bg-white rounded-xl shadow-sm p-3 border border-surfaceBlue hover:border-primary/40 transition-colors">
         <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-gray-100">
           <Image
             fill
@@ -90,6 +91,7 @@ export default function MessageHandler({
 }) {
   const trans = useTranslations(translate);
   const tContact = (key) => trans(`ticket.${key}`);
+  const tProposal = (key) => trans(`proposal.${key}`);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(open);
@@ -123,6 +125,34 @@ export default function MessageHandler({
     );
   }
 
+  if (data.type === "register") {
+    return (
+      <div className="mt-2">
+        <Button
+          as={Link}
+          href={lang === "ar" ? "/register" : "/en/register"}
+          className="font-semibold"
+        >
+          {trans("chat.registerAsLessor")}
+        </Button>
+      </div>
+    );
+  }
+
+  if (data.type === "add-product") {
+    return (
+      <div className="mt-2">
+        <Button
+          as={Link}
+          href={lang === "ar" ? "/add-product" : "/en/add-product"}
+          className="font-semibold"
+        >
+          {trans("productComponent.addProduct")}
+        </Button>
+      </div>
+    );
+  }
+
   if (data.type === "whatsapp") {
     return (
       <div className="mt-2">
@@ -134,6 +164,26 @@ export default function MessageHandler({
           dir="ltr"
         >
           +966 530636879
+        </Button>
+      </div>
+    );
+  }
+
+  if (data.type === "proposal") {
+    return isOpen ? (
+      <div className=" px-4 py-6 bg-white rounded-xl shadow w-full">
+        <ProposalForm
+          translate={translate}
+          lang={lang}
+          t={tProposal}
+          sm={true}
+          data={{ ...data, name: visitorName }}
+        />
+      </div>
+    ) : (
+      <div className="mt-2">
+        <Button className="font-semibold" onPress={() => setIsOpen(true)}>
+          {trans("chat.showProposalForm")}
         </Button>
       </div>
     );

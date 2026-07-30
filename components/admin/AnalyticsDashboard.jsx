@@ -10,6 +10,7 @@ import { ChevronDown } from "@/components/ui/svgs/icons/ChevronDownSvg";
 import { ChevronLeft } from "@/components/ui/svgs/icons/ChevronLeftSvg";
 import { Currency } from "@/components/ui/svgs/icons/CurrencySvg";
 import { formatNumeric } from "@/lib/utils";
+import { Select, SelectItem } from "@/components/ui/Select";
 
 const PIE_COLORS = ["#4ade80", "#f97316", "#ef4444"];
 
@@ -137,47 +138,81 @@ const BarCharts = ({ data, totals }) => {
             ملخص الدخل والمسحوبات
           </h2>
           <div className="flex items-center gap-3">
-            <div className="relative">
-              <select
-                value={selectedMonth}
-                onChange={(e) =>
-                  handleMonthYearChange(parseInt(e.target.value), selectedYear)
+            <div className="w-32">
+              <Select
+                aria-label="Select month"
+                selectedKeys={[selectedMonth.toString()]}
+                onSelectionChange={(key) =>
+                  handleMonthYearChange(parseInt(key), selectedYear)
                 }
-                className="appearance-none bg-transparent rounded-md px-4 py-2 text-sm text-gray-700 pe-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300"
+                classNames={{
+                  trigger:
+                    "bg-transparent rounded-md px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300 h-10",
+                }}
               >
-                <option value={1}>يناير</option>
-                <option value={2}>فبراير</option>
-                <option value={3}>مارس</option>
-                <option value={4}>أبريل</option>
-                <option value={5}>مايو</option>
-                <option value={6}>يونيو</option>
-                <option value={7}>يوليو</option>
-                <option value={8}>أغسطس</option>
-                <option value={9}>سبتمبر</option>
-                <option value={10}>أكتوبر</option>
-                <option value={11}>نوفمبر</option>
-                <option value={12}>ديسمبر</option>
-              </select>
-              <ChevronDown className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                <SelectItem key="1" value="1" textValue="يناير">
+                  يناير
+                </SelectItem>
+                <SelectItem key="2" value="2" textValue="فبراير">
+                  فبراير
+                </SelectItem>
+                <SelectItem key="3" value="3" textValue="مارس">
+                  مارس
+                </SelectItem>
+                <SelectItem key="4" value="4" textValue="أبريل">
+                  أبريل
+                </SelectItem>
+                <SelectItem key="5" value="5" textValue="مايو">
+                  مايو
+                </SelectItem>
+                <SelectItem key="6" value="6" textValue="يونيو">
+                  يونيو
+                </SelectItem>
+                <SelectItem key="7" value="7" textValue="يوليو">
+                  يوليو
+                </SelectItem>
+                <SelectItem key="8" value="8" textValue="أغسطس">
+                  أغسطس
+                </SelectItem>
+                <SelectItem key="9" value="9" textValue="سبتمبر">
+                  سبتمبر
+                </SelectItem>
+                <SelectItem key="10" value="10" textValue="أكتوبر">
+                  أكتوبر
+                </SelectItem>
+                <SelectItem key="11" value="11" textValue="نوفمبر">
+                  نوفمبر
+                </SelectItem>
+                <SelectItem key="12" value="12" textValue="ديسمبر">
+                  ديسمبر
+                </SelectItem>
+              </Select>
             </div>
-            <div className="relative">
-              <select
-                value={selectedYear}
-                onChange={(e) =>
-                  handleMonthYearChange(selectedMonth, parseInt(e.target.value))
+            <div className="w-32">
+              <Select
+                aria-label="Select year"
+                selectedKeys={[selectedYear.toString()]}
+                onSelectionChange={(key) =>
+                  handleMonthYearChange(selectedMonth, parseInt(key))
                 }
-                className="appearance-none bg-transparent rounded-md px-4 py-2 text-sm text-gray-700 pe-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300"
+                classNames={{
+                  trigger:
+                    "bg-transparent rounded-md px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300 h-10",
+                }}
               >
                 {Array.from({ length: 10 }, (_, i) => {
                   const year = new Date().getFullYear() - i;
                   return (
-                    <option key={year} value={year}>
+                    <SelectItem
+                      key={year.toString()}
+                      value={year.toString()}
+                      textValue={year.toString()}
+                    >
                       {year}
-                    </option>
+                    </SelectItem>
                   );
                 })}
-              </select>
-              <ChevronDown className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+              </Select>
             </div>
           </div>
         </div>
@@ -195,47 +230,81 @@ const BarCharts = ({ data, totals }) => {
           ملخص الدخل والمسحوبات
         </h2>
         <div className="flex items-center gap-3">
-          <div className="relative">
-            <select
-              value={selectedMonth}
-              onChange={(e) =>
-                handleMonthYearChange(parseInt(e.target.value), selectedYear)
+          <div className="w-32">
+            <Select
+              aria-label="Select month"
+              selectedKeys={[selectedMonth.toString()]}
+              onSelectionChange={(key) =>
+                handleMonthYearChange(parseInt(key), selectedYear)
               }
-              className="appearance-none bg-transparent rounded-md md:px-4 px-2 md:py-2 py-1 text-sm text-gray-700 pe-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300"
+              classNames={{
+                trigger:
+                  "bg-transparent rounded-md md:px-4 px-2 md:py-2 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300 h-8 md:h-10",
+              }}
             >
-              <option value={1}>يناير</option>
-              <option value={2}>فبراير</option>
-              <option value={3}>مارس</option>
-              <option value={4}>أبريل</option>
-              <option value={5}>مايو</option>
-              <option value={6}>يونيو</option>
-              <option value={7}>يوليو</option>
-              <option value={8}>أغسطس</option>
-              <option value={9}>سبتمبر</option>
-              <option value={10}>أكتوبر</option>
-              <option value={11}>نوفمبر</option>
-              <option value={12}>ديسمبر</option>
-            </select>
-            <ChevronDown className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+              <SelectItem key="1" value="1" textValue="يناير">
+                يناير
+              </SelectItem>
+              <SelectItem key="2" value="2" textValue="فبراير">
+                فبراير
+              </SelectItem>
+              <SelectItem key="3" value="3" textValue="مارس">
+                مارس
+              </SelectItem>
+              <SelectItem key="4" value="4" textValue="أبريل">
+                أبريل
+              </SelectItem>
+              <SelectItem key="5" value="5" textValue="مايو">
+                مايو
+              </SelectItem>
+              <SelectItem key="6" value="6" textValue="يونيو">
+                يونيو
+              </SelectItem>
+              <SelectItem key="7" value="7" textValue="يوليو">
+                يوليو
+              </SelectItem>
+              <SelectItem key="8" value="8" textValue="أغسطس">
+                أغسطس
+              </SelectItem>
+              <SelectItem key="9" value="9" textValue="سبتمبر">
+                سبتمبر
+              </SelectItem>
+              <SelectItem key="10" value="10" textValue="أكتوبر">
+                أكتوبر
+              </SelectItem>
+              <SelectItem key="11" value="11" textValue="نوفمبر">
+                نوفمبر
+              </SelectItem>
+              <SelectItem key="12" value="12" textValue="ديسمبر">
+                ديسمبر
+              </SelectItem>
+            </Select>
           </div>
-          <div className="relative">
-            <select
-              value={selectedYear}
-              onChange={(e) =>
-                handleMonthYearChange(selectedMonth, parseInt(e.target.value))
+          <div className="w-32">
+            <Select
+              aria-label="Select year"
+              selectedKeys={[selectedYear.toString()]}
+              onSelectionChange={(key) =>
+                handleMonthYearChange(selectedMonth, parseInt(key))
               }
-              className="appearance-none bg-transparent rounded-md md:px-4 px-2 md:py-2 py-1 text-sm text-gray-700 pe-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300"
+              classNames={{
+                trigger:
+                  "bg-transparent rounded-md md:px-4 px-2 md:py-2 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300 h-8 md:h-10",
+              }}
             >
               {Array.from({ length: 10 }, (_, i) => {
                 const year = new Date().getFullYear() - i;
                 return (
-                  <option key={year} value={year}>
+                  <SelectItem
+                    key={year.toString()}
+                    value={year.toString()}
+                    textValue={year.toString()}
+                  >
                     {year}
-                  </option>
+                  </SelectItem>
                 );
               })}
-            </select>
-            <ChevronDown className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+            </Select>
           </div>
         </div>
       </div>
@@ -501,7 +570,7 @@ const PieChart = ({ pieData }) => {
                 {item.name}
               </span>
             </div>
-            <span className="font-bold text-sm md:text-medium">
+            <span className="font-bold text-sm md:text-base">
               {formatNumeric(item.value)}
             </span>
           </div>

@@ -143,7 +143,10 @@ export default async function CategoryMap({ params, searchParams }) {
       <div>
         <SearchFilters
           lang={lang}
-          translate={translate()}
+          translate={{
+            search: translate("search"),
+            product: { page: translate("product.page") },
+          }}
           initialProducts={queryString.toString()}
           queryParams={queryParams}
           queryString={queryString.toString()}
@@ -160,7 +163,10 @@ export default async function CategoryMap({ params, searchParams }) {
             lang={lang}
             center={center}
             category={category}
-            translate={translate()}
+            translate={{
+              productComponent: translate("productComponent"),
+              ui: translate("ui"),
+            }}
             name={name}
             subCategory={subCategory}
             refetch={queryString}

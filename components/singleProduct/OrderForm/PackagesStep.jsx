@@ -12,7 +12,7 @@ export default function PackagesStep({
   t,
 }) {
   return (
-    <div className="space-y-4 mb-0 md:mb-8">
+    <div className="space-y-4 mb-0 md:mb-4">
       <p className="text-sm font-semibold text-gray-500 mb-4 text-center uppercase tracking-wider md:hidden">
         {t("selectPackage")}
       </p>

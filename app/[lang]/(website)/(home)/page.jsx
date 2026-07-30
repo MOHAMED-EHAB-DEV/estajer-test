@@ -122,10 +122,10 @@ export async function generateMetadata({ params }) {
       name: lang === "ar" ? "استأجر" : "Estajer",
       images: [
         {
-          url: "https://res.cloudinary.com/dhfzkadm2/image/upload/v1751550047/Screenshot_2025-07-03_163831_wiwtv4.webp",
-          width: 1900,
-          height: 1056,
-          alt: "Estajer - Rent Anything",
+          url: lang === "ar" ? `${siteURL}/og/home_ar.webp` : `${siteURL}/og/home_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - استأجر أي شيء" : "Estajer - Rent Anything",
         },
       ],
       locale: currentMeta.ogLocale,
@@ -140,7 +140,7 @@ export async function generateMetadata({ params }) {
       site: "@Estajercom",
       creator: "@Estajercom",
       images: [
-        `https://res.cloudinary.com/dhfzkadm2/image/upload/v1751550047/Screenshot_2025-07-03_163831_wiwtv4.webp`,
+        lang === "ar" ? `${siteURL}/og/home_ar.webp` : `${siteURL}/og/home_en.webp`,
       ],
     },
     // Provides a link to the manifest file for PWA capabilities
@@ -290,7 +290,7 @@ export default async function Home({ params }) {
       <NewestProducts lang={lang} key={"main"} />
       <HomeBanners lang={lang} />
       <NewestProducts lang={lang} key={"offers"} offers={true} />
-      <HomeShopsSection lang={lang} shops={shops} />
+      {shops?.length > 2 && <HomeShopsSection lang={lang} shops={shops} />}
       <HowToRent lang={lang} />
       {/* <CallToAction lang={lang} /> */}
       <NewestProducts newest={true} lang={lang} key={"newest"} />
@@ -298,7 +298,10 @@ export default async function Home({ params }) {
       <NewestProducts category={true} lang={lang} key={"category"} />
       {/* <RequestProduct lang={lang} /> */}
       {/* <RequestedProducts lang={lang} /> */}
-      <PushNotificationTrigger lang={lang} translate={t()} />
+      <PushNotificationTrigger
+        lang={lang}
+        translate={{ notifications: t("notifications") }}
+      />
       {/* <Blogs lang={lang} /> */}
     </>
   );

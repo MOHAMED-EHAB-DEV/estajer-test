@@ -23,8 +23,14 @@ export async function POST(request) {
       expiresIn: "1h",
     });
 
+    const referer = request.headers.get("referer");
+    const refererUrl = referer ? new URL(referer) : null;
+    const origin = refererUrl
+      ? `${refererUrl.protocol}//${refererUrl.host}`
+      : process.env.NEXT_PUBLIC_APP_URL || "https://estajer.com";
+
     // Send reset email
-    const resetLink = `${process.env.NEXT_PUBLIC_APP_URL}/${
+    const resetLink = `${origin}/${
       user.lang === "ar" ? "" : "en/"
     }change-password?token=${resetToken}`;
     await sendResetPasswordEmail({

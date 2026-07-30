@@ -18,6 +18,7 @@ import waffyAuth from "@/lib/waffy-auth";
 import sendNotifications from "@/lib/sendNotification";
 import { handleApiError } from "@/lib/errorHandler";
 import { createVomCustomer, createVomInvoice } from "@/lib/vom";
+import { getOrCreateQoyodCustomer, createQoyodInvoice, createQoyodInvoicePayment } from "@/lib/qoyod";
 import { sendWhatsAppTemplate } from "@/lib/whatsapp";
 
 // Helper function to handle address creation from geocoding
@@ -99,22 +100,21 @@ export async function POST(request) {
   try {
     const paymentResult = await request.json();
     console.log("paymentResult: ", paymentResult);
+    const forwarded = request.headers.get("x-forwarded-for")?.split(",");
     const realIp =
       request.headers.get("x-real-ip") ||
       forwarded?.[1] ||
       forwarded?.[0] ||
       "anonymous";
     const ip = realIp.replace("::ffff:", "");
-    console.log("ip: ", ip);
     if (ip !== "34.166.52.139") {
-      console.log("Access denied");
-      // return NextResponse.json(
-      //   { status: "error", message: "Access denied" },
-      //   { status: 403 }
-      // );
-    } else {
-      console.log("Access granted");
+      console.log("Access denied from IP:", ip);
+      return NextResponse.json(
+        { status: "error", message: "Access denied" },
+        { status: 403 },
+      );
     }
+    console.log("Access granted from IP: ", ip);
     const { contractId, status } = paymentResult;
 
     if (!contractId) {
@@ -128,9 +128,10 @@ export async function POST(request) {
     const order = await Order.findOne({ milestoneId: contractId })
       .populate(
         "ownerData",
-        "email fullName phone address nationalId vomId lang commission iban waffyId location waffyAddress companyDetails",
+        "email fullName phone address nationalId vomId qoyodId lang commission iban waffyId location waffyAddress companyDetails",
       )
       .populate("userData.id", "waffyId location waffyAddress")
+      .populate("source.refId", "shopCommission")
       .populate({
         path: "items",
         populate: {
@@ -161,8 +162,20 @@ export async function POST(request) {
         order.ownerData?.location?.lng !== undefined &&
         order.ownerData?.location?.lng !== null;
       const hasValidIban = !!order.ownerData?.iban;
-      // If location or IBAN is missing, send notification email and prevent cash-out
-      if (!hasValidLocation || !hasValidIban) {
+      const isCompanyWithTax =
+        order.ownerData?.accountType === "company" &&
+        !!order.ownerData?.companyDetails?.taxCode;
+      const billing = order.ownerData?.companyDetails?.billingAddress;
+      const hasValidBillingAddress =
+        !isCompanyWithTax ||
+        (!!billing?.street &&
+          !!billing?.city &&
+          !!billing?.district &&
+          !!billing?.postalCode &&
+          !!billing?.buildingNumber);
+
+      // If location, IBAN, or billing address is missing, send notification email and prevent cash-out
+      if (!hasValidLocation || !hasValidIban || !hasValidBillingAddress) {
         const ownerLang = order.ownerData?.lang || "ar";
 
         try {
@@ -185,6 +198,7 @@ export async function POST(request) {
             details: {
               missingLocation: !hasValidLocation,
               missingIban: !hasValidIban,
+              missingBillingAddress: !hasValidBillingAddress,
             },
             orderId: order._id,
           },
@@ -201,21 +215,40 @@ export async function POST(request) {
       }
       order.waffyStatus = status;
 
-      const totalWithoutTax = order.totalAmount - order.tax;
-      const adminCommission = (order.ownerData?.commission || 15) / 100;
-      const adminWithoutTax = totalWithoutTax * adminCommission;
-      const adminTax = adminWithoutTax * 0.15;
-      const adminAmount = +(adminWithoutTax + adminTax).toFixed(0);
+      let adminAmount, ownerAmount, customerAmount;
+      if (order.adminAmount !== undefined && order.adminAmount !== null) {
+        adminAmount = order.adminAmount;
+        ownerAmount = order.ownerAmount;
+        customerAmount = order.customerAmount || 0;
+      } else {
+        const totalWithoutTax = order.totalAmount - order.tax;
+        const shopCommission = order.source?.refId?.shopCommission ?? 5;
+        const adminCommission =
+          order.source?.type === "shop"
+            ? shopCommission / 100
+            : (order.ownerData?.commission || 15) / 100;
+        const adminWithoutTax = totalWithoutTax * adminCommission;
+        const adminTax = adminWithoutTax * 0.15;
+        adminAmount = +(adminWithoutTax + adminTax).toFixed(0);
+        ownerAmount = order.totalAmount - adminAmount;
+        customerAmount = 0;
+      }
 
-      order.ownerAmount = order.totalAmount - adminAmount;
+      order.ownerAmount = ownerAmount;
+      order.adminAmount = adminAmount;
+      order.customerAmount = customerAmount;
       await order.save();
+
+      const customerWaffyId = order.userData?.id?.waffyId || null;
 
       await waffyContract.settleContract({
         milestoneId: order.milestoneId,
         providerId: order.ownerData.waffyId,
         receiverId: order.ownerData.waffyId,
-        receiverAmount: order.totalAmount - adminAmount,
+        receiverAmount: ownerAmount,
         adminAmount,
+        customerAmount,
+        customerId: customerWaffyId,
       });
 
       return NextResponse.json({
@@ -235,12 +268,28 @@ export async function POST(request) {
         );
       }
 
+      let adminAmount, ownerAmount, customerAmount;
+      if (order.adminAmount !== undefined && order.adminAmount !== null) {
+        adminAmount = order.adminAmount;
+        ownerAmount = order.ownerAmount;
+        customerAmount =
+          order.customerAmount !== undefined && order.customerAmount !== null
+            ? order.customerAmount
+            : 0;
+      } else {
+        adminAmount = 0;
+        ownerAmount = 0;
+        customerAmount = order.totalAmount;
+      }
+
       await waffyContract.settleContract({
         milestoneId: contractId,
         providerId: order.ownerData.waffyId,
         receiverId: order.userData.id.waffyId,
-        receiverAmount: order.totalAmount,
-        adminAmount: 0,
+        receiverAmount: customerAmount,
+        adminAmount,
+        customerId: order.ownerData.waffyId,
+        customerAmount: ownerAmount,
       });
       order.waffyStatus = status;
       await order.save();
@@ -281,7 +330,7 @@ export async function POST(request) {
               ? "Your order has been rejected and a refund is being processed."
               : "تم رفض طلبك وجاري استرداد المبلغ المدفوع.",
           data: {
-            url: `${process.env.NEXT_PUBLIC_APP_URL}/${customerLang}/dashboard/my-orders?id=${order._id}`,
+            url: `${order.checkoutOrigin || process.env.NEXT_PUBLIC_APP_URL}/${customerLang}/dashboard/my-orders?id=${order._id}`,
           },
           actions: [
             {
@@ -317,6 +366,7 @@ export async function POST(request) {
           "cancelled",
           order.totalAmount,
           customerLang,
+          order.checkoutOrigin,
         ).catch((error) => console.error("Email notification error:", error));
       } else {
         if (order.waffyStatus === "COMPLETED") {
@@ -341,13 +391,41 @@ export async function POST(request) {
             await User.findByIdAndUpdate(owner._id, { vomId: vomOwnerId });
             owner.vomId = vomOwnerId;
           }
-          const totalWithoutTax = order.totalAmount - order.tax;
-          const adminCommission = (owner?.commission || 15) / 100;
-          const unit_price = totalWithoutTax * adminCommission;
+          let unit_price;
+          if (order.adminAmount !== undefined && order.adminAmount !== null) {
+            unit_price = +(order.adminAmount / 1.15).toFixed(2);
+          } else {
+            const totalWithoutTax = order.totalAmount - order.tax;
+            const shopCommission = order.source?.refId?.shopCommission ?? 5;
+            const adminCommission =
+              order.source?.type === "shop"
+                ? shopCommission / 100
+                : (owner?.commission || 15) / 100;
+            unit_price = totalWithoutTax * adminCommission;
+          }
           const productsForInvoice = [{ product_id: 38, unit_price }];
-          const invoice = order.invoiceId
-            ? order.invoiceId
-            : await createVomInvoice({
+          let invoiceId = order.invoiceId;
+          if (!invoiceId) {
+            // Atomic claim: only proceed if invoiceId is still unset, null, or 0 in DB
+            const claimed = await Order.findOneAndUpdate(
+              {
+                _id: order._id,
+                $or: [
+                  { invoiceId: { $exists: false } },
+                  { invoiceId: null },
+                  { invoiceId: 0 },
+                ],
+              },
+              { $set: { invoiceId: 0 } },
+              { new: false },
+            );
+            if (!claimed) {
+              // Another concurrent request already created the invoice
+              console.log(
+                `Invoice already being created for order ${order._id}, skipping duplicate`,
+              );
+            } else {
+              const invoice = await createVomInvoice({
                 invoiceType: owner?.companyDetails?.taxCode
                   ? "tax_invoice"
                   : "simplified_tax_invoice",
@@ -355,8 +433,53 @@ export async function POST(request) {
                 products: productsForInvoice,
                 orderId: order._id,
               });
-          order.invoiceId = invoice?.data?.invoice?.id;
-          await order.save();
+              invoiceId = invoice?.data?.invoice?.id;
+              await Order.findByIdAndUpdate(order._id, { invoiceId });
+
+              // Sync to Qoyod
+              try {
+                console.log(
+                  `Syncing invoice for order ${order._id} to Qoyod...`,
+                );
+                const qoyodContactId = await getOrCreateQoyodCustomer(owner);
+                const issueDate = new Date().toISOString().split("T")[0];
+                const qoyodInvoiceId = await createQoyodInvoice({
+                  contactId: qoyodContactId,
+                  issueDate,
+                  reference: invoiceId
+                    ? `vom-${invoiceId}`
+                    : `order-${order._id}`,
+                  description: `عمولات استأجر - رقم الطلب: ${order._id}`,
+                  unitPrice: unit_price,
+                });
+                await Order.findByIdAndUpdate(order._id, { qoyodInvoiceId });
+                console.log(
+                  `Successfully synced invoice to Qoyod (ID: ${qoyodInvoiceId}) for order ${order._id}`,
+                );
+
+                // Create Qoyod Invoice Payment
+                try {
+                  const paymentAmount = order.adminAmount || +(unit_price * 1.15).toFixed(2);
+                  console.log(`Creating payment for Qoyod invoice ${qoyodInvoiceId} of amount ${paymentAmount}...`);
+                  await createQoyodInvoicePayment({
+                    invoiceId: qoyodInvoiceId,
+                    accountId: process.env.QOYOD_PAYMENT_ACCOUNT_ID || 8,
+                    amount: paymentAmount,
+                    date: issueDate,
+                    reference: invoiceId
+                      ? `pay-vom-${invoiceId}`
+                      : `pay-order-${order._id}`,
+                    description: `سداد آلي لعمولة استأجر - رقم الطلب: ${order._id}`,
+                  });
+                  console.log(`Successfully registered payment for Qoyod invoice ${qoyodInvoiceId}`);
+                } catch (paymentError) {
+                  console.error("Failed to register Qoyod payment:", paymentError);
+                }
+              } catch (qoyodError) {
+                console.error("Failed to sync invoice to Qoyod:", qoyodError);
+              }
+            }
+          }
 
           // Send money transfer completion email to provider
           const ownerLang = owner?.lang || "ar";
@@ -457,7 +580,7 @@ export async function POST(request) {
             : `لديك طلب تأجير جديد`,
         body: notificationTitle,
         data: {
-          url: `${process.env.NEXT_PUBLIC_APP_URL}/${ownerLang}/dashboard/requests?id=${order._id}`,
+          url: `${order.checkoutOrigin || process.env.NEXT_PUBLIC_APP_URL}/${ownerLang}/dashboard/requests?id=${order._id}`,
         },
         actions: [
           {
@@ -514,9 +637,11 @@ export async function POST(request) {
       try {
         const customerLang = customer?.lang || "ar";
         const dashboardUrl = `${
-          process.env.NEXT_PUBLIC_APP_URL || "https://estajer.com"
+          order.checkoutOrigin ||
+          process.env.NEXT_PUBLIC_APP_URL ||
+          "https://estajer.com"
         }/${customerLang}/dashboard/my-orders`;
-        const invoiceUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/orders/${order._id}/invoice`;
+        const invoiceUrl = `${order.checkoutOrigin || process.env.NEXT_PUBLIC_APP_URL}/api/orders/${order._id}/invoice`;
 
         const notificationTitle =
           customerLang === "en"
@@ -530,7 +655,7 @@ export async function POST(request) {
               ? "Your payment was successful and the order is now being processed."
               : "تم الدفع بنجاح وجاري معالجة الطلب.",
           data: {
-            url: `${process.env.NEXT_PUBLIC_APP_URL}/${customerLang}/dashboard/my-orders?id=${order._id}`,
+            url: `${order.checkoutOrigin || process.env.NEXT_PUBLIC_APP_URL}/${customerLang}/dashboard/my-orders?id=${order._id}`,
           },
           actions: [
             {
@@ -568,6 +693,7 @@ export async function POST(request) {
           userLang: customerLang,
           invoiceUrl,
           dashboardUrl,
+          checkoutOrigin: order.checkoutOrigin,
         });
       } catch (emailError) {
         console.error("Failed to send payment notification email:", emailError);

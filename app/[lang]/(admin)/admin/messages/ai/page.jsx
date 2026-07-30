@@ -8,7 +8,7 @@ const getChatsData = async () => {
     const token = cookieStore.get("token")?.value;
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/admin/aichat/list`,
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/admin/aichat/list?page=1&limit=20`,
       { headers: { Authorization: token } }
     );
     if (!response.ok) throw new Error("Failed to fetch chats");
@@ -19,10 +19,22 @@ const getChatsData = async () => {
   }
 };
 
-export default async function AdminAiMessagesPage({ params }) {
+export default async function AdminAiMessagesPage({ params, searchParams }) {
   const { lang } = await params;
-  const chatsData = await getChatsData();
+  const sParams = await searchParams;
+  let chatsData = await getChatsData();
   const translate = await getTranslations(lang);
+
+  const selectedChatId = sParams?.chatId;
+  let passedSelectedChat = null;
+  if (selectedChatId && Array.isArray(chatsData)) {
+    const selectedIndex = chatsData.findIndex(c => c.sessionId === selectedChatId);
+    if (selectedIndex >= 0) {
+      const [selectedChat] = chatsData.splice(selectedIndex, 1);
+      chatsData.unshift(selectedChat);
+      passedSelectedChat = selectedChat;
+    }
+  }
 
   return (
     <div className="h-[90vh] bg-white rounded-lg shadow-sm">
@@ -31,6 +43,7 @@ export default async function AdminAiMessagesPage({ params }) {
           translate={translate()}
           chats={chatsData}
           aiAssistant={true}
+          initialSelectedChat={passedSelectedChat}
         />
       </div>
     </div>

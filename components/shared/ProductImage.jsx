@@ -12,6 +12,7 @@ export default function ProductImage({
   branch,
   providerId,
   currentStatus = {},
+  shopSlug,
 }) {
   const langPrefix = lang === "ar" ? "" : "en/";
 
@@ -23,13 +24,11 @@ export default function ProductImage({
   };
   return (
     <Link
-      href={`/${langPrefix}${
-        owner
-          ? currentStatus?.type === "approved"
-            ? `products/${getUrlName(product.name)}_ref_`
-            : "my-products/preview/"
-          : `products/${getUrlName(product.name)}_ref_`
-      }${product._id}${
+      href={`${
+        owner && currentStatus?.type !== "approved"
+          ? `/${langPrefix}my-products/preview/${product._id}`
+          : `/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}products/${getUrlName(product.name)}_ref_${product._id}`
+      }${
         branch || providerId
           ? `?${new URLSearchParams({
               ...(branch && { branch }),
@@ -68,7 +67,7 @@ export default function ProductImage({
           src: product.images[0].preview,
           size: 358,
           quality: 90,
-          aspectRatio: "1:.9",
+          aspectRatio: "1:0.9",
         })}
         alt={generateAltText()}
         title={product.name}

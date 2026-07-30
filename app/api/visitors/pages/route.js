@@ -161,6 +161,130 @@ export async function GET(req) {
         },
         { $unwind: { path: "$owner", preserveNullAndEmptyArrays: true } },
       ]);
+    } else if (tab === "mainCategories") {
+      const categoryFilter = searchParams.get("category") || "";
+
+      results = await PageVisit.aggregate([
+        { $match: { ...match, productId: null } },
+        {
+          $addFields: {
+            extractedKey: {
+              $regexFind: {
+                input: "$page",
+                regex: "^(?:\\/(?:ar|en))?\\/([^\\/\\?]+)",
+              },
+            },
+          },
+        },
+        {
+          $addFields: {
+            categoryKey: { $arrayElemAt: ["$extractedKey.captures", 0] },
+          },
+        },
+        {
+          $match: {
+            categoryKey: { $exists: true, $ne: null, $ne: "" },
+            ...(categoryFilter ? { categoryKey: categoryFilter } : {}),
+          },
+        },
+        {
+          $group: {
+            _id: "$categoryKey",
+            totalVisits: { $sum: "$count" },
+            lastVisit: { $max: "$date" },
+          },
+        },
+        { $sort: { totalVisits: -1 } },
+        {
+          $lookup: {
+            from: "categories",
+            localField: "_id",
+            foreignField: "key",
+            as: "categoryDoc",
+            pipeline: [
+              { $match: { parentCategory: null } },
+              { $project: { nameAr: 1, nameEn: 1, image: 1, key: 1 } },
+            ],
+          },
+        },
+        { $unwind: { path: "$categoryDoc", preserveNullAndEmptyArrays: false } },
+        { $limit: limit },
+      ]);
+    } else if (tab === "subCategories") {
+      const categoryFilter = searchParams.get("category") || "";
+
+      results = await PageVisit.aggregate([
+        { $match: { ...match, productId: null } },
+        {
+          $addFields: {
+            extractedSubKey: {
+              $regexFind: {
+                input: "$page",
+                regex:
+                  "^(?:\\/(?:ar|en))?\\/[^\\/\\?]+\\/([^\\/\\?]+)(?:\\/products)?",
+              },
+            },
+          },
+        },
+        {
+          $addFields: {
+            subCategoryKey: { $arrayElemAt: ["$extractedSubKey.captures", 0] },
+          },
+        },
+        {
+          $match: {
+            subCategoryKey: { $exists: true, $ne: null, $ne: "" },
+          },
+        },
+        {
+          $group: {
+            _id: "$subCategoryKey",
+            totalVisits: { $sum: "$count" },
+            lastVisit: { $max: "$date" },
+          },
+        },
+        { $sort: { totalVisits: -1 } },
+        {
+          $lookup: {
+            from: "categories",
+            localField: "_id",
+            foreignField: "key",
+            as: "categoryDoc",
+            pipeline: [
+              { $match: { parentCategory: { $ne: null } } },
+              {
+                $project: {
+                  nameAr: 1,
+                  nameEn: 1,
+                  image: 1,
+                  key: 1,
+                  parentCategory: 1,
+                },
+              },
+            ],
+          },
+        },
+        { $unwind: { path: "$categoryDoc", preserveNullAndEmptyArrays: false } },
+        {
+          $lookup: {
+            from: "categories",
+            localField: "categoryDoc.parentCategory",
+            foreignField: "_id",
+            as: "parentCategoryDoc",
+            pipeline: [{ $project: { nameAr: 1, nameEn: 1, key: 1 } }],
+          },
+        },
+        {
+          $unwind: {
+            path: "$parentCategoryDoc",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        ...(categoryFilter
+          ? [{ $match: { "parentCategoryDoc.key": categoryFilter } }]
+          : []),
+        { $limit: limit },
+      ]);
     }
 
     return NextResponse.json({

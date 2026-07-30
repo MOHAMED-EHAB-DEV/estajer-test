@@ -30,7 +30,9 @@ export default function NewestOrders({
   const t = (text) => trans(`admin.home.orders.${text}`);
   const router = useRouter();
   const [searchParams, setSearchParams] = useState("");
-  const [currentPage, setCurrentPage] = useState(Number(initialCurrentPage) || 1);
+  const [currentPage, setCurrentPage] = useState(
+    Number(initialCurrentPage) || 1,
+  );
   const [categoriesD, setCategoriesD] = useState([]);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -97,18 +99,18 @@ export default function NewestOrders({
         {/* Table Header Bar */}
         <div className="flex justify-between items-center px-3 py-2 md:px-6 md:py-5 border-b border-black/8">
           <div className="flex items-center gap-2 md:gap-3">
-            <div className="w-0.5 h-4 md:w-1 md:h-6 rounded-full bg-[#f48a42]" />
+            <div className="w-0.5 h-4 md:w-1 md:h-6 rounded-full bg-primary" />
             <h2 className="font-semibold font-IBMPlex text-darkNavy text-xs md:text-base">
               {t(isAll ? "allOrders" : "title")}
             </h2>
-            <span className="text-[9px] md:text-xs font-bold bg-[#FDF5EE] text-[#f48a42] border border-[#f48a42]/20 px-1.5 py-0.5 md:px-2.5 md:py-1 rounded-full">
+            <span className="text-[9px] md:text-xs font-bold bg-brandCream text-primary border border-[#f48a42]/20 px-1.5 py-0.5 md:px-2.5 md:py-1 rounded-full">
               {totalOrders}
             </span>
           </div>
           {!isAll && (
             <Link
               href={`/${langPrefix}admin/orders/all`}
-              className="text-[#f48a42] font-NotoSansArabic text-[9px] md:text-xs font-bold flex gap-1 items-center justify-center hover:opacity-80 transition-opacity"
+              className="text-primary font-NotoSansArabic text-[9px] md:text-xs font-bold flex gap-1 items-center justify-center hover:opacity-80 transition-opacity"
             >
               {t("showAll")}
               {lang === "en" ? (
@@ -168,7 +170,7 @@ export default function NewestOrders({
               ordersList.map((order) => (
                 <div
                   key={order.contractId || order._id}
-                  className="grid grid-cols-[0.8fr_1.5fr_1.2fr_1.2fr_0.8fr_0.8fr_1fr_1fr_1fr_140px_70px] gap-2 w-full items-center transition-colors py-1 hover:bg-[#FDF5EE]/60 border-b border-black/4 last:border-0"
+                  className="grid grid-cols-[0.8fr_1.5fr_1.2fr_1.2fr_0.8fr_0.8fr_1fr_1fr_1fr_140px_70px] gap-2 w-full items-center transition-colors py-1 hover:bg-brandCream/60 border-b border-black/4 last:border-0"
                 >
                   <div className="px-3 py-3 font-semibold text-xs text-darkNavy font-IBMPlex truncate">
                     #{order.contractId || order._id}
@@ -177,7 +179,7 @@ export default function NewestOrders({
                     <span className="font-semibold md:text-sm text-xs text-darkNavy font-NotoSansArabic truncate">
                       {order.items[0]?.product?.nameAr}
                     </span>
-                    <span className="md:text-[10px] text-[9px] text-[#f48a42] font-semibold mt-0.5 px-2 py-0.5 bg-[#FDF5EE] border border-[#f48a42]/20 rounded-md w-fit uppercase tracking-tight">
+                    <span className="md:text-[10px] text-[9px] text-primary font-semibold mt-0.5 px-2 py-0.5 bg-brandCream border border-[#f48a42]/20 rounded-md w-fit uppercase tracking-tight">
                       {
                         categoriesD?.find(
                           (cat) =>
@@ -210,7 +212,7 @@ export default function NewestOrders({
                     ) + 1}{" "}
                     {t("days")}
                   </div>
-                  <div className="px-3 py-3 flex items-center gap-1 whitespace-nowrap font-bold text-[#f48a42]">
+                  <div className="px-3 py-3 flex items-center gap-1 whitespace-nowrap font-bold text-primary">
                     <span>{order.price}</span>
                     <Currency className="md:w-3 md:h-3 w-2.5 h-2.5" />
                   </div>
@@ -240,46 +242,65 @@ export default function NewestOrders({
                   </div>
                   <div className="px-3 py-3 flex gap-1.5 items-center justify-end">
                     <Link
-                      href={`${langPrefix}${Prefix}details/${order._id}`}
+                      href={`${Prefix}details/${order._id}`}
                       className="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 text-gray-500 hover:text-darkNavy transition-all"
                       title="عرض"
                     >
-                      <Eye color="currentColor" className="md:w-3.5 md:h-3.5 w-3 h-3" />
+                      <Eye
+                        color="currentColor"
+                        className="md:w-3.5 md:h-3.5 w-3 h-3"
+                      />
                     </Link>
                     <button
                       onClick={() => handleEditClick(order)}
-                      className="p-2 rounded-lg bg-[#FDF5EE] hover:bg-[#f48a42]/15 text-[#f48a42] transition-all"
+                      className="p-2 rounded-lg bg-brandCream hover:bg-primary/15 text-primary transition-all"
                       title="تعديل"
                     >
-                      <Edit className="md:w-3.5 md:h-3.5 w-3 h-3" color="currentColor" />
+                      <Edit
+                        className="md:w-3.5 md:h-3.5 w-3 h-3"
+                        color="currentColor"
+                      />
                     </button>
                     <button
                       onClick={() => handleNotesClick(order)}
-                      className="relative p-2 rounded-lg bg-[#FDF5EE] hover:bg-[#f48a42]/15 text-[#f48a42] transition-all"
+                      className="relative p-2 rounded-lg bg-brandCream hover:bg-primary/15 text-primary transition-all"
                       title="ملاحظات الإدارة"
                     >
                       <Note className="md:w-4 md:h-4 w-3.5 h-3.5" />
                       {order.adminNotes?.length > 0 && (
-                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#f48a42] text-white text-[9px] font-bold rounded-full flex items-center justify-center">
-                          {order.adminNotes.length > 9 ? "9+" : order.adminNotes.length}
+                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                          {order.adminNotes.length > 9
+                            ? "9+"
+                            : order.adminNotes.length}
                         </span>
                       )}
                     </button>
                   </div>
                   <div className="px-3 py-3 min-w-0">
-                    {order.paymentGateway === "nana" ? (
+                    {order.source?.type === "nana" ? (
                       <span className="text-fuchsia-600 font-bold text-xs truncate block">
                         نعناع
                       </span>
-                    ) : order.providerId ? (
+                    ) : order.source?.type === "partner" &&
+                      order.source.refId ? (
                       <Link
-                        href={`/${langPrefix}partners/${order.providerId.slug}`}
-                        className="text-[#f48a42] hover:underline font-bold text-xs truncate block"
+                        href={`/${langPrefix}partners/${order.source.refId.slug}`}
+                        className="text-primary hover:underline font-bold text-xs truncate block"
                         target="_blank"
                       >
                         {lang === "ar"
-                          ? order.providerId.nameAr
-                          : order.providerId.nameEn}
+                          ? order.source.refId.nameAr
+                          : order.source.refId.nameEn}
+                      </Link>
+                    ) : order.source?.type === "shop" && order.source.refId ? (
+                      <Link
+                        href={`/${langPrefix}shops/${order.source.refId.slug}`}
+                        className="text-blue-600 hover:underline font-bold text-xs truncate block"
+                        target="_blank"
+                      >
+                        {lang === "ar"
+                          ? order.source.refId.nameAr
+                          : order.source.refId.nameEn}
                       </Link>
                     ) : (
                       <span className="text-gray-400 text-xs">مباشر</span>
@@ -297,12 +318,12 @@ export default function NewestOrders({
             <button
               onClick={() => updatePage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className="p-2 rounded-xl bg-[#FDF5EE] disabled:opacity-30 hover:bg-[#f48a42]/15 text-[#f48a42] transition-colors"
+              className="p-2 rounded-xl bg-brandCream disabled:opacity-30 hover:bg-primary/15 text-primary transition-colors"
             >
               {lang === "en" ? (
-                <ChevronLeft className="md:w-[18px] md:h-[18px] w-4 h-4" />
+                <ChevronLeft className="md:w-4.5 md:h-4.5 w-4 h-4" />
               ) : (
-                <ChevronRight className="md:w-[18px] md:h-[18px] w-4 h-4" />
+                <ChevronRight className="md:w-4.5 md:h-4.5 w-4 h-4" />
               )}
             </button>
 
@@ -325,8 +346,8 @@ export default function NewestOrders({
                       onClick={() => updatePage(p)}
                       className={`w-9 h-9 rounded-xl text-sm font-semibold transition-all ${
                         p === currentPage
-                          ? "bg-[#f48a42] text-white shadow-sm shadow-[#f48a42]/30"
-                          : "bg-[#FAFAFA] text-gray-600 hover:bg-[#FDF5EE] hover:text-[#f48a42]"
+                          ? "bg-primary text-white shadow-sm shadow-[#f48a42]/30"
+                          : "bg-[#FAFAFA] text-gray-600 hover:bg-brandCream hover:text-primary"
                       }`}
                     >
                       {p}
@@ -338,12 +359,12 @@ export default function NewestOrders({
             <button
               onClick={() => updatePage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
-              className="p-2 rounded-xl bg-[#FDF5EE] disabled:opacity-30 hover:bg-[#f48a42]/15 text-[#f48a42] transition-colors"
+              className="p-2 rounded-xl bg-brandCream disabled:opacity-30 hover:bg-primary/15 text-primary transition-colors"
             >
               {lang === "en" ? (
-                <ChevronRight className="md:w-[18px] md:h-[18px] w-4 h-4" />
+                <ChevronRight className="md:w-4.5 md:h-4.5 w-4 h-4" />
               ) : (
-                <ChevronLeft className="md:w-[18px] md:h-[18px] w-4 h-4" />
+                <ChevronLeft className="md:w-4.5 md:h-4.5 w-4 h-4" />
               )}
             </button>
           </div>

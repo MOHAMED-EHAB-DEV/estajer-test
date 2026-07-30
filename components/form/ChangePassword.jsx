@@ -1,12 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Input } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import { Eye } from "../ui/svgs/icons/EyeSvg";
-import { Key } from "../ui/svgs/icons/KeySvg";;
+import { Key } from "../ui/svgs/icons/KeySvg";
 import { useTranslations } from "@/hooks/useTranslations";
-import { sendGTMEvent } from "@next/third-parties/google";
 
 export default function ChangePasswordForm({ lang, translate }) {
   const langPrefix = lang === "ar" ? "" : "en/";
@@ -18,11 +17,11 @@ export default function ChangePasswordForm({ lang, translate }) {
   const trans = useTranslations(translate);
   const t = (key) => trans(`changePasswordPage.${key}`);
   const [searchParams, setSearchParams] = useState("");
-  
+
   useEffect(() => {
     setSearchParams(window.location.search);
   }, []);
-  
+
   const token = new URLSearchParams(searchParams).get("token");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
@@ -45,13 +44,6 @@ export default function ChangePasswordForm({ lang, translate }) {
       if (!res.ok) throw new Error(data.error || t("genericError"));
 
       setMessage({ type: "success", content: t("successMessage") });
-      // GTM event: change password submission
-      sendGTMEvent({
-        event: "change_password_submit",
-        token_present: !!token,
-        password_length: password?.length || 0,
-        language: lang,
-      });
       setTimeout(() => router.push(`/${langPrefix}login`), 3000);
     } catch (err) {
       setMessage({ type: "error", content: err.message });
@@ -63,12 +55,10 @@ export default function ChangePasswordForm({ lang, translate }) {
   return (
     <div className="w-[650px] max-w-full">
       <div className="text-center mb-14">
-        <h1 className="lg:text-[2.2rem] md:text-[1.9rem] text-[1.6rem] font-semibold mb-2 text-darkNavy">
+        <h1 className="lg:text-[2.2rem] md:text-1.9 text-[1.6rem] font-semibold mb-2 text-darkNavy">
           {t("title")}
         </h1>
-        <p className="lg:text-[1.2rem] text-[1rem] text-darkNavy">
-          {t("subtitle")}
-        </p>
+        <p className="lg:text-1.2 text-[1rem] text-darkNavy">{t("subtitle")}</p>
       </div>
       {message.content && (
         <div

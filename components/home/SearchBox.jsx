@@ -1,6 +1,6 @@
 "use client";
 import Button from "../ui/Button";
-import { Input } from "@heroui/input";
+import { Input } from "@/components/ui/Input";
 import { Line } from "../ui/svgs/icons/LineSvg";
 import { Search } from "../ui/svgs/icons/SearchSvg";
 import dynamic from "next/dynamic";
@@ -21,6 +21,7 @@ export default function SearchBox({
   translate,
   providerId,
   userId,
+  shopSlug,
 }) {
   const langPrefix = lang === "ar" ? "" : "en/";
   const trans = useTranslations(translate);
@@ -53,7 +54,9 @@ export default function SearchBox({
     }
     setShowResults(false);
     setSearchValue("");
-    router.push(`/${langPrefix}search/products?${queryParams}`);
+    router.push(
+      `/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}search/products?${queryParams}`,
+    );
   };
 
   return (
@@ -66,7 +69,7 @@ export default function SearchBox({
         <form
           ref={searchRef}
           onSubmit={submitSearch}
-          className={`${providerId ? "mt-2 md:mt-10" : " my-10"} flex mx-auto bg-white rounded-full max-w-full md:max-w-[95vw] w-full md:w-[820px] md:py-4 py-1 ps-4 pe-3 md:px-8 items-center gap-0.5 md:gap-2 justify-between md:shadow-lg shadow relative`}
+          className={`${providerId || userId ? "mt-2 md:mt-10" : " my-10"} flex mx-auto bg-white rounded-full max-w-full md:max-w-[95vw] w-full md:w-[820px] md:py-4 py-1 ps-4 pe-3 md:px-8 items-center gap-0.5 md:gap-2 justify-between md:shadow-lg shadow relative`}
           role="search"
           aria-label={t("searchForRentalProducts")}
           itemScope
@@ -79,7 +82,7 @@ export default function SearchBox({
           />
 
           <div aria-hidden="true">
-            <Search className="md:w-7 md:h-7 w-[18px] h-[18px]" />
+            <Search className="md:w-7 md:h-7 w-4.5 h-4.5" />
           </div>
           <div className="w-full text-start">
             <Input
@@ -118,6 +121,7 @@ export default function SearchBox({
             trackFinalSearch={trackFinalSearch}
             providerId={providerId}
             userId={userId}
+            shopSlug={shopSlug}
           />
 
           <div className="flex gap-0 items-center">

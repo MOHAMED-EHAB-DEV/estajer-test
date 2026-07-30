@@ -43,6 +43,14 @@ export async function generateMetadata({ params }) {
       description: currentMeta.description,
       url: `${siteURL}/${langPath}shops`,
       type: "website",
+      images: [
+        {
+          url: lang === "ar" ? `${siteURL}/og/shops_ar.webp` : `${siteURL}/og/shops_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - تصفح المتاجر" : "Estajer - Browse Shops",
+        },
+      ],
     },
   };
 }

@@ -1,35 +1,37 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Card, CardBody } from "@/components/ui/Card";
+import Button from "@/components/ui/Button";
+import { Select, SelectItem } from "@/components/ui/Select";
 import {
-  Card,
-  CardBody,
-  Button,
-  Select,
-  SelectItem,
   Table,
   TableHeader,
   TableColumn,
   TableBody,
   TableRow,
   TableCell,
-  Chip,
+} from "@/components/ui/Table";
+import { Chip } from "@/components/ui/Chip";
+import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Spinner,
-  Avatar,
-  Pagination,
-  Tooltip,
+} from "@/components/ui/CustomModal";
+import { Spinner } from "@/components/ui/Spinner";
+import { Avatar } from "@/components/ui/Avatar";
+import { Pagination } from "@/components/ui/Pagination";
+import { Tooltip } from "@/components/ui/Tooltip";
+import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  Checkbox,
-  CheckboxGroup,
-} from "@heroui/react";
+} from "@/components/ui/Popover";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { CheckboxGroup } from "@/components/ui/Checkbox";
 import { toast } from "@/utils/toast";
 import ToastMessage from "@/components/ui/ToastMessage";
 import { useTranslations } from "@/hooks/useTranslations";
@@ -490,6 +492,8 @@ const TaskContainer = ({ initialData, translate, lang }) => {
         </div>
         <Button
           color="primary"
+          size="md"
+          radius="xl"
           onPress={onCreateOpen}
           startContent={<PlusIcon className="w-4 h-4" />}
           className="bg-gradient-to-r from-[#f48a42] to-[#f47242] text-white font-medium shadow-lg hover:shadow-xl transition-shadow"
@@ -508,7 +512,7 @@ const TaskContainer = ({ initialData, translate, lang }) => {
           ) : tasks.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-gray-500">
               <div className="w-20 h-20 bg-gradient-to-br from-[#f48a42]/20 to-[#f47242]/20 rounded-full flex items-center justify-center mb-4">
-                <CheckIcon className="w-10 h-10 text-[#f48a42]" />
+                <CheckIcon className="w-10 h-10 text-primary" />
               </div>
               <p className="text-lg font-medium">{t("admin.tasks.noTasks")}</p>
               <p className="text-sm text-gray-400 mt-1">
@@ -565,13 +569,24 @@ const TaskContainer = ({ initialData, translate, lang }) => {
                     return (
                       <TableRow
                         key={task._id}
-                        className="hover:bg-[#f48a42]/5 transition-colors cursor-pointer"
-                        onClick={() => handleViewTask(task)}
+                        className="hover:bg-primary/5 transition-colors cursor-pointer"
+                        onClick={(e) => {
+                          // Prevent row click if clicking on portalled elements or buttons, links, inputs, labels, checkboxes, select dropdowns, or custom prevent elements
+                          if (!e.currentTarget.contains(e.target)) return;
+                          if (
+                            e.target.closest(
+                              "button, a, input, label, [role='checkbox'], [role='switch'], [data-slot='trigger'], [data-prevent-row-click]",
+                            )
+                          )
+                            return;
+                          handleViewTask(task);
+                        }}
                       >
                         <TableCell>
                           <div className="flex flex-col items-center gap-1">
                             <Button
-                              size="sm"
+                              size="xs"
+                              radius="lg"
                               isIconOnly
                               variant="flat"
                               aria-label={t("admin.tasks.priorityUp")}
@@ -580,13 +595,14 @@ const TaskContainer = ({ initialData, translate, lang }) => {
                                 handlePriorityChange(task._id, "up")
                               }
                             >
-                              <ChevronUpIcon className="w-3 h-3 text-[#f48a42]" />
+                              <ChevronUpIcon className="w-3 h-3 text-primary" />
                             </Button>
                             <span className="font-bold text-primary text-lg">
                               {task.priority}
                             </span>
                             <Button
-                              size="sm"
+                              size="xs"
+                              radius="lg"
                               isIconOnly
                               variant="flat"
                               aria-label={t("admin.tasks.priorityDown")}
@@ -595,7 +611,7 @@ const TaskContainer = ({ initialData, translate, lang }) => {
                                 handlePriorityChange(task._id, "down")
                               }
                             >
-                              <ChevronDownIcon className="w-3 h-3 text-[#f48a42]" />
+                              <ChevronDownIcon className="w-3 h-3 text-primary" />
                             </Button>
                           </div>
                         </TableCell>
@@ -628,7 +644,7 @@ const TaskContainer = ({ initialData, translate, lang }) => {
                             onChange={(e) => {
                               handleStatusChange(task._id, e.target.value);
                             }}
-                            className="min-w-32"
+                            className="min-w-32 h-fit"
                             classNames={{
                               trigger: `border-${statusInfo.color}`,
                             }}
@@ -673,7 +689,10 @@ const TaskContainer = ({ initialData, translate, lang }) => {
                             }}
                           >
                             <PopoverTrigger>
-                              <div className="flex flex-wrap gap-1 max-w-[200px] cursor-pointer hover:bg-gray-100 p-1 rounded-lg transition-colors">
+                              <div
+                                data-prevent-row-click="true"
+                                className="flex flex-wrap gap-1 max-w-[200px] items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-gray-100 p-1 transition-colors"
+                              >
                                 {Array.isArray(task.assignedTo) &&
                                 task.assignedTo.length > 0 ? (
                                   task.assignedTo.map((user, idx) => (
@@ -796,18 +815,22 @@ const TaskContainer = ({ initialData, translate, lang }) => {
                             <Tooltip content={t("admin.tasks.edit")}>
                               <Button
                                 size="sm"
+                                radius="md"
                                 isIconOnly
                                 variant="flat"
-                                color="primary"
+                                color="default"
                                 aria-label={t("admin.tasks.edit")}
                                 onPress={() => handleEditTask(task)}
+                                className="!w-8 !min-w-8"
                               >
                                 <PencilIcon className="w-3 h-3" />
                               </Button>
                             </Tooltip>
                             <Tooltip content={t("admin.tasks.delete")}>
                               <Button
+                                className="!w-8 !min-w-8"
                                 size="sm"
+                                radius="md"
                                 isIconOnly
                                 variant="flat"
                                 color="danger"
@@ -883,6 +906,7 @@ const TaskContainer = ({ initialData, translate, lang }) => {
       <ConfirmModal
         confirmText={t("admin.tasks.confirmDeleteBtn")}
         cancelText={t("admin.tasks.cancelDelete")}
+        t={t}
         {...modalData}
       />
 
@@ -1051,15 +1075,20 @@ const TaskContainer = ({ initialData, translate, lang }) => {
               <ModalFooter className="border-t bg-gray-50">
                 <Button
                   variant="flat"
+                  radius="xl"
+                  size="md"
                   onPress={() => {
                     onViewClose();
                     setViewingTask(null);
                   }}
+                  className="text-black/70 bg-default/40"
                 >
                   {t("admin.tasks.close")}
                 </Button>
                 <Button
                   color="primary"
+                  radius="xl"
+                  size="md"
                   className="bg-gradient-to-r from-[#f48a42] to-[#f47242]"
                   onPress={() => {
                     onViewClose();

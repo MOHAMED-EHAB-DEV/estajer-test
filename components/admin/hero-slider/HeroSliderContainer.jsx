@@ -10,17 +10,10 @@ import ImageUploader from "@/components/addProduct/ImageUploader";
 import HeroSlider from "@/components/home/HeroSlider";
 import { useTranslations } from "@/hooks/useTranslations";
 import revalidate from "@/actions/revalidateTag";
-import {
-  Switch,
-  Input,
-  Select,
-  SelectItem,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@heroui/react";
+import { Switch } from "@/components/ui/Switch";
+import { Input } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@/components/ui/CustomModal";
 
 export default function HeroSliderContainer({
   translate,
@@ -29,7 +22,6 @@ export default function HeroSliderContainer({
 }) {
   const trans = useTranslations(translate);
   const t = (key) => trans("heroSlider.admin." + key);
-  const isRtl = lang === "ar";
 
   const [sliders, setSliders] = useState(initialSlides);
   const [loading, setLoading] = useState(false);
@@ -45,6 +37,7 @@ export default function HeroSliderContainer({
     altAr: "",
     altEn: "",
     link: "",
+    linkEn: "",
     order: 0,
     active: true,
     titleAr: "",
@@ -61,6 +54,8 @@ export default function HeroSliderContainer({
 
   const [imagesAr, setImagesAr] = useState([]);
   const [imagesEn, setImagesEn] = useState([]);
+  const [imagesMobile, setImagesMobile] = useState([]);
+  const [imagesMobileEn, setImagesMobileEn] = useState([]);
 
   // Fetch all sliders
   const fetchSliders = useCallback(async () => {
@@ -89,6 +84,8 @@ export default function HeroSliderContainer({
   const draftSlide = useMemo(() => {
     const imgAr = imagesAr[0]?.preview || "";
     const imgEn = imagesEn[0]?.preview || "";
+    const imgMobile = imagesMobile[0]?.preview || "";
+    const imgMobileEn = imagesMobileEn[0]?.preview || "";
     return {
       _id: editingId || "draft-slide-id",
       image:
@@ -98,7 +95,10 @@ export default function HeroSliderContainer({
         imgEn ||
         imgAr ||
         "https://assets.estajer.com/estajer/images/cover_tl93ps?w=1600&q=85",
+      imageMobile: imgMobile || "",
+      imageMobileEn: imgMobileEn || imgMobile || "",
       link: formData.link || "#",
+      linkEn: formData.linkEn || formData.link || "#",
       altAr: formData.altAr || "Draft Alt Text",
       altEn: formData.altEn || "Draft Alt Text",
       titleAr: formData.titleAr,
@@ -113,12 +113,14 @@ export default function HeroSliderContainer({
       imagePositionY: formData.imagePositionY,
       isDraft: true,
     };
-  }, [formData, imagesAr, imagesEn, editingId]);
+  }, [formData, imagesAr, imagesEn, imagesMobile, imagesMobileEn, editingId]);
 
   // Combine saved slides and draft slide for live preview list
   const previewSlides = useMemo(() => {
     const draftImageExists =
       imagesAr.length > 0 ||
+      imagesMobile.length > 0 ||
+      imagesMobileEn.length > 0 ||
       formData.titleAr ||
       formData.titleEn ||
       formData.subtitleAr ||
@@ -141,6 +143,7 @@ export default function HeroSliderContainer({
       altAr: "",
       altEn: "",
       link: "",
+      linkEn: "",
       order: 0,
       active: true,
       titleAr: "",
@@ -156,6 +159,8 @@ export default function HeroSliderContainer({
     });
     setImagesAr([]);
     setImagesEn([]);
+    setImagesMobile([]);
+    setImagesMobileEn([]);
     setEditingId(null);
   };
 
@@ -187,12 +192,20 @@ export default function HeroSliderContainer({
       const sanitizedLink = formData.link
         .replace("https://estajer.com", "")
         .replace("/en/", "/");
+      const sanitizedLinkEn = formData.linkEn
+        ? formData.linkEn
+            .replace("https://estajer.com", "")
+            .replace("/en/", "/")
+        : "";
 
       const payload = {
         ...formData,
         link: sanitizedLink,
+        linkEn: sanitizedLinkEn,
         image: imagesAr[0].preview,
         imageEn: imagesEn[0].preview,
+        imageMobile: imagesMobile[0]?.preview || "",
+        imageMobileEn: imagesMobileEn[0]?.preview || "",
       };
 
       const url = editingId
@@ -232,6 +245,7 @@ export default function HeroSliderContainer({
       altAr: slide.altAr,
       altEn: slide.altEn,
       link: slide.link,
+      linkEn: slide.linkEn || "",
       order: slide.order,
       active: slide.active,
       titleAr: slide.titleAr || "",
@@ -247,6 +261,10 @@ export default function HeroSliderContainer({
     });
     setImagesAr([{ preview: slide.image }]);
     setImagesEn([{ preview: slide.imageEn }]);
+    setImagesMobile(slide.imageMobile ? [{ preview: slide.imageMobile }] : []);
+    setImagesMobileEn(
+      slide.imageMobileEn ? [{ preview: slide.imageMobileEn }] : [],
+    );
     setActiveTab("images");
     setIsModalOpen(true);
   };
@@ -427,7 +445,7 @@ export default function HeroSliderContainer({
                 {/* Details Footer */}
                 <div className="p-4 flex flex-col gap-3 flex-1">
                   <h4 className="font-semibold text-sm text-darkNavy line-clamp-1">
-                    {isRtl
+                    {lang === "ar"
                       ? slide.titleAr || slide.altAr
                       : slide.titleEn || slide.altEn}
                   </h4>
@@ -540,6 +558,7 @@ export default function HeroSliderContainer({
                       translate={translate}
                       sm={true}
                       isThumbnail={true}
+                      size={{ width: 1500, height: 652 }}
                     />
                   </div>
 
@@ -553,6 +572,37 @@ export default function HeroSliderContainer({
                       translate={translate}
                       sm={true}
                       isThumbnail={true}
+                      size={{ width: 1500, height: 652 }}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-gray-50 pt-4 mt-2">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-bold text-darkNavy">
+                      {t("labelBgMobileAr")}
+                    </label>
+                    <ImageUploader
+                      files={imagesMobile}
+                      setFiles={setImagesMobile}
+                      translate={translate}
+                      sm={true}
+                      isThumbnail={true}
+                      size={{ width: "320-500", height: 470 }}
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-bold text-darkNavy">
+                      {t("labelBgMobileEn")}
+                    </label>
+                    <ImageUploader
+                      files={imagesMobileEn}
+                      setFiles={setImagesMobileEn}
+                      translate={translate}
+                      sm={true}
+                      isThumbnail={true}
+                      size={{ width: "320-500", height: 470 }}
                     />
                   </div>
                 </div>
@@ -736,13 +786,24 @@ export default function HeroSliderContainer({
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-gray-50 pt-6">
-                  <div className="col-span-1 md:col-span-2">
+                  <div>
                     <Input
                       label={t("labelRedirectLink")}
                       placeholder={t("placeholderRedirectLink")}
                       value={formData.link}
                       onChange={(e) =>
                         setFormData({ ...formData, link: e.target.value })
+                      }
+                      labelPlacement="outside"
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      label={t("labelRedirectLinkEn")}
+                      placeholder={t("placeholderRedirectLink")}
+                      value={formData.linkEn}
+                      onChange={(e) =>
+                        setFormData({ ...formData, linkEn: e.target.value })
                       }
                       labelPlacement="outside"
                     />

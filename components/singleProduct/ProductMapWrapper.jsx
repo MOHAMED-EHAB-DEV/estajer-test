@@ -27,10 +27,7 @@ import { useState, useEffect, useRef } from "react";
 // Dynamically import the map component - only loads when triggered
 const GoogleMapComponent = dynamic(
   () => import("../shared/GoogleMapComponent"),
-  {
-    loading: () => null,
-    ssr: false,
-  }
+  { loading: () => null, ssr: false },
 );
 
 export default function ProductMapWrapper(props) {
@@ -48,7 +45,7 @@ export default function ProductMapWrapper(props) {
       {
         rootMargin: "200px",
         threshold: 0,
-      }
+      },
     );
 
     if (containerRef.current) {

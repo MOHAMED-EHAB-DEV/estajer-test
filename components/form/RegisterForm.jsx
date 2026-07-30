@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "@/hooks/useTranslations";
-import { Input } from "@heroui/input";
+import { Input } from "@/components/ui/Input";
 import Link from "next/link";
 import Checkbox from "../ui/Checkbox";
 import Button from "../ui/Button";
@@ -16,7 +16,6 @@ import { Card } from "../ui/svgs/icons/CardSvg";
 import { TaxCode } from "../ui/svgs/icons/TaxCodeSvg";
 import { formatNumber, validateNumber } from "@/utils/formatNumber";
 import SocialLinks from "./SocialLinks";
-import { sendGTMEvent } from "@next/third-parties/google";
 import {
   checkFreelanceCertificate,
   validateNationalId,
@@ -34,7 +33,7 @@ function FormInput({ ...props }) {
         mainWrapper: "mt-10",
         label: "text-lg -mt-2 flex items-center",
         base: "max-w-full",
-        input: "text-base !ps-4 text-right",
+        input: "text-base !ps-4 text-start",
         inputWrapper: "bg-gray-100 h-12",
       }}
       {...props}
@@ -140,11 +139,6 @@ export default function RegisterForm({ lang, translate, queryPage }) {
       if (!res.ok) throw new Error(result.error || t("errorMsg"));
 
       setMessage({ type: "success", content: t("accountCreatedSuccess") });
-      sendGTMEvent({
-        event: "sign_up",
-        account_type: accountType,
-        location: "register_page",
-      });
       window.location.href = `/${langPrefix}confirm-account${
         queryPage ? `?page=${queryPage}` : ""
       }`;
@@ -158,10 +152,10 @@ export default function RegisterForm({ lang, translate, queryPage }) {
   return (
     <div className="w-[650px] max-w-full md:py-10 py-8">
       <div className="text-center mb-8  ">
-        <h1 className="lg:text-[2.2rem] md:text-[1.9rem] text-[1.6rem] font-semibold mb-2 text-darkNavy">
+        <h1 className="lg:text-[2.2rem] md:text-1.9 text-[1.6rem] font-semibold mb-2 text-darkNavy">
           {t("title")}
         </h1>
-        <p className="lg:text-[1.1rem] text-[1rem] text-darkNavy">
+        <p className="lg:text-1.1 text-[1rem] text-darkNavy">
           {t("welcomeMessage")}
         </p>
       </div>
@@ -178,7 +172,7 @@ export default function RegisterForm({ lang, translate, queryPage }) {
           </div>
         )}
         {/* Account Type Selection */}
-        <div className="mb-8 flex flex-wrap md:gap-8 gap-4">
+        <div className="mb-8 flex flex-wrap md:gap-4 gap-2">
           <Checkbox
             isSelected={accountType === "personal" ? true : false}
             onChange={(e) => setAccountType(e.target.value)}
@@ -189,7 +183,7 @@ export default function RegisterForm({ lang, translate, queryPage }) {
               accountType === "personal"
                 ? {
                     base: "bg-primary rounded-xl transition-colors md:px-5 px-4 md:py-3 py-2",
-                    icon: "text-primary bg-white h-full w-full p-0.5",
+                    icon: "text-primary bg-white h-full w-full p-0.5 rounded-full",
                     wrapper: "bg-white",
                     label: "text-white",
                   }
@@ -212,7 +206,7 @@ export default function RegisterForm({ lang, translate, queryPage }) {
               accountType === "company"
                 ? {
                     base: "bg-primary rounded-xl transition-colors md:px-5 px-4 md:py-3 py-2",
-                    icon: "text-primary bg-white h-full w-full p-0.5",
+                    icon: "text-primary bg-white h-full w-full p-0.5 rounded-full",
                     wrapper: "bg-white",
                     label: "text-white",
                   }
@@ -235,7 +229,7 @@ export default function RegisterForm({ lang, translate, queryPage }) {
               accountType === "freelanceDocument"
                 ? {
                     base: "bg-primary rounded-xl transition-colors md:px-5 px-4 md:py-3 py-2",
-                    icon: "text-primary bg-white h-full w-full p-0.5",
+                    icon: "text-primary bg-white h-full w-full p-0.5 rounded-full",
                     wrapper: "bg-white",
                     label: "text-white",
                   }
@@ -563,11 +557,11 @@ export default function RegisterForm({ lang, translate, queryPage }) {
         {/* Terms and Conditions */}
         <div className="flex flex-wrap items-center mb-8">
           <Checkbox
-            checked={agreeToTerms}
+            isSelected={agreeToTerms}
             onChange={() => setAgreeToTerms(!agreeToTerms)}
             classNames={{
               base: "flex",
-              label: "text-base font-medium mr-2",
+              label: "text-base font-medium me-2",
             }}
             size="md"
             isRequired
@@ -578,13 +572,6 @@ export default function RegisterForm({ lang, translate, queryPage }) {
           <Link
             href={`/${langPrefix}terms-of-use`}
             className="text-primary hover:underline p-2"
-            onClick={() =>
-              sendGTMEvent({
-                event: "navigation_click",
-                link_text: "terms_of_use",
-                location: "register_page",
-              })
-            }
           >
             {t("termsOfUseLink")}
           </Link>{" "}
@@ -592,13 +579,6 @@ export default function RegisterForm({ lang, translate, queryPage }) {
           <Link
             href={`/${langPrefix}privacy`}
             className="text-primary hover:underline p-2"
-            onClick={() =>
-              sendGTMEvent({
-                event: "navigation_click",
-                link_text: "privacy_policy",
-                location: "register_page",
-              })
-            }
           >
             {t("privacyPolicyLink")}
           </Link>
@@ -621,13 +601,6 @@ export default function RegisterForm({ lang, translate, queryPage }) {
           <Link
             className="text-primary hover:underline"
             href={`/${langPrefix}login${queryPage ? `?page=${queryPage}` : ""}`}
-            onClick={() =>
-              sendGTMEvent({
-                event: "navigation_click",
-                link_text: "login",
-                location: "register_page",
-              })
-            }
           >
             {t("loginLink")}
           </Link>

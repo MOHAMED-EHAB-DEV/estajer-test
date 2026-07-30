@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslations } from "@/hooks/useTranslations";
 import Blog from "../shared/Blog";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Pagination } from "@heroui/react";
+import { Pagination } from "@/components/ui/Pagination";
 
 const BlogContainer = ({
   initialData,
@@ -41,7 +41,9 @@ const BlogContainer = ({
     if (selectedCategory === "latestNews") {
       router.push(`${langPrefix}/blogs?${params.toString()}`);
     } else {
-      router.push(`${langPrefix}/blogs/category/${selectedCategory}?${params.toString()}`);
+      router.push(
+        `${langPrefix}/blogs/category/${selectedCategory}?${params.toString()}`,
+      );
     }
   };
 
@@ -64,8 +66,8 @@ const BlogContainer = ({
             onClick={() => handleCategoryClick(cat.key)}
             className={`px-5 py-2.5 rounded-full whitespace-nowrap transition-all duration-300 border ${
               (selectedCategory || "latestNews") === cat.key
-                ? "bg-[#F48A42] text-white border-[#F48A42] shadow-md"
-                : "bg-white text-gray-600 border-gray-200 hover:border-[#F48A42] hover:text-[#F48A42]"
+                ? "bg-primary text-white border-[#F48A42] shadow-md"
+                : "bg-white text-gray-600 border-gray-200 hover:border-[#F48A42] hover:text-primary"
             }`}
           >
             {cat.label}

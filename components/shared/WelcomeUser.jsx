@@ -106,7 +106,7 @@ export default function WelcomeUser({
               <div className="font-IBMPlex font-semibold text-[0.9rem] md:text-[1.55rem] xl:text-[1.7rem] flex flex-wrap items-center gap-1 md:gap-2">
                 {t("greeting").replace("{name}", userFirstName)}
               </div>
-              <div className="text-[0.65rem] xl:text-[1.2rem] mt-0.5 md:mt-1">
+              <div className="text-[0.65rem] xl:text-1.2 mt-0.5 md:mt-1">
                 {t("desc")
                   .replace("{productsCount}", OrderCount)
                   .replace("{chatsCount}", newChatsCount)

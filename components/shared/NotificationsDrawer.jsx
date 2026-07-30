@@ -38,7 +38,7 @@ export default function NotificationsDrawer({
             size="md"
             className="min-w-8 p-0 -me-1"
           >
-            <X className="text-[#0D092B] w-[22px] h-[22px]" />
+            <X className="text-darkNavy w-[22px] h-[22px]" />
           </Button>
         </div>
         <div className="mt-4">

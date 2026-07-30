@@ -6,13 +6,11 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
-  Switch,
-  Select,
-  SelectItem,
-  Autocomplete,
-  AutocompleteItem,
-} from "@heroui/react";
+} from "@/components/ui/CustomModal";
+import { Input } from "@/components/ui/Input";
+import { Switch } from "@/components/ui/Switch";
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Autocomplete, AutocompleteItem } from "@/components/ui/Autocomplete";
 import Button from "@/components/ui/Button";
 import { Send } from "@/components/ui/svgs/icons/SendSvg";
 import ImageUploader from "@/components/addProduct/ImageUploader";
@@ -21,7 +19,8 @@ function FormInput({ ...props }) {
   return (
     <Input
       isRequired
-      labelPlacement="outside-top"
+      labelPlacement="outside"
+      size="sm"
       radius="sm"
       classNames={{
         base: "max-w-full !mt-0",
@@ -162,22 +161,23 @@ export default function BannerModal({
       isOpen={isOpen}
       onClose={onClose}
       size="4xl"
-      placement="center"
+      scrollBehavior="inside"
       classNames={{
-        body: "py-4",
+        body: "p-6 sm:p-8",
         backdrop: "bg-darkNavy/50 backdrop-blur-sm",
-        base: "border-none bg-white dark:bg-gray-900 rounded-3xl",
-        header: "border-b-[1.5px] border-gray-200 mx-8 p-8",
-        footer: "pb-6",
-        closeButton: "absolute top-9 left-8 text-3xl",
+        base: "border-none bg-white dark:bg-gray-900 rounded-3xl overflow-hidden max-h-[90vh] flex flex-col",
+        header: "border-b border-gray-200 p-6 sm:p-8",
+        footer: "p-6 sm:p-8 bg-white border-t border-gray-200",
       }}
     >
-      <ModalContent>
-        <ModalHeader className="text-3xl font-semibold font-IBMPlex text-darkNavy flex items-center gap-4">
-          <ModalIcon />
+      <ModalContent className="flex flex-col h-full overflow-hidden">
+        <ModalHeader className="text-3xl font-semibold font-IBMPlex text-darkNavy flex justify-start items-center gap-4 pe-16 border-b border-gray-200 p-6 sm:p-8">
+          <div className="w-14 h-14 bg-gradient-to-r from-[#f48a42] to-[#f47242] rounded-2xl flex items-center justify-center shadow-lg text-white">
+            <ModalIcon />
+          </div>
           {isEditing ? t("editTitle") : t("addTitle")}
         </ModalHeader>
-        <ModalBody className="flex flex-col gap-6 max-h-[70vh] overflow-y-auto">
+        <ModalBody className="flex flex-col gap-6 p-6 sm:p-8 overflow-y-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormInput
               label={t("altAr")}
@@ -219,11 +219,13 @@ export default function BannerModal({
               placeholder={t("placePlaceholder")}
               name="place"
               labelPlacement="outside"
+              size="sm"
               selectedKeys={[data.place || "home"]}
               onChange={handleChange}
               classNames={{
                 base: "max-w-full",
                 trigger: "bg-gray-100",
+                popoverContent: "z-modal",
               }}
             >
               <SelectItem key="home" value="home">
@@ -244,11 +246,13 @@ export default function BannerModal({
                   placeholder={t("mainCategoryPlaceholder")}
                   name="mainCategoryId"
                   labelPlacement="outside"
+                  size="sm"
                   selectedKeys={selectedMainId ? [selectedMainId] : []}
                   onChange={handleMainCategoryChange}
                   classNames={{
                     base: "max-w-full",
                     trigger: "bg-gray-100",
+                    popoverContent: "z-modal",
                   }}
                 >
                   {mainCategoriesList.map((cat) => (
@@ -264,6 +268,7 @@ export default function BannerModal({
                     placeholder={t("subCategoryPlaceholder")}
                     name="subCategoryId"
                     labelPlacement="outside"
+                    size="sm"
                     selectedKeys={
                       data.categoryId && data.categoryId !== selectedMainId
                         ? [data.categoryId]
@@ -273,6 +278,7 @@ export default function BannerModal({
                     classNames={{
                       base: "max-w-full",
                       trigger: "bg-gray-100",
+                      popoverContent: "z-modal",
                     }}
                   >
                     {subCategoriesList.map((sub) => (
@@ -289,6 +295,7 @@ export default function BannerModal({
               <div className="flex flex-col gap-2">
                 <Autocomplete
                   label={t("userSelection")}
+                  aria-label={t("userSelection")}
                   placeholder={t("userPlaceholder")}
                   inputValue={userSearchTerm}
                   onInputChange={setUserSearchTerm}
@@ -298,10 +305,12 @@ export default function BannerModal({
                   }
                   isLoading={loadingUsers}
                   menuTrigger="input"
+                  defaultFilter={() => true}
                   labelPlacement="outside"
                   classNames={{
                     base: "max-w-full",
                     trigger: "bg-gray-100",
+                    popoverContent: "z-modal",
                   }}
                 >
                   {users.map((user) => (
@@ -351,7 +360,7 @@ export default function BannerModal({
           <div className="h-[1.5px] w-full bg-black/10" />
           <div className="flex justify-between gap-6">
             <div className="flex flex-col flex-1 gap-4">
-              <span className="relative text-medium text-darkNavy w-fit">
+              <span className="relative text-base text-darkNavy w-fit">
                 {t("image")}
                 <span className="text-primary absolute -left-2 -top-1">*</span>
               </span>
@@ -365,7 +374,7 @@ export default function BannerModal({
             </div>
 
             <div className="flex flex-col flex-1 gap-4">
-              <span className="relative text-medium text-darkNavy w-fit">
+              <span className="relative text-base text-darkNavy w-fit">
                 {t("imageEn")}
                 <span className="text-primary absolute -left-2 -top-1">*</span>
               </span>

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useTranslations } from "@/hooks/useTranslations";
 import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
+import { getPricingPlans } from "@/lib/pricingPlans";
 
 const CheckIcon = ({ className }) => (
   <svg className={`fill-current ${className}`} viewBox="0 0 20 20">
@@ -17,9 +18,7 @@ const CheckIcon = ({ className }) => (
 const PricingPlans = ({ translate, lang }) => {
   const trans = useTranslations(translate);
   const t = (key) => trans(`marketing.pricingPlans.${key}`);
-  const free = trans("marketing.pricingPlans.starterPlan");
-  const premium = trans("marketing.pricingPlans.premiumPlan");
-  const enterprise = trans("marketing.pricingPlans.enterprisePlan");
+  const { starter, growth, enterprise } = getPricingPlans(trans, { lang });
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     axis: "x",
@@ -64,7 +63,7 @@ const PricingPlans = ({ translate, lang }) => {
 
   return (
     <section
-      className="py-12 md:py-24 bg-white font-sans"
+      className="py-12 md:py-24 bg-white"
       dir={lang === "ar" ? "rtl" : "ltr"}
     >
       <div className="max-w-[1000px] md:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,31 +84,31 @@ const PricingPlans = ({ translate, lang }) => {
         >
           {/* Pricing Grid */}
           <div className="flex lg:grid lg:grid-cols-3 gap-6 xl:gap-10 items-stretch pt-8 cursor-grab active:cursor-grabbing lg:cursor-auto lg:active:cursor-auto w-full pb-8 lg:pb-0">
-            {/* Free Plan */}
+            {/* Starter Plan */}
             <div className="border border-gray-200 bg-white rounded-[32px] p-6 xl:p-10 flex flex-col shadow-sm hover:scale-[1.02] transition-transform duration-300 flex-[0_0_85%] sm:flex-[0_0_60%] lg:flex-none min-w-0">
               <div className="min-h-[60px] md:min-h-[100px] text-start flex flex-col items-start justify-start">
                 <p className="text-[#9CA3AF] text-[12px] md:text-xs font-medium mb-3">
-                  {free?.currentLabel}
+                  {starter?.currentLabel}
                 </p>
                 <h3 className="text-xl md:text-2xl font-bold text-[#111827] mb-2 leading-tight">
-                  {free?.name}
+                  {starter?.name}
                 </h3>
                 <p className="text-[#6B7280] text-xs md:text-sm">
-                  {free?.desc}
+                  {starter?.desc}
                 </p>
               </div>
 
               <div className="h-[60px] md:h-[90px] flex flex-col items-start justify-center mb-2 md:mb-4">
                 <div className="flex items-end gap-1.5 justify-start">
                   <span className="text-4xl md:text-5xl leading-[1] font-extrabold text-[#111827]">
-                    {free?.price}
+                    {starter?.price}
                   </span>
                   <div className="flex flex-col ">
                     <span className="text-[#6B7280] text-sm font-medium">
-                      {free?.currency}
+                      {starter?.currency}
                     </span>
                     <span className="text-[#6B7280] text-[10px]">
-                      {free?.priceSub}
+                      {starter?.priceSub}
                     </span>
                   </div>
                 </div>
@@ -122,21 +121,24 @@ const PricingPlans = ({ translate, lang }) => {
                       %
                     </span>
                     <span className="text-[#4B5563] text-[10px] md:text-xs font-medium">
-                      {free?.commissionNote}{" "}
+                      {starter?.discountNote}{" "}
                       <strong className="font-bold text-[#111827]">
-                        {free?.commissionRate}
+                        {starter?.discountRate}
                       </strong>{" "}
-                      {free?.commissionSuffix}
+                      {starter?.discountSuffix}{" "}
+                      <span className="line-through mx-0.5 text-gray-400">
+                        {starter?.discountOld}
+                      </span>
                     </span>
                   </div>
                 </div>
               </div>
 
               <Link
-                href={`/${lang}/pricing`}
+                href={`/${lang}/premium-checkout?plan=starter`}
                 className="w-full mb-3 md:mb-8 bg-white border border-[#E5E7EB] text-[#6B7280] font-bold py-3 md:py-4 rounded-xl transition-colors hover:bg-gray-50 flex items-center justify-center gap-2 shadow-sm text-sm"
               >
-                <span>{free?.currentBtn}</span>
+                <span>{starter?.currentBtn}</span>
                 <svg
                   className={`w-4 h-4 ${lang === "ar" ? "rotate-180" : ""}`}
                   fill="none"
@@ -154,11 +156,11 @@ const PricingPlans = ({ translate, lang }) => {
 
               <div className="border-t border-gray-100 pt-4 md:pt-8 flex-grow flex flex-col">
                 <p className="text-[#9CA3AF] text-xs text-start mb-4 md:mb-8 font-medium">
-                  {free?.featuresLabel}
+                  {starter?.featuresLabel}
                 </p>
                 <ul className="space-y-3 lg:space-y-6 flex-grow">
-                  {Array.isArray(free?.features) &&
-                    free.features.map((feature, idx) => (
+                  {Array.isArray(starter?.features) &&
+                    starter.features.map((feature, idx) => (
                       <li key={idx} className="flex items-center gap-3">
                         <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[#FFF5EC] text-[#F97316] flex items-center justify-center">
                           <CheckIcon className="w-3 h-3" />
@@ -172,35 +174,35 @@ const PricingPlans = ({ translate, lang }) => {
               </div>
             </div>
 
-            {/* Premium Plan */}
+            {/* Growth Plan */}
             <div className="relative border border-[#F97316] bg-white rounded-[32px] p-6 xl:p-10 flex flex-col shadow-[0_12px_45px_-10px_rgba(249,115,22,0.18)] hover:scale-[1.02] transition-transform duration-300 flex-[0_0_85%] sm:flex-[0_0_60%] lg:flex-none min-w-0">
               <div className="absolute -top-[14px] left-1/2 -translate-x-1/2 bg-[#F97316] text-white px-6 py-1 rounded-full text-[11px] md:text-sm font-bold shadow-md">
-                {premium?.badge}
+                {growth?.badge}
               </div>
 
               <div className="min-h-[60px] md:min-h-[100px] text-start flex flex-col items-start justify-start">
                 <p className="text-[#9CA3AF] text-[12px] md:text-xs font-medium mb-3">
-                  {premium?.tierLabel}
+                  {growth?.tierLabel}
                 </p>
                 <h3 className="text-xl md:text-2xl font-bold text-[#111827] mb-2 leading-tight">
-                  {premium?.name}
+                  {growth?.name}
                 </h3>
                 <p className="text-[#6B7280] text-xs md:text-sm pe-2">
-                  {premium?.desc}
+                  {growth?.desc}
                 </p>
               </div>
 
               <div className="h-[60px] md:h-[90px] flex flex-col items-start justify-center mb-2 md:mb-4">
                 <div className="flex items-end gap-1.5 justify-start">
                   <span className="text-4xl md:text-5xl leading-[1] font-extrabold text-[#F97316]">
-                    {premium?.price}
+                    {growth?.price}
                   </span>
                   <div className="flex flex-col ">
                     <span className="text-[#6B7280] text-sm font-medium">
-                      {free?.currency}
+                      {starter?.currency}
                     </span>
                     <span className="text-[#6B7280] text-[10px]">
-                      {free?.priceSub}
+                      {starter?.priceSub}
                     </span>
                   </div>
                 </div>
@@ -213,13 +215,13 @@ const PricingPlans = ({ translate, lang }) => {
                       %
                     </span>
                     <span className="text-[#F97316] text-[10px] md:text-xs font-medium whitespace-nowrap">
-                      {premium?.commissionNote}{" "}
+                      {growth?.discountNote}{" "}
                       <strong className="font-bold">
-                        {premium?.commissionRate}
+                        {growth?.discountRate}
                       </strong>{" "}
-                      {premium?.commissionSuffix}{" "}
-                      <span className="line-through mx-0.5 text-orange-300">
-                        {premium?.commissionOld}
+                      {growth?.discountSuffix}{" "}
+                      <span className="line-through mx-0.5 text-orange-400">
+                        {growth?.discountOld}
                       </span>
                     </span>
                   </div>
@@ -227,10 +229,10 @@ const PricingPlans = ({ translate, lang }) => {
               </div>
 
               <Link
-                href={`/${lang}/pricing`}
+                href={`/${lang}/premium-checkout?plan=growth`}
                 className="w-full mb-3 md:mb-8 bg-[#F97316] text-white font-bold py-3 md:py-4 rounded-xl hover:bg-[#ea580c] transition-all flex items-center justify-center gap-2 shadow-md shadow-orange-200 text-sm"
               >
-                {premium?.subscribeBtn}
+                {growth?.subscribeBtn}
                 <svg
                   className={`w-4 h-4 ${lang === "ar" ? "rotate-180" : ""}`}
                   fill="none"
@@ -248,11 +250,11 @@ const PricingPlans = ({ translate, lang }) => {
 
               <div className="border-t border-gray-100 pt-4 md:pt-8 flex-grow flex flex-col">
                 <p className="text-[#9CA3AF] text-[11px] text-start font-medium mb-4 md:mb-8">
-                  {premium?.everythingPlus}
+                  {growth?.everythingPlus}
                 </p>
                 <ul className="space-y-[13px] xl:space-y-[15px] flex-grow">
-                  {Array.isArray(premium?.features) &&
-                    premium.features.map((feature, idx) => (
+                  {Array.isArray(growth?.features) &&
+                    growth.features.map((feature, idx) => (
                       <li
                         key={idx}
                         className="flex items-center justify-between gap-1.5 xl:gap-2"
@@ -301,7 +303,7 @@ const PricingPlans = ({ translate, lang }) => {
               <div className="h-[2px] md:h-[60px] mb-2 md:mb-8 w-full"></div>
 
               <Link
-                href={`/${lang}/pricing`}
+                href={`/${lang}/contact`}
                 className="w-full mb-3 md:mb-8 bg-[#0F172A] text-white font-bold py-3 md:py-4 rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm"
               >
                 {enterprise?.contactBtn}

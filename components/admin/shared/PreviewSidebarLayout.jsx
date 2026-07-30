@@ -11,6 +11,81 @@ import {
 } from "@/components/ui/svgs/AdminIcons";
 import Button from "@/components/ui/Button";
 
+const VIEWPORT_MODES = [
+  {
+    id: "responsive",
+    label: "Responsive",
+    maxWidth: null,
+    width: "100%",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        className="w-4 h-4"
+      >
+        <rect x="2" y="3" width="20" height="14" rx="2" />
+        <path d="M6 21h12M12 17v4M17 7l3 3-3 3M7 7l-3 3 3 3" />
+      </svg>
+    ),
+  },
+  {
+    id: "desktop",
+    label: "Desktop",
+    maxWidth: null,
+    width: "1400px",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        className="w-4 h-4"
+      >
+        <rect x="2" y="3" width="20" height="14" rx="2" />
+        <path d="M8 21h8M12 17v4" />
+      </svg>
+    ),
+  },
+  {
+    id: "tablet",
+    label: "Tablet",
+    maxWidth: "768px",
+    width: "768px",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        className="w-4 h-4"
+      >
+        <rect x="4" y="2" width="16" height="20" rx="2" />
+        <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    id: "mobile",
+    label: "Mobile",
+    maxWidth: "390px",
+    width: "390px",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        className="w-4 h-4"
+      >
+        <rect x="6" y="2" width="12" height="20" rx="2" />
+        <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+];
+
 export default function PreviewSidebarLayout({
   title,
   subtitle,
@@ -22,247 +97,503 @@ export default function PreviewSidebarLayout({
   isSubmitting,
   onBack,
   previewContent,
+  previewUrl,
+  iframeRef,
   t,
   lang,
   nestedPanelContent,
   onNestedBack,
   nestedTitle,
   sidebarFooter,
+  headerRightExtra,
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [editPanelOpen, setEditPanelOpen] = useState(false);
+  const [viewportMode, setViewportMode] = useState("responsive");
   const editPanelRef = useRef(null);
   const isRtl = lang === "en";
 
-  const handleSectionClick = (sectionId) => {
-    setActiveSection(sectionId);
-    setEditPanelOpen(true);
+  const currentViewport = VIEWPORT_MODES.find((m) => m.id === viewportMode);
 
-    // Scroll to section in preview
-    setTimeout(() => {
-      const element = document.getElementById(`preview-section-${sectionId}`);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else if (sectionId === "sliders" || sectionId === "offer-banners") {
-        const firstItem = document.getElementById(
-          `preview-section-${sectionId === "sliders" ? "slider" : "banner"}-0`,
-        );
-        if (firstItem) {
-          firstItem.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+  useEffect(() => {
+    if (activeSection) {
+      if (!previewUrl) {
+        setTimeout(() => {
+          const element = document.getElementById(
+            `preview-section-${activeSection}`,
+          );
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else if (
+            activeSection === "sliders" ||
+            activeSection === "offer-banners"
+          ) {
+            const firstItem = document.getElementById(
+              `preview-section-${activeSection === "sliders" ? "slider" : "banner"}-0`,
+            );
+            if (firstItem)
+              firstItem.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 100);
+      } else if (iframeRef?.current) {
+        setTimeout(() => {
+          iframeRef.current?.contentWindow?.postMessage(
+            { type: "SHOP_PREVIEW_SCROLL", sectionId: activeSection },
+            "*",
+          );
+        }, 100);
       }
-    }, 100);
-  };
+    }
+  }, [activeSection, previewUrl, iframeRef]);
 
-  const closeEditPanel = () => {
-    setEditPanelOpen(false);
-    setActiveSection(null);
-  };
+  const handleSectionClick = (sectionId) => setActiveSection(sectionId);
+  const closeEditPanel = () => setActiveSection(null);
 
   return (
-    <div className="flex flex-col overflow-hidden bg-[#fef7f3] h-dvh">
-      {/* Top Header Bar */}
-      <div className="h-14 bg-white border-b border-neutral-200/80 flex items-center justify-between px-5 shrink-0 z-50 shadow-sm">
-        <div className="flex items-center gap-3 min-w-0">
+    <div
+      className="flex flex-col overflow-hidden h-dvh"
+      style={{ background: "hsl(220 15% 97%)" }}
+    >
+      {/* ── Top Bar ─────────────────────────────────────────────────────── */}
+      <div
+        className="h-14 flex items-center justify-between px-4 shrink-0 z-50 shadow-sm"
+        style={{
+          background: "#ffffff",
+          borderBottomWidth: "1px",
+          borderBottomStyle: "solid",
+          borderBottomColor: "hsl(220 15% 90%)",
+        }}
+      >
+        {/* Left: Back + Title */}
+        <div className="flex items-center gap-3 min-w-0 lg:pe-28">
           <button
             onClick={onBack}
             type="button"
-            className="w-9 h-9 rounded-xl bg-neutral-50 hover:bg-neutral-100 flex items-center justify-center text-neutral-500 hover:text-neutral-700 transition-all shrink-0 border border-neutral-200/60"
+            className="w-8 h-8 rounded-lg flex items-center justify-center transition-all shrink-0"
+            style={{
+              background: "hsl(220 12% 95%)",
+              color: "hsl(220 10% 45%)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "hsl(220 12% 90%)";
+              e.currentTarget.style.color = "hsl(225 35% 18%)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "hsl(220 12% 95%)";
+              e.currentTarget.style.color = "hsl(220 10% 45%)";
+            }}
           >
-            <FaArrowLeft size={14} className="rtl:rotate-180" />
+            <FaArrowLeft size={13} className="rtl:rotate-180" />
           </button>
-          <div className="flex items-center gap-2.5 min-w-0">
-            <h1 className="text-sm font-bold text-darkNavy leading-tight truncate">
+
+          <div className="flex items-center gap-2 min-w-0">
+            {/* Brand dot */}
+            <span
+              className="w-2 h-2 rounded-full shrink-0"
+              style={{ background: "var(--color-primary, #f48a42)" }}
+            />
+            <h1
+              className="text-sm font-bold leading-tight truncate"
+              style={{ color: "hsl(225 35% 18%)" }}
+            >
               {title}
             </h1>
             {subtitle && (
               <>
-                <span className="text-neutral-300">|</span>
-                <span className="text-xs text-neutral-400 leading-tight truncate">
+                <span style={{ color: "hsl(220 10% 80%)" }}>/</span>
+                <span
+                  className="text-xs truncate font-medium"
+                  style={{ color: "hsl(220 10% 55%)" }}
+                >
                   {subtitle}
                 </span>
               </>
             )}
           </div>
         </div>
-        {/* Save Button */}
-        <Button
-          type="button"
-          onPress={onSave}
-          isLoading={isSubmitting}
-          className="px-6 h-10 rounded-xl text-sm font-bold text-white shadow-md shadow-primary/25"
+
+        {/* Center: Viewport Toggle */}
+        <div
+          className="items-center gap-0.5 rounded-lg p-1 flex"
+          style={{ background: "hsl(220 12% 95%)" }}
         >
-          <FaSave size={14} />
-          {t("save")}
-        </Button>
+          {VIEWPORT_MODES.map((mode) => (
+            <button
+              key={mode.id}
+              type="button"
+              title={t(mode.id)}
+              onClick={() => setViewportMode(mode.id)}
+              className="flex items-center gap-1.5 px-3 h-7 rounded-md text-[11px] font-semibold transition-all"
+              style={
+                viewportMode === mode.id
+                  ? {
+                      background: "#fff",
+                      color: "hsl(225 35% 18%)",
+                      boxShadow:
+                        "0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)",
+                    }
+                  : { color: "hsl(220 10% 50%)" }
+              }
+              onMouseEnter={(e) => {
+                if (viewportMode !== mode.id)
+                  e.currentTarget.style.color = "hsl(225 35% 18%)";
+              }}
+              onMouseLeave={(e) => {
+                if (viewportMode !== mode.id)
+                  e.currentTarget.style.color = "hsl(220 10% 50%)";
+              }}
+            >
+              {mode.icon}
+              <span className="hidden lg:inline">{t(mode.id)}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Right: Save & Extra actions */}
+        <div className="flex items-center gap-2">
+          {headerRightExtra}
+          <Button
+            type="button"
+            onPress={onSave}
+            isLoading={isSubmitting}
+            className="lg:px-5 px-4 h-9 gap-2 min-w-0 rounded-lg text-sm font-bold text-white shadow-md hover:opacity-90 transition-opacity"
+            style={{ background: "var(--color-primary, #f48a42)" }}
+          >
+            <FaSave size={13} />
+            <span>{t("save")}</span>
+            <span className="hidden lg:inline">{t("changes")}</span>
+          </Button>
+        </div>
       </div>
 
+      {/* ── Body ────────────────────────────────────────────────────────── */}
       <div className="flex-1 flex overflow-hidden relative">
         {/* Preview Area */}
         <div
-          className="flex-1 overflow-auto transition-all duration-300"
-          style={{
-            paddingInlineStart: sidebarOpen ? "350px" : "0",
-          }}
+          className={`flex-1 flex flex-col overflow-x-auto overflow-y-hidden transition-all duration-300 py-3 ${
+            sidebarOpen ? "ps-0 md:ps-[320px]" : "ps-0"
+          }`}
         >
-          <div className="mx-auto transition-all duration-500 py-4 h-full">
-            <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-neutral-200/50">
+          {/* Device label */}
+          {currentViewport.maxWidth && (
+            <div
+              className="flex items-center justify-center gap-2 mb-3 shrink-0 w-full mx-auto"
+              style={{ maxWidth: currentViewport.maxWidth }}
+            >
               <div
-                id="preview-scroll-container"
-                className="overflow-auto scroll-smooth"
-                style={{ maxHeight: "calc(100vh - 80px)" }}
+                className="h-px flex-1"
+                style={{ background: "hsl(220 10% 88%)" }}
+              />
+              <span
+                className="text-[10px] font-semibold uppercase tracking-widest px-2"
+                style={{ color: "hsl(220 10% 60%)" }}
               >
-                {previewContent}
-              </div>
+                {t(currentViewport.id)} — {currentViewport.maxWidth}
+              </span>
+              <div
+                className="h-px flex-1"
+                style={{ background: "hsl(220 10% 88%)" }}
+              />
+            </div>
+          )}
+
+          {/* Preview frame */}
+          <div
+            className="transition-all duration-500 flex-1 flex flex-col h-full mx-auto"
+            style={{
+              width: currentViewport.width || "100%",
+              maxWidth: currentViewport.id === "mobile" ? "100%" : undefined,
+              paddingInline: currentViewport.maxWidth ? "0" : "0.75rem",
+            }}
+          >
+            <div
+              className="bg-white rounded-xl overflow-hidden flex-1 flex flex-col h-full"
+              style={{
+                boxShadow: currentViewport.maxWidth
+                  ? "0 0 0 6px hsl(220 15% 92%), 0 24px 64px -12px rgba(0,0,0,0.12)"
+                  : "0 4px 24px -4px rgba(0,0,0,0.04)",
+                borderWidth: "1px",
+                borderStyle: "solid",
+                borderColor: "hsl(220 15% 90%)",
+              }}
+            >
+              {previewUrl ? (
+                <iframe
+                  ref={iframeRef}
+                  src={previewUrl}
+                  className="w-full flex-1 border-0 h-full"
+                  style={{ minHeight: "0" }}
+                  title="Shop Preview"
+                />
+              ) : (
+                <div
+                  id="preview-scroll-container"
+                  className="overflow-auto scroll-smooth flex-1"
+                  style={{ maxHeight: "calc(100vh - 80px)" }}
+                >
+                  {previewContent}
+                </div>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Right Sidebar - Section List */}
+        {/* ── Left Sidebar ─────────────────────────────────────────────── */}
         <div
-          className={`fixed bottom-0 w-[350px] bg-transparent flex flex-col transition-transform duration-300 z-40 start-0 ${
+          className={`fixed bottom-0 w-[320px] flex flex-col transition-transform duration-300 z-40 start-0 ${
             sidebarOpen
               ? "translate-x-0"
               : isRtl
                 ? "-translate-x-full"
                 : "translate-x-full"
           }`}
-          style={{ top: "56px" }}
+          style={{
+            top: "56px",
+            background: "#ffffff",
+            borderInlineEndWidth: "1px",
+            borderInlineEndStyle: "solid",
+            borderInlineEndColor: "hsl(220 15% 90%)",
+            paddingBottom: "env(safe-area-inset-bottom, 0px)",
+          }}
         >
-          <div className="flex-1 flex flex-col p-4 overflow-hidden relative">
-            {/* Sidebar Header Card */}
-            <div className="px-5 py-4 bg-white rounded-xl shadow-sm flex items-center shrink-0 mb-4 border border-neutral-200/50 relative">
-              <h3 className="text-[15px] font-bold text-darkNavy flex gap-2">
-                {t("shopSettings")}
-              </h3>
-              <button
-                type="button"
-                onClick={() => setSidebarOpen(false)}
-                className="absolute top-1/2 -translate-y-1/2 end-3 w-7 h-7 rounded-lg hover:bg-neutral-100 flex items-center justify-center text-neutral-400 hover:text-neutral-600 transition-all"
+          {/* Sidebar Header */}
+          <div
+            className="flex items-center justify-between px-4 py-3 shrink-0"
+            style={{
+              borderBottomWidth: "1px",
+              borderBottomStyle: "solid",
+              borderBottomColor: "hsl(220 15% 90%)",
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                className="w-4 h-4"
+                style={{ color: "hsl(220 10% 50%)" }}
               >
-                <FaTimes size={12} />
+                <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+              </svg>
+              <span
+                className="text-sm font-bold"
+                style={{ color: "hsl(225 35% 18%)" }}
+              >
+                {t("shopSettings")}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(false)}
+              className="w-6 h-6 rounded-md flex items-center justify-center transition-all"
+              style={{ color: "hsl(220 10% 55%)" }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "hsl(220 12% 95%)";
+                e.currentTarget.style.color = "hsl(225 35% 18%)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.color = "hsl(220 10% 55%)";
+              }}
+            >
+              <FaTimes size={11} />
+            </button>
+          </div>
+
+          {/* Static Nav Items */}
+          <div className="px-3 pt-3 pb-2 flex flex-col gap-1 shrink-0">
+            {sections.map((section) => (
+              <button
+                data-sidebar-item
+                type="button"
+                key={section.id}
+                onClick={() => handleSectionClick(section.id)}
+                className="w-full flex items-center gap-2.5 px-3 py-2.5 text-start transition-all rounded-lg group"
+                style={
+                  activeSection === section.id
+                    ? {
+                        background:
+                          "hsl(var(--primary-hsl, 24 89% 61%) / 0.08)",
+                        color: "var(--color-primary, #f48a42)",
+                      }
+                    : { color: "hsl(220 10% 45%)" }
+                }
+                onMouseEnter={(e) => {
+                  if (activeSection !== section.id) {
+                    e.currentTarget.style.background = "hsl(220 12% 95%)";
+                    e.currentTarget.style.color = "hsl(225 35% 18%)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeSection !== section.id) {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = "hsl(220 10% 45%)";
+                  }
+                }}
+              >
+                <span
+                  className="shrink-0"
+                  style={{
+                    color:
+                      activeSection === section.id
+                        ? "var(--color-primary, #f48a42)"
+                        : "hsl(220 10% 50%)",
+                  }}
+                >
+                  {section.icon}
+                </span>
+                <span className="text-sm font-semibold truncate flex-1">
+                  {section.label}
+                </span>
+                <FaEdit
+                  size={11}
+                  className="shrink-0 opacity-0 group-hover:opacity-60 transition-opacity"
+                />
               </button>
-            </div>
+            ))}
+          </div>
 
-            {/* Section Items Container */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar pb-6">
-              <div className="flex flex-col gap-[5px]">
-                {sections.map((section) => (
-                  <button
-                    data-sidebar-item
-                    type="button"
-                    key={section.id}
-                    onClick={() => handleSectionClick(section.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3.5 text-start transition-all group bg-white rounded-xl shadow-sm border border-neutral-200/50 hover:border-primary/30 ${
-                      activeSection === section.id && editPanelOpen
-                        ? "ring-2 ring-primary ring-inset shadow-md"
-                        : ""
-                    }`}
-                  >
-                    <span
-                      className={`text-lg shrink-0 transition-colors ${
-                        activeSection === section.id && editPanelOpen
-                          ? "text-primary"
-                          : "text-neutral-400 group-hover:text-primary"
-                      }`}
-                    >
-                      {section.icon}
-                    </span>
+          {/* Divider */}
+          <div
+            className="mx-3 mb-1"
+            style={{ height: "1px", background: "hsl(220 15% 92%)" }}
+          />
 
-                    <div className="flex items-center gap-2.5 flex-1 min-w-0 justify-end">
-                      <span
-                        className={`group-hover:text-primary duration-300 text-sm font-bold truncate flex-1 ${
-                          activeSection === section.id && editPanelOpen
-                            ? "text-primary"
-                            : "text-darkNavy"
-                        }`}
-                      >
-                        {section.label}
-                      </span>
-                    </div>
-
-                    {/* Grip Icon with Divider */}
-                    <span className="text-neutral-300 group-hover:text-neutral-500 transition-colors shrink-0 border-s border-neutral-100 ps-2.5 h-6 flex items-center">
-                      <FaEdit size={13} />
-                    </span>
-                  </button>
-                ))}
-
-                {sidebarFooter && (
-                  <div className="mt-4 pt-4 border-t border-neutral-100 flex flex-col gap-3">
-                    {sidebarFooter}
-                  </div>
-                )}
-              </div>
-            </div>
+          {/* Scrollable content (footer injected from parent — sections list etc) */}
+          <div
+            className="flex-1 overflow-y-auto custom-scrollbar px-3 pb-4 pt-2"
+            style={{ overflowY: "overlay" }}
+          >
+            {sidebarFooter}
           </div>
         </div>
 
-        {/* Sidebar Toggle Button (when collapsed) */}
+        {/* Sidebar Toggle (collapsed) */}
         {!sidebarOpen && (
           <button
             type="button"
             onClick={() => setSidebarOpen(true)}
-            className="fixed top-1/2 -translate-y-1/2 w-8 h-16 bg-white border border-neutral-200 shadow-lg flex items-center justify-center text-neutral-500 hover:text-primary transition-all z-50 start-0 rounded-e-xl border-s-0"
+            className="fixed top-1/2 -translate-y-1/2 w-7 h-14 flex items-center justify-center transition-all z-50 start-0 rounded-e-xl shadow-md"
+            style={{
+              background: "#ffffff",
+              borderInlineEndWidth: "1px",
+              borderInlineEndStyle: "solid",
+              borderInlineEndColor: "hsl(220 15% 90%)",
+              borderTopWidth: "1px",
+              borderTopStyle: "solid",
+              borderTopColor: "hsl(220 15% 90%)",
+              borderBottomWidth: "1px",
+              borderBottomStyle: "solid",
+              borderBottomColor: "hsl(220 15% 90%)",
+              color: "hsl(220 10% 45%)",
+            }}
           >
-            {isRtl ? <FaChevronRight size={12} /> : <FaChevronLeft size={12} />}
+            {isRtl ? <FaChevronRight size={11} /> : <FaChevronLeft size={11} />}
           </button>
         )}
 
-        {/* Edit Panel (slides in from sidebar side) */}
-        {editPanelOpen && activeSection && (
+        {/* ── Edit Panel ───────────────────────────────────────────────── */}
+        {activeSection && (
           <>
-            {/* Backdrop */}
-            {/* <div
-              className="fixed inset-0 z-40 cursor-pointer"
-              style={{ top: "56px" }}
-              onClick={closeEditPanel}
-            /> */}
-
-            {/* Edit Side Panel */}
             <div
               ref={editPanelRef}
-              className={`fixed bottom-0 start-0 w-[420px] max-w-[90vw] bg-neutral-50 shadow-2xl z-50 flex flex-col animate-in duration-200 ${
+              className={`fixed bottom-0 start-0 w-[400px] max-w-[90vw] flex flex-col z-50 animate-in duration-200 ${
                 isRtl ? "slide-in-from-left" : "slide-in-from-right"
               }`}
-              style={{ top: "56px" }}
+              style={{
+                top: "56px",
+                background: "hsl(220 15% 97%)",
+                borderInlineStart: "none",
+                borderInlineEndWidth: "1px",
+                borderInlineEndStyle: "solid",
+                borderInlineEndColor: "hsl(220 12% 88%)",
+                boxShadow: "4px 0 32px -8px rgba(0,0,0,0.18)",
+                marginInlineStart: "0",
+                paddingBottom: "env(safe-area-inset-bottom, 0px)",
+              }}
             >
-              {/* Edit Panel Header — Branded accent bar */}
-              <div className="relative shrink-0">
-                {/* Thin accent line at top */}
-                <div className="px-5 py-3.5 border-b border-neutral-200/60 flex items-center justify-between bg-white">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <button
-                      type="button"
-                      onClick={
-                        nestedPanelContent ? onNestedBack : closeEditPanel
-                      }
-                      className="w-8 h-8 rounded-xl bg-primary/8 hover:bg-primary/15 flex items-center justify-center text-primary transition-all shrink-0"
-                    >
-                      {isRtl ? (
-                        <FaChevronLeft size={12} />
-                      ) : (
-                        <FaChevronRight size={12} />
-                      )}
-                    </button>
-                    <h3 className="text-[13px] font-bold text-darkNavy truncate">
-                      {nestedTitle ||
-                        sections.find((s) => s.id === activeSection)?.label}
-                    </h3>
-                  </div>
+              {/* Edit Panel Header */}
+              <div
+                className="flex items-center gap-2.5 px-4 py-3 shrink-0"
+                style={{
+                  background: "#fff",
+                  borderBottomWidth: "1px",
+                  borderBottomStyle: "solid",
+                  borderBottomColor: "hsl(220 12% 91%)",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={nestedPanelContent ? onNestedBack : closeEditPanel}
+                  className="w-7 h-7 rounded-lg flex items-center justify-center transition-all shrink-0"
+                  style={{
+                    background: "hsl(220 12% 94%)",
+                    color: "hsl(220 12% 45%)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "hsl(220 12% 88%)";
+                    e.currentTarget.style.color = "hsl(220 12% 25%)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "hsl(220 12% 94%)";
+                    e.currentTarget.style.color = "hsl(220 12% 45%)";
+                  }}
+                >
+                  {isRtl ? (
+                    <FaChevronLeft size={11} />
+                  ) : (
+                    <FaChevronRight size={11} />
+                  )}
+                </button>
+
+                <div className="flex-1 min-w-0">
+                  <h3
+                    className="text-[13px] font-bold truncate"
+                    style={{ color: "hsl(225 35% 18%)" }}
+                  >
+                    {nestedTitle ||
+                      sections.find((s) => s.id === activeSection)?.label}
+                  </h3>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={closeEditPanel}
+                  className="w-7 h-7 rounded-lg flex items-center justify-center transition-all shrink-0"
+                  style={{ color: "hsl(220 12% 55%)" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "hsl(220 12% 93%)";
+                    e.currentTarget.style.color = "hsl(220 12% 25%)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = "hsl(220 12% 55%)";
+                  }}
+                >
+                  <FaTimes size={11} />
+                </button>
               </div>
 
               {/* Edit Panel Content */}
               <div className="flex-1 overflow-y-auto relative">
                 {nestedPanelContent ? (
-                  <div className="absolute inset-0 z-10 bg-neutral-50 animate-in slide-in-from-right-5 duration-300">
-                    <div className="p-5 h-full overflow-y-auto custom-scrollbar">
+                  <div
+                    className="absolute inset-0 z-10 animate-in slide-in-from-right-5 duration-300"
+                    style={{ background: "hsl(220 15% 97%)" }}
+                  >
+                    <div
+                      className="p-5 h-full overflow-y-auto custom-scrollbar"
+                      style={{ overflowY: "overlay" }}
+                    >
                       {nestedPanelContent}
                     </div>
                   </div>
                 ) : null}
-                <div className="p-5 h-full overflow-y-auto custom-scrollbar">
+                <div
+                  className="p-5 h-full overflow-y-auto custom-scrollbar"
+                  style={{ overflowY: "overlay" }}
+                >
                   {activeSectionContent}
                 </div>
               </div>

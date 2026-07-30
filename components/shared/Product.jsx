@@ -2,22 +2,16 @@
 import Link from "next/link";
 import { useMemo } from "react";
 import dynamic from "next/dynamic";
-import { useTranslations } from "@/hooks/useTranslations";
-// import { Chip } from "@heroui/react";
 import { Currency } from "../ui/svgs/icons/CurrencySvg";
 import { Location } from "../ui/svgs/icons/LocationSvg";
-import { useState } from "react";
 import ProductImage from "./ProductImage";
 import { getProductStatus } from "@/utils/getProductStatus";
-import calculateDistance from "@/utils/calculateDistance";
-import formatDuration from "@/utils/formatDuration";
 import { getUrlName } from "@/lib/sitemap";
-
-// Dynamic imports for conditional components
-const ProductDetailModal = dynamic(() => import("./ProductDetailModal"), {
-  loading: () => null,
-  ssr: false,
-});
+import DeliveryRow from "./DeliveryRow";
+import {
+  useProductCard,
+  ProductCardModal,
+} from "@/components/shop/themes/shared/useProductCard";
 const ProductOwnerActions = dynamic(() => import("./ProductOwnerActions"), {
   ssr: false,
 });
@@ -59,51 +53,28 @@ export default function Product({
   favoriteProducts = [],
   toggleFavorite,
   providerId,
+  shopSlug,
 }) {
-  const distance = useMemo(() => {
-    if (!user?.location || !product?.location?.coordinates) return "";
-    return calculateDistance(
-      product.location?.coordinates[1],
-      product.location?.coordinates[0],
-      user.location.lat,
-      user.location.lng,
-    );
-  }, [product?.location?.coordinates, user?.location]);
-  const langPrefix = lang === "ar" ? "" : "en/";
-  const trans = useTranslations(translate);
-  const t = (value) => trans(`productComponent.${value}`);
-  const tUi = (value) => trans(`ui.button.${value}`);
-  const [modalData, setModalData] = useState({ show: false });
-
-  const { discountPriceWithTax, priceWithTax, hasDiscount } = useMemo(() => {
-    const hasDiscount =
-      product?.rental?.discountTiers &&
-      product.pricingModel !== "packages" &&
-      product?.rental?.discountTiers?.length > 0;
-    const discountPrice = hasDiscount
-      ? product.rental.discountTiers[0].discountPrice
-      : null;
-    const tax = 0.15;
-    const hasTaxCode = !!product.owner?.companyDetails?.taxCode;
-    const basePrice =
-      product.pricingModel === "packages"
-        ? product.rental.packages[0].price
-        : product.rental.value;
-    const priceWithTax = hasTaxCode
-      ? Math.round(basePrice * (1 + tax))
-      : basePrice;
-    const discountPriceWithTax = hasDiscount
-      ? hasTaxCode
-        ? Math.round(discountPrice * (1 + tax))
-        : discountPrice
-      : null;
-
-    return {
-      discountPriceWithTax,
-      priceWithTax,
-      hasDiscount,
-    };
-  }, [product]);
+  const {
+    langPrefix,
+    t,
+    tUi,
+    discountPriceWithTax,
+    priceWithTax,
+    hasDiscount,
+    productUrl,
+    modalData,
+    setModalData,
+    pricingLabel,
+  } = useProductCard({
+    product,
+    lang,
+    translate,
+    branch,
+    providerId,
+    shopSlug,
+    user,
+  });
 
   // Get current product status
   const currentStatus = useMemo(
@@ -134,6 +105,7 @@ export default function Product({
           branch={branch}
           providerId={providerId}
           currentStatus={currentStatus}
+          shopSlug={shopSlug}
         />
 
         {/* {product?.rental?.delivery?.type === "free" && (
@@ -188,7 +160,11 @@ export default function Product({
 
         <div
           className={`${
-            sm ? "md:p-5 md:pt-4 p-2" : owner || admin ? "p-4" : "md:p-5 p-4"
+            sm
+              ? "md:py-5 md:px-4 md:pt-4 p-2.5 pb-3"
+              : owner || admin
+                ? "p-4"
+                : "md:py-5 md:px-4 p-4"
           } flex flex-col justify-between flex-1`}
         >
           {(admin || owner) && (
@@ -227,7 +203,7 @@ export default function Product({
                     {discountPriceWithTax}{" "}
                     <Currency
                       className={sm ? "w-4 h-4 md:w-6 md:h-6" : "w-6 h-6"}
-                      color="#F48A42"
+                      color="currentColor"
                     />
                   </span>
                   <span
@@ -256,7 +232,7 @@ export default function Product({
                   {priceWithTax}{" "}
                   <Currency
                     className={sm ? "w-4 h-4 md:w-5 md:h-5" : "w-6 h-6"}
-                    color="#F48A42"
+                    color="currentColor"
                   />
                 </span>
               )}
@@ -266,43 +242,18 @@ export default function Product({
                 sm ? "text-[13px] md:text-base" : ""
               } text-black opacity-65`}
             >
-              {product.pricingModel === "packages"
-                ? `${t("per")} ${formatDuration({
-                    duration: product.rental.packages[0].duration,
-                    unit: product.rental.packages[0].unit,
-                    t: (key) => t(`bookingPackages.${key}`),
-                    lang,
-                  })}`
-                : t("perDay")}
+              {pricingLabel}
             </span>
           </div>
           <div
-            className={`${
-              sm ? "text-[13px] md:text-[15px] md:mb-2 mb-[6px]" : "mb-2"
-            } font-semibold text-[#020202] flex items-center flex-wrap gap-1`}
-            aria-label={
-              product.address?.city +
-              (lang === "ar" ? " السعودية" : " Saudi Arabia")
-            }
+            className={`${sm ? "mb-2" : "mb-2.5"} flex flex-wrap items-center justify-between gap-x-2 gap-y-1`}
           >
-            <Location
-              color="#F48A42"
-              className={
-                sm
-                  ? "w-[14px] h-[16px] md:w-[14px] md:h-[18px]"
-                  : "md:w-[16px] md:h-[20px]"
-              }
+            <DeliveryRow
+              delivery={product.rental?.delivery}
+              address={product.address}
+              lang={lang}
+              sm={sm}
             />
-            {product.address?.city}
-            {distance > 0 && !owner && !admin && (
-              <span
-                className={`${
-                  sm ? "text-[11px] md:text-[13px]" : "text-sm"
-                } text-gray-500`}
-              >
-                {t("distanceAway").replace("{distance}", distance.toFixed(1))}
-              </span>
-            )}
           </div>
           <div
             className={`${
@@ -335,16 +286,7 @@ export default function Product({
               } md:grid md:grid-cols-2 flex justify-between gap-2 select-none`}
             >
               <Link
-                href={`/${langPrefix}products/${getUrlName(product.name)}_ref_${
-                  product._id
-                }${
-                  branch || providerId
-                    ? `?${new URLSearchParams({
-                        ...(branch && { branch }),
-                        ...(providerId && { providerId }),
-                      }).toString()}`
-                    : ""
-                }`}
+                href={productUrl}
                 aria-label={tUi("rent") + " " + product.name}
                 title={product.name + " " + tUi("rentItNow")}
                 className={`${
@@ -371,7 +313,7 @@ export default function Product({
                     fill="#fff"
                     version="1.1"
                     viewBox="0 0 32 32"
-                    className="md:hidden inline min-w-[18px] h-[18px]"
+                    className="md:hidden inline min-w-4.5 h-4.5"
                   >
                     <path d="M16 28C9.044 28 2.79 23.43.067 16.36a1 1 0 0 1 0-.72C2.79 8.57 9.044 4 16 4s13.21 4.57 15.933 11.64c.09.232.09.488 0 .72C29.21 23.43 22.956 28 16 28M2.076 16C4.568 22.088 9.996 26 16 26s11.432-3.912 13.924-10C27.432 9.912 22.004 6 16 6S4.568 9.912 2.076 16"></path>
                     <path d="M16 10a6 6 0 1 0 0 12 6 6 0 0 0 0-12m-2 6.219a2 2 0 1 1 0-4 2 2 0 0 1 0 4"></path>
@@ -393,18 +335,15 @@ export default function Product({
           {...modalData}
         />
       )}
-      {modalData.show && modalData.type === "details" && (
-        <ProductDetailModal
-          isOpen={modalData.show && modalData.type === "details"}
-          onClose={() => setModalData({ show: false })}
-          productSummary={product}
-          lang={lang}
-          translate={translate}
-          distance={distance}
-          branch={branch}
-          providerId={providerId}
-        />
-      )}
+      <ProductCardModal
+        modalData={modalData}
+        setModalData={setModalData}
+        product={product}
+        lang={lang}
+        translate={translate}
+        branch={branch}
+        providerId={providerId}
+      />
     </>
   );
 }

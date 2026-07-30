@@ -31,7 +31,7 @@ const StarIcon = () => (
     viewBox="0 0 24 24"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className="w-4 h-4 md:w-[18px] md:h-[18px]"
+    className="w-4 h-4 md:w-4.5 md:h-4.5"
   >
     <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
   </svg>
@@ -54,7 +54,7 @@ export default function CreateStore({ translate, lang = "ar" }) {
             <h2 className="font-IBMPlex font-bold text-2xl lg:text-[2.2rem] text-darkNavy leading-tight mb-4">
               {t("title")}
             </h2>
-            <p className="font-IBMPlex font-bold md:text-lg lg:text-xl text-[#F48A42] md:mb-10 mb-6">
+            <p className="font-IBMPlex font-bold md:text-lg lg:text-xl text-primary md:mb-10 mb-6">
               {t("subtitle")}
             </p>
 
@@ -63,7 +63,7 @@ export default function CreateStore({ translate, lang = "ar" }) {
                 features.map((text, idx) => (
                   <li key={idx} className="flex items-center gap-4">
                     <CheckCircleIcon />
-                    <span className="font-IBMPlex font-semibold text-[#5B5656] text-sm md:text-lg">
+                    <span className="font-IBMPlex font-semibold text-mutedGray text-sm md:text-lg">
                       {text}
                     </span>
                   </li>
@@ -104,7 +104,7 @@ export default function CreateStore({ translate, lang = "ar" }) {
             {/* FLOATING LABEL 1: Top Right (Reviews) */}
             <div className="absolute top-4 -right-2 md:-right-4 lg:-right-14 bg-white rounded-2xl shadow-[0_20px_40px_-5px_rgba(0,0,0,0.12)] p-2.5 md:p-4 flex items-center gap-3 md:gap-5 border border-gray-50/50 animate-[float_8s_ease-in-out_infinite] z-10 transition-transform hover:scale-105">
               {/* Star Box */}
-              <div className="w-9 h-9 md:w-11 md:h-11 bg-[#FFF9F4] text-[#F48A42] flex items-center justify-center rounded-xl flex-shrink-0">
+              <div className="w-9 h-9 md:w-11 md:h-11 bg-[#FFF9F4] text-primary flex items-center justify-center rounded-xl flex-shrink-0">
                 <StarIcon />
               </div>
 
@@ -119,7 +119,7 @@ export default function CreateStore({ translate, lang = "ar" }) {
               </div>
 
               {/* IOS styled Toggle Switch inside Orange format */}
-              <div className="w-10 h-5 md:w-12 md:h-6 bg-[#F48A42] rounded-full relative shadow-inner cursor-default flex-shrink-0 md:mr-4">
+              <div className="w-10 h-5 md:w-12 md:h-6 bg-primary rounded-full relative shadow-inner cursor-default flex-shrink-0 md:mr-4">
                 <div className="w-3 h-3 md:w-4 md:h-4 bg-white rounded-full absolute top-1 right-1 shadow-sm" />
               </div>
             </div>
@@ -128,8 +128,8 @@ export default function CreateStore({ translate, lang = "ar" }) {
             <div className="absolute -bottom-6 md:-bottom-8 -left-2 md:-left-4 lg:-left-12 bg-white rounded-2xl shadow-[0_20px_40px_-5px_rgba(0,0,0,0.12)] p-3 md:p-4 w-[190px] md:w-[240px] border border-gray-50/50 animate-[float_10s_ease-in-out_infinite_reverse] z-10 transition-transform hover:scale-105">
               {/* Header */}
               <div className="flex items-center gap-2.5 mb-3 md:mb-4 px-1">
-                <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#F48A42] animate-pulse" />
-                <span className="font-IBMPlex font-bold text-[#F48A42] text-xs md:text-sm">
+                <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-primary animate-pulse" />
+                <span className="font-IBMPlex font-bold text-primary text-xs md:text-sm">
                   {t("mockup.storeSections")}
                 </span>
               </div>

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Input } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
 
 import { useTranslations } from "@/hooks/useTranslations";
 import { Lightning } from "@/components/ui/svgs/icons/LightningSvg";
@@ -19,11 +19,11 @@ function LangInput({ dir, lang, ...props }) {
       radius="sm"
       variant="flat"
       classNames={{
-        input: "text-sm",
-        inputWrapper: "bg-gray-100 h-11",
+        input: "text-xs md:text-sm",
+        inputWrapper: "bg-gray-100 md:h-11 h-9",
       }}
       endContent={
-        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-gray-200 text-gray-500 select-none flex-shrink-0">
+        <span className="text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-gray-200 text-gray-500 select-none flex-shrink-0">
           {lang}
         </span>
       }
@@ -45,34 +45,38 @@ function Panel({
 }) {
   return (
     <div
-      className={`rounded-2xl border transition-all duration-200 overflow-hidden mb-3 ${open ? "border-orange-200 shadow-sm" : "border-gray-100"}`}
+      className={`rounded-xl md:rounded-2xl border transition-all duration-200 overflow-hidden mb-2 md:mb-3 ${open ? "border-orange-200 shadow-sm" : "border-gray-100"}`}
     >
       <button
         type="button"
         onClick={onToggle}
-        className={`w-full flex items-center justify-between px-5 py-4 transition-colors ${open ? "bg-orange-50" : "bg-gray-50 hover:bg-gray-100"}`}
+        className={`w-full flex items-center justify-between px-3 md:px-5 py-3 md:py-4 transition-colors ${open ? "bg-orange-50" : "bg-gray-50 hover:bg-gray-100"}`}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 md:gap-3">
           <span
-            className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${iconBg}`}
+            className={`w-7 h-7 md:w-9 md:h-9 rounded-lg md:rounded-xl flex items-center justify-center flex-shrink-0 ${iconBg}`}
           >
             {icon}
           </span>
           <div>
-            <p className="font-semibold text-gray-800 text-sm">{title}</p>
-            <p className="text-xs text-gray-400 mt-0.5">{subtitle}</p>
+            <p className="font-semibold text-gray-800 text-xs md:text-sm">
+              {title}
+            </p>
+            <p className="text-[10px] md:text-xs text-gray-400 mt-0.5">
+              {subtitle}
+            </p>
           </div>
         </div>
         <div
-          className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${open ? "bg-orange-200" : "bg-gray-200"}`}
+          className={`w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${open ? "bg-orange-200" : "bg-gray-200"}`}
         >
           <Chevron
-            className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+            className={`w-3.5 h-3.5 md:w-4 md:h-4 text-gray-400 flex-shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
           />
         </div>
       </button>
       {open && (
-        <div className="px-5 pb-5 pt-4 border-t border-gray-100 bg-white space-y-4">
+        <div className="px-3 md:px-5 pb-3 md:pb-5 pt-3 md:pt-4 border-t border-gray-100 bg-white space-y-3 md:space-y-4">
           {children}
         </div>
       )}
@@ -86,9 +90,9 @@ function AddButton({ onClick, label }) {
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border-2 border-dashed border-orange-300 text-orange-500 font-semibold text-sm hover:bg-orange-50 hover:border-orange-400 transition-all"
+      className="flex items-center justify-center gap-1.5 md:gap-2 w-full py-2 md:py-2.5 rounded-lg md:rounded-xl border-2 border-dashed border-orange-300 text-orange-500 font-semibold text-xs md:text-sm hover:bg-orange-50 hover:border-orange-400 transition-all"
     >
-      <Plus />
+      <Plus className="w-3.5 h-3.5 md:w-4 md:h-4" />
       {label}
     </button>
   );
@@ -195,7 +199,7 @@ export default function AdditionalDetails({
   };
 
   return (
-    <div className="flex max-w-screen-xl mx-auto md:px-4 mt-4">
+    <div className="flex max-w-screen-xl mx-auto md:px-4 mt-2 md:mt-4">
       {/* Left number column */}
       <div className="hidden md:flex bg-[rgba(253,220,166,0.5)] min-w-48 justify-center">
         <div className="mt-12 bg-[rgba(255,255,255,0.5)] font-IBMPlex font-semibold text-4xl w-28 h-28 rounded-full flex justify-center items-center">
@@ -203,18 +207,18 @@ export default function AdditionalDetails({
         </div>
       </div>
 
-      <div className="grow md:p-10 px-4 py-8 bg-white">
+      <div className="grow md:p-10 p-4 bg-white">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2.5 mb-2">
-            <h2 className="lg:text-[1.7rem] md:text-[1.5rem] text-[1.3rem] font-semibold text-darkNavy font-IBMPlex">
+        <div className="mb-4 md:mb-8">
+          <div className="flex items-center gap-2 md:gap-2.5 mb-1 md:mb-2">
+            <h2 className="lg:text-[1.7rem] md:text-[1.5rem] text-1.1 font-semibold text-darkNavy font-IBMPlex">
               {t("title")}
             </h2>
-            <span className="text-xs font-semibold bg-green-100 text-green-700 px-2.5 py-1 rounded-full">
+            <span className="text-[10px] md:text-xs font-semibold bg-green-100 text-green-700 px-2 md:px-2.5 py-1 md:py-1 rounded-full">
               {t("optional")}
             </span>
           </div>
-          <p className="lg:text-[1.3rem] md:text-[1.2rem] text-[1.15rem] text-darkNavy">
+          <p className="lg:text-[1.3rem] md:text-1.2 text-xs text-darkNavy">
             {t("description")}
           </p>
         </div>
@@ -226,21 +230,21 @@ export default function AdditionalDetails({
           onToggle={() => togglePanel("use-cases")}
           icon={
             <span className="text-green-500">
-              <Lightning />
+              <Lightning className="w-3.5 h-3.5 md:w-5 md:h-5" />
             </span>
           }
           iconBg="bg-green-100"
           title={t("useCases.title")}
           subtitle={t("useCases.subtitle")}
         >
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             {useCases.map((uc, index) => (
               <div
                 key={uc.id}
-                className="relative bg-orange-50/30 border border-orange-100 p-4 rounded-2xl flex flex-col gap-3 group"
+                className="relative bg-orange-50/30 border border-orange-100 p-3 md:p-4 rounded-xl md:rounded-2xl flex flex-col gap-2.5 md:gap-3 group"
               >
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[10px] font-bold text-orange-400">
+                <div className="flex justify-between items-center mb-0.5 md:mb-1">
+                  <span className="text-[9px] md:text-[10px] font-bold text-orange-400">
                     #{index + 1}
                   </span>
                   <button
@@ -248,10 +252,10 @@ export default function AdditionalDetails({
                     onClick={() => removeUseCase(uc.id)}
                     className="text-gray-400 hover:text-red-500 transition-colors"
                   >
-                    <Trash />
+                    <Trash className="w-3.5 h-3.5 md:w-4 md:h-4" />
                   </button>
                 </div>
-                <div className="grid md:grid-cols-2 gap-3">
+                <div className="grid md:grid-cols-2 gap-2.5 md:gap-3">
                   <LangInput
                     dir="rtl"
                     lang="AR"
@@ -278,7 +282,9 @@ export default function AdditionalDetails({
               label={t("useCases.addButton")}
             />
           </div>
-          <p className="text-xs text-gray-400 mt-2">{t("useCases.hint")}</p>
+          <p className="text-[10px] md:text-xs text-gray-400 mt-1.5 md:mt-2">
+            {t("useCases.hint")}
+          </p>
         </Panel>
 
         {/* ── Panel 2: Specs ── */}
@@ -288,21 +294,21 @@ export default function AdditionalDetails({
           onToggle={() => togglePanel("specs")}
           icon={
             <span className="text-blue-500">
-              <Clipboard />
+              <Clipboard className="w-3.5 h-3.5 md:w-5 md:h-5" />
             </span>
           }
           iconBg="bg-blue-100"
           title={t("specs.title")}
           subtitle={t("specs.subtitle")}
         >
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             {specs.map((spec, index) => (
               <div
                 key={spec.id}
-                className="relative bg-blue-50/30 border border-blue-100 p-4 rounded-2xl flex flex-col gap-3 group"
+                className="relative bg-blue-50/30 border border-blue-100 p-3 md:p-4 rounded-xl md:rounded-2xl flex flex-col gap-2.5 md:gap-3 group"
               >
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[10px] font-bold text-blue-400">
+                <div className="flex justify-between items-center mb-0.5 md:mb-1">
+                  <span className="text-[9px] md:text-[10px] font-bold text-blue-400">
                     #{index + 1}
                   </span>
                   <button
@@ -310,17 +316,17 @@ export default function AdditionalDetails({
                     onClick={() => removeSpec(spec.id)}
                     className="text-gray-400 hover:text-red-500 transition-colors"
                   >
-                    <Trash />
+                    <Trash className="w-3.5 h-3.5 md:w-4 md:h-4" />
                   </button>
                 </div>
-                <div className="grid md:grid-cols-2 gap-3">
+                <div className="grid md:grid-cols-2 gap-2.5 md:gap-3">
                   {/* Arabic block */}
                   <div
-                    className="bg-white border border-orange-100 rounded-xl p-3 space-y-2"
+                    className="bg-white border border-orange-100 rounded-lg md:rounded-xl p-2.5 md:p-3 space-y-2"
                     dir="rtl"
                   >
-                    <p className="text-[10px] font-bold text-orange-400 uppercase tracking-wider flex items-center gap-1">
-                      <span className="w-4 h-4 rounded bg-orange-100 text-orange-500 text-[9px] font-black flex items-center justify-center">
+                    <p className="text-[9px] md:text-[10px] font-bold text-orange-400 uppercase tracking-wider flex items-center gap-1">
+                      <span className="w-3.5 h-3.5 md:w-4 md:h-4 rounded bg-orange-100 text-orange-500 text-[8px] md:text-[9px] font-black flex items-center justify-center">
                         ع
                       </span>
                       عربي
@@ -346,11 +352,11 @@ export default function AdditionalDetails({
                   </div>
                   {/* English block */}
                   <div
-                    className="bg-white border border-blue-100 rounded-xl p-3 space-y-2"
+                    className="bg-white border border-blue-100 rounded-lg md:rounded-xl p-2.5 md:p-3 space-y-2"
                     dir="ltr"
                   >
-                    <p className="text-[10px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1">
-                      <span className="w-4 h-4 rounded bg-blue-100 text-blue-500 text-[9px] font-black flex items-center justify-center">
+                    <p className="text-[9px] md:text-[10px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1">
+                      <span className="w-3.5 h-3.5 md:w-4 md:h-4 rounded bg-blue-100 text-blue-500 text-[8px] md:text-[9px] font-black flex items-center justify-center">
                         E
                       </span>
                       English
@@ -379,7 +385,9 @@ export default function AdditionalDetails({
             ))}
             <AddButton onClick={addSpecRow} label={t("useCases.addButton")} />
           </div>
-          <p className="text-xs text-gray-400 mt-2">{t("specs.hint")}</p>
+          <p className="text-[10px] md:text-xs text-gray-400 mt-1.5 md:mt-2">
+            {t("specs.hint")}
+          </p>
         </Panel>
 
         {/* ── Panel 3: Features ── */}
@@ -396,8 +404,7 @@ export default function AdditionalDetails({
                 strokeWidth={2}
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                width={20}
-                height={20}
+                className="w-3.5 h-3.5 md:w-5 md:h-5"
               >
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
@@ -407,14 +414,14 @@ export default function AdditionalDetails({
           title={t("features.title")}
           subtitle={t("features.subtitle")}
         >
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             {features.map((feat, index) => (
               <div
                 key={feat.id}
-                className="relative bg-purple-50/30 border border-purple-100 p-4 rounded-2xl flex flex-col gap-3 group"
+                className="relative bg-purple-50/30 border border-purple-100 p-3 md:p-4 rounded-xl md:rounded-2xl flex flex-col gap-2.5 md:gap-3 group"
               >
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[10px] font-bold text-purple-400">
+                <div className="flex justify-between items-center mb-0.5 md:mb-1">
+                  <span className="text-[9px] md:text-[10px] font-bold text-purple-400">
                     #{index + 1}
                   </span>
                   <button
@@ -422,17 +429,17 @@ export default function AdditionalDetails({
                     onClick={() => removeFeature(feat.id)}
                     className="text-gray-400 hover:text-red-500 transition-colors"
                   >
-                    <Trash />
+                    <Trash className="w-3.5 h-3.5 md:w-4 md:h-4" />
                   </button>
                 </div>
-                <div className="grid md:grid-cols-2 gap-3">
+                <div className="grid md:grid-cols-2 gap-2.5 md:gap-3">
                   {/* Arabic block */}
                   <div
-                    className="bg-white border border-orange-100 rounded-xl p-3 space-y-2"
+                    className="bg-white border border-orange-100 rounded-lg md:rounded-xl p-2.5 md:p-3 space-y-2"
                     dir="rtl"
                   >
-                    <p className="text-[10px] font-bold text-orange-400 uppercase tracking-wider flex items-center gap-1">
-                      <span className="w-4 h-4 rounded bg-orange-100 text-orange-500 text-[9px] font-black flex items-center justify-center">
+                    <p className="text-[9px] md:text-[10px] font-bold text-orange-400 uppercase tracking-wider flex items-center gap-1">
+                      <span className="w-3.5 h-3.5 md:w-4 md:h-4 rounded bg-orange-100 text-orange-500 text-[8px] md:text-[9px] font-black flex items-center justify-center">
                         ع
                       </span>
                       عربي
@@ -458,11 +465,11 @@ export default function AdditionalDetails({
                   </div>
                   {/* English block */}
                   <div
-                    className="bg-white border border-blue-100 rounded-xl p-3 space-y-2"
+                    className="bg-white border border-blue-100 rounded-lg md:rounded-xl p-2.5 md:p-3 space-y-2"
                     dir="ltr"
                   >
-                    <p className="text-[10px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1">
-                      <span className="w-4 h-4 rounded bg-blue-100 text-blue-500 text-[9px] font-black flex items-center justify-center">
+                    <p className="text-[9px] md:text-[10px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1">
+                      <span className="w-3.5 h-3.5 md:w-4 md:h-4 rounded bg-blue-100 text-blue-500 text-[8px] md:text-[9px] font-black flex items-center justify-center">
                         E
                       </span>
                       English
@@ -494,7 +501,9 @@ export default function AdditionalDetails({
               label={t("useCases.addButton")}
             />
           </div>
-          <p className="text-xs text-gray-400 mt-2">{t("features.hint")}</p>
+          <p className="text-[10px] md:text-xs text-gray-400 mt-1.5 md:mt-2">
+            {t("features.hint")}
+          </p>
         </Panel>
 
         {/* ── Panel 4: SEO ── */}
@@ -503,33 +512,34 @@ export default function AdditionalDetails({
             id="seo"
             open={openPanels["seo"]}
             onToggle={() => togglePanel("seo")}
-            icon={<Globals />}
+            icon={<Globals className="w-3.5 h-3.5 md:w-5 md:h-5" />}
             iconBg="bg-orange-100"
             title={t("seo.title") || "تحسين محركات البحث (SEO)"}
             subtitle={
               t("seo.subtitle") || "أضف عنوانا ووصفا مخصصا لمحركات البحث"
             }
           >
-            <div className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-3 md:space-y-4">
+              <div className="grid md:grid-cols-2 gap-3 md:gap-4">
                 {/* Arabic block */}
-                <div className="bg-white border border-gray-100 rounded-xl p-3 space-y-3">
-                  <p className="text-[10px] font-bold text-green-600 uppercase tracking-wider flex items-center gap-1">
-                    <span className="w-4 h-4 rounded bg-green-100 text-green-600 text-[9px] font-black flex items-center justify-center">
+                <div className="bg-white border border-gray-100 rounded-lg md:rounded-xl p-2.5 md:p-3 space-y-2 md:space-y-3">
+                  <p className="text-[9px] md:text-[10px] font-bold text-green-600 uppercase tracking-wider flex items-center gap-1">
+                    <span className="w-3.5 h-3.5 md:w-4 md:h-4 rounded bg-green-100 text-green-600 text-[8px] md:text-[9px] font-black flex items-center justify-center">
                       ع
                     </span>
                     عربي
                   </p>
-                  <div className="space-y-3">
+                  <div className="space-y-2 md:space-y-3">
                     <LangInput
                       labelPlacement="outside"
                       dir="rtl"
                       classNames={{
-                        mainWrapper: "mt-10",
-                        label: "-mt-2 flex items-center",
+                        mainWrapper: "md:mt-10 mt-3",
+                        label:
+                          "text-xs md:text-sm -mt-1 md:-mt-2 flex items-center",
                         base: "max-w-full !mt-0",
-                        input: "text-base",
-                        inputWrapper: "bg-gray-100 h-12",
+                        input: "text-xs md:text-base",
+                        inputWrapper: "bg-gray-100 md:h-12 h-10",
                       }}
                       lang="AR"
                       label={t("seo.titleLabelAr") || "عنوان SEO"}
@@ -543,17 +553,18 @@ export default function AdditionalDetails({
                       dir="rtl"
                       radius="sm"
                       classNames={{
-                        mainWrapper: "mt-10",
-                        label: "-mt-2 flex items-center",
+                        mainWrapper: "md:mt-10 mt-3",
+                        label:
+                          "text-xs md:text-sm -mt-1 md:-mt-2 flex items-center",
                         base: "max-w-full !mt-0",
-                        input: "text-base",
-                        inputWrapper: "bg-gray-100 h-12",
+                        input: "text-xs md:text-base",
+                        inputWrapper: "bg-gray-100 md:h-12 h-10",
                       }}
                       variant="flat"
                       labelPlacement="outside"
                       label={t("seo.descLabelAr") || "وصف SEO"}
                       endContent={
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-gray-200 text-gray-500 select-none flex-shrink-0">
+                        <span className="text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-gray-200 text-gray-500 select-none flex-shrink-0">
                           AR
                         </span>
                       }
@@ -570,22 +581,23 @@ export default function AdditionalDetails({
                 </div>
 
                 {/* English block */}
-                <div className="bg-white border border-gray-100 rounded-xl p-3 space-y-3">
-                  <p className="text-[10px] font-bold text-green-600 uppercase tracking-wider flex items-center gap-1">
-                    <span className="w-4 h-4 rounded bg-green-100 text-green-600 text-[9px] font-black flex items-center justify-center">
+                <div className="bg-white border border-gray-100 rounded-lg md:rounded-xl p-2.5 md:p-3 space-y-2 md:space-y-3">
+                  <p className="text-[9px] md:text-[10px] font-bold text-green-600 uppercase tracking-wider flex items-center gap-1">
+                    <span className="w-3.5 h-3.5 md:w-4 md:h-4 rounded bg-green-100 text-green-600 text-[8px] md:text-[9px] font-black flex items-center justify-center">
                       E
                     </span>
                     English
                   </p>
-                  <div className="space-y-3">
+                  <div className="space-y-2 md:space-y-3">
                     <LangInput
                       dir="ltr"
                       classNames={{
-                        mainWrapper: "mt-10",
-                        label: "-mt-2 flex items-center",
+                        mainWrapper: "md:mt-10 mt-3",
+                        label:
+                          "text-xs md:text-sm -mt-1 md:-mt-2 flex items-center",
                         base: "max-w-full !mt-0",
-                        input: "text-base",
-                        inputWrapper: "bg-gray-100 h-12",
+                        input: "text-xs md:text-base",
+                        inputWrapper: "bg-gray-100 md:h-12 h-10",
                       }}
                       labelPlacement="outside"
                       lang="EN"
@@ -599,18 +611,19 @@ export default function AdditionalDetails({
                     <Input
                       dir="ltr"
                       classNames={{
-                        mainWrapper: "mt-10",
-                        label: "-mt-2 flex items-center",
+                        mainWrapper: "md:mt-10 mt-3",
+                        label:
+                          "text-xs md:text-sm -mt-1 md:-mt-2 flex items-center",
                         base: "max-w-full !mt-0",
-                        input: "text-base",
-                        inputWrapper: "bg-gray-100 h-12",
+                        input: "text-xs md:text-base",
+                        inputWrapper: "bg-gray-100 md:h-12 h-10",
                       }}
                       radius="sm"
                       variant="flat"
                       labelPlacement="outside"
                       label={t("seo.descLabelEn") || "SEO Description"}
                       endContent={
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-gray-200 text-gray-500 select-none flex-shrink-0">
+                        <span className="text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-gray-200 text-gray-500 select-none flex-shrink-0">
                           EN
                         </span>
                       }
@@ -629,13 +642,13 @@ export default function AdditionalDetails({
                 </div>
               </div>
             </div>
-            <p className="text-xs text-gray-400 mt-2">
+            <p className="text-[10px] md:text-xs text-gray-400 mt-1.5 md:mt-2">
               {t("seo.hint") || "اتركه فارغا لاستخدام القيم الافتراضية"}
             </p>
           </Panel>
         )}
 
-        <p className="text-xs text-center text-gray-300 mt-5">
+        <p className="text-[10px] md:text-xs text-center text-gray-300 mt-3 md:mt-5">
           {t("skipHint")}
         </p>
       </div>

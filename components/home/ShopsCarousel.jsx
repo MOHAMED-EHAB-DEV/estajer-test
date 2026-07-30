@@ -1,10 +1,29 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
+import { useCallback, useEffect, useRef, useState, lazy, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { anyImgUrl } from "@/utils/ImageUrl";
+
+const EmblaInit = lazy(() =>
+  import("embla-carousel-react").then((mod) => {
+    const useEmblaCarousel = mod.default;
+    function Inner({ onReady, lang }) {
+      const [emblaRef, emblaApi] = useEmblaCarousel({
+        loop: true,
+        align: "start",
+        direction: lang === "ar" ? "rtl" : "ltr",
+        dragFree: true,
+        containScroll: "trimSnaps",
+      });
+      useEffect(() => {
+        onReady(emblaRef, emblaApi);
+      }, [emblaRef, emblaApi, onReady]);
+      return null;
+    }
+    return { default: Inner };
+  }),
+);
 
 // ── Verified badge ─────────────────────────────────────────────────────────
 const VerifiedBadge = ({ label }) => (
@@ -42,7 +61,13 @@ function ShopSlide({ shop, lang }) {
         {bannerSrc ? (
           <Image
             unoptimized
-            src={anyImgUrl({ src: bannerSrc, size: 500, quality: 80 })}
+            src={anyImgUrl({
+              src: bannerSrc,
+              size: 262,
+              quality: 80,
+              crop: true,
+              aspectRatio: "1.64:1",
+            })}
             alt={shop.name || ""}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -60,7 +85,7 @@ function ShopSlide({ shop, lang }) {
           {shop.logo ? (
             <Image
               unoptimized
-              src={anyImgUrl({ src: shop.logo, size: 60 })}
+              src={anyImgUrl({ src: shop.logo, size: 52 })}
               alt={shop.name || ""}
               width={56}
               height={56}
@@ -84,50 +109,9 @@ function ShopSlide({ shop, lang }) {
           </h3>
           <VerifiedBadge label={isRtl ? "موثق" : "Verified"} />
         </div>
-
-        {shop.description && (
-          <p className="text-[11px] text-neutral-400 line-clamp-2 leading-relaxed flex-1">
-            {shop.description}
-          </p>
-        )}
-
-        {/* Stats */}
-        {(shop.sliders?.length > 0 || shop.categories?.length > 0) && (
-          <div className="flex items-center gap-3 mt-1">
-            {shop.sliders?.length > 0 && (
-              <span className="text-[10px] text-neutral-400 font-medium flex items-center gap-1">
-                <svg
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="w-3 h-3 text-orange-400"
-                >
-                  <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-                </svg>
-                {shop.sliders.reduce(
-                  (a, s) => a + (s.products?.length || 0),
-                  0,
-                )}{" "}
-                {isRtl ? "منتج" : "products"}
-              </span>
-            )}
-            {shop.categories?.length > 0 && (
-              <span className="text-[10px] text-neutral-400 font-medium flex items-center gap-1">
-                <svg
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="w-3 h-3 text-orange-400"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                {shop.categories.length} {isRtl ? "تصنيف" : "categories"}
-              </span>
-            )}
-          </div>
-        )}
+        <p className="text-[11px] md:text-xs text-neutral-500 line-clamp-3 flex-1">
+          {shop.description}
+        </p>
 
         {/* Footer CTA */}
         <div className="mt-auto pt-3 border-t border-neutral-100 flex items-center justify-between">
@@ -155,13 +139,30 @@ function ShopSlide({ shop, lang }) {
 
 export default function ShopsCarousel({ shops, lang }) {
   const isRtl = lang === "ar";
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    align: "start",
-    direction: isRtl ? "rtl" : "ltr",
-    dragFree: true,
-    containScroll: "trimSnaps",
-  });
+  const containerRef = useRef(null);
+  const [shouldLoadCarousel, setShouldLoadCarousel] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setShouldLoadCarousel(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const [emblaRef, setEmblaRef] = useState(null);
+  const [emblaApi, setEmblaApi] = useState(null);
+
+  const handleEmblaReady = useCallback((ref, api) => {
+    setEmblaRef(() => ref);
+    setEmblaApi(api);
+  }, []);
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -174,14 +175,23 @@ export default function ShopsCarousel({ shops, lang }) {
     onSelect(emblaApi);
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onSelect);
+    };
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={containerRef}>
+      {shouldLoadCarousel && (
+        <Suspense fallback={null}>
+          <EmblaInit onReady={handleEmblaReady} lang={lang} />
+        </Suspense>
+      )}
       {/* Embla viewport */}
       <div className="absolute z-10 bottom-0 right-0 w-6 md:w-10 h-full bg-gradient-to-r from-transparent via-white/40 to-white flex items-end pb-24"></div>
       <div className="absolute z-10 bottom-0 left-0 w-6 md:w-10 h-full bg-gradient-to-l from-transparent via-white/40 to-white flex items-end pb-24"></div>
-      <div className="overflow-hidden" ref={emblaRef}>
+      <div className="overflow-hidden" ref={emblaRef ?? undefined}>
         <div className="flex py-5">
           {shops.map((shop) => (
             <div
@@ -195,18 +205,23 @@ export default function ShopsCarousel({ shops, lang }) {
       </div>
 
       {/* Dots */}
-      <div className="md:hidden flex justify-center gap-1.5 mb-4">
+      <div className="md:hidden flex justify-center gap-0.5 mb-4">
         {shops.map((_, i) => (
           <button
             key={i}
             onClick={() => emblaApi?.scrollTo(i)}
             aria-label={`Slide ${i + 1}`}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === selectedIndex
-                ? "bg-orange-500 w-6"
-                : "bg-neutral-200 hover:bg-neutral-300 w-1.5"
-            }`}
-          />
+            className={`${i === selectedIndex ? "w-10" : "w-6"} h-8 flex items-center justify-center focus:outline-none group relative`}
+          >
+            <span className="absolute inset-y-0 -inset-x-1" />
+            <span
+              className={`rounded-full transition-all duration-300 ${
+                i === selectedIndex
+                  ? "bg-orange-500 w-6 h-1.5"
+                  : "bg-neutral-200 group-hover:bg-neutral-300 w-1.5 h-1.5"
+              }`}
+            />
+          </button>
         ))}
       </div>
     </div>

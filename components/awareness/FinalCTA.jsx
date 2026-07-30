@@ -152,7 +152,7 @@ const FinalCTA = ({ translate, lang }) => {
               </div>
             </div>
           </div>
-          <p className="text-[#5B5656] lg:text-[1.2rem] md:text-[1.1rem] text-sm font-IBMPlex md:mt-6 mt-2 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-mutedGray lg:text-1.2 md:text-1.1 text-sm font-IBMPlex md:mt-6 mt-2 leading-relaxed max-w-2xl mx-auto">
             {t("subtitlePart1")}
             <span className="text-darkNavy font-semibold">
               {t("subtitleHighlight")}
@@ -201,7 +201,7 @@ const FinalCTA = ({ translate, lang }) => {
                   <div className="w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                     <Icon />
                   </div>
-                  <span className="text-[#5B5656] font-IBMPlex text-xs md:text-base">
+                  <span className="text-mutedGray font-IBMPlex text-xs md:text-base">
                     {feature.label}
                   </span>
                 </div>

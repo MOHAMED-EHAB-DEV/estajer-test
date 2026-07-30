@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "@/hooks/useTranslations";
+import Button from "../ui/Button";
+import SecurePaymentBadge from "./SecurePaymentBadge";
 
 const STATUS_MAP = {
   excellent: { ar: "ممتازة", en: "Excellent" },
@@ -90,6 +92,7 @@ export default function ProductInfoTabs({
   features = [],
   status,
   quantity,
+  saleUnit,
 }) {
   const t = useTranslations(translate);
   const isAr = lang === "ar";
@@ -130,7 +133,7 @@ export default function ProductInfoTabs({
     STATUS_MAP["excellent"]?.[isAr ? "ar" : "en"];
 
   return (
-    <div className="mb-10 md:mt-6 mt-4 relative">
+    <div className="mb-4 md:mb-10 md:mt-6 mt-4 relative">
       {/* Tab Buttons */}
       <div className="flex flex-wrap gap-1 md:mb-6 mb-2 border-b border-gray-200">
         {tabs.map((tab) => (
@@ -171,7 +174,7 @@ export default function ProductInfoTabs({
           const hasMore = rest.length > 0;
 
           return (
-            <div className="text-[#5B5656] text-[1rem] md:text-[1.1rem] lg:text-[1.2rem] leading-[2.1] whitespace-pre-line">
+            <div className="text-mutedGray text-base md:text-1.1 lg:text-1.2 leading-[2.1] whitespace-pre-line">
               {/* First 2 paragraphs — always fully visible */}
               {first.map((para, i) => (
                 <p className="mb-4" key={i}>
@@ -200,7 +203,7 @@ export default function ProductInfoTabs({
               {hasMore && (
                 <button
                   onClick={() => setDescExpanded((prev) => !prev)}
-                  className="text-primary font-bold text-[1.1rem] flex items-center gap-2 hover:gap-3 transition-all"
+                  className="text-primary font-bold text-1.1 flex items-center gap-2 hover:gap-3 transition-all"
                 >
                   {descExpanded ? (
                     <>
@@ -243,13 +246,13 @@ export default function ProductInfoTabs({
         <div className="md:mt-6 mt-4 flex flex-wrap gap-3">
           {validUseCases.length > 0 && (
             <div className="w-full bg-gradient-to-l from-primary/5 to-transparent border border-primary/20 rounded-2xl md:p-6 p-4">
-              <div className="font-bold text-darkNavy md:text-[1.1rem] text-[1rem] md:mb-4 mb-2 flex items-center gap-2">
+              <div className="font-bold text-darkNavy md:text-1.1 text-base md:mb-4 mb-2 flex items-center gap-2">
                 <span className="text-primary">
                   <BoltIcon />
                 </span>
                 {t("product.tabs.useCasesTitle")}
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:gap-3 gap-2 md:text-[1rem] text-[0.9rem] text-[#5B5656]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:gap-3 gap-2 md:text-[1rem] text-[0.9rem] text-mutedGray">
                 {validUseCases.map((uc, idx) => (
                   <div key={idx} className="flex items-center gap-2">
                     <span className="text-primary flex-shrink-0">
@@ -270,6 +273,16 @@ export default function ProductInfoTabs({
             </div>
           )}
 
+          {saleUnit && (
+            <div className="inline-flex items-center gap-2 text-xs md:text-sm font-semibold text-gray-600 bg-gray-50 border border-gray-200 rounded-xl md:px-4 px-3 md:py-2 py-1.5">
+              <span className="text-primary">
+                <TagIcon />
+              </span>
+              {t("product.tabs.saleUnitLabel") || "الصنف"}:{" "}
+              <strong className="text-darkNavy">{t(`unit.${saleUnit}`)}</strong>
+            </div>
+          )}
+
           {quantity > 0 && (
             <div className="inline-flex items-center gap-2 text-xs md:text-sm font-semibold text-gray-600 bg-gray-50 border border-gray-200 rounded-xl md:px-4 px-3 md:py-2 py-1.5">
               <span className="text-primary">
@@ -279,6 +292,31 @@ export default function ProductInfoTabs({
               <strong className="text-darkNavy">{quantity}</strong>
             </div>
           )}
+        </div>
+
+        <Button
+          onPress={() => {
+            window.dispatchEvent(
+              new CustomEvent("open-rent-drawer", {
+                detail: { packageIndex: 0 },
+              }),
+            );
+          }}
+          className="w-full mt-6 md:hidden py-3.5 px-4 rounded-2xl font-bold text-white transition-all active:scale-[0.98] text-center text-base"
+          style={{
+            background: "linear-gradient(130deg, #F48A42 0%, #d96e1c 100%)",
+            boxShadow:
+              "0 4px 20px rgba(244,138,66,0.4), inset 0 1px 0 rgba(255,255,255,0.2)",
+          }}
+        >
+          {isAr ? "استأجر الآن" : "Rent Now"}
+        </Button>
+        <div className="md:hidden mt-4">
+          <SecurePaymentBadge
+            title={t("singleProduct.order.securePaymentTitle")}
+            desc={t("singleProduct.order.securePaymentDesc")}
+            lang={lang}
+          />
         </div>
       </div>
 
@@ -354,10 +392,10 @@ export default function ProductInfoTabs({
                 <CheckIcon className="md:w-5 w-4 md:h-5 h-4" />
               </div>
               <div>
-                <div className="font-bold md:text-[1rem] text-[0.95rem] mb-1">
+                <div className="font-bold md:text-[1rem] text-0.95 mb-1">
                   {featTitle(feat)}
                 </div>
-                <div className="text-gray-500 md:text-sm text-[0.85rem] leading-relaxed">
+                <div className="text-gray-500 md:text-sm text-0.85 leading-relaxed">
                   {featDesc(feat)}
                 </div>
               </div>

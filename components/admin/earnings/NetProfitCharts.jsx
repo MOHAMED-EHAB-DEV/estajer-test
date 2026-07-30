@@ -11,7 +11,7 @@ import { useTooltip, useTooltipInPortal, defaultStyles } from "@visx/tooltip";
 import { localPoint } from "@visx/event";
 import { bisector } from "d3-array";
 import { ChevronDown } from "@/components/ui/svgs/icons/ChevronDownSvg";
-import { Currency } from "@/components/ui/svgs/icons/CurrencySvg";;
+import { Currency } from "@/components/ui/svgs/icons/CurrencySvg";
 import { formatNumeric } from "@/lib/utils";
 
 // Generate sample data
@@ -116,7 +116,7 @@ const AreaChart = () => {
     if (d1 && getDate(d1)) {
       d =
         x0.valueOf() - getDate(d0).valueOf() >
-          getDate(d1).valueOf() - x0.valueOf()
+        getDate(d1).valueOf() - x0.valueOf()
           ? d1
           : d0;
     }
@@ -142,7 +142,7 @@ const AreaChart = () => {
     <div className="bg-white rounded-2xl shadow-sm p-6 w-full">
       {/* Header */}
       <div className="flex justify-between items-center border-b border-b-black/10 pb-4">
-        <h2 className="text-medium md:text-lg font-semibold text-darkNavy font-IBMPlex">
+        <h2 className="text-base md:text-lg font-semibold text-darkNavy font-IBMPlex">
           ملخص صافي الدخل اليومي
         </h2>
         <div className="relative">

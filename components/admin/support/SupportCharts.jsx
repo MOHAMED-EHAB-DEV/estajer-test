@@ -6,7 +6,7 @@ import { scaleOrdinal } from "@visx/scale";
 import { useTooltip, useTooltipInPortal, defaultStyles } from "@visx/tooltip";
 import { localPoint } from "@visx/event";
 import { formatNumeric } from "@/lib/utils";
-import { ChevronDown } from "@/components/ui/svgs/icons/ChevronDownSvg";;
+import { Select, SelectItem } from "@/components/ui/Select";
 
 const PIE_COLORS = ["#4ade80", "#f97316", "#ef4444"];
 
@@ -71,11 +71,19 @@ const PieChart = ({ pieData, title }) => {
       <div className="flex flex-col gap-8">
         <div className="flex justify-between items-center pb-6 border-b border-b-black/10">
           <h2 className="text-lg md:text-xl font-bold font-IBMPlex">{title}</h2>
-          <div className="relative">
-            <select className="appearance-none bg-transparent rounded-md px-4 py-2 text-sm text-gray-700 pe-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-300">
-              <option value="today">اليوم</option>
-            </select>
-            <ChevronDown className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+          <div className="w-32">
+            <Select
+              defaultSelectedKeys={["today"]}
+              classNames={{
+                trigger: "bg-transparent border border-gray-300 min-h-0 h-9 px-3 rounded-md shadow-none",
+                value: "text-sm text-gray-700",
+              }}
+              disallowEmptySelection
+            >
+              <SelectItem key="today" value="today">
+                اليوم
+              </SelectItem>
+            </Select>
           </div>
         </div>
         <svg
@@ -143,7 +151,7 @@ const PieChart = ({ pieData, title }) => {
                 {item.name}
               </span>
             </div>
-            <span className="font-bold text-sm md:text-medium">
+            <span className="font-bold text-sm md:text-base">
               {formatNumeric(item.value)}
             </span>
           </div>
@@ -155,8 +163,16 @@ const PieChart = ({ pieData, title }) => {
 
 const SupportCharts = ({ stats }) => {
   const chartData1 = [
-    { name: "تذاكر دعم مغلقة (تم حلها)", value: stats?.solved || 0, color: "#4FD658" },
-    { name: "تذاكر دعم مفتوحة", value: (stats?.new || 0) + (stats?.inprogress || 0), color: "#F48A42" },
+    {
+      name: "تذاكر دعم مغلقة (تم حلها)",
+      value: stats?.solved || 0,
+      color: "#4FD658",
+    },
+    {
+      name: "تذاكر دعم مفتوحة",
+      value: (stats?.new || 0) + (stats?.inprogress || 0),
+      color: "#F48A42",
+    },
     { name: "تذاكر دعم ملغية", value: stats?.cancelled || 0, color: "#F55757" },
   ];
 

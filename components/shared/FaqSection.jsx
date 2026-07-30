@@ -111,7 +111,7 @@ const FaqSection = ({
                   }`}
                 >
                   <div className="pt-2">
-                    <p className="text-[#5B5656] text-xs md:text-sm leading-relaxed font-IBMPlex font-semibold">
+                    <p className="text-mutedGray text-xs md:text-sm leading-relaxed font-IBMPlex font-semibold">
                       {faq.answer}
                     </p>
                   </div>
@@ -124,7 +124,7 @@ const FaqSection = ({
         {(action && actionHref) || footerTitle ? (
           <div className="text-center mt-2 md:mt-20">
             {footerTitle && (
-              <h3 className="text-[1.1rem] md:text-2xl font-bold text-[#1F2937] mb-4 md:mb-8 font-IBMPlex">
+              <h3 className="text-1.1 md:text-2xl font-bold text-[#1F2937] mb-4 md:mb-8 font-IBMPlex">
                 {footerTitle}
               </h3>
             )}

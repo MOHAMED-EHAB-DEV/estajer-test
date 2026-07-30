@@ -137,6 +137,7 @@ const productSchema = new mongoose.Schema(
       lastMonthlyReset: { type: Date, default: Date.now },
     },
     pricingModel: { type: String, enum: ["perDay", "packages"] },
+    saleUnit: String,
     vomId: String,
     providers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Partner" }],
     shopCategories: [{ type: mongoose.Schema.Types.ObjectId }],
@@ -149,6 +150,23 @@ const productSchema = new mongoose.Schema(
     seoTitleEn: { type: String, default: "" },
     seoDescriptionAr: { type: String, default: "" },
     seoDescriptionEn: { type: String, default: "" },
+    pendingChanges: {
+      nameAr: String,
+      nameEn: String,
+      descriptionAr: String,
+      descriptionEn: String,
+      category: String,
+      subCategory: String,
+      images: [
+        {
+          preview: { type: String },
+          gradientColors: { type: [String] },
+          gradientStyle: { type: String },
+        },
+      ],
+      needsReview: { type: Boolean, default: false },
+      rejectMessage: String,
+    },
   },
   { timestamps: true },
 );

@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "@/hooks/useTranslations";
-import { Input, Textarea } from "@heroui/react";
+import { Input, Textarea } from "@/components/ui/Input";
 
 function FormInput({ ...props }) {
   return (

@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { Button, Tabs, Tab, Chip } from "@heroui/react";
+import Button from "@/components/ui/Button";
+import { Tabs, Tab } from "@/components/ui/Tabs";
+import { Chip } from "@/components/ui/Chip";
 import { useRouter } from "next/navigation";
 import rrwebPlayer from "rrweb-player";
 import "rrweb-player/dist/style.css";
@@ -8,10 +10,123 @@ import { format } from "date-fns";
 import Image from "next/image";
 import { anyImgUrl } from "@/utils/ImageUrl";
 
+// Polyfill Node.prototype methods globally and in iframes to prevent rrweb replay DOM hierarchy errors
+if (typeof window !== "undefined" && !window.__domPatched) {
+  window.__domPatched = true;
+
+  const patchNodeClass = (win) => {
+    try {
+      if (!win || win.__nodePatched) return;
+      win.__nodePatched = true;
+      const NodeClass = win.Node;
+      if (!NodeClass || !NodeClass.prototype) return;
+
+      const origIB = NodeClass.prototype.insertBefore;
+      NodeClass.prototype.insertBefore = function (newNode, refNode) {
+        if (!newNode || typeof newNode.nodeType !== "number") return newNode;
+        // Document (nodeType 9) cannot contain Text (nodeType 3), Comment (5), or CDATA (4)
+        if (
+          this.nodeType === 9 &&
+          (newNode.nodeType === 3 ||
+            newNode.nodeType === 5 ||
+            newNode.nodeType === 4)
+        ) {
+          return newNode;
+        }
+        try {
+          return origIB.call(this, newNode, refNode);
+        } catch (e) {
+          return newNode;
+        }
+      };
+
+      const origAC = NodeClass.prototype.appendChild;
+      NodeClass.prototype.appendChild = function (newNode) {
+        if (!newNode || typeof newNode.nodeType !== "number") return newNode;
+        if (
+          this.nodeType === 9 &&
+          (newNode.nodeType === 3 ||
+            newNode.nodeType === 5 ||
+            newNode.nodeType === 4)
+        ) {
+          return newNode;
+        }
+        try {
+          return origAC.call(this, newNode);
+        } catch (e) {
+          return newNode;
+        }
+      };
+    } catch (e) {}
+  };
+
+  patchNodeClass(window);
+
+  if (typeof MutationObserver !== "undefined") {
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        for (const node of m.addedNodes) {
+          if (node.nodeName === "IFRAME") {
+            patchNodeClass(node.contentWindow);
+          } else if (node.querySelectorAll) {
+            node.querySelectorAll("iframe").forEach((iframe) => {
+              patchNodeClass(iframe.contentWindow);
+            });
+          }
+        }
+      }
+    });
+
+    const startObs = () => {
+      if (document.body) {
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", startObs);
+    } else {
+      startObs();
+    }
+  }
+}
+
+// Sanitize events to remove invalid DOM mutations (e.g., text/comment nodes added directly to Document root)
+const sanitizeEvents = (events) => {
+  return events.map((event) => {
+    if (
+      event &&
+      event.type === 3 &&
+      event.data?.source === 0 &&
+      Array.isArray(event.data?.adds)
+    ) {
+      const cleanAdds = event.data.adds.filter((add) => {
+        if (!add || !add.node) return false;
+        // Text (3), CDATA (4), Comment (5) cannot be direct children of Document (parentId === 1 or 0 or missing)
+        if (
+          (add.parentId === 1 || add.parentId === 0 || !add.parentId) &&
+          (add.node.type === 3 || add.node.type === 4 || add.node.type === 5)
+        ) {
+          return false;
+        }
+        return true;
+      });
+      return {
+        ...event,
+        data: {
+          ...event.data,
+          adds: cleanAdds,
+        },
+      };
+    }
+    return event;
+  });
+};
+
 export default function SessionPlayerContainer({ sessionId, lang }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [overlay, setOverlay] = useState(null);
   const playerRef = useRef(null);
   const containerRef = useRef(null);
   const router = useRouter();
@@ -20,7 +135,9 @@ export default function SessionPlayerContainer({ sessionId, lang }) {
     const fetchSession = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/tracking/sessions/${sessionId}?client=true`);
+        const res = await fetch(
+          `/api/tracking/sessions/${sessionId}?client=true`,
+        );
         if (!res.ok) throw new Error("Failed to load session");
         const json = await res.json();
         setData(json);
@@ -35,11 +152,26 @@ export default function SessionPlayerContainer({ sessionId, lang }) {
   }, [sessionId]);
 
   useEffect(() => {
-    if (data?.events && containerRef.current && !playerRef.current) {
+    if (data?.events && containerRef.current) {
+      // Destroy previous player instance if existing
+      if (playerRef.current) {
+        try {
+          playerRef.current.pause?.();
+          playerRef.current.$destroy?.();
+        } catch (e) {}
+        playerRef.current = null;
+      }
+      if (containerRef.current) {
+        containerRef.current.innerHTML = "";
+      }
+
       // Remove inactive time by compressing large gaps between events.
-      // Any gap larger than MAX_GAP_MS is collapsed down to MAX_GAP_MS.
       const MAX_GAP_MS = 2000;
-      const sorted = [...data.events].sort((a, b) => a.timestamp - b.timestamp);
+      const validEvents = (data.events || []).filter(
+        (e) => e && typeof e.type === "number" && e.timestamp,
+      );
+      const sanitized = sanitizeEvents(validEvents);
+      const sorted = [...sanitized].sort((a, b) => a.timestamp - b.timestamp);
       let totalShift = 0;
       const trimmedEvents = sorted.map((event, i) => {
         if (i === 0) return event;
@@ -50,21 +182,34 @@ export default function SessionPlayerContainer({ sessionId, lang }) {
         return { ...event, timestamp: event.timestamp - totalShift };
       });
 
-      playerRef.current = new rrwebPlayer({
-        target: containerRef.current,
-        props: {
-          events: trimmedEvents,
-          UNSAFE_replayCanvas: false,
-          width: containerRef.current.offsetWidth || 1000,
-          height: 600,
-          speedOption: [1, 1.5, 2, 4, 6],
-          showController: true,
-          autoPlay: true,
-        },
-      });
+      if (trimmedEvents.length > 0) {
+        const player = new rrwebPlayer({
+          target: containerRef.current,
+          props: {
+            events: trimmedEvents,
+            useVirtualDom: false,
+            UNSAFE_replayCanvas: false,
+            width: containerRef.current.offsetWidth || 1000,
+            height: 600,
+            speedOption: [1, 1.5, 2, 4, 6],
+            showController: true,
+            autoPlay: true,
+          },
+        });
+        playerRef.current = player;
+      }
     }
 
-    return () => {};
+    return () => {
+      if (playerRef.current) {
+        try {
+          playerRef.current.pause?.();
+          playerRef.current.$destroy?.();
+        } catch (e) {}
+        playerRef.current = null;
+      }
+      if (containerRef.current) containerRef.current.innerHTML = "";
+    };
   }, [data]);
 
   if (loading) {
@@ -84,7 +229,9 @@ export default function SessionPlayerContainer({ sessionId, lang }) {
         <div className="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center mb-4">
           <span className="text-4xl">❌</span>
         </div>
-        <p className="text-gray-800 font-semibold md:text-lg text-base mb-2">{error}</p>
+        <p className="text-gray-800 font-semibold md:text-lg text-base mb-2">
+          {error}
+        </p>
         <Button
           onClick={() => router.back()}
           className="bg-gradient-to-r from-[#f48a42] to-[#f6a66a] text-white"
@@ -143,6 +290,35 @@ export default function SessionPlayerContainer({ sessionId, lang }) {
   const journey = getJourneyDisplay(metadata.journeyPath);
   const device = getDeviceInfo(metadata.userAgent);
 
+  const handleContainerClick = (e) => {
+    if (e.target.closest?.(".rr-controller")) return;
+    if (!playerRef.current) return;
+
+    let isCurrentlyPlaying = false;
+    const replayer = playerRef.current.getReplayer?.();
+    if (replayer?.service?.state?.matches) {
+      isCurrentlyPlaying = replayer.service.state.matches("playing");
+    }
+
+    if (typeof playerRef.current.toggle === "function") {
+      playerRef.current.toggle();
+    } else if (
+      typeof playerRef.current.pause === "function" &&
+      typeof playerRef.current.play === "function"
+    ) {
+      if (isCurrentlyPlaying) {
+        playerRef.current.pause();
+      } else {
+        playerRef.current.play();
+      }
+    }
+
+    setOverlay({
+      type: isCurrentlyPlaying ? "pause" : "play",
+      key: Date.now(),
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6">
       {/* Header */}
@@ -150,7 +326,7 @@ export default function SessionPlayerContainer({ sessionId, lang }) {
         <Button
           variant="light"
           onClick={() => router.back()}
-          className="mb-4 text-gray-600 hover:text-[#f48a42]"
+          className="mb-4 text-gray-600 hover:text-primary"
         >
           ← Back to Sessions
         </Button>
@@ -192,17 +368,67 @@ export default function SessionPlayerContainer({ sessionId, lang }) {
                 {metadata.initialPath}
               </span>
             </div>
-            <div
-              ref={containerRef}
-              className="rrweb-player-wrapper bg-gradient-to-br from-gray-100 to-gray-200 flex justify-center items-center"
-              style={{ minHeight: "500px" }}
-            />
+            <div className="relative overflow-hidden">
+              <style>{`
+                @keyframes yt-overlay-anim {
+                  0% {
+                    opacity: 0;
+                    transform: scale(0.6);
+                  }
+                  30% {
+                    opacity: 0.9;
+                    transform: scale(1.15);
+                  }
+                  100% {
+                    opacity: 0;
+                    transform: scale(1.45);
+                  }
+                }
+              `}</style>
+              <div
+                ref={containerRef}
+                onClick={handleContainerClick}
+                className="rrweb-player-wrapper bg-gradient-to-br from-gray-100 to-gray-200 flex justify-center items-center select-none"
+                style={{ minHeight: "500px" }}
+              />
+              {overlay && (
+                <div
+                  key={overlay.key}
+                  className="pointer-events-none absolute inset-0 flex items-center justify-center z-30"
+                >
+                  <div
+                    className="w-20 h-20 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white shadow-2xl"
+                    style={{
+                      animation:
+                        "yt-overlay-anim 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                    }}
+                    onAnimationEnd={() => setOverlay(null)}
+                  >
+                    {overlay.type === "play" ? (
+                      <svg
+                        className="w-10 h-10 fill-current translate-x-0.5"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    ) : (
+                      <svg
+                        className="w-10 h-10 fill-current"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                      </svg>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Journey Timeline */}
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
             <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <span className="w-8 h-8 rounded-lg bg-[#f48a42]/10 flex items-center justify-center">
+              <span className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                 🗺️
               </span>
               User Journey
@@ -304,7 +530,7 @@ export default function SessionPlayerContainer({ sessionId, lang }) {
           {/* Session Info Card */}
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
             <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <span className="w-8 h-8 rounded-lg bg-[#f48a42]/10 flex items-center justify-center">
+              <span className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                 📋
               </span>
               Session Info
@@ -312,7 +538,7 @@ export default function SessionPlayerContainer({ sessionId, lang }) {
 
             <div className="space-y-4">
               <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#f48a42]/20 to-[#f48a42]/10 flex items-center justify-center text-[#f48a42] font-bold text-sm">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#f48a42]/20 to-[#f48a42]/10 flex items-center justify-center text-primary font-bold text-sm">
                   {metadata.visitorId?.slice(0, 2).toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -370,9 +596,9 @@ export default function SessionPlayerContainer({ sessionId, lang }) {
               variant="underlined"
               classNames={{
                 tabList: "gap-0 w-full px-4 pt-2 border-b border-gray-100",
-                cursor: "bg-[#f48a42]",
+                cursor: "bg-primary",
                 tab: "px-4 py-2",
-                tabContent: "group-data-[selected=true]:text-[#f48a42]",
+                tabContent: "group-data-[selected=true]:text-primary",
               }}
             >
               <Tab

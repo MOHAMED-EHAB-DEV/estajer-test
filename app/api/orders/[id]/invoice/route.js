@@ -5,6 +5,9 @@ import { readFile } from "fs/promises";
 import path from "path";
 import connectDB from "@/lib/db";
 import Order from "@/models/Order";
+import { authenticateUser } from "@/middleware/auth";
+import { authHeaders } from "@/middleware/authHeaders";
+let cachedFonts;
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  ZERO-DEPENDENCY ARABIC BIDI ENGINE
@@ -164,6 +167,18 @@ const translations = {
   },
 };
 
+async function getFonts() {
+  if (!cachedFonts) {
+    const fontsDir = path.join(process.cwd(), "fonts", "old");
+    const [fontBytes, fontBoldBytes] = await Promise.all([
+      readFile(path.join(fontsDir, "IBMPlexArabic.ttf")),
+      readFile(path.join(fontsDir, "IBMPlexArabic-SemiBold.ttf")),
+    ]);
+    cachedFonts = { fontBytes, fontBoldBytes };
+  }
+  return cachedFonts;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 //  GET Handler
 // ─────────────────────────────────────────────────────────────────────────────
@@ -177,27 +192,49 @@ export async function GET(req, { params }) {
     const isAr = lang === "ar";
     const t = translations[lang] ?? translations.en;
 
+    // Authenticate user via cookies first, fallback to Auth header
+    let user;
+    try {
+      user = await authenticateUser();
+    } catch (cookieErr) {
+      try {
+        user = await authHeaders(req);
+      } catch (headerErr) {
+        return NextResponse.json({ error: "Authentication failed" }, { status: 401 });
+      }
+    }
+
+    if (user.isBanned) {
+      return NextResponse.json({ error: "User is banned" }, { status: 403 });
+    }
+
     // ── Fetch order ──────────────────────────────────────────────────────────
     const order = await Order.findById(id)
       .populate({
         path: "items",
         populate: { path: "product", select: "nameAr nameEn images" },
       })
-      .populate("ownerData", "fullName email phone companyDetails");
+      .populate("ownerData", "fullName email phone companyDetails")
+      .lean();
 
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
+    const isAdmin = user.accountType === "admin";
+    const isOwner = order.ownerData?._id
+      ? order.ownerData._id.toString() === user._id?.toString()
+      : order.ownerData?.toString() === user._id?.toString();
+    const isCustomer = order.userData?.id?.toString() === user._id?.toString();
+
+    if (!isCustomer && !isAdmin && !isOwner) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
+
     // ── PDF setup ────────────────────────────────────────────────────────────
     const pdfDoc = await PDFDocument.create();
     pdfDoc.registerFontkit(fontkit);
-
-    const fontsDir = path.join(process.cwd(), "fonts", "old");
-    const [fontBytes, fontBoldBytes] = await Promise.all([
-      readFile(path.join(fontsDir, "IBMPlexArabic.ttf")),
-      readFile(path.join(fontsDir, "IBMPlexArabic-SemiBold.ttf")),
-    ]);
+    const { fontBytes, fontBoldBytes } = await getFonts();
 
     const arabicFont     = await pdfDoc.embedFont(fontBytes);
     const arabicFontBold = await pdfDoc.embedFont(fontBoldBytes);
@@ -378,7 +415,7 @@ export async function GET(req, { params }) {
       drawBidiBold(labelText, metaAnchorX, yPos, { size: 11, rtl: isAr });
 
       // Draw value (always a plain LTR number)
-      const numStr = String(order.contractId ?? "");
+      const numStr = String(order._id ?? "");
       const numW   = helvetica.widthOfTextAtSize(numStr, 11);
       let   numX;
       if (isAr) {

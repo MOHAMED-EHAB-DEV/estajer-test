@@ -1,18 +1,14 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Card,
-  CardBody,
-  Chip,
-  Avatar,
-  Pagination,
-  Input,
-  Select,
-  SelectItem,
-  Button,
-  useDisclosure,
-} from "@heroui/react";
+import { Card, CardBody } from "@/components/ui/Card";
+import { Chip } from "@/components/ui/Chip";
+import { Avatar } from "@/components/ui/Avatar";
+import { Pagination } from "@/components/ui/Pagination";
+import { Input } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
+import Button from "@/components/ui/Button";
+import { useDisclosure } from "@/components/ui/CustomModal";
 import CustomModal from "../ui/CustomModal";
 import { useTranslations } from "@/hooks/useTranslations";
 
@@ -228,7 +224,7 @@ const TasksPageContainer = ({ data, translate, lang, queryParams }) => {
       <div className="flex justify-between items-center mb-6">
         <p className="text-gray-600">
           {t("tasks.totalCount")}:{" "}
-          <span className="font-bold text-[#f48a42]">{data.totalTasks}</span>{" "}
+          <span className="font-bold text-primary">{data.totalTasks}</span>{" "}
           {t("tasks.tasks")}
         </p>
       </div>
@@ -239,7 +235,7 @@ const TasksPageContainer = ({ data, translate, lang, queryParams }) => {
           <CardBody className="py-20 text-center">
             <div className="w-24 h-24 mx-auto bg-gradient-to-br from-[#f48a42]/20 to-[#f47242]/20 rounded-full flex items-center justify-center mb-6">
               <svg
-                className="w-12 h-12 text-[#f48a42]"
+                className="w-12 h-12 text-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -295,7 +291,7 @@ const TasksPageContainer = ({ data, translate, lang, queryParams }) => {
                 <CardBody className="p-6">
                   {/* Title & Description */}
                   <div className="pe-14 mb-4">
-                    <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#f48a42] transition-colors">
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary transition-colors">
                       {task.title}
                     </h3>
                     <p className="text-gray-500 text-sm line-clamp-3">
@@ -426,10 +422,7 @@ const TasksPageContainer = ({ data, translate, lang, queryParams }) => {
                   {selectedTask.title}
                 </h3>
                 <div className="flex gap-2 mt-1">
-                  <Chip
-                    size="sm"
-                    color={getTypeInfo(selectedTask.type).color}
-                  >
+                  <Chip size="sm" color={getTypeInfo(selectedTask.type).color}>
                     {selectedTask.type}
                   </Chip>
                   <Chip

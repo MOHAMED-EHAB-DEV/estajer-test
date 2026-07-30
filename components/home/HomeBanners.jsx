@@ -6,7 +6,7 @@ const fetchBanners = async () => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/home-banners?place=home`, //includeProductCount=true&
-      { next: { revalidate: 60 * 60 * 24 * 2 } }
+      { next: { revalidate: 60 * 60 * 24 * 2 } },
     );
     if (res.ok) {
       const data = await res.json();
@@ -41,7 +41,9 @@ export default async function HomeBanners({ lang }) {
                   lang === "en" && banner.imageEn
                     ? banner.imageEn
                     : banner.image,
-                size: 1000,
+                size: 740,
+                aspectRatio: "1:0.45",
+                crop: true,
                 quality: 90,
               })}
               unoptimized

@@ -1,7 +1,9 @@
+import dynamic from "next/dynamic";
 import { getTranslations } from "@/hooks/getTranslations";
 import { categories, subCategories } from "@/static/categoriesOptions";
-import HeroSearchBox from "./HeroSearchBox";
 import HeroSlider from "./HeroSlider";
+
+const HeroSearchBox = dynamic(() => import("./HeroSearchBox"));
 
 const fetchHeroSlides = async () => {
   try {
@@ -29,27 +31,13 @@ export default async function HeroSection({ lang }) {
     fetchHeroSlides(),
   ]);
 
-  const fallbackData = {
-    titleAr:
-      lang === "ar"
-        ? `${translate("home.heroSection.title") || "لا تشتري"} ${translate("home.heroSection.title2") || "استأجر"} ${translate("home.heroSection.subtitle") || "ووفر"}`
-        : "",
-    titleEn:
-      lang === "en"
-        ? `${translate("home.heroSection.title") || "Don't buy"} ${translate("home.heroSection.title2") || "Rent"} ${translate("home.heroSection.subtitle") || "And save"}`
-        : "",
-    subtitleAr: lang === "ar" ? translate("home.heroSection.seoTitle") : "",
-    subtitleEn: lang === "en" ? translate("home.heroSection.seoTitle") : "",
-  };
-
   return (
     <section className="relative w-full md:mt-0 mb-8 md:mb-10">
       {/* Hero Slider as the main background and banner showcase */}
       <HeroSlider
         banners={heroSlides}
         lang={lang}
-        fallbackData={fallbackData}
-        translate={translate()}
+        translate={{ heroSlider: translate("heroSlider") }}
       />
 
       {/* Floating search container overlapping the bottom border of the slider */}
@@ -59,7 +47,11 @@ export default async function HeroSection({ lang }) {
             categoriesData={categoriesData}
             subCategoriesData={subCategoriesData}
             lang={lang}
-            translate={translate()}
+            translate={{
+              home: { search: translate("home.search") },
+              ui: { button: translate("ui.button") },
+              productComponent: translate("productComponent"),
+            }}
           />
         </div>
       </div>

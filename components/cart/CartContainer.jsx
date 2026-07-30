@@ -17,13 +17,22 @@ import { differenceInDays } from "date-fns";
 import formatDuration from "@/utils/formatDuration";
 import { sendGTMEvent } from "@next/third-parties/google";
 
-export default function CartContainer({ translate, lang, cart, shareId }) {
+export default function CartContainer({
+  translate,
+  lang,
+  cart,
+  shareId,
+  shopSlug,
+}) {
   const langPrefix = lang === "ar" ? "" : "en/";
   const { user } = useUser();
   const trans = useTranslations(translate);
   const t = (value) => trans(`cart.${value}`);
   const router = useRouter();
   const [cartItems, setCartItems] = useState([]);
+
+  const cartPath = shopSlug ? `shops/${shopSlug}/cart` : "cart";
+  const checkoutPath = shopSlug ? `shops/${shopSlug}/checkout` : "checkout";
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -38,8 +47,9 @@ export default function CartContainer({ translate, lang, cart, shareId }) {
           if (data.success && Array.isArray(data.cartItems)) {
             setCartItems(data.cartItems);
             localStorage.setItem("cart", JSON.stringify(data.cartItems));
+            window.dispatchEvent(new Event("cartUpdated"));
             toast.success(ToastMessage(t("cartLoaded")));
-            router.replace(`/${langPrefix}cart`);
+            router.replace(`/${langPrefix}${cartPath}`);
           } else {
             throw new Error("Invalid cart data");
           }
@@ -53,8 +63,9 @@ export default function CartContainer({ translate, lang, cart, shareId }) {
           if (Array.isArray(parsedCart)) {
             setCartItems(parsedCart);
             localStorage.setItem("cart", JSON.stringify(parsedCart));
+            window.dispatchEvent(new Event("cartUpdated"));
             toast.success(ToastMessage(t("cartLoaded")));
-            router.replace(`/${langPrefix}cart`);
+            router.replace(`/${langPrefix}${cartPath}`);
           }
         } catch (error) {
           console.error("Failed to parse shared cart", error);
@@ -78,7 +89,7 @@ export default function CartContainer({ translate, lang, cart, shareId }) {
       const data = await res.json();
       if (!data.success) throw new Error(data.error);
 
-      const url = `${window.location.origin}/${langPrefix}cart?id=${data.id}`;
+      const url = `${window.location.origin}/${langPrefix}${cartPath}?id=${data.id}`;
       navigator.clipboard.writeText(url);
       toast.success(ToastMessage(t("shareCartSuccess")));
     } catch (error) {
@@ -93,6 +104,7 @@ export default function CartContainer({ translate, lang, cart, shareId }) {
     const newItems = cartItems.filter((item) => item.id !== itemId);
     setCartItems(newItems);
     localStorage.setItem("cart", JSON.stringify(newItems));
+    window.dispatchEvent(new Event("cartUpdated"));
 
     // Track remove_from_cart event
     try {
@@ -135,7 +147,7 @@ export default function CartContainer({ translate, lang, cart, shareId }) {
 
   const handleCheckout = async () => {
     if (!user) {
-      router.push(`/${langPrefix}register?page=/${langPrefix}cart`);
+      router.push(`/${langPrefix}register?page=/${langPrefix}${cartPath}`);
       toast.error(ToastMessage(t("loginFirst")));
       return;
     }
@@ -152,18 +164,19 @@ export default function CartContainer({ translate, lang, cart, shareId }) {
             : +item.product?.rental?.value?.toFixed(0),
         quantity: item.quantity,
         days: differenceInDays(item.endDate, item.startDate) + 1,
-        services_count: item.selectedServices.length,
         item_category: item.product?.category,
+        currency: "SAR",
+        seller_name: item.product?.owner?.fullName,
         item_category2: item.product?.subCategory,
         city: item.product?.city,
-        currency: "SAR",
       }));
       sendGTMEvent({
         event: "begin_checkout",
-        location: "cart",
-        items_count: totalQuantity,
-        value: +(totalPrice + totalTax - totalDiscount).toFixed(0),
-        items,
+        ecommerce: {
+          currency: "SAR",
+          value: +(totalPrice + totalTax - totalDiscount).toFixed(0),
+          items,
+        },
       });
     } catch (_) {}
 
@@ -180,7 +193,7 @@ export default function CartContainer({ translate, lang, cart, shareId }) {
 
       // Navigate to checkout with pre-order ID
       router.push(
-        `/${langPrefix}checkout?preOrderId=${result.data.preOrderId}`,
+        `/${langPrefix}${checkoutPath}?preOrderId=${result.data.preOrderId}`,
       );
     } catch (error) {
       toast.error(ToastMessage(error.message));
@@ -282,14 +295,14 @@ export default function CartContainer({ translate, lang, cart, shareId }) {
                                 : `${daysNumber} ${t("days")}`}{" "}
                             </span>
                           </div>
-                          <h2 className="text-[1.1rem] max-w-full md:text-[1.2rem] line-clamp-1 lg:text-[1.3rem] text-darkNavy font-semibold font-IBMPlex">
+                          <h2 className="text-1.1 max-w-full md:text-1.2 line-clamp-1 lg:text-[1.3rem] text-darkNavy font-semibold font-IBMPlex">
                             {item.product.name}
                           </h2>
                           <div className="mt-2 space-y-2">
                             <p
                               className="flex items-center gap-2
                             
-                            text-[1rem]  md:text-[1.1rem] lg:text-[1rem]"
+                            text-[1rem]  md:text-1.1 lg:text-[1rem]"
                             >
                               <CalendarIcon className="lg:w-5 lg:h-5 w-4 h-4" />
                               {new Date(item.startDate).toLocaleDateString(
@@ -318,7 +331,9 @@ export default function CartContainer({ translate, lang, cart, shareId }) {
                                 )}
                             </p>
                             <p>
-                              {t("quantity")}: {item.quantity}
+                              {item.product?.saleUnit
+                                ? `${item.quantity} ${trans(`unit.${item.product.saleUnit}`)}`
+                                : `${t("quantity")}: ${item.quantity}`}
                             </p>
                             {item.deliveryType && (
                               <p>
@@ -393,11 +408,17 @@ export default function CartContainer({ translate, lang, cart, shareId }) {
               })}
             </div>
             <div className="xl:w-[500px] w-full">
-              <div className="bg-[#EAEEF3] rounded-3xl md:py-10 py-6 md:px-8 px-4  sm:min-w-[350px]">
-                <div className="flex justify-between text-[1.1rem]  lg:text-xl md:text-[1.2rem]  mb-6">
-                  <span>{t("piecesCount")}</span>
+              <div className="bg-surfaceBlue rounded-3xl md:py-10 py-6 md:px-8 px-4  sm:min-w-[350px]">
+                <div className="flex justify-between text-1.1  lg:text-xl md:text-1.2  mb-6">
                   <span>
-                    {totalQuantity} {t("pieces")}
+                    {cartItems.some((item) => item.product?.saleUnit)
+                      ? t("saleUnit")
+                      : t("piecesCount")}
+                  </span>
+                  <span>
+                    {cartItems.length === 1 && cartItems[0].product?.saleUnit
+                      ? `${cartItems[0].quantity} ${trans(`unit.${cartItems[0].product.saleUnit}`)}`
+                      : `${totalQuantity} ${t("pieces")}`}
                   </span>
                 </div>
                 <div className="flex justify-between md:text-xl sm:text-[1.3rem] md:mb-6 mb-2">
@@ -436,13 +457,15 @@ export default function CartContainer({ translate, lang, cart, shareId }) {
                   </div>
                 )}
                 <div className="flex gap-2 justify-between text-[1rem]  lg:text-[1.5rem] md:text-[1.4rem] font-semibold">
-                  <button
-                    onClick={handleShareCart}
-                    className="py-2 px-4 md:py-4 flex items-center justify-center gap-2 text-primary border border-primary rounded-full font-semibold hover:bg-white/30 transition-colors"
-                    title={t("shareCart")}
-                  >
-                    <Share className="w-5 h-5" color="#f48a42" />
-                  </button>{" "}
+                  {!shopSlug && (
+                    <button
+                      onClick={handleShareCart}
+                      className="py-2 px-4 md:py-4 flex items-center justify-center gap-2 text-primary border border-primary rounded-full font-semibold hover:bg-white/30 transition-colors"
+                      title={t("shareCart")}
+                    >
+                      <Share className="w-5 h-5" color="#f48a42" />
+                    </button>
+                  )}{" "}
                   <Button
                     onPress={handleCheckout}
                     className="w-full py-2 md:py-7"

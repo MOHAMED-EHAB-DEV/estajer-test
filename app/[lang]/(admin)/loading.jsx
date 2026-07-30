@@ -1,5 +1,5 @@
 "use client";
-import { Spinner } from "@heroui/react";
+import { Spinner } from "@/components/ui/Spinner";
 
 export default function loading() {
   return (

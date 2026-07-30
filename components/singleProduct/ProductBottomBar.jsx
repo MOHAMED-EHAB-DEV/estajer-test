@@ -41,7 +41,12 @@ const CalendarIcon = () => (
   </svg>
 );
 
-export default function ProductBottomBar({ product, translate, lang }) {
+export default function ProductBottomBar({
+  product,
+  translate,
+  lang,
+  shopSlug,
+}) {
   const langPrefix = lang === "ar" ? "" : "en/";
   const trans = useTranslations(translate);
   const tc = (key) => trans(`chat.${key}`);
@@ -131,29 +136,33 @@ export default function ProductBottomBar({ product, translate, lang }) {
     onChatOpen();
   };
 
-  const homeHref = lang === "ar" ? "/" : "/en";
-  const searchHref = `/${langPrefix}search/products`;
-  const cartHref = `/${langPrefix}cart`;
+  const homeHref = shopSlug
+    ? `/${langPrefix}shops/${shopSlug}`
+    : lang === "ar"
+      ? "/"
+      : "/en";
+  const searchHref = `/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}search/products`;
+  const cartHref = `/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}cart`;
 
   return (
     <>
       {/* ══ Mobile-only bottom bar ══ */}
-      <div className="block md:hidden fixed bottom-0 start-0 end-0 z-50 shadow-2xl shadow-black">
+      <div className="block md:hidden fixed bottom-0 start-0 end-0 z-50 shadow-lg">
         <div
-          className="bg-white/90 backdrop-blur"
-          style={{ paddingBottom: "max(0px, env(safe-area-inset-bottom))" }}
+          className="bg-white/95 backdrop-blur-md"
+          style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
         >
-          <div className="flex items-stretch gap-0 px-3 pt-3 pb-2.5 border-t border-gray-100 shadow-sm">
+          <div className="flex items-stretch gap-0 px-3 pt-2 pb-1.5 border-t border-gray-100 shadow-sm">
             <div className="flex flex-col justify-center pe-3 shrink-0 focus:outline-none">
               <div className="flex items-center gap-1">
-                <span className="text-primary font-IBMPlex font-extrabold text-xl leading-none">
+                <span className="text-primary font-IBMPlex font-extrabold text-lg leading-none">
                   {displayPrice}
                 </span>
-                <Currency color="#F48A42" className="w-4 h-4" />
+                <Currency color="#F48A42" className="w-3.5 h-3.5" />
               </div>
-              <div className="flex items-center gap-1.5 mt-1">
+              <div className="flex items-center gap-1.5 mt-0.5">
                 {hasDiscount && (
-                  <span className="text-gray-400 line-through font-IBMPlex text-sm">
+                  <span className="text-gray-400 line-through font-IBMPlex text-xs">
                     {originalPrice}
                   </span>
                 )}
@@ -162,7 +171,7 @@ export default function ProductBottomBar({ product, translate, lang }) {
                     <button
                       type="button"
                       onClick={() => setPkgDropOpen((v) => !v)}
-                      className="flex items-center gap-1 text-gray-400 text-sm font-medium focus:outline-none"
+                      className="flex items-center gap-1 text-gray-400 text-xs font-medium focus:outline-none"
                       aria-haspopup="listbox"
                       aria-expanded={pkgDropOpen}
                     >
@@ -254,7 +263,7 @@ export default function ProductBottomBar({ product, translate, lang }) {
                     )}
                   </div>
                 ) : (
-                  <span className="text-gray-400 text-sm font-medium">
+                  <span className="text-gray-400 text-xs font-medium">
                     {trans("productComponent.perDay")}
                   </span>
                 )}
@@ -265,16 +274,16 @@ export default function ProductBottomBar({ product, translate, lang }) {
             <div className="w-px bg-gray-200 self-stretch mx-1 shrink-0" />
 
             {/* CTA group */}
-            <div className="flex items-center gap-2 flex-1 ps-3">
+            <div className="flex items-center gap-2 flex-1 ps-2">
               <button
                 disabled={isOwner}
                 type="button"
                 onClick={handleChat}
                 aria-label={tc("chatButton")}
-                className="flex items-center justify-center w-12 h-12 shrink-0 rounded-2xl border-1 border-gray-200  transition-all active:scale-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+                className="flex items-center justify-center w-10 h-10 shrink-0 rounded-xl border border-gray-200 transition-all active:scale-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
               >
                 <Chat
-                  className="w-[20px] h-[20px]"
+                  className="w-4.5 h-4.5"
                   fill="#0D092B"
                   aria-hidden="true"
                 />
@@ -283,12 +292,12 @@ export default function ProductBottomBar({ product, translate, lang }) {
                 type="button"
                 onClick={handleRentNow}
                 aria-label={lang === "ar" ? "استأجر الآن" : "Rent Now"}
-                className="flex-1 flex items-center justify-center gap-2 h-12 rounded-2xl font-bold text-white text-[0.95rem] tracking-wide transition-all active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+                className="flex-1 flex items-center justify-center gap-1.5 h-10 rounded-xl font-bold text-white text-sm tracking-wide transition-all active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
                 style={{
                   background:
                     "linear-gradient(130deg, #F48A42 0%, #d96e1c 100%)",
                   boxShadow:
-                    "0 4px 20px rgba(244,138,66,0.4), inset 0 1px 0 rgba(255,255,255,0.2)",
+                    "0 2px 10px rgba(244,138,66,0.3), inset 0 1px 0 rgba(255,255,255,0.2)",
                 }}
               >
                 <CalendarIcon />
@@ -300,15 +309,15 @@ export default function ProductBottomBar({ product, translate, lang }) {
           {/* ── Row 2: Navigation icons ── */}
           <nav
             aria-label={tn("ariaLabel")}
-            className="grid grid-cols-5 items-center justify-items-center px-2 pb-2"
+            className="grid grid-cols-5 items-center justify-items-center px-2 py-0.5"
           >
             {/* Home */}
             <Link
-              href={`/${langPrefix}`}
+              href={homeHref}
               title={tn("homeTitle")}
               aria-label={tn("home")}
               aria-current={pathname === homeHref ? "page" : undefined}
-              className="flex flex-col items-center gap-0.5 p-2 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+              className="flex flex-col items-center gap-0.5 p-1.5 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
             >
               <Home
                 color={pathname === homeHref ? "#F48A42" : "#0d092b"}
@@ -318,11 +327,11 @@ export default function ProductBottomBar({ product, translate, lang }) {
 
             {/* Search */}
             <Link
-              href={`/${langPrefix}search/products`}
+              href={searchHref}
               title={tn("searchTitle")}
               aria-label={tn("search")}
               aria-current={pathname === searchHref ? "page" : undefined}
-              className="flex flex-col items-center gap-0.5 p-2 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+              className="flex flex-col items-center gap-0.5 p-1.5 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
             >
               <Search
                 color={pathname === searchHref ? "#F48A42" : "#0d092b"}
@@ -336,24 +345,24 @@ export default function ProductBottomBar({ product, translate, lang }) {
             <Link
               href={`/${langPrefix}add-product`}
               aria-label={tn("addProduct")}
-              className="flex flex-col items-center justify-center h-10 w-10 rounded-full bg-primary !opacity-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              className="flex flex-col items-center justify-center h-8 w-8 rounded-full bg-primary !opacity-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
-              <Plus color="#fff" size={18} aria-hidden="true" />
+              <Plus color="#fff" size={16} aria-hidden="true" />
               <span className="sr-only">{tn("addProduct")}</span>
             </Link>
 
             {/* Cart */}
             <Link
-              href={`/${langPrefix}cart`}
+              href={cartHref}
               title={tn("cartTitle")}
               aria-label={tn("cart")}
               aria-current={pathname === cartHref ? "page" : undefined}
-              className="flex flex-col items-center gap-0.5 p-2 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+              className="flex flex-col items-center gap-0.5 p-1.5 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
             >
               <Cart
                 color={pathname === cartHref ? "#F48A42" : "#0d092b"}
                 circle={false}
-                size={40}
+                size={36}
                 aria-hidden="true"
               />
             </Link>
@@ -364,7 +373,7 @@ export default function ProductBottomBar({ product, translate, lang }) {
               onClick={onNavOpen}
               aria-label={tn("menu")}
               aria-expanded={navOpen}
-              className="flex flex-col items-center gap-0.5 px-3 py-2 min-w-0 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+              className="flex flex-col items-center gap-0.5 px-2 py-1.5 min-w-0 rounded-full transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
             >
               <Menu aria-hidden="true" />
             </button>

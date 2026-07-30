@@ -17,6 +17,7 @@ function DatePickerDemo({
   translate,
   setDaysCount,
   ownerHolidayPeriods = [],
+  allowSameDayRent = true,
 }) {
   const [date, setDate] = useState({});
   const [error, setError] = useState("");
@@ -121,7 +122,11 @@ function DatePickerDemo({
         onSelect={handleSelect}
         disabled={[
           (date) => isDateFullyBooked(date) || isHolidayDate(date),
-          { before: new Date().setDate(new Date().getDate()) },
+          {
+            before: allowSameDayRent
+              ? new Date().setHours(0, 0, 0, 0)
+              : new Date().setHours(24, 0, 0, 0),
+          },
         ]}
       />
       {date?.from && (
@@ -135,7 +140,7 @@ function DatePickerDemo({
         </div>
       )}
       {error && (
-        <p className="text-red-500 text-[.8rem] md:text-[1.2rem] text-center mt-4">
+        <p className="text-red-500 text-[.8rem] md:text-0.95 text-center mt-4">
           {error}
         </p>
       )}

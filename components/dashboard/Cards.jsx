@@ -68,14 +68,14 @@ export default async function Cards({ placeholder, translate, langPrefix }) {
       title: t("pendingOrders"),
       count: ordersStats?.pending ?? 0,
       Icon: Pending,
-      className: "text-[#F48A42]",
+      className: "text-primary",
       href: "my-orders",
     },
     {
       title: t("canceledOrders"),
       count: ordersStats?.canceled ?? 0,
       Icon: Canceled,
-      className: "text-[#F44242]",
+      className: "text-dangerRed",
       href: "my-orders",
     },
     {
@@ -105,7 +105,7 @@ export default async function Cards({ placeholder, translate, langPrefix }) {
         >
           <div className="flex items-center md:gap-4 gap-2">
             <Icon className="md:w-14 md:h-14 w-10 h-10" />
-            <div className="font-IBMPlex text-[0.85rem] md:text-[1.2rem] 2xl:text-[1.25rem] leading-tight">
+            <div className="font-IBMPlex text-0.85 md:text-1.2 2xl:text-[1.25rem] leading-tight">
               <div className={className}>{title}</div>
               <div className="font-semibold">{placeholder ? "..." : count}</div>
             </div>

@@ -62,10 +62,11 @@ export default function ConfirmModal({
   type,
   loading,
   t,
+  disableScrollbarGutter = false,
 }) {
   const isDelete = type === "delete" || type === "cancel";
-  const primaryColor = isDelete ? "bg-[#F44242]" : "bg-primary";
-  const titleColor = isDelete ? "text-[#F44242]" : "text-primary";
+  const primaryColor = isDelete ? "bg-dangerRed" : "bg-primary";
+  const titleColor = isDelete ? "text-dangerRed" : "text-primary";
   const shadowColor = isDelete
     ? "shadow-[0px_10px_16px_rgba(244,66,66,0.3)]"
     : "shadow-md";
@@ -77,13 +78,15 @@ export default function ConfirmModal({
       size="xl"
       className="bg-white dark:bg-gray-900 rounded-[24px] p-2 md:p-4 text-black dark:text-white shadow-xl"
       backdropClass="backdrop-blur-sm"
+      disableScrollbarGutter={disableScrollbarGutter}
+      hideCloseButton
     >
       <div className="flex flex-col relative w-full" dir="rtl">
         {/* Close Button */}
         <button
           onClick={onClose}
           type="button"
-          className="absolute top-6 end-6 text-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-900 text-[#1D1B20] dark:text-gray-200 shadow-sm z-50 p-2 rounded-full flex items-center justify-center border border-gray-100 dark:border-gray-850"
+          className="absolute top-2 end-2 text-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-900 text-[#1D1B20] dark:text-gray-200 shadow-sm z-50 p-2 rounded-full flex items-center justify-center border border-gray-100 dark:border-gray-850"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path

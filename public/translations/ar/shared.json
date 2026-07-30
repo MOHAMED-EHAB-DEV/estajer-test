@@ -7,7 +7,7 @@
   },
   "chat": {
     "contactInfo": "معلومات التواصل",
-    "chatButton": "دردشة مباشرة",
+    "chatButton": "تواصل مع المؤجر",
     "warning": "لضمان حقوقكم، يرجى إتمام جميع عمليات الدفع والتحويلات المالية حصرًا عبر منصة استأجر. نحن لا نتحمل أي مسؤولية عن المعاملات التي تتم خارج المنصة",
     "phoneNumberWarning": "عذراً، لا يسمح بمشاركة أرقام الهواتف. الرجاء التواصل عبر رسائل المنصة فقط للحفاظ على خصوصيتك وأمانك.",
     "waitWarning": "الرجاء الانتظار قبل إرسال رسالة أخرى",
@@ -22,6 +22,8 @@
     "send": "إرسال",
     "typing": "يكتب...",
     "aboutUs": "معلومات عنا",
+    "registerAsLessor": "التسجيل كمؤجر",
+    "showProposalForm": "تعبئة طلب عرض سعر",
     "showContactMethod": "عرض طريقة التواصل",
     "showProducts": "عرض المنتجات",
     "moreProducts": "المزيد من المنتجات",
@@ -50,6 +52,8 @@
       "aiPowered": "مدعوم بالذكاء الاصطناعي، متاح 24/7",
       "askName": "قبل أن نبدأ، ما هو اسمك؟",
       "namePlaceholder": "اكتب اسمك...",
+      "askContact": "رقم الجوال أو البريد الإلكتروني:",
+      "contactPlaceholder": "05xxxxxxxx أو البريد الإلكتروني...",
       "start": "لنبدأ"
     }
   },
@@ -69,6 +73,8 @@
     "approved": "مرفوع",
     "rejected": "مرفوض",
     "pendingApproval": "بانتظار الموافقة",
+    "pendingReview": "بانتظار مراجعة التعديل",
+    "editRejected": "تم رفض التعديل",
     "rejectionReason": "سبب الرفض",
     "cannotAcceptRequest": "لا يمكن قبول هذا الطلب",
     "distanceAway": "يبعُد\u00a0{distance}\u00a0كم",
@@ -323,7 +329,8 @@
       "close": "اغلاق",
       "loading": "جاري التحميل...",
       "addAd": "إضافة منتج",
-      "addAdTitle": "إضافة إعلان جديد"
+      "addAdTitle": "إضافة إعلان جديد",
+      "loginTitle": "تسجيل الدخول إلى حسابك"
     },
     "header": {
       "langTitle": "اللغة",
@@ -347,6 +354,8 @@
       "favorites": "المفضلة",
       "messages": "الرسائل",
       "myProducts": "منتجاتي",
+      "myOrders": "طلباتي",
+      "rentalRequests": "طلبات الاستئجار",
       "settings": "الإعدادات",
       "userMenuAriaLabel": "قائمة المستخدم",
       "logout": "تسجيل الخروج",
@@ -360,6 +369,8 @@
       "favoritesDescription": "المنتجات المفضلة",
       "messagesDescription": "الرسائل والمحادثات",
       "myProductsDescription": "منتجاتي للإيجار",
+      "myOrdersDescription": "قائمة طلباتي للمنتجات",
+      "rentalRequestsDescription": "طلبات الاستئجار الواردة",
       "settingsDescription": "إعدادات الحساب",
       "adminDashboardDescription": "لوحة تحكم الإدارة",
       "productsDescription": "إدارة المنتجات",
@@ -476,6 +487,8 @@
       "tabCta": "الأزرار والروابط",
       "labelBgAr": "خلفية الصورة (عربي)",
       "labelBgEn": "خلفية الصورة (إنجليزي)",
+      "labelBgMobileAr": "صورة الخلفية للجوال (عربي)",
+      "labelBgMobileEn": "صورة الخلفية للجوال (إنجليزي)",
       "labelAltAr": "النص البديل للصورة (عربي)",
       "labelAltEn": "النص البديل للصورة (إنجليزي)",
       "placeholderAlt": "أدخل نص بديل لمحركات البحث",
@@ -492,7 +505,8 @@
       "labelCtaAr": "نص زر الإجراء (عربي)",
       "labelCtaEn": "نص زر الإجراء (إنجليزي)",
       "placeholderCta": "تصفح المنتجات",
-      "labelRedirectLink": "رابط التوجيه",
+      "labelRedirectLink": "رابط التوجيه (عربي)",
+      "labelRedirectLinkEn": "رابط التوجيه (إنجليزي)",
       "placeholderRedirectLink": "مثال: /electronics/products",
       "labelSortOrder": "ترتيب الظهور",
       "labelActiveSlider": "شريحة نشطة في السلايدر",
@@ -503,5 +517,22 @@
       "alignCenter": "المنتصف",
       "alignEnd": "النهاية"
     }
+  },
+  "mobileNav": {
+    "homeTitle": "الذهاب إلى الصفحة الرئيسية",
+    "searchTitle": "البحث عن المنتجات",
+    "cartTitle": "عرض سلة التسوق",
+    "home": "الرئيسية",
+    "search": "بحث",
+    "addProduct": "إضافة منتج",
+    "cart": "السلة",
+    "menu": "القائمة",
+    "messages": "الرسائل",
+    "ariaLabel": "التنقل عبر الجوال"
+  },
+  "langDrawer": {
+    "lang": "اللغة",
+    "arabic": "العربية",
+    "english": "الانجليزية"
   }
 }

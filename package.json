@@ -8,12 +8,13 @@
     "start": "next start",
     "lint": "next lint",
     "deploy": "BUILD_DIR=.next-build bun run build && rm -rf .next && mv .next-build .next",
-    "analyze": "cross-env ANALYZE=true npm run build"
+    "analyze": "cross-env ANALYZE=true npm run build",
+    "og:capture": "node scripts/capture-og.mjs",
+    "og:capture:prod": "node scripts/capture-og.mjs https://estajer.com"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@googleapis/drive": "^20.1.0",
-    "@heroui/react": "2.8.2",
     "@next/bundle-analyzer": "^16.1.6",
     "@next/third-parties": "^16.0.1",
     "@pdf-lib/fontkit": "^1.1.1",
@@ -30,6 +31,7 @@
     "@visx/scale": "^3.12.0",
     "@visx/shape": "^3.12.0",
     "@visx/tooltip": "^3.12.0",
+    "archiver": "^8.0.0",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.5.1",
@@ -41,14 +43,13 @@
     "embla-carousel-react": "^8.6.0",
     "exceljs": "^4.4.0",
     "firebase-admin": "^13.8.0",
-    "framer-motion": "^11.16.0",
     "jose": "^6.0.11",
     "jsonwebtoken": "^9.0.2",
     "linkedom": "^0.18.6",
     "lru-cache": "^11.0.2",
     "mcp-handler": "^1.1.0",
     "mongoose": "^8.12.1",
-    "next": "15.1.9",
+    "next": "15.5.21",
     "next-auth": "^4.24.11",
     "nodemailer": "^6.10.0",
     "pdf-lib": "^1.17.1",
@@ -61,7 +62,7 @@
     "react-toastify": "^11.0.2",
     "rrweb": "^2.0.0-alpha.4",
     "rrweb-player": "^1.0.0-alpha.4",
-    "sharp": "^0.34.5",
+    "sharp": "^0.33.5",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "tailwind-merge": "^3.5.0",
@@ -79,15 +80,12 @@
     "eslint": "^8",
     "eslint-config-next": "15.1.3",
     "postcss": "^8",
+    "puppeteer": "^25.3.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.7.2",
-    "@img/sharp-linux-x64": "^0.34.5"
+    "typescript": "^5.7.2"
   },
   "overrides": {
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2"
-  },
-  "trustedDependencies": [
-    "sharp"
-  ]
+  }
 }

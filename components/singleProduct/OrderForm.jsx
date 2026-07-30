@@ -20,6 +20,7 @@ import DatesStep from "./OrderForm/DatesStep";
 import ServicesStep from "./OrderForm/ServicesStep";
 import SummaryStep from "./OrderForm/SummaryStep";
 import { X } from "../ui/svgs/icons/XSvg";
+import SecurePaymentBadge from "./SecurePaymentBadge";
 
 // Dynamic imports
 const DeliverySelect = dynamic(() => import("./DeliverySelect"), {
@@ -46,7 +47,7 @@ function StepDots({ total, current }) {
   );
 }
 
-function OrderForm({ product, lang, translate }) {
+function OrderForm({ product, lang, translate, shopSlug }) {
   const langPrefix = lang === "ar" ? "" : "en/";
   const trans = useTranslations(translate);
   const t = (key) => trans(`singleProduct.order.${key}`);
@@ -133,12 +134,12 @@ function OrderForm({ product, lang, translate }) {
   useEffect(() => {
     if (!isRedirecting) return;
     if (countdown === 0) {
-      router.push(`/${langPrefix}cart`);
+      router.push(`/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}cart`);
       return;
     }
     const timer = setInterval(() => setCountdown((p) => p - 1), 1000);
     return () => clearInterval(timer);
-  }, [isRedirecting, countdown, router, langPrefix]);
+  }, [isRedirecting, countdown, router, langPrefix, shopSlug]);
 
   // ── Layout Helpers ──
   const hasServices = product.services?.length > 0;
@@ -308,6 +309,10 @@ function OrderForm({ product, lang, translate }) {
           subCategory: product.subCategory,
           pricingModel: product.pricingModel,
           hasTaxCode,
+          saleUnit: product.saleUnit,
+          owner: {
+            fullName: product.owner?.fullName,
+          },
         },
         selectedPackage,
         ownerId: product.owner._id,
@@ -320,27 +325,40 @@ function OrderForm({ product, lang, translate }) {
         totalPrice: calculatePrice(true),
         hasTaxCode,
         providerId,
+        shopSlug,
       };
       const existing = JSON.parse(localStorage.getItem("cart") || "[]");
       localStorage.setItem("cart", JSON.stringify([...existing, cartItem]));
+      window.dispatchEvent(new Event("cartUpdated"));
       toast.success(ToastMessage(t("toast.addedToCart")));
+      const cartValue = +(
+        calculatePrice() +
+        calculatePrice() * (hasTaxCode ? 0.15 : 0)
+      ).toFixed(0);
+
       sendGTMEvent({
         event: "add_to_cart",
-        value: +(
-          calculatePrice() +
-          calculatePrice() * (hasTaxCode ? 0.15 : 0)
-        ).toFixed(0),
-        items: [
-          {
-            item_id: product._id,
-            item_name: product.name,
-            price: cartItem.totalPrice,
-            quantity,
-            days: daysNum,
-            currency: "SAR",
-            item_category: product.category,
-          },
-        ],
+        ecommerce: {
+          currency: "SAR",
+          value: cartValue,
+          items: [
+            {
+              item_id: product._id,
+              item_name: product.name,
+              price:
+                product.pricingModel === "packages"
+                  ? +selectedPackage.price?.toFixed(0)
+                  : +product.rental?.value?.toFixed(0),
+              quantity,
+              days: daysNum,
+              currency: "SAR",
+              item_category: product.category,
+              item_category2: product.subCategory,
+              city: product.address?.city,
+              seller_name: product.owner?.fullName,
+            },
+          ],
+        },
       });
       setIsRedirecting(true);
     } catch {
@@ -369,6 +387,7 @@ function OrderForm({ product, lang, translate }) {
 
   const handleClearCart = useCallback(() => {
     localStorage.setItem("cart", "[]");
+    window.dispatchEvent(new Event("cartUpdated"));
     setCartItems([]);
     setClearCartMessage(false);
   }, []);
@@ -405,30 +424,27 @@ function OrderForm({ product, lang, translate }) {
 
       {/* Backdrop (Mobile only) */}
       <div
-        className={`fixed inset-0 z-[60] bg-black/40 backdrop-blur-[2px] md:hidden transition-opacity ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        className={`fixed inset-0 z-drawer bg-black/40 backdrop-blur-[2px] md:hidden transition-opacity ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
         onClick={() => setIsOpen(false)}
       />
 
       {/* Unified Container */}
       <div
-        className={`max-h-[85dvh] md:static md:translate-y-0 md:bg-[#EAEEF34D] md:p-0 md:shadow-none md:max-h-none md:rounded-none md:block
-        fixed bottom-0 start-0 end-0 z-[61] bg-white rounded-t-3xl shadow-2xl flex flex-col transition-transform duration-300 ease-in-out
-        ${isOpen ? "translate-y-0" : "translate-y-full md:translate-y-0"}
-      `}
+        className={`max-h-[85dvh] md:static md:translate-y-0 md:bg-[#EAEEF34D] md:p-0 md:shadow-none md:max-h-none md:rounded-none md:block fixed bottom-0 start-0 end-0 z-drawer-content bg-white rounded-t-3xl shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${isOpen ? "translate-y-0" : "translate-y-full md:translate-y-0"}`}
       >
         {/* Desktop Price Header */}
-        <div className="hidden md:flex md:flex-wrap gap-4 md:py-9 py-4 justify-center items-center bg-[#EAEEF3] text-darkNavy font-semibold text-[1rem] md:text-[1.8rem] lg:text-[1.9rem] rounded-t-2xl border-b border-gray-200">
+        <div className="hidden md:flex md:flex-wrap gap-3 md:py-7 py-4 justify-center items-center bg-surfaceBlue text-darkNavy font-semibold text-[1rem] md:text-[1.5rem] lg:text-[1.6rem] rounded-t-2xl border-b border-gray-200">
           {hasDiscount ? (
-            <div className="flex items-baseline gap-4 flex-wrap">
-              <span className="text-primary font-IBMPlex font-semibold text-[1.2rem] md:text-[1.7rem] lg:text-[2.3rem]">
+            <div className="flex items-baseline gap-3 flex-wrap">
+              <span className="text-primary font-IBMPlex font-semibold text-1.2 md:text-[1.5rem] lg:text-[1.85rem]">
                 {discountPrice} {t("currency")}
               </span>
-              <span className="text-gray-400 line-through font-IBMPlex text-[1rem] md:text-[1.4rem] lg:text-[1.6rem]">
+              <span className="text-gray-400 line-through font-IBMPlex text-[1rem] md:text-1.2 lg:text-1.35">
                 {basePrice} {t("currency")}
               </span>
             </div>
           ) : (
-            <span className="text-primary font-IBMPlex font-semibold text-[1.2rem] md:text-[1.9rem] lg:text-[2.5rem]">
+            <span className="text-primary font-IBMPlex font-semibold text-1.2 md:text-[1.7rem] lg:text-[2.1rem]">
               {basePrice} {t("currency")}
             </span>
           )}
@@ -451,6 +467,7 @@ function OrderForm({ product, lang, translate }) {
             <button
               onClick={() => setIsOpen(false)}
               className="text-gray-400 text-2xl leading-none"
+              aria-label={t("close")}
             >
               <X className="text-gray-400 w-4 h-4" />
             </button>
@@ -465,7 +482,7 @@ function OrderForm({ product, lang, translate }) {
 
         {/* Content Area */}
         <div className="overflow-y-auto md:overflow-visible flex-1 md:p-0 p-4 md:space-y-0 space-y-6 bg-transparent xl:px-0 md:px-0">
-          <div className="md:bg-transparent xl:px-12 md:p-6 p-0">
+          <div className="md:bg-transparent xl:px-10 md:p-5 p-0">
             {/* Quantity */}
             <div
               className={currentStepKey === "quantity" ? "" : "hidden md:block"}
@@ -478,10 +495,11 @@ function OrderForm({ product, lang, translate }) {
                 setQuantityError={setQuantityError}
                 t={t}
                 lang={lang}
+                trans={trans}
               />
             </div>
 
-            <hr className="border md:my-12 my-0 hidden md:block" />
+            <hr className="border md:my-9 my-0 hidden md:block" />
 
             {/* Services */}
             {hasServices && (
@@ -539,13 +557,14 @@ function OrderForm({ product, lang, translate }) {
                 translate={translate}
                 t={t}
                 ownerHolidayPeriods={product.owner?.holidayPeriods || []}
+                allowSameDayRent={!product.owner?.disableSameDayRent}
               />
             </div>
 
             {/* Delivery */}
             {hasBranches && (
               <>
-                <hr className="border md:my-12 hidden md:block" />
+                <hr className="border md:my-9 hidden md:block" />
                 <div
                   id="delivery-selector"
                   className={
@@ -595,22 +614,30 @@ function OrderForm({ product, lang, translate }) {
                 setCountdown={setCountdown}
                 selectedDates={selectedDates}
                 isDateRangeValid={isDateRangeValid}
+                shopSlug={shopSlug}
               />
             </div>
 
             {/* Desktop booking button */}
             <div id="booking-button" className="w-full mb-4 hidden md:block">
               <Button
-                className="shadow-[rgba(244,138,66,0.4)] md:py-[2.3rem] py-[1.4rem] w-full md:px[3rem] px-[1.5rem] text-[0.8rem] md:text-[1.1rem] xl:text-[1.2rem] flex justify-center gap-3"
+                className="shadow-[rgba(244,138,66,0.4)] md:py-[1.9rem] py-[1.4rem] w-full md:px-[2.5rem] px-[1.5rem] text-0.8 md:text-[1.05rem] xl:text-[1.15rem] flex justify-center gap-3"
                 onPress={handleBooking}
                 isLoading={isLoading}
                 isDisabled={product.owner._id === user?._id || isRedirecting}
               >
                 {t("sendBookingRequest")}
                 <span className={lang === "ar" ? "" : "rotate-90"}>
-                  <Send className="lg:w-6 lg:h-6 w-4 h-4" />
+                  <Send className="lg:w-5 lg:h-5 w-4 h-4" />
                 </span>
               </Button>
+              <div className="mt-4">
+                <SecurePaymentBadge
+                  title={t("securePaymentTitle")}
+                  desc={t("securePaymentDesc")}
+                  lang={lang}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -653,6 +680,15 @@ function OrderForm({ product, lang, translate }) {
               </Button>
             )}
           </div>
+          {currentStepKey === "summary" && (
+            <div className="mt-3">
+              <SecurePaymentBadge
+                title={t("securePaymentTitle")}
+                desc={t("securePaymentDesc")}
+                lang={lang}
+              />
+            </div>
+          )}
         </div>
       </div>
     </>

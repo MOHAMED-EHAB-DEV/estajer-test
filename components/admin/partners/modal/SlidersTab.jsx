@@ -15,7 +15,9 @@ export default function SlidersTab({
   removeSlider,
   handleSliderChange,
   addProductToSlider,
+  addProductsToSlider,
   removeProductFromSlider,
+  removeProductsFromSlider,
   reorderProductsInSlider,
   lang,
   translate,
@@ -97,7 +99,11 @@ export default function SlidersTab({
           <ProductSelector
             selectedProducts={slider.products}
             onSelect={(product) => addProductToSlider(sliderIndex, product)}
+            onSelectMany={(products) =>
+              addProductsToSlider(sliderIndex, products)
+            }
             onRemove={(id) => removeProductFromSlider(sliderIndex, id)}
+            onRemoveMany={(ids) => removeProductsFromSlider(sliderIndex, ids)}
             onReorder={(from, to) =>
               reorderProductsInSlider(sliderIndex, from, to)
             }
@@ -105,6 +111,7 @@ export default function SlidersTab({
             translate={translate}
             categories={categories}
             subCategories={subCategories}
+            fixedUserId={formData.owner}
           />
 
           <div className="pt-4 mt-4 border-t border-neutral-200">

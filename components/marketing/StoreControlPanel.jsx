@@ -86,9 +86,7 @@ const BrowserMockup = ({ className, children, floatingElement }) => (
       <div className="bg-[#FCFCFC] py-2 px-4 flex items-center justify-between border-b border-gray-100 flex-row-reverse">
         {/* Address Bar */}
         <div className="bg-white rounded-md px-3 py-1 flex items-center gap-1 border border-gray-100 w-full max-w-[120px] md:max-w-[160px]">
-          <span className="text-[8px] text-gray-300 font-sans">
-            estajer.com/
-          </span>
+          <span className="text-[8px] text-gray-300">estajer.com/</span>
           <span className="text-[7px] text-gray-200">store-design</span>
           {/* Mockup dots inside address bar */}
           <div className="flex gap-0.5 mr-auto">

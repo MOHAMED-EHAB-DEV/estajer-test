@@ -26,6 +26,8 @@ export async function generateMetadata({ params, searchParams }) {
   if (queryParams.category)
     dynamicTitle = `${queryParams.category} - ${seoTitle}`;
 
+  const siteURL = process.env.NEXT_PUBLIC_APP_URL;
+
   return {
     title: dynamicTitle,
     description: seoDescription,
@@ -36,11 +38,22 @@ export async function generateMetadata({ params, searchParams }) {
       type: "website",
       locale: lang === "ar" ? "ar_SA" : "en_US",
       siteName: lang === "ar" ? "استأجر" : "Estajer",
+      images: [
+        {
+          url: lang === "ar" ? `${siteURL}/og/home_ar.webp` : `${siteURL}/og/home_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - استأجر أي شيء" : "Estajer - Rent Anything",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: dynamicTitle,
       description: seoDescription,
+      images: [
+        lang === "ar" ? `${siteURL}/og/home_ar.webp` : `${siteURL}/og/home_en.webp`,
+      ],
     },
     alternates: {
       canonical: `${process.env.NEXT_PUBLIC_APP_URL}/${
@@ -167,7 +180,10 @@ export default async function Category({ params, searchParams }) {
         {/* Search Filters */}
         <SearchFilters
           lang={lang}
-          translate={translate()}
+          translate={{
+            search: translate("search"),
+            product: { page: translate("product.page") },
+          }}
           initialProducts={initialProducts}
           queryParams={queryParams}
           queryString={queryString.toString()}
@@ -185,7 +201,11 @@ export default async function Category({ params, searchParams }) {
             key={queryString}
             search={true}
             lang={lang}
-            translate={translate()}
+            translate={{
+              productComponent: translate("productComponent"),
+              bulkEditDelivery: translate("bulkEditDelivery"),
+              ui: translate("ui"),
+            }}
             initialProducts={initialProducts}
             addedValue={addedValue}
             {...queryParams}

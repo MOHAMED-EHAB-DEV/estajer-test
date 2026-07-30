@@ -5,6 +5,7 @@ import AccountInfo from "./AccountInfo";
 import ChangePassword from "./ChangePassword";
 import BranchesManager from "./BranchesManager";
 import HolidayManager from "./HolidayManager";
+import SameDayRentManager from "./SameDayRentManager";
 import { useTranslations } from "@/hooks/useTranslations";
 
 export default function SettingsForm({ lang, translate }) {
@@ -13,7 +14,7 @@ export default function SettingsForm({ lang, translate }) {
   const t = (text) => trans(`dashboard.settings.${text}`);
   return (
     <div>
-      <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-[1.2rem] font-semibold md:mb-6 mb-2">
+      <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-1.2 font-semibold md:mb-6 mb-2">
         {t("title")}
       </h1>
       <div className="flex flex-wrap justify-center md:gap-8 gap-4 max-w-screen-2xl mx-auto md:px-6 mb-6">
@@ -36,12 +37,8 @@ export default function SettingsForm({ lang, translate }) {
               translate={translate}
             />
           )}
-          <HolidayManager
-            user={user}
-            setUser={setUser}
-            t={t}
-            lang={lang}
-          />
+          <SameDayRentManager user={user} setUser={setUser} t={t} lang={lang} />
+          <HolidayManager user={user} setUser={setUser} t={t} lang={lang} />
         </div>
       </div>
     </div>

@@ -129,7 +129,7 @@ export default function Blog({
         {/* Blog Card */}
         <div className="absolute bottom-0 md:bottom-8 left-1/2 w-[90%] h-56 md:w-[80%] transform -translate-x-1/2 z-20">
           {/* Date Badge */}
-          <div className="bg-[#3C3C4399] text-[#F9FAFC] text-[0.8rem] md:text-medium text font-semibold px-4 py-2 rounded-sm w-fit mx-auto translate-y-2">
+          <div className="bg-[#3C3C4399] text-[#F9FAFC] text-0.8 md:text-base text font-semibold px-4 py-2 rounded-sm w-fit mx-auto translate-y-2">
             {createdDate.getDate()}/{createdDate.getMonth() + 1}/
             {createdDate.getFullYear()}
           </div>
@@ -137,7 +137,7 @@ export default function Blog({
           {/* Content Card */}
           <div className="bg-white rounded-lg shadow-md p-6 text-center">
             <Link href={`/${langPrefix}blogs/${blog.urlName}`}>
-              <div className="text-[1rem] md:text-[1.2rem] text-darkNavy line-clamp-1 font-bold font-IBMPlex mb-3">
+              <div className="text-[1rem] md:text-1.2 text-darkNavy line-clamp-1 font-bold font-IBMPlex mb-3">
                 {blog.title}
               </div>
               <div className="text-[#9393A1]  line-clamp-3 md:line-clamp-5 font-NotoSansArabic font-medium text-[0.9rem] md:text-[1rem] mb-4">
@@ -150,7 +150,7 @@ export default function Blog({
               <div className="flex justify-center items-center gap-3 mt-4">
                 <Button
                   color="transparent"
-                  className="min-w-0 w-12 p-3 bg-[#EAEEF3] rounded-full"
+                  className="min-w-0 w-12 p-3 bg-surfaceBlue rounded-full"
                   onPress={() => handleHide(blog._id, blog.hidden)}
                 >
                   {blog.hidden ? <Eye /> : <EyeOff />}
@@ -158,14 +158,14 @@ export default function Blog({
                 <Button
                   as={Link}
                   color="transparent"
-                  className="min-w-0 w-12 p-3 bg-[#EAEEF3] rounded-full"
+                  className="min-w-0 w-12 p-3 bg-surfaceBlue rounded-full"
                   href={`/${langPrefix}admin/blogs/edit/${blog._id}`}
                 >
                   <Edit size={18} />
                 </Button>
                 <Button
                   color="transparent"
-                  className="min-w-0 w-12 p-3 bg-[#EAEEF3] rounded-full"
+                  className="min-w-0 w-12 p-3 bg-surfaceBlue rounded-full"
                   onPress={() => handleDelete(blog._id)}
                 >
                   <Delete />

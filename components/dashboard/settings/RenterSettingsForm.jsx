@@ -34,7 +34,17 @@ export default function RenterSettingsForm({ lang, translate }) {
   // Check validation status
   const isCompany = user?.accountType === "company";
   const isNafathVerified = isCompany || user?.nafathVerified;
-  const hasIban = user?.iban;
+  const isCompanyWithTax = isCompany && !!user?.companyDetails?.taxCode;
+  const billing = user?.companyDetails?.billingAddress;
+  const hasBillingAddress =
+    !isCompanyWithTax ||
+    (!!billing?.street &&
+      !!billing?.city &&
+      !!billing?.district &&
+      !!billing?.postalCode &&
+      !!billing?.buildingNumber);
+
+  const hasIban = !!user?.iban && hasBillingAddress;
   const hasLocation = user?.location?.lat && user?.location?.lng;
 
   // Handle Nafath verification success
@@ -114,7 +124,7 @@ export default function RenterSettingsForm({ lang, translate }) {
 
   return (
     <div>
-      <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-[1.2rem] font-semibold md:mb-6 mb-2">
+      <h1 className="lg:text-[1.8rem] md:text-[1.6rem] text-1.2 font-semibold md:mb-6 mb-2">
         {t("title")}
       </h1>
 
@@ -149,39 +159,68 @@ export default function RenterSettingsForm({ lang, translate }) {
         )}
 
         {/* IBAN Card */}
-        <div className="bg-white rounded-lg shadow-md p-6 border-s-4 border-green-500">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              {getStatusIcon(hasIban)}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {t("bankAccount")}
-                </h3>
-                <p className="text-gray-600">
-                  {hasIban ? t("ibanAdded") : t("ibanNotAdded")}
-                </p>
+        {(() => {
+          const hasRawIban = !!user?.iban;
+          const needsBilling = isCompanyWithTax && !hasBillingAddress;
+
+          let cardTitle = t("bankAccount");
+          let notAddedText = t("ibanNotAdded");
+          let buttonText = t("addIban");
+
+          if (needsBilling && !hasRawIban) {
+            cardTitle =
+              lang === "ar"
+                ? "الحساب البنكي والعنوان الوطني"
+                : "Bank Account & National Address";
+            notAddedText = t("ibanNotAdded");
+            buttonText = t("addIbanAndNationalAddress");
+          } else if (needsBilling && hasRawIban) {
+            cardTitle = lang === "ar" ? "العنوان الوطني" : "National Address";
+            notAddedText = t("nationalAddressNotAdded");
+            buttonText = t("addNationalAddress");
+          } else {
+            cardTitle =
+              lang === "ar" ? "الحساب البنكي (IBAN)" : "Bank Account (IBAN)";
+            notAddedText = t("ibanNotAdded");
+            buttonText = t("addIban");
+          }
+
+          return (
+            <div className="bg-white rounded-lg shadow-md p-6 border-s-4 border-green-500">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4 rtl:space-x-reverse">
+                  {getStatusIcon(hasIban)}
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {cardTitle}
+                    </h3>
+                    <p className="text-gray-600">
+                      {hasIban ? t("ibanAdded") : notAddedText}
+                    </p>
+                  </div>
+                </div>
+                {!hasIban && (
+                  <Button
+                    onClick={() => {
+                      if (!isCompany && !isNafathVerified) {
+                        toast.error(ToastMessage(t("nafathRequiredForIban")));
+                        return;
+                      }
+                      setSupplierModalOpen(true);
+                    }}
+                    className={`px-6 py-2 rounded-lg transition-colors ${
+                      isCompany || isNafathVerified
+                        ? "bg-green-600 text-white hover:bg-green-700"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
+                  >
+                    {buttonText}
+                  </Button>
+                )}
               </div>
             </div>
-            {!hasIban && (
-              <Button
-                onClick={() => {
-                  if (!isCompany && !isNafathVerified) {
-                    toast.error(ToastMessage(t("nafathRequiredForIban")));
-                    return;
-                  }
-                  setSupplierModalOpen(true);
-                }}
-                className={`px-6 py-2 rounded-lg transition-colors ${
-                  isCompany || isNafathVerified
-                    ? "bg-green-600 text-white hover:bg-green-700"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
-              >
-                {t("addIban")}
-              </Button>
-            )}
-          </div>
-        </div>
+          );
+        })()}
 
         {/* Location Card */}
         <div className="bg-white rounded-lg shadow-md p-6 border-s-4 border-orange-500">

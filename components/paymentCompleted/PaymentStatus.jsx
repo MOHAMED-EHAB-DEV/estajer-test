@@ -4,20 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import PaidSection from "@/components/paymentCompleted/PaidSection";
 import PaymentError from "@/components/paymentCompleted/PaymentError";
 import { notFound } from "next/navigation";
-import { Spinner } from "@heroui/react";
+import { Spinner } from "@/components/ui/Spinner";
 import { sendGTMEvent } from "@next/third-parties/google";
 import PaymentProcessing from "./PaymentProcessing";
+import { differenceInDays } from "date-fns";
 
 async function confirmPayment({ id }) {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/payment-status?client=true`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, full: true }),
-      }
-    );
+    const response = await fetch(`/api/payment-status?client=true`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, full: true }),
+    });
     const data = await response.json();
     return data.success ? data.data : null;
   } catch (error) {
@@ -42,6 +40,19 @@ export default function PaymentStatus({ id, lang, langPrefix, translate }) {
     if (!payment || purchaseSentRef.current) return;
     const order = payment?.order ? payment.order : payment;
     if (order?.status === "pending") {
+      const transactionId = order?._id || order?.orderId;
+      if (transactionId) {
+        try {
+          const trackedPurchases = JSON.parse(
+            localStorage.getItem("tracked_purchases") || "[]",
+          );
+          if (trackedPurchases.includes(transactionId)) {
+            purchaseSentRef.current = true;
+            return;
+          }
+        } catch (_) {}
+      }
+
       purchaseSentRef.current = true;
       try {
         const items = Array.isArray(order?.items)
@@ -57,23 +68,62 @@ export default function PaymentStatus({ id, lang, langPrefix, translate }) {
                 item_category2: p?.subCategory || undefined,
                 quantity: item?.quantity ?? 1,
                 price: Number(priceCandidate) || 0,
+
+                days:
+                  item?.endDate && item?.startDate
+                    ? differenceInDays(
+                        new Date(item.endDate),
+                        new Date(item.startDate),
+                      ) + 1
+                    : 1,
+                city:
+                  lang === "en"
+                    ? p?.addressEn?.city || p?.addressAr?.city
+                    : p?.addressAr?.city || p?.addressEn?.city,
+                currency: "SAR",
+                seller_name: order.ownerData?.fullName,
               };
             })
           : [];
 
         sendGTMEvent({
           event: "purchase",
-          transaction_id: order?._id || order?.orderId,
-          value:
-            Number(order?.totalAmount ?? order?.totalPrice ?? order?.total) ||
-            0,
-          currency: "SAR",
-          shipping: Number(order?.deliveryCost) || 0,
-          // discount: Number(order?.discount) || 0,
-          items,
+          ecommerce: {
+            transaction_id: transactionId,
+            value:
+              Number(order?.totalAmount ?? order?.totalPrice ?? order?.total) ||
+              0,
+            currency: "SAR",
+            shipping: Number(order?.deliveryCost) || 0,
+            tax: Number(order?.taxAmount || order?.tax || order?.totalTax) || 0,
+            discount:
+              order?.items?.reduce(
+                (sum, item) => sum + (item.discount || 0),
+                0,
+              ) || 0,
+            items,
+          },
+          delivery_type: order?.items?.[0]?.deliveryType || "none",
           payment_provider: "Waffy",
           payment_url: order?.paymentUrl || undefined,
         });
+
+        // Save transactionId to localStorage to prevent duplicate tracking
+        if (transactionId) {
+          try {
+            let trackedPurchases = JSON.parse(
+              localStorage.getItem("tracked_purchases") || "[]",
+            );
+            if (!trackedPurchases.includes(transactionId)) {
+              trackedPurchases.push(transactionId);
+              trackedPurchases = trackedPurchases.slice(-5);
+              localStorage.setItem(
+                "tracked_purchases",
+                JSON.stringify(trackedPurchases),
+              );
+            }
+          } catch (_) {}
+        }
       } catch {}
     }
   }, [payment]);

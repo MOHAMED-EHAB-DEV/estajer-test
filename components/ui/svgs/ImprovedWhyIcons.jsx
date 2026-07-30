@@ -45,11 +45,11 @@ const EaseIcon = () => (
   </svg>
 );
 
-const LocalIcon = () => (
-  <svg width="17" height="23" viewBox="0 0 17 23" fill="none">
+const SecurePayIcon = () => (
+  <svg width="22" height="25" viewBox="0 0 22 25" fill="none">
     <path
       fill="currentColor"
-      d="M7.39 21.57C1.118 12.547 0 11.602 0 8.25A8.225 8.225 0 0 1 8.25 0a8.25 8.25 0 0 1 8.25 8.25c0 3.352-1.16 4.297-7.434 13.32a1.004 1.004 0 0 1-1.675 0m.86-9.882a3.42 3.42 0 0 0 3.438-3.438A3.45 3.45 0 0 0 8.25 4.813 3.42 3.42 0 0 0 4.813 8.25c0 1.934 1.503 3.438 3.437 3.438"
+      d="M19.5 9.5h-.75V7.25c0-4.28-3.47-7.75-7.75-7.75S3.25 2.97 3.25 7.25V9.5H2.5C1.12 9.5 0 10.62 0 12v10.5C0 23.88 1.12 25 2.5 25h17c1.38 0 2.5-1.12 2.5-2.5V12c0-1.38-1.12-2.5-2.5-2.5zm-14-2.25c0-3.03 2.47-5.5 5.5-5.5s5.5 2.47 5.5 5.5V9.5h-11V7.25zM11 19c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"
     />
   </svg>
 );
@@ -60,7 +60,7 @@ const ImprovedIcons = {
   Contract: ContractIcon,
   Flex: FlexIcon,
   Ease: EaseIcon,
-  Local: LocalIcon,
+  SecurePay: SecurePayIcon,
 };
 
 export default ImprovedIcons;

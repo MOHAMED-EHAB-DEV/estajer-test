@@ -1,11 +1,7 @@
-export const X = ({
-  className = "text-[#0D092B] w-5 h-5",
-  strokeWidth = "2",
-  ...rest
-}) => (
+export const X = ({ className, strokeWidth = "2", ...rest }) => (
   <svg
     viewBox="0 0 21 22"
-    className={className}
+    className={className || "text-darkNavy md:w-5 w-3.5 md:h-5 h-3.5"}
     stroke={"currentColor"}
     strokeWidth={strokeWidth}
     strokeLinecap="round"

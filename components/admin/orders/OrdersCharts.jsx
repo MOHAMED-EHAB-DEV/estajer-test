@@ -4,26 +4,9 @@ import { Group } from "@visx/group";
 import { Pie, Bar } from "@visx/shape";
 import { scaleBand, scaleLinear } from "@visx/scale";
 import { AxisBottom, AxisRight } from "@visx/axis";
-import { useTooltip, useTooltipInPortal, defaultStyles } from "@visx/tooltip";
+import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
 import { localPoint } from "@visx/event";
 import { formatNumeric } from "@/lib/utils";
-
-const pieData = [
-  { name: "طلبات مقبولة", value: 319000, color: "#4ade80" },
-  { name: "طلبات قيد الانتظار", value: 105000, color: "#f97316" },
-  { name: "طلبات مدفوعة قيد الانتظار", value: 1245, color: "#a855f7" },
-  { name: "طلبات ملغية", value: 1245, color: "#fde68a" },
-];
-
-const barData = [
-  { category: "خيام", value: 55 },
-  { category: "ألعاب", value: 10 },
-  { category: "كاميرات", value: 45 },
-  { category: "مطابخ", value: 25 },
-  { category: "أثاث", value: 125 },
-  { category: "ملابس", value: 20 },
-  { category: "إلكترونيات", value: 65 },
-];
 
 const tooltipStyles = {
   ...defaultStyles,
@@ -36,12 +19,10 @@ const tooltipStyles = {
 
 const margin = { top: 20, right: 20, bottom: 40, left: 40 };
 
-function PieChart() {
+function PieChart({ pieData }) {
   const width = 300;
   const height = 300;
   const radius = Math.min(width, height) / 2;
-
-  const { containerRef, TooltipInPortal } = useTooltipInPortal();
   const {
     tooltipOpen,
     tooltipTop,
@@ -56,73 +37,67 @@ function PieChart() {
       <h2 className="text-lg text-darkNavy font-semibold font-IBMPlex border-b border-b-black/10 pb-4">
         ملخص الطلبات
       </h2>
-      <svg
-        ref={containerRef}
-        viewBox={`0 0 ${width} ${height}`}
-        className="self-center w-full max-w-[250px] h-auto"
-      >
-        <Group top={height / 2} left={width / 2}>
-          <Pie
-            data={pieData}
-            pieValue={(d) => d.value}
-            outerRadius={radius}
-            padAngle={0.005}
-          >
-            {(pie) =>
-              pie.arcs.map((arc) => {
-                const [centroidX, centroidY] = pie.path.centroid(arc);
-                return (
-                  <g key={arc.data.name}>
-                    <path
-                      d={pie.path(arc)}
-                      fill={arc.data.color}
-                      onMouseMove={(e) => {
-                        const coords = localPoint(e);
-                        showTooltip({
-                          tooltipData: arc.data,
-                          tooltipLeft: coords.x,
-                          tooltipTop: coords.y,
-                        });
-                      }}
-                      onMouseLeave={hideTooltip}
-                    />
-                  </g>
-                );
-              })
-            }
-          </Pie>
-        </Group>
-      </svg>
+      <div className="relative self-center w-full max-w-[250px]">
+        <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
+          <Group top={height / 2} left={width / 2}>
+            <Pie
+              data={pieData}
+              pieValue={(d) => d.value}
+              outerRadius={radius}
+              padAngle={0.005}
+            >
+              {(pie) =>
+                pie.arcs.map((arc) => {
+                  const [centroidX, centroidY] = pie.path.centroid(arc);
+                  return (
+                    <g key={arc.data.name}>
+                      <path
+                        d={pie.path(arc)}
+                        fill={arc.data.color}
+                        onMouseMove={(e) => {
+                          const coords = localPoint(e);
+                          showTooltip({
+                            tooltipData: arc.data,
+                            tooltipLeft: coords.x,
+                            tooltipTop: coords.y,
+                          });
+                        }}
+                        onMouseLeave={hideTooltip}
+                      />
+                    </g>
+                  );
+                })
+              }
+            </Pie>
+          </Group>
+        </svg>
 
-      {tooltipOpen && tooltipData && (
-        <TooltipInPortal
-          top={tooltipTop}
-          left={tooltipLeft}
-          style={tooltipStyles}
-        >
-          <div className="text-center">
-            <div className="text-sm">{tooltipData.name}</div>
-            <div className="font-bold">
-              {tooltipData.value.toLocaleString()}
+        {tooltipOpen && tooltipData && (
+          <Tooltip top={tooltipTop} left={tooltipLeft} style={tooltipStyles}>
+            <div className="text-center">
+              <div className="text-sm">{tooltipData.name}</div>
+              <div className="font-bold">
+                {tooltipData.value.toLocaleString()}
+              </div>
             </div>
-          </div>
-        </TooltipInPortal>
-      )}
+          </Tooltip>
+        )}
+      </div>
 
       {/* Legend */}
-      <div className="flex flex-col gap-1">
+      <div className="mt-6 space-y-4">
         {pieData.map((item) => (
-          <div key={item.name} className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+          <div key={item.name} className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
               <div
-                className="w-4 h-4 rounded-full"
+                className="w-2.5 h-2.5 rounded-full"
                 style={{ backgroundColor: item.color }}
               ></div>
-              <span className="text-sm text-darkNavy">
+              <span className="text-darkNavy text-sm md:text-sm">
                 {item.name}
               </span>
             </div>
-            <span className="font-semibold text-medium text-darkNavy">
+            <span className="font-bold text-sm md:text-base text-darkNavy">
               {formatNumeric(item.value)}
             </span>
           </div>
@@ -132,7 +107,7 @@ function PieChart() {
   );
 }
 
-function BarChart() {
+function BarChart({ barData }) {
   const width = 600;
   const height = 450;
   const xMax = width - margin.left - margin.right;
@@ -158,10 +133,15 @@ function BarChart() {
     showTooltip,
     hideTooltip,
   } = useTooltip();
-  const { containerRef, TooltipInPortal } = useTooltipInPortal();
 
-  const maxCategory = barData.reduce((a, b) => (a.value > b.value ? a : b));
-  const minCategory = barData.reduce((a, b) => (a.value < b.value ? a : b));
+  const maxCategory =
+    barData && barData.length > 0
+      ? barData.reduce((a, b) => (a.value > b.value ? a : b))
+      : null;
+  const minCategory =
+    barData && barData.length > 0
+      ? barData.reduce((a, b) => (a.value < b.value ? a : b))
+      : null;
 
   return (
     <div className="bg-white rounded-xl w-full min-h-[300px] shadow-sm p-4 flex flex-col">
@@ -175,79 +155,91 @@ function BarChart() {
       </div>
 
       <div className="grid grid-rows-2 grid-cols-none md:grid-cols-[77%_1fr] md:grid-rows-none gap-6 mt-4">
-        <svg
-          ref={containerRef}
-          viewBox={`0 0 ${width} ${height}`}
-          className="w-full h-auto"
-        >
-          <Group top={margin.top} left={margin.left}>
-            {yScale.ticks(10).map((tick) => (
-              <line
-                key={`grid-h-${tick}`}
-                x1={0}
-                x2={xMax}
-                y1={yScale(tick)}
-                y2={yScale(tick)}
-                stroke="#e5e7eb"
-                strokeWidth={1}
-              />
-            ))}
-
-            {barData.map((d) => {
-              const barHeight = yMax - yScale(d.value);
-              return (
-                <Bar
-                  key={d.category}
-                  x={xScale(d.category)}
-                  y={yScale(d.value)}
-                  width={xScale.bandwidth()}
-                  height={barHeight}
-                  fill={
-                    d.category === maxCategory.category ? "#f97316" : "#fde7d4"
-                  }
-                  rx={4}
-                  onMouseMove={(e) => {
-                    const coords = localPoint(e);
-                    showTooltip({
-                      tooltipData: d,
-                      tooltipLeft: coords.x,
-                      tooltipTop: coords.y,
-                    });
-                  }}
-                  onMouseLeave={hideTooltip}
+        <div className="relative w-full">
+          <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
+            <Group top={margin.top} left={margin.left}>
+              {yScale.ticks(10).map((tick) => (
+                <line
+                  key={`grid-h-${tick}`}
+                  x1={0}
+                  x2={xMax}
+                  y1={yScale(tick)}
+                  y2={yScale(tick)}
+                  stroke="#e5e7eb"
+                  strokeWidth={1}
                 />
-              );
-            })}
+              ))}
 
-            <AxisBottom
-              top={yMax}
-              scale={xScale}
-              stroke="transparent"
-              tickStroke="transparent"
-              tickLabelProps={{
-                fontSize: "14px",
-                fill: "#000",
-                textAnchor: "middle",
-                fontFamily: "var(--noto-sans-arabic)",
-                fontWeight: "medium",
-              }}
-            />
+              {barData &&
+                barData.map((d) => {
+                  const barHeight = yMax - yScale(d.value);
+                  return (
+                    <Bar
+                      key={d.category}
+                      x={xScale(d.category)}
+                      y={yScale(d.value)}
+                      width={xScale.bandwidth()}
+                      height={barHeight}
+                      fill={
+                        maxCategory && d.category === maxCategory.category
+                          ? "#f97316"
+                          : "#fde7d4"
+                      }
+                      rx={4}
+                      onMouseMove={(e) => {
+                        const coords = localPoint(e);
+                        showTooltip({
+                          tooltipData: d,
+                          tooltipLeft: coords.x,
+                          tooltipTop: coords.y,
+                        });
+                      }}
+                      onMouseLeave={hideTooltip}
+                    />
+                  );
+                })}
 
-            <AxisRight
-              scale={yScale}
-              left={xMax - 5}
-              stroke="transparent"
-              tickStroke="transparent"
-              numTicks={6}
-              tickLabelProps={{
-                fontSize: 12,
-                fill: "#000",
-                dx: "-0.25em",
-                textAnchor: "end",
-              }}
-            />
-          </Group>
-        </svg>
+              <AxisBottom
+                top={yMax}
+                scale={xScale}
+                stroke="transparent"
+                tickStroke="transparent"
+                tickLabelProps={() => ({
+                  fontSize: 12,
+                  fill: "#000",
+                  textAnchor: "middle",
+                  fontFamily: "var(--noto-sans-arabic)",
+                  fontWeight: "medium",
+                  width: xScale.bandwidth(),
+                  dy: 12,
+                })}
+              />
+
+              <AxisRight
+                scale={yScale}
+                left={xMax - 5}
+                stroke="transparent"
+                tickStroke="transparent"
+                numTicks={6}
+                tickLabelProps={() => ({
+                  fontSize: 12,
+                  fill: "#000",
+                  dx: "-0.25em",
+                  textAnchor: "end",
+                })}
+              />
+            </Group>
+          </svg>
+
+          {tooltipOpen && tooltipData && (
+            <Tooltip top={tooltipTop} left={tooltipLeft} style={tooltipStyles}>
+              <div className="text-center">
+                <div>{tooltipData.category}</div>
+                <div className="font-bold">{tooltipData.value} طلب</div>
+              </div>
+            </Tooltip>
+          )}
+        </div>
         <div className="flex flex-col gap-8">
           <div className="h-[1px] w-full bg-[#B3B3B380]" />
           {/* Summary Section */}
@@ -257,10 +249,12 @@ function BarChart() {
                 <p className="text-darkNavy text-sm font-normal">
                   أكثر تصنيف طلبا
                 </p>
-                <p className="text-success font-bold text-sm">أثاث</p>
+                <p className="text-success font-bold text-sm">
+                  {maxCategory?.category || "-"}
+                </p>
               </div>
               <p className="text-xl font-bold text-darkNavy flex items-center gap-2">
-                <span className="text-3xl">505</span>
+                <span className="text-3xl">{maxCategory?.value || 0}</span>
                 طلب
               </p>
             </div>
@@ -270,38 +264,59 @@ function BarChart() {
                 <p className="text-gray-500 text-sm font-normal">
                   أقل تصنيف طلبا
                 </p>
-                <p className="text-[#F44242] font-bold text-sm">ألعاب</p>
+                <p className="text-dangerRed font-bold text-sm">
+                  {minCategory?.category || "-"}
+                </p>
               </div>
               <p className="text-xl font-bold text-darkNavy flex items-center gap-1">
-                <span className="text-3xl">10</span>
+                <span className="text-3xl">{minCategory?.value || 0}</span>
                 طلب
               </p>
             </div>
           </div>
         </div>
       </div>
-
-      {tooltipOpen && tooltipData && (
-        <TooltipInPortal
-          top={tooltipTop}
-          left={tooltipLeft}
-          style={tooltipStyles}
-        >
-          <div className="text-center">
-            <div>{tooltipData.category}</div>
-            <div className="font-bold">{tooltipData.value} طلب</div>
-          </div>
-        </TooltipInPortal>
-      )}
     </div>
   );
 }
 
-export default function OrdersCharts() {
+export default function OrdersCharts({ stats }) {
+  const pieData = [
+    {
+      name: "طلبات مقبولة",
+      value:
+        (stats?.confirmedOrders || 0) +
+        (stats?.receivedOrders || 0) +
+        (stats?.completedOrders || 0),
+      color: "#4ade80",
+    },
+    {
+      name: "طلبات قيد الانتظار",
+      value: stats?.newNotPaidOrders || 0,
+      color: "#f97316",
+    },
+    {
+      name: "طلبات مدفوعة قيد الانتظار",
+      value: stats?.pendingPaidOrders || 0,
+      color: "#a855f7",
+    },
+    {
+      name: "طلبات ملغية",
+      value:
+        (stats?.cancelledOrders || 0) +
+        (stats?.rejectingOrders || 0) +
+        (stats?.rejectionConfirmedOrders || 0) +
+        (stats?.notReturnedOrders || 0),
+      color: "#fde68a",
+    },
+  ];
+
+  const barData = stats?.barData || [];
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-[40%_1fr] gap-4 w-full">
-      <PieChart />
-      <BarChart />
+      <PieChart pieData={pieData} />
+      <BarChart barData={barData} />
     </div>
   );
 }

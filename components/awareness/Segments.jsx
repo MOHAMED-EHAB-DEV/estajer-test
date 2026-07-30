@@ -385,7 +385,7 @@ const Segments = ({ translate, lang }) => {
                       className={`relative flex items-center gap-2.5 px-4 md:px-8 py-2 md:py-3.5 rounded-full transition-all whitespace-nowrap font-IBMPlex font-semibold text-sm md:text-lg ${
                         active
                           ? "bg-[#FFF9F0] text-primary"
-                          : "bg-transparent text-[#5B5656] hover:bg-[#FFF9F0] hover:text-primary"
+                          : "bg-transparent text-mutedGray hover:bg-[#FFF9F0] hover:text-primary"
                       }`}
                     >
                       <Icon active={active} />
@@ -456,7 +456,7 @@ const Segments = ({ translate, lang }) => {
           </div>
           {/* Text content - placed right in RTL because of row-reverse */}
           <div className="w-full md:w-[55%] flex flex-col justify-center py-6 px-4 md:py-12 lg:py-16">
-            <h3 className="font-IBMPlex font-semibold lg:text-[2rem] md:text-[1.75rem] text-[1.2rem] text-darkNavy leading-snug mb-4">
+            <h3 className="font-IBMPlex font-semibold lg:text-[2rem] md:text-1.75 text-1.2 text-darkNavy leading-snug mb-4">
               {currentData?.title}
             </h3>
 
@@ -484,7 +484,7 @@ const Segments = ({ translate, lang }) => {
                     <span className="font-IBMPlex font-bold text-darkNavy text-sm md:text-lg inline-block mb-1">
                       {bullet.title}
                     </span>
-                    <p className="text-[#5B5656] text-xs md:text-base leading-relaxed">
+                    <p className="text-mutedGray text-xs md:text-base leading-relaxed">
                       {bullet.desc}
                     </p>
                   </div>
@@ -506,11 +506,11 @@ const Segments = ({ translate, lang }) => {
         </div>
 
         {/* Global Action Button */}
-        <div className="flex justify-center mt-12 md:mt-24">
+        <div className="flex justify-center my-6 md:my-12">
           <Button
             as={Link}
             href={`/${lang}/pricing`}
-            className="md:text-xl text-base py-5 px-10 md:py-8 md:px-20 flex items-center gap-4 font-IBMPlex font-bold shadow-[0_20px_40px_-12px_rgba(244,138,66,0.45)] hover:-translate-y-1.5 transition-all duration-300 rounded-full group bg-[#F48A42] text-white"
+            className="md:text-xl text-base py-5 px-10 md:py-8 md:px-20 flex items-center gap-4 font-IBMPlex font-bold shadow-[0_20px_40px_-12px_rgba(244,138,66,0.45)] hover:-translate-y-1.5 transition-all duration-300 rounded-full group bg-primary text-white"
           >
             <span>{t("action")}</span>
             <span className="font-black text-2xl leading-none transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1">

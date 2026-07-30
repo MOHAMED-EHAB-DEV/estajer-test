@@ -155,14 +155,8 @@ export default function OrdersList({
       );
     if (orderDate.getTime() < today.getTime() && order.status === "pending")
       return showModal(order._id, "cancel");
-    if (!isOwner)
-      return router.push(`/${langPrefix}documentation/${order._id}`);
 
-    if (order.deliveryNotificationSent) {
-      return toast.warning(ToastMessage(tOrdersList("emailAlreadySent")));
-    }
-
-    showModal(order._id, "delivery");
+    return router.push(`/${langPrefix}documentation/${order._id}`);
   };
 
   const showModal = (orderId, type) => {
@@ -259,12 +253,37 @@ export default function OrdersList({
             >
               <div className="md:p-8 p-3" key={order._id}>
                 <div className={`bg-[#F9FAFC] md:p-4 p-3`}>
-                  <div className="flex items-center gap-2 md:text-lg text-base font-semibold md:mb-5 mb-3 md:pb-4 pb-2 border-b border-[#d6d7d8] leading-6">
-                    <Order
-                      color="#F48A42"
-                      className="md:w-5 md:h-5 w-[18px] h-[18px]"
-                    />
-                    {tOrdersList("products")}
+                  <div className="flex justify-between items-center gap-4 md:mb-5 mb-3 md:pb-4 pb-2 border-b border-[#d6d7d8]">
+                    <div className="flex items-center gap-2 md:text-lg text-base font-semibold leading-6">
+                      <Order
+                        color="#F48A42"
+                        className="md:w-5 md:h-5 w-4.5 h-4.5"
+                      />
+                      {tOrdersList("products")}
+                      {isOwner &&
+                        order.source?.type === "shop" &&
+                        order.source.refId && (
+                          <span className="inline-flex items-center gap-1.5 ms-2">
+                            <span className="text-[10px] md:text-xs font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full font-IBMPlex">
+                              {tOrdersList("orderFromYourShop")}
+                            </span>
+                            <Link
+                              href={`/${langPrefix}shops/${order.source.refId.slug}`}
+                              className="text-xs text-blue-600 hover:underline font-bold font-IBMPlex"
+                              target="_blank"
+                            >
+                              (
+                              {lang === "ar"
+                                ? order.source.refId.nameAr
+                                : order.source.refId.nameEn}
+                              )
+                            </Link>
+                          </span>
+                        )}
+                    </div>
+                    <div className="text-xs md:text-sm font-semibold text-gray-500 font-IBMPlex">
+                      {trans("dashboard.myOrders.orderNumber")}: #{order._id}
+                    </div>
                   </div>
                   {/*  order data  */}
                   <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 gap-3 py-2">
@@ -306,7 +325,7 @@ export default function OrdersList({
                               ]
                             }
                           </div>
-                          <div className="text-[#5B5656] mb-3 flex gap-2 md:text-sm text-sm">
+                          <div className="text-mutedGray mb-3 flex gap-2 md:text-sm text-sm">
                             <span>
                               {tOrdersList("orderCreationDate")}{" "}
                               {new Date(order.createdAt).toLocaleString(lang, {
@@ -320,7 +339,7 @@ export default function OrdersList({
                           </div>
                           <div className="flex flex-wrap gap-x-5 gap-y-2 font-semibold mb-2 md:text-base text-sm">
                             <div className="flex items-center gap-2">
-                              <CalendarIcon className="md:w-[18px] md:h-[18px] w-4 h-4 -translate-y-px" />
+                              <CalendarIcon className="md:w-4.5 md:h-4.5 w-4 h-4 -translate-y-px" />
                               {new Date(item.startDate).toLocaleDateString(
                                 lang,
                                 {
@@ -341,14 +360,16 @@ export default function OrdersList({
                             <div className="flex items-center gap-2 text-sm md:text-base">
                               <Order
                                 color="#0D092B"
-                                className="md:w-[15px] md:h-[15px] w-3.5 h-3.5"
+                                className="md:w-3.75 md:h-3.75 w-3.5 h-3.5"
                               />
                               <span>
-                                {item.quantity} {t("pieces")}
+                                {item.product?.saleUnit
+                                  ? `${item.quantity} ${trans(`unit.${item.product.saleUnit}`)}`
+                                  : `${item.quantity} ${t("pieces")}`}
                               </span>
                             </div>
                             <div className="flex items-center gap-2 text-sm md:text-base">
-                              <Money className="md:w-[18px] md:h-[18px] w-4 h-4" />
+                              <Money className="md:w-4.5 md:h-4.5 w-4 h-4" />
                               <span className="flex items-center gap-1">
                                 {item.price}
                                 <Currency className="w-4 h-4" />
@@ -380,7 +401,7 @@ export default function OrdersList({
                             )}
                             {item?.deliveryCost > 0 && (
                               <div className="flex items-center gap-2 md:text-base text-sm">
-                                <Money className="md:w-[18px] md:h-[18px] w-4 h-4" />
+                                <Money className="md:w-4.5 md:h-4.5 w-4 h-4" />
                                 <span className="font-semibold">
                                   {t("deliveryCost")} :
                                 </span>
@@ -441,7 +462,7 @@ export default function OrdersList({
                                 href={`/${langPrefix}products/${item.product._id}#reviews`}
                                 className="flex w-max items-center gap-2 text-primary underline font-semibold md:text-lg text-sm mt-2 font-IBMPlex"
                               >
-                                <Review className="md:w-[22px] md:h-[22px] w-[18px] h-[18px]" />
+                                <Review className="md:w-[22px] md:h-[22px] w-4.5 h-4.5" />
                                 <span>{tOrdersList("reviewProduct")}</span>
                               </Link>
                             )}
@@ -456,7 +477,7 @@ export default function OrdersList({
                     <div className="flex items-center gap-2 text-lg font-semibold mb-5 pb-4 border-b border-[#d6d7d8] leading-6">
                       <User
                         color="#F48A42"
-                        className="md:w-[22px] md:h-[22px] w-[18px] h-[18px]"
+                        className="md:w-[22px] md:h-[22px] w-4.5 h-4.5"
                       />
                       {isOwner
                         ? tOrdersList("requesterData")
@@ -527,7 +548,7 @@ export default function OrdersList({
                       <div>
                         <div className="flex gap-2 md:text-lg text-[13px]">
                           <div className="mt-1">
-                            <Location className="md:w-[18px] md:h-[22px] w-[15px] h-[18px]" />
+                            <Location className="md:w-4.5 md:h-[22px] w-3.75 h-4.5" />
                           </div>
                           <div>
                             <span className="font-semibold">
@@ -565,7 +586,7 @@ export default function OrdersList({
                           target="_blank"
                           className="flex w-max items-center gap-2 text-primary underline font-semibold md:text-lg text-sm mt-2 font-IBMPlex"
                         >
-                          <Map className="md:w-[21px] md:h-[19px] w-[18px] h-[16px]" />
+                          <Map className="md:w-[21px] md:h-[19px] w-4.5 h-[16px]" />
                           <span>{tOrdersList("viewOnMap")}</span>
                         </Link>
                       </div>
@@ -573,7 +594,7 @@ export default function OrdersList({
                         {isOwner && (
                           <div className="flex gap-2 md:text-lg text-sm mb-4">
                             <div className="mt-1">
-                              <Note className="md:w-[18px] md:h-[18px] w-4 h-4" />
+                              <Note className="md:w-4.5 md:h-4.5 w-4 h-4" />
                             </div>
                             <div>
                               <span className="font-semibold">
@@ -617,8 +638,18 @@ export default function OrdersList({
                     {tOrdersList("orderSummary")}
                   </div>
                   <div className="flex md:gap-2 gap-1 md:text-base text-[13px]">
-                    <span className="font-semibold">{t("piecesCount")} : </span>
-                    <span>{totalItems}</span>
+                    <span className="font-semibold">
+                      {order.items.some((item) => item.product?.saleUnit)
+                        ? t("saleUnit")
+                        : t("piecesCount")}{" "}
+                      :{" "}
+                    </span>
+                    <span>
+                      {order.items.length === 1 &&
+                      order.items[0].product?.saleUnit
+                        ? `${order.items[0].quantity} ${trans(`unit.${order.items[0].product.saleUnit}`)}`
+                        : totalItems}
+                    </span>
                   </div>
                   <div className="flex md:gap-2 gap-1 md:text-base text-[13px]">
                     <span className="font-semibold flex items-center gap-1">
@@ -656,7 +687,7 @@ export default function OrdersList({
                     <span className="flex items-center gap-1">
                       <Money
                         color="#F48A42"
-                        className="md:w-[18px] md:h-[18px] w-4 h-4"
+                        className="md:w-4.5 md:h-4.5 w-4 h-4"
                       />{" "}
                       {t("totalAmount")} :
                     </span>
@@ -673,19 +704,20 @@ export default function OrdersList({
                         target="_blank"
                         className="flex w-max items-center gap-2 text-primary underline font-semibold font-IBMPlex md:text-base text-sm"
                       >
-                        <Receipt className="md:w-[18px] md:h-[18px] w-4 h-4" />
+                        <Receipt className="md:w-4.5 md:h-4.5 w-4 h-4" />
                         <span>{tOrdersList("viewReceipt")}</span>
                       </Link>
                     )}
                   {isOwner &&
                     order?.invoiceId &&
-                    order.status === "completed" && (
+                    (order.status === "completed" ||
+                      order.status === "received") && (
                       <Link
                         href={`/api/invoice/${order?.invoiceId}`}
                         target="_blank"
                         className="flex w-max items-center gap-2 text-primary underline font-semibold font-IBMPlex md:text-base text-sm"
                       >
-                        <Receipt className="md:w-[18px] md:h-[18px] w-4 h-4" />
+                        <Receipt className="md:w-4.5 md:h-4.5 w-4 h-4" />
                         <span>{tOrdersList("viewInvoice")}</span>
                       </Link>
                     )}
@@ -700,6 +732,9 @@ export default function OrdersList({
                     handleDeliveryConfirmation={handleDeliveryConfirmation}
                     t={trans}
                     lang={lang}
+                    user={user}
+                    tOrdersList={tOrdersList}
+                    owner={order.ownerData}
                   />
                 )}
               </div>

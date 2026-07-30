@@ -21,7 +21,7 @@ async function getAdminStatistics(startDate, endDate) {
       `${
         process.env.NEXT_PUBLIC_APP_URL
       }/api/admin/statistics?${params.toString()}`,
-      { headers: { Authorization: token }, cache: "no-store" }
+      { headers: { Authorization: token }, cache: "no-store" },
     );
     if (!res.ok) {
       throw new Error(`Failed to fetch admin statistics: ${res.status}`);

@@ -1,11 +1,5 @@
 "use client";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@heroui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@/components/ui/CustomModal";
 import { useEffect, useState } from "react";
 import Button from "../ui/Button";
 import usePushNotifications from "../../hooks/usePushNotifications";
@@ -135,7 +129,7 @@ export default function PushNotificationModal({
             <>
               {/* Header with Gradient */}
               <ModalHeader className="flex flex-col gap-1 p-0">
-                <div className="relative bg-gradient-to-br from-primary via-orange-500 to-orange-500 p-8 overflow-hidden">
+                <div className="w-full relative bg-gradient-to-br from-primary via-orange-500 to-orange-500 p-8 overflow-hidden">
                   {/* Animated Background Pattern */}
 
                   <div className="relative z-10 flex items-center gap-4">

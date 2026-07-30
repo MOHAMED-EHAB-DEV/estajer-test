@@ -1,6 +1,6 @@
 export const Edit = ({ className, size = 20, color = "#4FD658", ...rest }) => (
   <svg
-    className={className}
+    className={className || "md:w-[20px] w-3.75 md:h-[20px] h-3.75"}
     width={size}
     height={size}
     viewBox="0 0 23 23"

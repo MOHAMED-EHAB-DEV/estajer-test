@@ -16,6 +16,7 @@ export default function HeroSearchBox({
   translate,
   providerId,
   userId,
+  shopSlug,
 }) {
   const langPrefix = lang === "ar" ? "" : "en/";
   const trans = useTranslations(translate);
@@ -198,21 +199,28 @@ export default function HeroSearchBox({
       params.set("lng", selectedLocation.lng);
       params.set("location", selectedLocation.name);
     }
-    if (providerId) params.set("providerId", providerId);
-    if (userId) params.set("userId", userId);
 
     let basePath;
-    if (selectedCategory && selectedSubCategory) {
-      basePath = `/${langPrefix}${selectedCategory}/${selectedSubCategory}/products`;
-    } else if (selectedCategory) {
-      basePath = `/${langPrefix}${selectedCategory}/products`;
+    if (shopSlug) {
+      // In shop context: always go to search/products with category as query param
+      if (selectedCategory) params.set("category", selectedCategory);
+      if (selectedSubCategory) params.set("subCategory", selectedSubCategory);
+      basePath = `/${langPrefix}shops/${shopSlug}/search/products`;
     } else {
-      basePath = `/${langPrefix}search/products`;
+      // Main website: route to category path segments
+      if (providerId) params.set("providerId", providerId);
+      if (userId) params.set("userId", userId);
+      if (selectedCategory && selectedSubCategory) {
+        basePath = `/${langPrefix}${selectedCategory}/${selectedSubCategory}/products`;
+      } else if (selectedCategory) {
+        basePath = `/${langPrefix}${selectedCategory}/products`;
+      } else {
+        basePath = `/${langPrefix}search/products`;
+      }
     }
 
     const queryStr = params.toString();
-    const finalUrl = queryStr ? `${basePath}?${queryStr}` : basePath;
-    router.push(finalUrl);
+    router.push(queryStr ? `${basePath}?${queryStr}` : basePath);
   };
 
   // Get selected category label
@@ -280,6 +288,7 @@ export default function HeroSearchBox({
               trackFinalSearch={trackFinalSearch}
               providerId={providerId}
               userId={userId}
+              shopSlug={shopSlug}
             />
           </div>
         </div>
@@ -610,6 +619,7 @@ export default function HeroSearchBox({
           <button
             type="button"
             onClick={handleFormSubmit}
+            aria-label={trans("ui.button.search")}
             className="flex-shrink-0 w-7 h-7 bg-primary/95 text-white rounded-full flex items-center justify-center active:scale-95 hover:bg-opacity-95 transition-all duration-200 shadow-sm"
           >
             <Search className="w-3.5 h-3.5" color="#fff" strokeWidth={3} />
@@ -634,6 +644,7 @@ export default function HeroSearchBox({
               trackFinalSearch={trackFinalSearch}
               providerId={providerId}
               userId={userId}
+              shopSlug={shopSlug}
             />
           </div>
         )}
@@ -807,6 +818,7 @@ export default function HeroSearchBox({
                       setLocationSuggestions([]);
                       setSelectedLocation(null);
                     }}
+                    aria-label={lang === "ar" ? "مسح الموقع" : "Clear location"}
                     className="text-gray-300 hover:text-gray-500"
                   >
                     <svg
@@ -887,7 +899,7 @@ export default function HeroSearchBox({
               }}
               className="w-full bg-darkNavy text-white font-bold mt-2 mb-4 py-3 rounded-2xl flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition-transform"
             >
-              <Search className="w-[15px] h-[15px]" color="#fff" />
+              <Search className="w-3.75 h-3.75" color="#fff" />
               {trans("ui.button.search")}
             </button>
           </div>

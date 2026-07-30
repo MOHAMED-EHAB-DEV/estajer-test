@@ -38,6 +38,17 @@ export async function generateMetadata({ params }) {
       description: currentMeta.description,
       url: `${siteURL}/${lang === "ar" ? "" : `${lang}/`}login`,
       type: "website",
+      images: [
+        {
+          url:
+            lang === "ar"
+              ? `${siteURL}/og/login_ar.webp`
+              : `${siteURL}/og/login_en.webp`,
+          width: 1200,
+          height: 630,
+          alt: lang === "ar" ? "استأجر - تسجيل الدخول" : "Estajer - Login",
+        },
+      ],
     },
   };
 }
@@ -48,7 +59,7 @@ export default async function page({ params, searchParams }) {
   const { message, page } = await searchParams;
 
   return (
-    <div className="relative bg-[#F48A42]">
+    <div className="relative bg-primary">
       <div className="bg-white lg:rounded-s-[2rem] absolute top-0 end-0 lg:w-1/2 w-full h-full"></div>
       <div className="max-w-screen-3xl mx-auto flex flex-col gap-4 text-white">
         <div className="flex flex-wrap">

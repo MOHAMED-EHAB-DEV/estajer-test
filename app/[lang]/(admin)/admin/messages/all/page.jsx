@@ -8,7 +8,7 @@ const getChatsData = async () => {
     const token = cookieStore.get("token")?.value;
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/admin/chat/list`,
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/admin/chat/list?page=1&limit=20`,
       { headers: { Authorization: token } }
     );
     if (!response.ok) throw new Error("Failed to fetch chats");

@@ -1,14 +1,16 @@
 import mongoose from "mongoose";
-mongoose.models = {};
 const heroSlideSchema = new mongoose.Schema(
   {
     image: { type: String, required: true },
     imageEn: { type: String, required: true },
+    imageMobile: { type: String },
+    imageMobileEn: { type: String },
     altAr: { type: String, required: true },
     altEn: { type: String, required: true },
     active: { type: Boolean, default: true },
     order: { type: Number, default: 0 },
     link: { type: String },
+    linkEn: { type: String },
     titleAr: { type: String },
     titleEn: { type: String },
     subtitleAr: { type: String },

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Booking from "./Booking";
 import Partner from "./Partner";
+import Shop from "./Shop";
 // Helper function to generate safe, readable 8-char IDs
 const generateOrderId = () => {
   const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
@@ -34,16 +35,17 @@ const orderSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  providerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Partner",
+  source: {
+    type: {
+      type: String,
+      enum: ["direct", "partner", "shop", "nana"],
+      default: "direct",
+    },
+    ref: { type: String, enum: ["Partner", "Shop"] },
+    refId: { type: mongoose.Schema.Types.ObjectId, refPath: "source.ref" },
   },
   items: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Booking",
-      required: true,
-    },
+    { type: mongoose.Schema.Types.ObjectId, ref: "Booking", required: true },
   ],
   price: { type: Number, required: true },
   tax: { type: Number, required: true },
@@ -51,6 +53,8 @@ const orderSchema = new mongoose.Schema({
   deliveryCost: { type: Number, default: 0 },
   totalAmount: { type: Number, required: true },
   ownerAmount: Number,
+  adminAmount: Number,
+  customerAmount: Number,
   status: {
     type: String,
     enum: [
@@ -66,6 +70,7 @@ const orderSchema = new mongoose.Schema({
     default: "not-paid",
   },
   invoiceId: Number,
+  qoyodInvoiceId: Number,
   paymentUrl: String,
   contractId: String,
   milestoneId: String,
@@ -80,11 +85,16 @@ const orderSchema = new mongoose.Schema({
   deliveryCode: String,
   renterConfirmedAt: Date,
   ownerConfirmedAt: Date,
+  ownerElectronicSignature: { type: String },
+  userElectronicSignature: { type: String },
   deliveryNotificationSent: { type: Boolean, default: false },
   returnNotificationSent: { type: Boolean, default: false },
   rejectionApproved: { type: Boolean, default: false },
   hasDamageReport: { type: Boolean, default: false },
   lastCashoutEmailSent: Date,
+  taxInvoice: { type: String },
+  taxInvoiceRequested: { type: Boolean, default: false },
+  checkoutOrigin: String,
   createdAt: { type: Date, default: Date.now },
   adminNotes: [
     {
@@ -105,8 +115,38 @@ orderSchema.pre("find", function (next) {
     populate: {
       path: "product",
       select:
+        "nameAr nameEn category images location deliveryType selectedBranch deliveryCost saleUnit",
+    },
+  });
+  next();
+});
+
+orderSchema.pre("findOne", function (next) {
+  this.populate({
+    path: "items",
+    populate: {
+      path: "product",
+      select:
+        "nameAr nameEn category images location deliveryType selectedBranch deliveryCost saleUnit",
+    },
+  }).populate({
+    path: "source.refId",
+    select: "nameAr nameEn slug shopCommission",
+  });
+  next();
+});
+
+orderSchema.pre("findOne", function (next) {
+  this.populate({
+    path: "items",
+    populate: {
+      path: "product",
+      select:
         "nameAr nameEn category images location deliveryType selectedBranch deliveryCost",
     },
+  }).populate({
+    path: "source.refId",
+    select: "nameAr nameEn slug shopCommission",
   });
   next();
 });

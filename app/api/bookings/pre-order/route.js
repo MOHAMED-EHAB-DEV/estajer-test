@@ -3,6 +3,7 @@ import connectDB from "@/lib/db";
 import Booking from "@/models/Booking";
 import PreOrder from "@/models/PreOrder";
 import Product from "@/models/Product";
+import Shop from "@/models/Shop";
 import { NextResponse } from "next/server";
 import { differenceInDays } from "date-fns";
 import { handleApiError } from "@/lib/errorHandler";
@@ -60,21 +61,11 @@ export async function POST(req) {
     // Validate all orders and get fresh product data
     const validatedOrders = await Promise.all(
       cartItems.map(async (item) => {
-        const startDate = new Date(item.startDate);
-        // if (startDate < tomorrow) {
-        //   throw new Error(
-        //     `يجب أن يكون تاريخ بدء الحجز بعد يوم ${tomorrow.toLocaleDateString(
-        //       "ar",
-        //       { year: "numeric", month: "long", day: "2-digit" }
-        //     )}`
-        //   );
-        // }
-
         // Get fresh product data
         const [product, conflictingBookings] = await Promise.all([
           Product.findById(item.product._id).populate(
             "owner",
-            "fullName phone companyDetails.taxCode holidayPeriods",
+            "fullName phone companyDetails.taxCode holidayPeriods disableSameDayRent",
           ),
           Booking.find({
             product: item.product._id,
@@ -89,6 +80,25 @@ export async function POST(req) {
         ]);
 
         if (!product) throw new Error(`المنتج ${item.product.name} غير متوفر`);
+
+        // Same day and past date validation
+        const startDate = new Date(item.startDate);
+        const today = new Date();
+        startDate.setHours(0, 0, 0, 0);
+        today.setHours(0, 0, 0, 0);
+
+        if (startDate < today) {
+          throw new Error("تاريخ بدء الحجز لا يمكن أن يكون في الماضي");
+        }
+
+        if (
+          startDate.getTime() === today.getTime() &&
+          product.owner?.disableSameDayRent
+        ) {
+          throw new Error(
+            `لا يسمح المؤجر بالحجز في نفس اليوم للمنتج ${product.nameAr || product.nameEn || ""}`
+          );
+        }
 
         // Check if dates conflict with owner's holiday periods
         const ownerHolidays = product.owner?.holidayPeriods || [];
@@ -162,16 +172,13 @@ export async function POST(req) {
             ).price * order.quantity;
 
       // Calculate services cost with verified prices
-      const servicesPrice = order.selectedServices.reduce(
-        (total, service) => {
-          const lineTotal = service.price * service.quantity;
-          return (
-            total +
-            (service.pricingType === "fixed" ? lineTotal : lineTotal * days)
-          );
-        },
-        0,
-      );
+      const servicesPrice = order.selectedServices.reduce((total, service) => {
+        const lineTotal = service.price * service.quantity;
+        return (
+          total +
+          (service.pricingType === "fixed" ? lineTotal : lineTotal * days)
+        );
+      }, 0);
 
       let durationDiscount = 0;
       if (
@@ -249,6 +256,20 @@ export async function POST(req) {
       0,
     );
 
+    let source = { type: "direct" };
+    if (cartItems[0]?.providerId) {
+      source = {
+        type: "partner",
+        ref: "Partner",
+        refId: cartItems[0].providerId,
+      };
+    } else if (cartItems[0]?.shopSlug) {
+      const shopObj = await Shop.findOne({
+        slug: cartItems[0].shopSlug.toLowerCase(),
+      }).select("_id");
+      if (shopObj) source = { type: "shop", ref: "Shop", refId: shopObj._id };
+    }
+
     // Create pre-order without user data
     const preOrderData = {
       userId: user._id,
@@ -261,7 +282,7 @@ export async function POST(req) {
       tax: +totalTax.toFixed(0),
       insurance: +totalInsurance.toFixed(0),
       totalAmount: +orderPrice.toFixed(0),
-      providerId: cartItems[0]?.providerId || null,
+      source,
     };
 
     const preOrder = await PreOrder.create(preOrderData);

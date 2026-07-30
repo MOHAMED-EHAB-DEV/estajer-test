@@ -1,7 +1,6 @@
 import React from "react";
 
 import CategoriesCarousel from "./CategoriesCarousel";
-import SectionTitle from "../shared/SectionTitle";
 import { getTranslations } from "@/hooks/getTranslations";
 
 // Fetch categories from backend with product counts
@@ -56,7 +55,7 @@ export default async function Categories({ lang }) {
       <CategoriesCarousel
         categoriesData={categoriesWithCounts}
         langPrefix={langPrefix}
-        translate={translate()}
+        translate={{ categories: translate("categories") }}
         lang={lang}
       />
     </section>

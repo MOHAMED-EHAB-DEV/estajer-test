@@ -1,24 +1,25 @@
 "use client";
 import { useState, useEffect, Fragment, useMemo } from "react";
 import { useDebounce } from "use-debounce";
+import Button from "@/components/ui/Button";
+import { Chip } from "@/components/ui/Chip";
+import { Input } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
+import { Spinner } from "@/components/ui/Spinner";
 import {
-  Button,
-  Chip,
-  Input,
-  Select,
-  SelectItem,
-  Spinner,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
   useDisclosure,
+} from "@/components/ui/CustomModal";
+import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  Pagination,
-} from "@heroui/react";
+} from "@/components/ui/Popover";
+import { Pagination } from "@/components/ui/Pagination";
 import Link from "next/link";
 import { format } from "date-fns";
 import {
@@ -103,9 +104,7 @@ export default function AdminSessionsContainer({
       setIsDeleting(sessionId);
       const res = await fetch(
         `/api/tracking/sessions/${sessionId}?client=true`,
-        {
-          method: "DELETE",
-        },
+        { method: "DELETE" },
       );
 
       if (res.ok) router.refresh();
@@ -394,8 +393,8 @@ export default function AdminSessionsContainer({
       {/* Filters */}
       <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 mb-6">
         <div className="flex items-center gap-2 mb-4">
-          <div className="w-8 h-8 rounded-lg bg-[#f48a42]/10 flex items-center justify-center">
-            <FaSearch size={14} className="text-[#f48a42]" />
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+            <FaSearch size={14} className="text-primary" />
           </div>
           <h3 className="font-semibold text-gray-700">Filters</h3>
         </div>
@@ -529,7 +528,7 @@ export default function AdminSessionsContainer({
               <Chip
                 size="sm"
                 variant="flat"
-                className="bg-[#f48a42]/10 text-[#f48a42]"
+                className="bg-primary/10 text-primary"
                 onClose={() => setJourneyFilter("")}
               >
                 {journeyFilter}
@@ -698,7 +697,7 @@ export default function AdminSessionsContainer({
                                 </>
                               ) : (
                                 <>
-                                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#f48a42]/20 to-[#f48a42]/10 flex items-center justify-center text-[#f48a42] font-bold text-sm">
+                                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#f48a42]/20 to-[#f48a42]/10 flex items-center justify-center text-primary font-bold text-sm">
                                     {visitorId?.slice(0, 2).toUpperCase()}
                                   </div>
                                   <div>

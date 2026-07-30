@@ -8,7 +8,8 @@ import {
   FaChevronDown,
   FaChevronUp,
 } from "@/components/ui/svgs/AdminIcons";
-import { Checkbox, Button } from "@heroui/react";
+import { Checkbox } from "@/components/ui/Checkbox";
+import Button from "@/components/ui/Button";
 import { useTranslations } from "@/hooks/useTranslations";
 import ProductFilters from "@/components/dashboard/ProductFilters";
 import SimpleProductItem from "./modal/SimpleProductItem";
@@ -19,6 +20,8 @@ export default function ProductSelector({
   selectedProducts,
   onSelect,
   onRemove,
+  onSelectMany,
+  onRemoveMany,
   onReorder,
   lang,
   translate,
@@ -35,7 +38,7 @@ export default function ProductSelector({
   const [filterParams, setFilterParams] = useState({
     limit: 20,
     page: 1,
-    status: "approved", // Default to approved for sliders
+    status: fixedUserId ? undefined : "approved", // Default to approved for sliders unless owner is specified
     showAll: true,
     userId: fixedUserId || "",
   });
@@ -47,6 +50,9 @@ export default function ProductSelector({
       try {
         setLoading(true);
         const searchParams = new URLSearchParams(params);
+        if (searchParams.get("userId")) {
+          searchParams.delete("status");
+        }
         const langSuffix = lang === "en" ? "En" : "Ar";
         searchParams.set("lang", lang);
         searchParams.set("compressed", "true");
@@ -73,7 +79,12 @@ export default function ProductSelector({
 
   useEffect(() => {
     if (fixedUserId !== undefined) {
-      setFilterParams((prev) => ({ ...prev, userId: fixedUserId, page: 1 }));
+      setFilterParams((prev) => ({
+        ...prev,
+        userId: fixedUserId,
+        status: fixedUserId ? undefined : "approved",
+        page: 1,
+      }));
     }
   }, [fixedUserId]);
 
@@ -102,19 +113,24 @@ export default function ProductSelector({
     );
 
     if (allVisibleSelected) {
-      // If all are selected, remove all visible ones
-      products.forEach((product) => {
-        if (selectedProducts.some((p) => p._id === product._id)) {
-          onRemove(product._id);
-        }
-      });
+      if (onRemoveMany) {
+        onRemoveMany(products.map((p) => p._id));
+      } else {
+        products.forEach((product) => {
+          if (selectedProducts.some((p) => p._id === product._id)) {
+            onRemove(product._id);
+          }
+        });
+      }
     } else {
-      // If not all are selected, add all missing ones
-      products.forEach((product) => {
-        if (!selectedProducts.some((p) => p._id === product._id)) {
-          onSelect(product);
-        }
-      });
+      const toAdd = products.filter(
+        (product) => !selectedProducts.some((p) => p._id === product._id),
+      );
+      if (onSelectMany) {
+        onSelectMany(toAdd);
+      } else {
+        toAdd.forEach((product) => onSelect(product));
+      }
     }
   };
 
@@ -146,6 +162,7 @@ export default function ProductSelector({
                   onValueChange={handleSelectAll}
                   color="primary"
                   size="sm"
+                  aria-label={t("selectAll")}
                 />
                 <span className="text-[10px] font-medium text-neutral-400">
                   {t("selectAll")}

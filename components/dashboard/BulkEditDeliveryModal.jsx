@@ -7,9 +7,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Select,
-  SelectItem,
-} from "@heroui/react";
+} from "@/components/ui/CustomModal";
+import { Select, SelectItem } from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import { useTranslations } from "@/hooks/useTranslations";
 import { FormInput } from "@/components/addProduct/RentDetails";
@@ -153,6 +152,7 @@ export default function BulkEditDeliveryModal({
                   cost: target.value === "delivery" ? prev.cost : 0,
                 }))
               }
+              classNames={{ popoverContent: "z-modal" }}
             >
               {deliveryOptions.map((option) => (
                 <SelectItem key={option.key}>{option.label}</SelectItem>
@@ -172,7 +172,7 @@ export default function BulkEditDeliveryModal({
                       type="button"
                       className={`flex-1 py-4 px-6 rounded-lg transition-all duration-300 ${
                         deliveryData.pricingModel === "fixedCity"
-                          ? "bg-[#f48a42] text-white shadow-lg"
+                          ? "bg-primary text-white shadow-lg"
                           : "bg-white text-gray-600 border border-gray-200 hover:border-orange-300"
                       }`}
                       onPress={() =>
@@ -202,7 +202,7 @@ export default function BulkEditDeliveryModal({
                       type="button"
                       className={`flex-1 py-4 px-6 rounded-lg transition-all duration-300 ${
                         deliveryData.pricingModel === "perKm"
-                          ? "bg-[#f48a42] text-white shadow-lg"
+                          ? "bg-primary text-white shadow-lg"
                           : "bg-white text-gray-600 border border-gray-200 hover:border-orange-300"
                       }`}
                       onPress={() =>
@@ -233,7 +233,7 @@ export default function BulkEditDeliveryModal({
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
                         <svg
-                          className="w-5 h-5 text-[#f48a42]"
+                          className="w-5 h-5 text-primary"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -291,7 +291,7 @@ export default function BulkEditDeliveryModal({
           </Button>
           <Button
             isLoading={isLoading}
-            className="bg-[#f48a42] text-white"
+            className="bg-primary text-white"
             onPress={handleSubmit}
           >
             {t("applyToAll")}

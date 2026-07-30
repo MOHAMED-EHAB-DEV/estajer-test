@@ -7,6 +7,7 @@ import User from "@/models/User";
 import { sendChatNotificationEmail } from "@/lib/email";
 import sendNotifications from "@/lib/sendNotification";
 import { handleApiError } from "@/lib/errorHandler";
+import { sendWhatsAppTemplate } from "@/lib/whatsapp";
 
 import { updateAlert } from "@/lib/alert";
 
@@ -95,21 +96,28 @@ export async function POST(request) {
       }
     }, 5 * 1000); // 20 seconds
 
-    // --- Email + DB notification: 5 min after message if still unread ---
+    // --- Email + DB notification: 4 min after message if still unread ---
     setTimeout(
       async () => {
-        const [updatedChat, { email, lang, unsubscribed }] = await Promise.all([
-          Chat.findOne({ chatId, "messages.state": "sent" }),
-          User.findById(otherUserId, { email: 1, lang: 1, unsubscribed: 1 }),
-        ]);
+        try {
+          const [updatedChat, recipient] = await Promise.all([
+            Chat.findOne({ chatId }),
+            User.findById(otherUserId, { email: 1, lang: 1, unsubscribed: 1 }),
+          ]);
 
-        if (updatedChat) {
+          if (!updatedChat || !recipient) return;
+
+          // Another message was sent after this one — let that timer handle it
+          if (updatedChat.lastMessageAt?.getTime() !== thisMessageAt?.getTime())
+            return;
+
           const unreadMessages = updatedChat.messages.filter(
             (m) => m.state === "sent",
           );
+
           if (unreadMessages.length > 0) {
             let notificationTitle;
-            if (lang === "en") {
+            if (recipient.lang === "en") {
               notificationTitle = `You have ${unreadMessages.length} new messages from ${user.fullName}`;
             } else {
               notificationTitle = `لديك ${unreadMessages.length} رسائل جديدة من ${user.fullName}`;
@@ -132,15 +140,71 @@ export async function POST(request) {
                 relatedId: chat._id,
               });
               await sendChatNotificationEmail(
-                email,
+                recipient.email,
                 user.fullName,
                 unreadMessages.length,
                 `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/messages`,
-                lang || "ar",
-                unsubscribed,
+                recipient.lang || "ar",
+                recipient.unsubscribed,
               );
             }
           }
+        } catch (err) {
+          console.error("Email notification (3m) error:", err);
+        }
+      },
+      3 * 60 * 1000,
+    ); // 3 minutes
+
+    // --- WhatsApp notification: 8 min after message if still unread ---
+    setTimeout(
+      async () => {
+        try {
+          const [updatedChat, recipient] = await Promise.all([
+            Chat.findOne({ chatId }),
+            User.findById(otherUserId, {
+              fullName: 1,
+              phone: 1,
+              lang: 1,
+              lastWaChatAt: 1,
+            }),
+          ]);
+
+          if (!updatedChat || !recipient || !recipient.phone) return;
+
+          // Check if a WhatsApp notification was already sent to this user in the last 24 hours
+          const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+          if (recipient.lastWaChatAt && recipient.lastWaChatAt > oneDayAgo)
+            return;
+
+          // Another message was sent after this one — let that timer handle it
+          if (updatedChat.lastMessageAt?.getTime() !== thisMessageAt?.getTime())
+            return;
+
+          const unreadMessages = updatedChat.messages.filter(
+            (m) => m.state === "sent",
+          );
+
+          if (unreadMessages.length > 0) {
+            const recipientLang = recipient.lang || "ar";
+            await sendWhatsAppTemplate({
+              to: `+966${recipient.phone.slice(1)}`,
+              templateName: `unread_messages_${recipientLang}`,
+              languageCode: recipientLang,
+              bodyParameters: [
+                recipient.fullName || "User",
+                String(unreadMessages.length),
+                user.fullName,
+              ],
+              buttonParameters: [chat.chatId],
+            });
+
+            await User.findByIdAndUpdate(otherUserId, {
+              lastWaChatAt: new Date(),
+            });
+          }
+        } catch (err) {
+          console.error("WhatsApp notification (5m) error:", err);
         }
       },
       5 * 60 * 1000,

@@ -5,7 +5,7 @@ export const CalendarIcon = ({
   ...rest
 }) => (
   <svg
-    className={className}
+    className={className || "md:w-[21px] w-[16px] md:h-[21px] h-[16px]"}
     width={size}
     height={size}
     viewBox="0 0 21 21"

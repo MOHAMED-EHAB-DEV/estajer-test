@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Booking from "./Booking";
+import Partner from "./Partner";
+import Shop from "./Shop";
 // Helper function to generate safe, readable 8-char IDs
 const generateOrderId = () => {
   const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
@@ -22,9 +24,14 @@ const preOrderSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  providerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Partner",
+  source: {
+    type: {
+      type: String,
+      enum: ["direct", "partner", "shop", "nana"],
+      default: "direct",
+    },
+    ref: { type: String, enum: ["Partner", "Shop"] },
+    refId: { type: mongoose.Schema.Types.ObjectId, refPath: "source.ref" },
   },
   items: [
     {
@@ -58,8 +65,11 @@ preOrderSchema.pre("find", function (next) {
     path: "items",
     populate: {
       path: "product",
-      select: "nameAr nameEn descriptionAr images location rental",
+      select: "nameAr nameEn descriptionAr images location rental saleUnit",
     },
+  }).populate({
+    path: "source.refId",
+    select: "nameAr nameEn slug domain shopCommission",
   });
   next();
 });
@@ -69,8 +79,11 @@ preOrderSchema.pre("findOne", function (next) {
     path: "items",
     populate: {
       path: "product",
-      select: "nameAr nameEn descriptionAr images location rental",
+      select: "nameAr nameEn descriptionAr images location rental saleUnit",
     },
+  }).populate({
+    path: "source.refId",
+    select: "nameAr nameEn slug domain shopCommission",
   });
   next();
 });

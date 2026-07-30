@@ -28,7 +28,7 @@ const FormContent = ({ children, num, title, description }) => (
         <h1 className="lg:text-[1.7rem] md:text-[1.5rem] text-[1.3rem] font-semibold text-darkNavy font-IBMPlex mb-1">
           {title}
         </h1>
-        <p className="lg:text-[1.3rem] md:text-[1.2rem] text-[1.15rem] text-darkNavy ">
+        <p className="lg:text-[1.3rem] md:text-1.2 text-[1.15rem] text-darkNavy ">
           {description}
         </p>
       </div>

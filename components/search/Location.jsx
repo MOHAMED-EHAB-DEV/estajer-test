@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Autocomplete, AutocompleteItem } from "@heroui/autocomplete";
+import { Autocomplete, AutocompleteItem } from "@/components/ui/Autocomplete";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "@/hooks/useTranslations";
-import { sendGTMEvent } from "@next/third-parties/google";
 
 export default function Location({
   queryParams,
@@ -13,6 +12,7 @@ export default function Location({
   map,
   categoryPage,
   subCategoryPage,
+  shopSlug,
 }) {
   const trans = useTranslations(translate);
   const t = (text) => trans(`search.${text}`);
@@ -40,7 +40,9 @@ export default function Location({
         params.delete("lng");
 
         let basePath;
-        if (categoryPage && subCategoryPage) {
+        if (shopSlug) {
+          basePath = `/${langPrefix}shops/${shopSlug}/search/${map ? "map" : "products"}`;
+        } else if (categoryPage && subCategoryPage) {
           basePath = `/${langPrefix}${categoryPage}/${subCategoryPage}/${
             map ? "map" : "products"
           }`;
@@ -53,14 +55,6 @@ export default function Location({
         }
 
         router.replace(`${basePath}?${params.toString()}`, { scroll: false });
-        try {
-          sendGTMEvent({
-            event: "location_clear",
-            location: "search_filters",
-            view: map ? "map" : "products",
-            language: lang,
-          });
-        } catch (_) {}
         return;
       }
 
@@ -106,18 +100,6 @@ export default function Location({
           lat: place.geometry?.location.lat,
           lng: place.geometry?.location.lng,
         });
-        try {
-          sendGTMEvent({
-            event: "location_select",
-            location_name: placeDescription,
-            lat: place.geometry?.location.lat,
-            lng: place.geometry?.location.lng,
-            source: "autocomplete",
-            location: "search_filters",
-            view: map ? "map" : "products",
-            language: lang,
-          });
-        } catch (_) {}
       }
     } catch (error) {
       console.error("Error getting place details:", error);
@@ -159,18 +141,6 @@ export default function Location({
                 lat: latitude,
                 lng: longitude,
               });
-              try {
-                sendGTMEvent({
-                  event: "location_select",
-                  location_name: cityName,
-                  lat: latitude,
-                  lng: longitude,
-                  source: "geolocation",
-                  location: "search_filters",
-                  view: map ? "map" : "products",
-                  language: lang,
-                });
-              } catch (_) {}
             }
           } catch (error) {
             console.error("Error getting address:", error);
@@ -192,7 +162,9 @@ export default function Location({
     params.set("lng", locationData.lng);
 
     let basePath;
-    if (categoryPage && subCategoryPage) {
+    if (shopSlug) {
+      basePath = `/${langPrefix}shops/${shopSlug}/search/${map ? "map" : "products"}`;
+    } else if (categoryPage && subCategoryPage) {
       basePath = `/${langPrefix}${categoryPage}/${subCategoryPage}/${
         map ? "map" : "products"
       }`;
@@ -210,7 +182,7 @@ export default function Location({
       <div className="mb-3">
         <label className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2 mb-2">
           <svg
-            className="w-4 h-4 text-[#f48a42]"
+            className="w-4 h-4 text-primary"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -247,6 +219,7 @@ export default function Location({
             },
           }}
           isLoading={isLoading}
+          defaultFilter={() => true}
           classNames={{
             base: "w-full",
             listboxWrapper: "max-h-[250px] shadow-lg",
@@ -255,7 +228,6 @@ export default function Location({
             inputWrapper: [
               "h-12 sm:h-13 lg:h-14",
               "border-2 border-gray-200",
-              "hover:border-[#f48a42]",
               "focus-within:border-[#f48a42]",
               "group-data-[focus=true]:border-[#f48a42]",
               "transition-all duration-200",
@@ -277,7 +249,7 @@ export default function Location({
                   width="16"
                   height="16"
                   viewBox="0 0 22 22"
-                  className="text-[#f48a42] group-hover:text-[#e67e22] transition-colors"
+                  className="text-primary group-hover:text-[#e67e22] transition-colors"
                 >
                   <path
                     fill="currentColor"

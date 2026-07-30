@@ -17,7 +17,7 @@ export async function GET(request) {
 
     const chat = await AiChat.findOne({ sessionId }).populate(
       "user",
-      "fullName avatar isOnline lastSeen"
+      "fullName avatar isOnline lastSeen phone email"
     );
 
     if (!chat) {
@@ -39,7 +39,6 @@ export async function POST(request) {
     await connectDB();
     const user = await authenticateUser();
     const { chatId, message, isAdmin } = await request.json();
-    console.log("isAdmin: ", isAdmin);
 
     if (user.accountType !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
@@ -81,3 +80,71 @@ export async function POST(request) {
     });
   }
 }
+
+export async function DELETE(request) {
+  try {
+    await connectDB();
+    const user = await authenticateUser();
+    const { searchParams } = new URL(request.url);
+    const sessionId = searchParams.get("sessionId");
+    const messageId = searchParams.get("messageId");
+
+    if (user.accountType !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
+
+    const chat = await AiChat.findOne({ sessionId });
+    if (!chat) {
+      return NextResponse.json({ error: "Chat not found" }, { status: 404 });
+    }
+
+    // Remove message from array
+    chat.messages = chat.messages.filter((m) => m._id.toString() !== messageId);
+    await chat.save();
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return handleApiError(error, {
+      endpoint: "/api/admin/aichat",
+      method: "DELETE",
+      req: request,
+    });
+  }
+}
+
+export async function PATCH(request) {
+  try {
+    await connectDB();
+    const user = await authenticateUser();
+
+    if (user.accountType !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
+
+    const { sessionId, action } = await request.json();
+    if (!sessionId || !["ban", "unban"].includes(action)) {
+      return NextResponse.json({ error: "Invalid parameters" }, { status: 400 });
+    }
+
+    const chat = await AiChat.findOne({ sessionId });
+    if (!chat) {
+      return NextResponse.json({ error: "Chat not found" }, { status: 404 });
+    }
+
+    if (action === "ban") {
+      chat.spamCount = 3;
+    } else {
+      chat.spamCount = 0;
+    }
+
+    await chat.save();
+    return NextResponse.json({ success: true, spamCount: chat.spamCount });
+  } catch (error) {
+    return handleApiError(error, {
+      endpoint: "/api/admin/aichat",
+      method: "PATCH",
+      req: request,
+    });
+  }
+}
+

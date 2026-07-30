@@ -21,6 +21,7 @@ async function getRequest({ lang, ref }) {
     return null;
   }
 }
+export const metadata = { robots: { index: false, follow: false } };
 
 export default async function page({ params }) {
   const { lang, ref } = await params;

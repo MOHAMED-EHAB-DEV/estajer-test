@@ -37,7 +37,7 @@ const EmptyPlaceholder = ({
         >
           <h2
             className={cn(
-               "text-darkNavy font-IBMPlex font-medium md:text-xl text-lg md:mt-2 mt-0",
+              "text-darkNavy font-IBMPlex font-medium md:text-xl text-lg md:mt-2 mt-0",
               titleClassName,
             )}
           >
@@ -45,7 +45,7 @@ const EmptyPlaceholder = ({
           </h2>
           <p
             className={cn(
-              "font-IBMPlex md:text-medium text-sm text-[#838282]",
+              "font-IBMPlex md:text-base text-sm text-[#838282]",
               descriptionClassName,
             )}
           >

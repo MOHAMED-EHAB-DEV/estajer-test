@@ -27,7 +27,7 @@ export async function GET(req, { params }) {
         path: "items",
         populate: {
           path: "product",
-          select: "nameAr nameEn images location",
+          select: "nameAr nameEn images location saleUnit",
         },
       },
     ];
@@ -113,7 +113,6 @@ export async function PATCH(req, { params }) {
         throw new Error("Order not eligible for delivery notification");
       const customer = await User.findById(order.userData.id).select("lang");
       const customerLang = customer?.lang || "ar";
-      console.log("customer: ", customer);
 
       // Create language-specific notificationZ
       const notificationTitle =
@@ -128,7 +127,7 @@ export async function PATCH(req, { params }) {
             ? "Please confirm that you have received your rented products."
             : "يرجى تأكيد استلامك للمنتجات المؤجرة.",
         data: {
-          url: `${process.env.NEXT_PUBLIC_APP_URL}/${customerLang}/dashboard/my-orders#${order._id}`,
+          url: `${order.checkoutOrigin || process.env.NEXT_PUBLIC_APP_URL}/${customerLang}/dashboard/my-orders#${order._id}`,
         },
         actions: [
           {
@@ -160,6 +159,7 @@ export async function PATCH(req, { params }) {
         })),
         orderId: order._id,
         userLang: customerLang,
+        checkoutOrigin: order.checkoutOrigin,
       });
 
       await Order.findByIdAndUpdate(order._id, {
@@ -358,7 +358,7 @@ export async function PATCH(req, { params }) {
     const payload = {
       title: orderNotificationTitle,
       data: {
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/${customerLang}/dashboard/my-orders#${order._id}`,
+        url: `${order.checkoutOrigin || process.env.NEXT_PUBLIC_APP_URL}/${customerLang}/dashboard/my-orders#${order._id}`,
       },
       actions: [
         {
@@ -392,6 +392,7 @@ export async function PATCH(req, { params }) {
       newStatus,
       order.totalAmount,
       customerLang,
+      order.checkoutOrigin,
     );
 
     // Send WhatsApp to Customer if confirmed

@@ -121,14 +121,11 @@ export async function GET(req) {
 
     if (provider) {
       if (provider === "nana") {
-        query.paymentGateway = "nana";
+        query["source.type"] = "nana";
       } else if (provider === "estajer") {
-        query.paymentGateway = { $ne: "nana" };
-        query.providerId = {
-          $ne: new mongoose.Types.ObjectId("699ccc057fa956a3b96d93d8"),
-        };
+        query["source.type"] = "direct";
       } else if (mongoose.Types.ObjectId.isValid(provider)) {
-        query.providerId = provider;
+        query["source.refId"] = new mongoose.Types.ObjectId(provider);
       }
     }
 
@@ -140,7 +137,7 @@ export async function GET(req) {
         "ownerData",
         "createdAt avatar fullName phone email address location isOnline lastSeen branches",
       )
-      .populate("providerId", "nameAr nameEn slug")
+      .populate("source.refId", "nameAr nameEn slug")
       .lean();
 
     // ── Build Excel Workbook ──
@@ -320,10 +317,10 @@ export async function GET(req) {
         order.totalAmount || 0,
         statusText,
         order.waffyStatus || "—",
-        order.paymentGateway === "nana"
+        order.source?.type === "nana"
           ? "نعناع"
-          : order.providerId
-            ? order.providerId.nameAr
+          : order.source?.type === "partner" || order.source?.type === "shop"
+            ? order.source.refId?.nameAr || "—"
             : "مباشر",
         new Date(order.createdAt).toLocaleDateString("ar-SA"),
       ]);

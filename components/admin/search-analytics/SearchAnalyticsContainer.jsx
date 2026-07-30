@@ -589,7 +589,7 @@ export default function SearchAnalyticsContainer({ lang, translate }) {
                   }}
                   className={`px-3 py-1.5 font-medium transition-colors ${
                     period === p
-                      ? "bg-[#f48a42] text-white"
+                      ? "bg-primary text-white"
                       : "bg-white text-gray-600 hover:bg-gray-50"
                   }`}
                 >
@@ -612,7 +612,7 @@ export default function SearchAnalyticsContainer({ lang, translate }) {
               />
               <button
                 type="submit"
-                className="bg-[#f48a42] text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"
+                className="bg-primary text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"
               >
                 {t("actions.searchButton")}
               </button>

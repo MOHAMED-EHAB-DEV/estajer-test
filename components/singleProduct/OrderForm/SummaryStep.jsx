@@ -26,6 +26,7 @@ export default function SummaryStep({
   setCountdown,
   selectedDates,
   isDateRangeValid,
+  shopSlug,
 }) {
   const sortedDiscounts = useMemo(
     () =>
@@ -56,22 +57,24 @@ export default function SummaryStep({
     [sortedQtyDiscounts, quantity],
   );
   return (
-    <div
-      id="cost-calculation"
-      className="md:my-10 flex flex-col gap-2 md:gap-0"
-    >
-      <div className="text-darkNavy font-semibold text-sm md:text-[1.7rem] lg:text-[1.7rem] font-IBMPlex mb-2 md:mb-7 text-center md:text-start uppercase md:normal-case tracking-wider md:tracking-normal md:hidden">
+    <div id="cost-calculation" className="md:my-7 flex flex-col gap-2 md:gap-0">
+      <div className="text-darkNavy font-semibold text-sm md:text-[1.3rem] lg:text-[1.4rem] font-IBMPlex mb-2 md:mb-5 text-center md:text-start uppercase md:normal-case tracking-wider md:tracking-normal md:hidden">
         {t("cost.title")}
       </div>
-      <div className="hidden md:block text-darkNavy font-semibold md:text-[1.7rem] lg:text-[1.7rem] font-IBMPlex mb-7">
+      <div className="hidden md:block text-darkNavy font-semibold md:text-[1.3rem] lg:text-[1.4rem] font-IBMPlex mb-5">
         {t("cost.title")}
       </div>
 
       {[
         {
           label: t("quantity"),
-          value: `${quantity} ${quantity === 1 ? t("piece") : t("pieces")}`,
+          value: `${quantity}`,
           key: "quantity",
+        },
+        product.saleUnit && {
+          label: t("saleUnit"),
+          value: trans(`unit.${product.saleUnit}`),
+          key: "saleUnit",
         },
         {
           label: t("cost.cost"),
@@ -120,7 +123,7 @@ export default function SummaryStep({
         .filter(Boolean)
         .map(({ label, value, green, discountPct, key }, i) => (
           <div key={i} {...(key === "quantity" && { className: "md:hidden" })}>
-            <div className="flex justify-between text-sm md:text-[1rem] md:font-semibold lg:text-[1.2rem] text-darkNavy">
+            <div className="flex justify-between text-sm md:text-0.95 md:font-semibold lg:text-1.1 text-darkNavy">
               <span
                 className={`flex items-center gap-2 ${green ? "text-green-600" : ""}`}
               >
@@ -136,7 +139,7 @@ export default function SummaryStep({
               >
                 {value}{" "}
                 {key !== "days" && key !== "quantity" && /\d/.test(value) && (
-                  <Currency className="h-3.5 w-3.5 md:h-6 md:w-6" />
+                  <Currency className="h-3.5 w-3.5 md:h-5 md:w-5" />
                 )}
               </span>
             </div>
@@ -170,20 +173,20 @@ export default function SummaryStep({
                 </div>
               )}
 
-            <hr className="border-0 md:border my-0 md:my-4" />
+            <hr className="border-0 md:border my-0 md:my-3.5" />
           </div>
         ))}
 
-      <div className="border-t mt-3 md:mt-0 pt-3 md:pt-0 md:border-0 flex justify-between font-bold text-base md:text-[1.5rem] text-darkNavy">
+      <div className="border-t mt-3 md:mt-0 pt-3 md:pt-0 md:border-0 flex justify-between font-bold text-base md:text-1.35 text-darkNavy">
         <span>{t("cost.total")}</span>
         <span className="flex gap-1 items-center text-primary">
-          {totalWithTax} <Currency className="h-4 w-4 md:h-6 md:w-6" />
+          {totalWithTax} <Currency className="h-4 w-4 md:h-5 md:w-5" />
         </span>
       </div>
-      <hr className="border-0 w-full md:border my-0 md:my-4" />
+      <hr className="border-0 w-full md:border my-0 md:my-3.5" />
 
       {product.rental.insurance > 0 && (
-        <div className="font-semibold text-xs md:text-lg text-gray-700 mt-1 md:mt-6">
+        <div className="font-semibold text-xs md:text-base text-gray-700 mt-1 md:mt-4">
           <p className="text-center">
             {t("damageWarning")
               .replace("{amount}", product.rental.insurance)
@@ -193,7 +196,7 @@ export default function SummaryStep({
       )}
 
       {product.owner._id === user?._id && (
-        <p className="block mt-4 text-red-600 text-[0.8rem] md:text-[1rem] p-3 bg-red-50 border border-red-200 rounded-lg text-center font-medium">
+        <p className="block mt-4 text-red-600 text-0.8 md:text-[1rem] p-3 bg-red-50 border border-red-200 rounded-lg text-center font-medium">
           {t("toast.cantRentOwnProduct")}
         </p>
       )}
@@ -202,7 +205,10 @@ export default function SummaryStep({
         <div className="mt-6 flex items-center justify-center gap-2 text-center text-sm text-gray-600">
           <p>
             {t("redirectingTo")}{" "}
-            <Link href={`/${langPrefix}cart`} className="text-primary">
+            <Link
+              href={`/${langPrefix}${shopSlug ? `shops/${shopSlug}/` : ""}cart`}
+              className="text-primary"
+            >
               {t("cart")}
             </Link>{" "}
             {t("after")} {countdown} {t("seconds")}

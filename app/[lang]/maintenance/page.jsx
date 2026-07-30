@@ -13,7 +13,7 @@ export default async function MaintenancePage({ params }) {
   const isAr = lang === "ar";
 
   return (
-    <div dir={isAr ? "rtl" : "ltr"} className={isAr ? "font-cairo" : ""}>
+    <div>
       <style
         dangerouslySetInnerHTML={{
           __html: `

@@ -8,7 +8,7 @@
 
   "chat": {
     "contactInfo": "Contact Information",
-    "chatButton": "Chat Now",
+    "chatButton": "Contact the owner",
     "warning": "To protect your rights, please complete all payments and financial transfers exclusively through the Estajer platform. We are not responsible for any transactions conducted outside the platform.",
     "phoneNumberWarning": "Sorry, sharing phone numbers is not allowed. Please communicate via platform messages only to ensure your privacy and safety.",
     "waitWarning": "Please wait before sending another message",
@@ -23,6 +23,8 @@
     "send": "Send",
     "typing": "Typing...",
     "aboutUs": "About Us",
+    "registerAsLessor": "Register as lessor",
+    "showProposalForm": "Fill Request for Proposal",
     "showContactMethod": "Show contact method",
     "showProducts": "Show products",
     "moreProducts": "More products",
@@ -51,6 +53,8 @@
       "aiPowered": "Powered by AI, available 24/7",
       "askName": "Before we start, what is your name?",
       "namePlaceholder": "Enter your name...",
+      "askContact": "your phone number or email:",
+      "contactPlaceholder": "05xxxxxxxx or email@example.com",
       "start": "Let's Start"
     }
   },
@@ -70,6 +74,8 @@
     "approved": "Approved",
     "rejected": "Rejected",
     "pendingApproval": "Pending Approval",
+    "pendingReview": "Pending Review of edits",
+    "editRejected": "Edit Rejected",
     "rejectionReason": "Rejection Reason",
     "cannotAcceptRequest": "Cannot accept this request",
     "distanceAway": "{distance}\u00a0Km Away",
@@ -303,7 +309,8 @@
       "loading": "Loading...",
       "close": "Close",
       "addAd": "Add Product",
-      "addAdTitle": "Add a new advertisement"
+      "addAdTitle": "Add a new advertisement",
+      "loginTitle": "Login to your account"
     },
     "header": {
       "langTitle": "Language",
@@ -327,6 +334,8 @@
       "favorites": "Favorites",
       "messages": "Messages",
       "myProducts": "My Products",
+      "myOrders": "My Orders",
+      "rentalRequests": "Rental Requests",
       "settings": "Settings",
       "userMenuAriaLabel": "User menu",
       "logout": "Logout",
@@ -340,6 +349,8 @@
       "favoritesDescription": "Favorite products",
       "messagesDescription": "Messages and conversations",
       "myProductsDescription": "My rental products",
+      "myOrdersDescription": "My rental orders list",
+      "rentalRequestsDescription": "Incoming rental requests",
       "settingsDescription": "Account settings",
       "adminDashboardDescription": "Admin dashboard",
       "productsDescription": "Product management",
@@ -456,6 +467,8 @@
       "tabCta": "CTA & Redirects",
       "labelBgAr": "Background Image (Arabic)",
       "labelBgEn": "Background Image (English)",
+      "labelBgMobileAr": "Mobile Background Image (Arabic)",
+      "labelBgMobileEn": "Mobile Background Image (English)",
       "labelAltAr": "Image Alt Text (Arabic)",
       "labelAltEn": "Image Alt Text (English)",
       "placeholderAlt": "Enter SEO alt tag",
@@ -472,7 +485,8 @@
       "labelCtaAr": "CTA Button Text (Arabic)",
       "labelCtaEn": "CTA Button Text (English)",
       "placeholderCta": "Browse Products",
-      "labelRedirectLink": "Redirect Link",
+      "labelRedirectLink": "Redirect Link (Arabic)",
+      "labelRedirectLinkEn": "Redirect Link (English)",
       "placeholderRedirectLink": "e.g. /electronics/products",
       "labelSortOrder": "Sort Order",
       "labelActiveSlider": "Active slide visible in slider",
@@ -483,5 +497,22 @@
       "alignCenter": "Center",
       "alignEnd": "End"
     }
+  },
+  "mobileNav": {
+    "homeTitle": "Go to homepage",
+    "searchTitle": "Search for products",
+    "cartTitle": "View shopping cart",
+    "home": "Home",
+    "search": "Search",
+    "addProduct": "Add Product",
+    "cart": "Cart",
+    "menu": "Menu",
+    "messages": "Messages",
+    "ariaLabel": "Mobile Navigation"
+  },
+  "langDrawer": {
+    "lang": "Language",
+    "arabic": "Arabic",
+    "english": "English"
   }
 }

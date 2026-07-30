@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
 const BgStatus = {
   solved: "bg-success",
   new: "bg-primary",
-  inprogress: "bg-[#F48A42]",
+  inprogress: "bg-primary",
   cancelled: "bg-[#F55757]",
 };
 
@@ -17,10 +17,13 @@ const getLatestTickets = async () => {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/tickets?limit=4`, {
-      headers: { Authorization: token },
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/tickets?limit=4`,
+      {
+        headers: { Authorization: token },
+        cache: "no-store",
+      },
+    );
 
     if (!res.ok) throw new Error("Failed to fetch latest tickets");
     const data = await res.json();
@@ -34,7 +37,7 @@ const getLatestTickets = async () => {
 const LatestSupportTickets = async ({ lang }) => {
   const translate = await getTranslations(lang);
   const t = (text) => translate(`admin.home.latestSupportTickets.${text}`);
-  
+
   const latestTickets = await getLatestTickets();
 
   return (
@@ -50,17 +53,26 @@ const LatestSupportTickets = async ({ lang }) => {
           </div>
         ) : (
           latestTickets.map((ticket, idx) => {
-            const lastMessage = ticket.messages?.length > 0 ? ticket.messages[ticket.messages.length - 1] : null;
+            const lastMessage =
+              ticket.messages?.length > 0
+                ? ticket.messages[ticket.messages.length - 1]
+                : null;
             const description = lastMessage?.content || "لا توجد رسائل";
             const latestComment = `اخر تعليق: ${lastMessage?.sender?.fullName || ticket.name}`;
-            const date = new Date(ticket.lastMessageAt || ticket.createdAt).toLocaleDateString(
-              lang === "en" ? "en-US" : "ar-EG",
-              { month: "short", day: "numeric", hour: "numeric", minute: "numeric" }
-            );
-            const userAvatar = ticket.user?.avatar || lastMessage?.sender?.avatar;
+            const date = new Date(
+              ticket.lastMessageAt || ticket.createdAt,
+            ).toLocaleDateString(lang === "en" ? "en-US" : "ar-EG", {
+              month: "short",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+            });
+            const userAvatar =
+              ticket.user?.avatar || lastMessage?.sender?.avatar;
 
             // In backend, isRead doesn't exactly exist as a boolean on ticket yet, assume unread if status is new or inprogress
-            const isRead = ticket.status === "solved" || ticket.status === "cancelled";
+            const isRead =
+              ticket.status === "solved" || ticket.status === "cancelled";
 
             return (
               <Link
@@ -89,15 +101,17 @@ const LatestSupportTickets = async ({ lang }) => {
                     )}
                   </div>
                   <div className="flex flex-col gap-1">
-                    <h3 className="text-sm font-semibold line-clamp-1">{ticket.title}</h3>
-                    <p className="font-NotoSansArabic text-xs text-[#5B5656] line-clamp-1">
+                    <h3 className="text-sm font-semibold line-clamp-1">
+                      {ticket.title}
+                    </h3>
+                    <p className="font-NotoSansArabic text-xs text-mutedGray line-clamp-1">
                       {description}
                     </p>
                     <div className="flex gap-2 justify-between flex-wrap">
-                      <h6 className="font-NotoSansArabic font-bold text-xs text-[#5B5656]">
+                      <h6 className="font-NotoSansArabic font-bold text-xs text-mutedGray">
                         {latestComment}
                       </h6>
-                      <p className="font-NotoSansArabic text-xs text-[#5B5656]">
+                      <p className="font-NotoSansArabic text-xs text-mutedGray">
                         {date}
                       </p>
                     </div>

@@ -1,15 +1,14 @@
 "use client";
 
-import { Input, Textarea } from "@heroui/input";
-import { Select, SelectItem } from "@heroui/select";
+import { Input, Textarea } from "@/components/ui/Input";
+import { Select, SelectItem } from "@/components/ui/Select";
 import Button from "../ui/Button";
 import { useState } from "react";
 import { toast } from "@/utils/toast";
 import ToastMessage from "../ui/ToastMessage";
 import ImageUploader from "@/components/addProduct/ImageUploader";
-import { sendGTMEvent } from "@next/third-parties/google";
 import { useUser } from "@/context/UserContext";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function FormInput({ sm, ...props }) {
   const size = sm ? "sm" : "md";
@@ -34,6 +33,7 @@ function FormInput({ sm, ...props }) {
 }
 
 export default function TicketForm({ lang, t, translate, sm, data }) {
+  const router = useRouter();
   const { user, visitorId } = useUser();
   const subjectOptions = [
     { key: "general", label: t("subjectOptions.general") },
@@ -85,14 +85,6 @@ export default function TicketForm({ lang, t, translate, sm, data }) {
       .then((res) => {
         if (res.ok) {
           toast.success(ToastMessage(t("success")));
-          sendGTMEvent({
-            event: "form_submission",
-            form_name: "contact_form",
-            subject:
-              subjectOptions.find((option) => option.key === formData.subject)
-                ?.label || "",
-            has_images: ticketImages.length > 0,
-          });
           setFormData({
             name: "",
             email: "",
@@ -100,7 +92,7 @@ export default function TicketForm({ lang, t, translate, sm, data }) {
             subject: "",
             message: "",
           });
-          if (user) redirect("/dashboard/tickets");
+          if (user) router.push("/dashboard/tickets");
         } else toast.error(ToastMessage(t("error")));
       })
       .catch((err) => {

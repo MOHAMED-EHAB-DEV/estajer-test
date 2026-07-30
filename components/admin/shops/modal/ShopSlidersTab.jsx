@@ -16,7 +16,9 @@ export default function ShopSlidersTab({
   removeSlider,
   handleSliderChange,
   addProductToSlider,
+  addProductsToSlider,
   removeProductFromSlider,
+  removeProductsFromSlider,
   reorderProductsInSlider,
   lang,
   translate,
@@ -143,8 +145,14 @@ export default function ShopSlidersTab({
           <ProductSelector
             selectedProducts={slider.products}
             onSelect={(product) => addProductToSlider(sliderIndex, product)}
+            onSelectMany={(products) =>
+              addProductsToSlider(sliderIndex, products)
+            }
             onRemove={(productId) =>
               removeProductFromSlider(sliderIndex, productId)
+            }
+            onRemoveMany={(productIds) =>
+              removeProductsFromSlider(sliderIndex, productIds)
             }
             onReorder={(from, to) =>
               reorderProductsInSlider(sliderIndex, from, to)
@@ -183,11 +191,9 @@ export default function ShopSlidersTab({
             <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-4">
               <FaGripVertical size={22} />
             </div>
-            <p className="text-sm font-bold text-darkNavy">
-              {t("noSliders")}
-            </p>
+            <p className="text-sm font-bold text-darkNavy">{t("noSliders")}</p>
             <p className="text-[11px] text-neutral-400 mt-1.5 max-w-[200px]">
-              Add your first product slider to get started
+              {t("addFirstSliderDesc")}
             </p>
           </div>
         ) : (

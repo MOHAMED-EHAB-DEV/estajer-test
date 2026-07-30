@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Input, Textarea } from "@heroui/react";
+import { Input, Textarea } from "@/components/ui/Input";
 import Button from "../../ui/Button";
 import { toast } from "@/utils/toast";
 import ToastMessage from "../../ui/ToastMessage";
@@ -20,9 +20,10 @@ function FormInput({ ...props }) {
     <Input
       isRequired
       labelPlacement="outside"
+      radius="sm"
       classNames={{
-        mainWrapper: "md:mt-14 mt-10",
-        label: "md:text-lg text-base -mt-2 flex items-center",
+        mainWrapper: "mt-10",
+        label: "md:text-lg text-base flex items-center",
         base: "max-w-full !mt-0",
         input: "md:text-base text-sm",
         inputWrapper: "bg-gray-100 h-12",
@@ -129,7 +130,7 @@ export default function AccountInfo({ lang, user, setUser, t }) {
         {t("accountInfo.title")}
       </h2>
       <form onSubmit={updateProfile} className="mb-4">
-        <div className="flex flex-col md:flex-row md:gap-4 gap-1 w-full">
+        <div className="flex flex-col md:flex-row md:gap-4 gap-1 w-full mt-5">
           <div className="w-full md:w-1/2">
             <FormInput
               label={t("accountInfo.fullName")}
@@ -152,7 +153,7 @@ export default function AccountInfo({ lang, user, setUser, t }) {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row md:gap-4 gap-1 w-full">
+        <div className="flex flex-col md:flex-row md:gap-4 gap-1 w-full mt-4">
           <div className="w-full md:w-1/2">
             <FormInput
               label={t("accountInfo.email")}
@@ -199,7 +200,7 @@ export default function AccountInfo({ lang, user, setUser, t }) {
         {/* Company fields - only show if user account type is company */}
         {user?.accountType === "company" && (
           <>
-            <div className="flex flex-col md:flex-row md:gap-4 gap-1 w-full">
+            <div className="flex flex-col md:flex-row md:gap-4 gap-1 w-full mt-4">
               <div className="w-full md:w-1/2">
                 <FormInput
                   label={t("accountInfo.companyName")}
@@ -222,7 +223,7 @@ export default function AccountInfo({ lang, user, setUser, t }) {
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row md:gap-4 gap-1 w-full">
+            <div className="flex flex-col md:flex-row md:gap-4 gap-1 w-full mt-4">
               <div className="w-full md:w-1/2">
                 <FormInput
                   isRequired={false}
@@ -238,7 +239,7 @@ export default function AccountInfo({ lang, user, setUser, t }) {
           </>
         )}
 
-        <div className="w-full">
+        <div className="w-full mt-4">
           <Textarea
             labelPlacement="outside"
             label={
@@ -254,15 +255,17 @@ export default function AccountInfo({ lang, user, setUser, t }) {
             value={userData.bioAr}
             placeholder={t("accountInfo.bioPlaceholder")}
             startContent={<UserCard />}
+            radius="sm"
             classNames={{
-              label: "text-lg -mt-2 flex items-center",
-              base: "max-w-full !mt-6",
+              mainWrapper: "mt-10",
+              label: "md:text-lg text-base flex items-center",
+              base: "max-w-full !mt-0",
               input: "resize-y min-h-[100px] text-base",
               inputWrapper: "bg-gray-100 min-h-[100px]",
             }}
           />
         </div>
-        <div className="w-full">
+        <div className="w-full mt-4">
           <Textarea
             labelPlacement="outside"
             label={
@@ -278,9 +281,11 @@ export default function AccountInfo({ lang, user, setUser, t }) {
             value={userData.bioEn}
             placeholder={t("accountInfo.bioPlaceholder")}
             startContent={<UserCard />}
+            radius="sm"
             classNames={{
-              label: "text-lg -mt-2 flex items-center",
-              base: "max-w-full !mt-6",
+              mainWrapper: "mt-10",
+              label: "md:text-lg text-base flex items-center",
+              base: "max-w-full !mt-0",
               input: "resize-y min-h-[100px] text-base",
               inputWrapper: "bg-gray-100 min-h-[100px]",
             }}

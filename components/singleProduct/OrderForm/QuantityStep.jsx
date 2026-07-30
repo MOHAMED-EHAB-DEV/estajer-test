@@ -13,6 +13,7 @@ export default function QuantityStep({
   setQuantityError,
   t,
   lang,
+  trans,
 }) {
   const handleQuantityChange = useCallback(
     (val) => {
@@ -31,30 +32,38 @@ export default function QuantityStep({
     },
     [quantity, product, t, lang, setQuantity, setQuantityError],
   );
+
   return (
     <>
       {/* Mobile layout */}
       <div className="space-y-4 md:hidden">
-        <p className="text-sm font-semibold text-gray-500 text-center uppercase tracking-wider">
-          {t("quantity")}
-        </p>
-        <div className="flex gap-4 justify-between bg-[#EAEEF3] py-3 px-5 rounded-full">
+        <div className="text-center">
+          {product.saleUnit && (
+            <p className="text-xs text-primary font-semibold mb-1">
+              {trans("saleUnit")}: {trans(`unit.${product.saleUnit}`)}
+            </p>
+          )}
+          <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+            {t("quantity")}
+          </p>
+        </div>
+        <div className="flex gap-4 justify-between bg-surfaceBlue py-3 px-5 rounded-full">
           <Button
-            aria-label="+"
+            aria-label="Decrease quantity"
             className="min-w-[4rem] h-10"
-            onPress={() => handleQuantityChange(1)}
+            onPress={() => handleQuantityChange(-1)}
           >
-            <Plus className="w-4 h-4" color="#fff" />
+            <Minus className="w-4 h-4" />
           </Button>
           <span className="w-16 text-center text-xl font-bold text-darkNavy flex items-center justify-center">
             {quantity}
           </span>
           <Button
-            aria-label="-"
+            aria-label="Increase quantity"
             className="min-w-[4rem] h-10"
-            onPress={() => handleQuantityChange(-1)}
+            onPress={() => handleQuantityChange(1)}
           >
-            <Minus className="w-4 h-4" />
+            <Plus className="w-4 h-4" color="#fff" />
           </Button>
         </div>
         {quantityError && (
@@ -65,28 +74,35 @@ export default function QuantityStep({
       {/* Desktop layout */}
       <div
         id="quantity-selector"
-        className="hidden md:flex flex-wrap gap-2 md:pt-8 pt-4 justify-between items-center w-full"
+        className="hidden md:flex flex-wrap gap-2 md:pt-6 pt-4 justify-between items-center w-full"
       >
-        <span className="text-[1rem] md:text-[1.5rem] lg:text-[1.6rem] font-IBMPlex font-semibold">
-          {t("quantity")}
-        </span>
-        <div className="flex gap-4 justify-center bg-[#EAEEF3] py-2 px-4 rounded-full w-full sm:w-80">
+        <div className="flex flex-col text-start">
+          {product.saleUnit && (
+            <span className="text-xs md:text-sm text-primary font-semibold">
+              {trans("saleUnit")}: {trans(`unit.${product.saleUnit}`)}
+            </span>
+          )}
+          <span className="text-[1rem] md:text-1.35 lg:text-[1.45rem] font-IBMPlex font-semibold">
+            {t("quantity")}
+          </span>
+        </div>
+        <div className="flex gap-4 justify-center bg-surfaceBlue py-2 px-4 rounded-full w-full sm:w-72">
           <Button
-            aria-label="Increase quantity"
-            className="md:min-w-[5rem] min-w-[4.2rem] h-10 md:h-12"
-            onPress={() => handleQuantityChange(1)}
+            aria-label="Decrease quantity"
+            className="md:min-w-[4.6rem] min-w-[4.2rem] h-11"
+            onPress={() => handleQuantityChange(-1)}
           >
-            <Plus className="lg:w-5 lg:h-5 w-[14px] h-[14px]" color="#fff" />
+            <Minus className="lg:w-4 lg:h-4 w-[14px] h-[14px]" />
           </Button>
-          <span className="w-full bg-transparent text-darkNavy text-[1.2rem] md:text-[1.5rem] font-semibold items-center flex justify-center">
+          <span className="w-full bg-transparent text-darkNavy text-1.2 md:text-1.35 font-semibold items-center flex justify-center">
             {quantity}
           </span>
           <Button
-            aria-label="Decrease quantity"
-            className="md:min-w-[5rem] min-w-[4.2rem] h-10 md:h-12"
-            onPress={() => handleQuantityChange(-1)}
+            aria-label="Increase quantity"
+            className="md:min-w-[4.6rem] min-w-[4.2rem] h-11"
+            onPress={() => handleQuantityChange(1)}
           >
-            <Minus className="lg:w-5 lg:h-5 w-[14px] h-[14px]" />
+            <Plus className="lg:w-4 lg:h-4 w-[14px] h-[14px]" color="#fff" />
           </Button>
         </div>
       </div>

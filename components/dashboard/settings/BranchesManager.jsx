@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Input } from "@heroui/react";
+import { Input } from "@/components/ui/Input";
 import Button from "../../ui/Button";
 import { toast } from "@/utils/toast";
 import ToastMessage from "@/components/ui/ToastMessage";
@@ -255,7 +255,7 @@ export default function BranchesManager({ user, setUser, t, lang, translate }) {
 
   return (
     <div className="md:p-10 p-6 bg-white rounded-lg mt-6">
-      <h2 className="lg:text-[1.8rem] md:text-[1.6rem] text-[1.2rem] font-semibold text-darkNavy font-IBMPlex mb-1 mt-0">
+      <h2 className="lg:text-[1.8rem] md:text-[1.6rem] text-1.2 font-semibold text-darkNavy font-IBMPlex mb-1 mt-0">
         {t("branches.title")}
       </h2>
 

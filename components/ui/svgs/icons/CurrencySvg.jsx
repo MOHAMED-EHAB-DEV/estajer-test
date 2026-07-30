@@ -1,11 +1,9 @@
-export const Currency = ({
-  className = "w-6 h-6",
-  size = 22,
-  color = "#231f20",
-  ...rest
-}) => (
+export const Currency = ({ className, size, color = "#231f20", ...rest }) => (
   <svg
-    className={className}
+    className={
+      className ||
+      (!size ? "md:w-6 w-4 md:h-6 h-4" : "md:w-4.5 w-[14px] md:h-4.5 h-[14px]")
+    }
     width={size}
     height={size}
     fill={color}
