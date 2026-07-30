@@ -276,7 +276,7 @@ export default function ProductPageContent({
               <ProductDetails
                 lang={lang}
                 product={product}
-                rating={reviews.rating}
+                rating={reviews?.rating}
               />
               <div className="order-4 mt-8" id="reviews">
                 <ReviewsContainer
@@ -311,7 +311,9 @@ export default function ProductPageContent({
                   lang={lang}
                   translate={{
                     report: translate("singleProduct.report"),
-                    singleProduct: { report: translate("singleProduct.report") },
+                    singleProduct: {
+                      report: translate("singleProduct.report"),
+                    },
                   }}
                 />
               </div>
